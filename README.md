@@ -22,6 +22,8 @@ Listed in the order added.
 * Removed restriction for drag and dropping files, as well as opening files. Mainly for opening bms template files, not tested thoroughly.
 * Added note search function (goto measure except it's goto note). One note per VPosition only.
 * Added sort function. Selected notes are sorted based on their VPosition and Value.
+* Added mBMplay as a default player.
+* Added support for #RANDOM, including nested #RANDOM. Supports expansion field and main data field only. Not tested thoroughly.
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8.
   * Numpad keys are now assigned to 2P lanes.
