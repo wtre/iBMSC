@@ -1887,18 +1887,28 @@ EndSearch:
 
     Private Sub LWAV_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles LWAV.DoubleClick
         Dim xDWAV As New OpenFileDialog
+        Dim xLWAVIds(LWAV.SelectedIndices.Count - 1) As Integer
+        For i = 0 To LWAV.SelectedIndices.Count - 1
+            xLWAVIds(i) = LWAV.SelectedIndices(i)
+        Next
         xDWAV.DefaultExt = "wav"
         xDWAV.Filter = Strings.FileType._wave & "|*.wav;*.ogg;*.mp3|" &
                        Strings.FileType.WAV & "|*.wav|" &
                        Strings.FileType.OGG & "|*.ogg|" &
                        Strings.FileType.MP3 & "|*.mp3|" &
                        Strings.FileType._all & "|*.*"
+        xDWAV.Multiselect = True
         xDWAV.InitialDirectory = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName))
 
         If xDWAV.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
         InitPath = ExcludeFileName(xDWAV.FileName)
-        hWAV(LWAV.SelectedIndex + 1) = GetFileName(xDWAV.FileName)
-        LWAV.Items.Item(LWAV.SelectedIndex) = C10to36(LWAV.SelectedIndex + 1) & ": " & GetFileName(xDWAV.FileName)
+
+        ' Replace multiple
+        For i = 0 To xLWAVIds.Count - 1
+            hWAV(xLWAVIds(i) + 1) = GetFileName(xDWAV.FileNames((i) Mod xDWAV.FileNames.Length))
+            LWAV.Items.Item(xLWAVIds(i)) = C10to36(xLWAVIds(i)) & ": " & GetFileName(xDWAV.FileNames((i) Mod xDWAV.FileNames.Length))
+        Next
+
         If IsSaved Then SetIsSaved(False)
     End Sub
 
@@ -1909,8 +1919,15 @@ EndSearch:
             Case Keys.Enter
                 LWAV_DoubleClick(sender, e)
             Case Keys.Delete
-                hWAV(LWAV.SelectedIndex + 1) = ""
-                LWAV.Items.Item(LWAV.SelectedIndex) = C10to36(LWAV.SelectedIndex + 1) & ": "
+                ' Delete multiple
+                Dim xLWAVIds(LWAV.SelectedIndices.Count - 1) As Integer
+                For i = 0 To LWAV.SelectedIndices.Count - 1
+                    xLWAVIds(i) = LWAV.SelectedIndices(i)
+                Next
+                For i = 0 To xLWAVIds.Count - 1
+                    hWAV(xLWAVIds(i) + 1) = ""
+                    LWAV.Items.Item(xLWAVIds(i)) = C10to36(xLWAVIds(i) + 1) & ": "
+                Next
                 If IsSaved Then SetIsSaved(False)
         End Select
     End Sub
