@@ -107,4 +107,9 @@
         If (bslash Or fslash) = 0 Then Return ""
         Return Mid(s, 1, IIf(fslash > bslash, fslash, bslash) - 1)
     End Function
+
+    Private Sub OpExpand_Closing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        MainWindow.RandomFile(1) = "-"
+        Exit Sub
+    End Sub
 End Class
