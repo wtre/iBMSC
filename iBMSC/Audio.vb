@@ -37,30 +37,27 @@ Module Audio
     End Function
 
     Public Sub Play(ByVal filename As String)
-        ' Try
         If Source IsNot Nothing Then
-                Output.Stop()
-                Source.Dispose()
-                Source = Nothing
-            End If
+            Output.Stop()
+            Source.Dispose()
+            Source = Nothing
+        End If
 
-            If filename Is "" Then
-                Return
-            End If
-
-            Dim fn = CheckFilename(filename)
-
-        If Not File.Exists(fn) Or FileLen(fn) = 0 Then
+        If filename Is "" Then
             Return
         End If
 
-        Source = CodecFactory.Instance.GetCodec(fn)
+        Dim fn = CheckFilename(filename)
+
+        ' P: How to catch without crashing
+        Try
+            Source = CodecFactory.Instance.GetCodec(fn)
             Output.Initialize(Source)
             Output.Play()
-        ' Catch ex As Exception
-        '     MsgBox("Error: " + ex.Message)
-        '     Exit Sub
-        ' End Try
+        Catch ex As Exception
+            MsgBox("Error: " + ex.Message)
+            Exit Sub
+        End Try
     End Sub
 
     Public Sub StopPlaying()

@@ -11,7 +11,7 @@
     <AssemblyName>pBMSC</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -68,6 +68,15 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'test|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\test\</OutputPath>
+    <DocumentationFile>pBMSC.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSCore, Version=1.2.1.1, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
@@ -186,6 +195,12 @@
     <Compile Include="MyO2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Option Windows\OpExpand.Designer.vb">
+      <DependentUpon>OpExpand.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Option Windows\OpExpand.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PanelDraw.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -282,6 +297,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Option Windows\OpExpand.resx">
+      <DependentUpon>OpExpand.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Option Windows\OpGeneral.resx">
       <DependentUpon>OpGeneral.vb</DependentUpon>

@@ -79,6 +79,8 @@ Public Class MainWindow
 
     'IO
     Dim FileName As String = "Untitled.bms"
+    Dim RandomFileName As String = "___TempRandom" & GenerateRandomString(6, False) & ".bmsc"
+    Public RandomFile(2) As String
     'Dim TitlePath As New Drawing2D.GraphicsPath
     Dim InitPath As String = ""
     Dim IsSaved As Boolean = True
@@ -186,6 +188,7 @@ Public Class MainWindow
     Dim iPlayer As Integer = 0
     Dim gColumns As Integer = 46
 
+
     '----Visual Options
     Dim vo As New visualSettings()
 
@@ -207,7 +210,11 @@ Public Class MainWindow
         End Sub
     End Structure
 
-    Public pArgs() As PlayerArguments = {New PlayerArguments("<apppath>\uBMplay.exe",
+    Public pArgs() As PlayerArguments = {New PlayerArguments("<apppath>\mBMplay.exe",
+                                                             """<filename>""",
+                                                             "-s <measure> ""<filename>""",
+                                                             "-t"),
+                                         New PlayerArguments("<apppath>\uBMplay.exe",
                                                              "-P -N0 ""<filename>""",
                                                              "-P -N<measure> ""<filename>""",
                                                              "-S"),
@@ -224,7 +231,7 @@ Public Class MainWindow
     '----Split Panel Options
     Dim PanelWidth() As Single = {0, 100, 0}
     Dim PanelHScroll() As Integer = {0, 0, 0}
-    Dim PanelVScroll() As Integer = {0, 0, 0}
+    Dim PanelVScroll() As Double = {0, 0, 0}
     Dim spLock() As Boolean = {False, False, False}
     Dim spDiff() As Integer = {0, 0, 0}
     Dim PanelFocus As Integer = 1 '0 = Left, 1 = Middle, 2 = Right
@@ -491,10 +498,6 @@ Public Class MainWindow
     Private Sub PreviewNote(ByVal xFileLocation As String, ByVal bStop As Boolean)
         If bStop Then
             Audio.StopPlaying()
-        End If
-        If xFileLocation <> "" AndAlso FileLen(xFileLocation) = 0 Then
-            MsgBox("0kb File")
-            Exit Sub
         End If
         Audio.Play(xFileLocation)
     End Sub
@@ -789,6 +792,8 @@ Public Class MainWindow
     End Sub
 
     Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        Dim xStrAll As String
+        Dim xRandomFile As Boolean = GetFileName(FileName).StartsWith("___TempRandom")
         If Not IsSaved Then
             Dim xStr As String = Strings.Messages.SaveOnExit
             If e.CloseReason = CloseReason.WindowsShutDown Then xStr = Strings.Messages.SaveOnExit1
@@ -796,7 +801,7 @@ Public Class MainWindow
 
             Dim xResult As MsgBoxResult = MsgBox(xStr, MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Question, Me.Text)
 
-            If xResult = MsgBoxResult.Yes Then
+            If xResult = MsgBoxResult.Yes AndAlso Not xRandomFile Then
                 If ExcludeFileName(FileName) = "" Then
                     Dim xDSave As New SaveFileDialog
                     xDSave.Filter = Strings.FileType._bms & "|*.bms;*.bme;*.bml;*.pms;*.txt|" &
@@ -812,13 +817,19 @@ Public Class MainWindow
                     If xDSave.ShowDialog = Windows.Forms.DialogResult.Cancel Then e.Cancel = True : Exit Sub
                     SetFileName(xDSave.FileName)
                 End If
-                Dim xStrAll As String = SaveBMS()
+                xStrAll = SaveBMS()
                 My.Computer.FileSystem.WriteAllText(FileName, xStrAll, False, TextEncoding)
                 NewRecent(FileName)
                 If BeepWhileSaved Then Beep()
             End If
 
             If xResult = MsgBoxResult.Cancel Then e.Cancel = True
+        End If
+
+        If xRandomFile Then
+            xStrAll = SaveRandomBMS()
+            My.Computer.FileSystem.WriteAllText(FileName, xStrAll, False, TextEncoding)
+            If BeepWhileSaved Then Beep()
         End If
 
         If Not e.Cancel Then
@@ -4931,8 +4942,9 @@ case2:              Dim xI0 As Integer
     Private Sub mnGotoMeasure_Click(sender As Object, e As EventArgs) Handles mnGotoMeasure.Click
         Dim s = InputBox(Strings.Messages.PromptEnterMeasure, "Enter Measure")
 
-        Dim i As Integer
-        If Int32.TryParse(s, i) AndAlso i < 0 Or i > 999 Then PanelVScroll(PanelFocus) = -MeasureBottom(i)
+        ' Interpolation, Value = F + (C - F) * (i - Floor(i))
+        Dim i As Double
+        If Double.TryParse(s, i) AndAlso i > 0 AndAlso i < 999 Then PanelVScroll(PanelFocus) = -(MeasureBottom(Math.Floor(i)) + (MeasureBottom(Math.Ceiling(i)) - MeasureBottom(Math.Floor(i))) * (i - Math.Floor(i)))
     End Sub
 
 
@@ -4950,6 +4962,56 @@ case2:              Dim xI0 As Integer
             items(j) = temp
         Next i
         Return items
+    End Function
+
+    Private Sub Expand_Load(sender As Object, e As EventArgs) Handles ECSelectSection.Click
+        ReDim RandomFile(2)
+        Dim xDOp As New OpExpand()
+        Dim ReadText As String
+        Try
+            xDOp.ShowDialog(Me)
+        Catch
+            Exit Sub
+        End Try
+
+        If RandomFile(1) = "-" Then Exit Sub
+        Dim RandomFilePath = ExcludeFileName(FileName) & "\" & RandomFileName
+        ' Picks another random filename because the programme somehow generated the same exact RandomFileName as a previous instance. 1 in 2-billion chance btw
+        Do Until Not My.Computer.FileSystem.FileExists(RandomFilePath)
+            RandomFileName = "___TempRandom" & GenerateRandomString(6, False) & ".bmsc"
+            RandomFilePath = ExcludeFileName(FileName) & "\" & RandomFileName
+        Loop
+        RandomFile(1) = GenerateHeaderMeta() & GenerateHeaderIndexedData() & RandomFile(1)
+        ' Dim xStrHeader As String = GenerateHeaderMeta()
+        ' xStrHeader &= GenerateHeaderIndexedData()
+        My.Computer.FileSystem.WriteAllText(RandomFilePath, RandomFile(1), False, TextEncoding)
+        System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath & "\" & My.Application.Info.ProductName & ".exe", RandomFilePath)
+        Do Until False
+            Threading.Thread.Sleep(3000)
+            ReadText = My.Computer.FileSystem.ReadAllText(RandomFilePath, TextEncoding)
+            If ReadText.EndsWith("*---------------------- RANDOM DATA FIELD") Then
+                Exit Do
+            End If
+        Loop
+        RandomFile(1) = ""
+        For Each xStrLine In Split(ReadText, vbCrLf)
+            If xStrLine <> "" AndAlso xStrLine <> "*---------------------- RANDOM DATA FIELD" Then
+                RandomFile(1) &= xStrLine & vbCrLf
+            End If
+        Next
+        TExpansion.Text = Join(RandomFile, vbCrLf)
+        AddTempFileList(RandomFilePath)
+    End Sub
+
+    Public Function GenerateRandomString(ByRef len As Integer, ByRef upper As Boolean) As String
+        Dim rand As New Random()
+        Dim allowableChars() As Char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLOMNOPQRSTUVWXYZ0123456789".ToCharArray()
+        Dim final As String = String.Empty
+        For i As Integer = 0 To len - 1
+            final += allowableChars(rand.Next(allowableChars.Length - 1))
+        Next
+
+        Return IIf(upper, final.ToUpper(), final)
     End Function
 
 End Class

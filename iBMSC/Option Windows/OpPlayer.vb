@@ -31,9 +31,9 @@ Public Class OpPlayer
         Label4.Text = Strings.fopPlayer.StopPlaying
         BAdd.Text = Strings.fopPlayer.Add
         BRemove.Text = Strings.fopPlayer.Remove
-        Label6.Text = Strings.fopPlayer.References & vbCrLf & _
-                      "<apppath> = " & Strings.fopPlayer.DirectoryOfApp & vbCrLf & _
-                      "<measure> = " & Strings.fopPlayer.CurrMeasure & vbCrLf & _
+        Label6.Text = Strings.fopPlayer.References & vbCrLf &
+                      "<apppath> = " & Strings.fopPlayer.DirectoryOfApp & vbCrLf &
+                      "<measure> = " & Strings.fopPlayer.CurrMeasure & vbCrLf &
                       "<filename> = " & Strings.fopPlayer.FileName
         OK_Button.Text = Strings.OK
         Cancel_Button.Text = Strings.Cancel
@@ -58,7 +58,7 @@ Public Class OpPlayer
             pArg(xI1) = pArg(xI1 - 1)
         Next
 
-        LPlayer.Items.Insert(CurrPlayer, _
+        LPlayer.Items.Insert(CurrPlayer,
             GetFileName(pArg(CurrPlayer - 1).Path))
         LPlayer.SelectedIndex += 1
     End Sub
@@ -85,8 +85,8 @@ Public Class OpPlayer
 
     Private Sub BPrevBrowse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BBrowse.Click
         Dim xDOpen As New OpenFileDialog
-        xDOpen.InitialDirectory = IIf(Path.GetDirectoryName(Replace(TPath.Text, "<apppath>", My.Application.Info.DirectoryPath)) = "", _
-                                      My.Application.Info.DirectoryPath, _
+        xDOpen.InitialDirectory = IIf(Path.GetDirectoryName(Replace(TPath.Text, "<apppath>", My.Application.Info.DirectoryPath)) = "",
+                                      My.Application.Info.DirectoryPath,
                                       Path.GetDirectoryName(Replace(TPath.Text, "<apppath>", My.Application.Info.DirectoryPath)))
         xDOpen.Filter = Strings.FileType.EXE & "|*.exe"
         xDOpen.DefaultExt = "exe"
@@ -98,14 +98,18 @@ Public Class OpPlayer
         'ImplicitChange = True
         If MsgBox(Strings.Messages.RestoreDefaultSettings, MsgBoxStyle.Question + MsgBoxStyle.YesNo) = MsgBoxResult.No Then Exit Sub
 
-        pArg = New MainWindow.PlayerArguments() {New MainWindow.PlayerArguments("<apppath>\uBMplay.exe", _
-                                                                      "-P -N0 ""<filename>""", _
-                                                                      "-P -N<measure> ""<filename>""", _
-                                                                      "-S"), _
-                                            New MainWindow.PlayerArguments("<apppath>\o2play.exe", _
-                                                                      "-P -N0 ""<filename>""", _
-                                                                      "-P -N<measure> ""<filename>""", _
-                                                                      "-S")}
+        pArg = New MainWindow.PlayerArguments() {New MainWindow.PlayerArguments("<apppath>\mBMplay.exe",
+                                                             """<filename>""",
+                                                             "-s <measure> ""<filename>""",
+                                                             "-t"),
+                                                 New MainWindow.PlayerArguments("<apppath>\uBMplay.exe",
+                                                             "-P -N0 ""<filename>""",
+                                                             "-P -N<measure> ""<filename>""",
+                                                             "-S"),
+                                                 New MainWindow.PlayerArguments("<apppath>\o2play.exe",
+                                                             "-P -N0 ""<filename>""",
+                                                             "-P -N<measure> ""<filename>""",
+                                                             "-S")}
         CurrPlayer = 0
         ResetLPlayer_ShowInTextbox()
         'ImplicitChange = False
