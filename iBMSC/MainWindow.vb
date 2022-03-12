@@ -1887,10 +1887,6 @@ EndSearch:
 
     Private Sub LWAV_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles LWAV.DoubleClick
         Dim xDWAV As New OpenFileDialog
-        Dim xLWAVIds(LWAV.SelectedIndices.Count - 1) As Integer
-        For i = 0 To LWAV.SelectedIndices.Count - 1
-            xLWAVIds(i) = LWAV.SelectedIndices(i)
-        Next
         xDWAV.DefaultExt = "wav"
         xDWAV.Filter = Strings.FileType._wave & "|*.wav;*.ogg;*.mp3|" &
                        Strings.FileType.WAV & "|*.wav|" &
@@ -1904,11 +1900,7 @@ EndSearch:
         InitPath = ExcludeFileName(xDWAV.FileName)
 
         ' Replace multiple
-        For i = 0 To xLWAVIds.Count - 1
-            hWAV(xLWAVIds(i) + 1) = GetFileName(xDWAV.FileNames((i) Mod xDWAV.FileNames.Length))
-            LWAV.Items.Item(xLWAVIds(i)) = C10to36(xLWAVIds(i)) & ": " & GetFileName(xDWAV.FileNames((i) Mod xDWAV.FileNames.Length))
-        Next
-
+        AddToPOWAV(xDWAV.FileNames)
         If IsSaved Then SetIsSaved(False)
     End Sub
 
@@ -2186,6 +2178,9 @@ StartCount:     If Not NTInput Then
         Dim data(rows, cols) As Integer
         Dim dataWAV(1295, 1) As Integer
 
+        Dim noteLanes = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8,
+                         niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+
         ' Check if #WAV has been assigned
         For i = 0 To dataWAV.GetUpperBound(0)
             If Not IsNothing(hWAV(i)) Then
@@ -2224,7 +2219,12 @@ StartCount:     If Not NTInput Then
 
 
 StartCount:     If Not NTInput Then
-                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj) Then data(row, 0) += 1 : dataWAV(.Value / 10000, 1) += 1
+                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj) Then
+                        data(row, 0) += 1
+                        If noteLanes.Contains(.ColumnIndex) Or .ColumnIndex >= niB Then
+                            dataWAV(.Value / 10000, 1) += 1
+                        End If
+                    End If
                     If .LongNote Then data(row, 1) += 1
                     If .Value \ 10000 = LnObj Then data(row, 2) += 1
                     If .Hidden Then data(row, 3) += 1
@@ -2232,7 +2232,12 @@ StartCount:     If Not NTInput Then
                     If .HasError Then data(row, 5) += 1
 
                 Else
-                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj) Then data(row, 0) += 1 : dataWAV(.Value / 10000, 1) += 1
+                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj) Then
+                        data(row, 0) += 1
+                        If noteLanes.Contains(.ColumnIndex) Or .ColumnIndex >= niB Then
+                            dataWAV(.Value / 10000, 1) += 1
+                        End If
+                    End If
                     If .Length <> 0 Then data(row, 1) += 1
                     If .Value \ 10000 = LnObj Then data(row, 2) += 1
                     If .Hidden Then data(row, 3) += 1
