@@ -161,7 +161,7 @@ Public Class MainWindow
     Dim hWAV(1295) As String
     Dim hBPM(1295) As Long   'x10000
     Dim hSTOP(1295) As Long
-    Dim hSCROLL(1295) As Long
+    Dim hBMSCROLL(1295) As Long
 
     '----Grid Options
     Dim gSnap As Boolean = True
@@ -1355,7 +1355,7 @@ EndSearch:
         ReDim hWAV(1295)
         ReDim hBPM(1295)    'x10000
         ReDim hSTOP(1295)
-        ReDim hSCROLL(1295)
+        ReDim hBMSCROLL(1295)
         THGenre.Text = ""
         THTitle.Text = ""
         THArtist.Text = ""
@@ -1400,7 +1400,7 @@ EndSearch:
         ReDim hWAV(1295)
         ReDim hBPM(1295)    'x10000
         ReDim hSTOP(1295)
-        ReDim hSCROLL(1295)
+        ReDim hBMSCROLL(1295)
         THGenre.Text = ""
         THTitle.Text = ""
         THArtist.Text = ""
@@ -1919,7 +1919,6 @@ EndSearch:
             Case Keys.Enter
                 LWAV_DoubleClick(sender, e)
             Case Keys.Delete
-                ' Delete multiple
                 Dim xLWAVIds(LWAV.SelectedIndices.Count - 1) As Integer
                 For i = 0 To LWAV.SelectedIndices.Count - 1
                     xLWAVIds(i) = LWAV.SelectedIndices(i)
@@ -2177,41 +2176,55 @@ StartCount:     If Not NTInput Then
         UpdatePairing()
         Dim rows = 26 - 2 ' TableLayoutPanel1.RowCount doesn't work
         Dim cols = 8 - 2  ' Size of tables including names sub 2
-        Dim Labels As New Strings.fStatistics()
-        Dim rowLabels = {Labels.lSCROLL, Labels.lBPM, Labels.lSTOP, Labels.lA1, Labels.lA2, Labels.lA3, Labels.lA4, Labels.lA5, Labels.lA6, Labels.lA7, Labels.lA8, Labels.lD1, Labels.lD2, Labels.lD3, Labels.lD4, Labels.lD5, Labels.lD6, Labels.lD7, Labels.lD8, Labels.lA, Labels.lD, Labels.lBGA, Labels.lBGM, Labels.lNotes, Labels.lTotal}
-        Dim colLabels = {Labels.lShort, Labels.lLong, Labels.lLnObj, Labels.lHidden, Labels.lLandmines, Labels.lErrors, Labels.lTotal}
+        Dim rowLabels = {Strings.fStatistics.lSCROLL, Strings.fStatistics.lBPM, Strings.fStatistics.lSTOP,
+                         Strings.fStatistics.lA1, Strings.fStatistics.lA2, Strings.fStatistics.lA3, Strings.fStatistics.lA4, Strings.fStatistics.lA5, Strings.fStatistics.lA6, Strings.fStatistics.lA7, Strings.fStatistics.lA8,
+                         Strings.fStatistics.lD1, Strings.fStatistics.lD2, Strings.fStatistics.lD3, Strings.fStatistics.lD4, Strings.fStatistics.lD5, Strings.fStatistics.lD6, Strings.fStatistics.lD7, Strings.fStatistics.lD8,
+                         Strings.fStatistics.lA, Strings.fStatistics.lD, Strings.fStatistics.lBGA, Strings.fStatistics.lBGM, Strings.fStatistics.lNotes,
+                         Strings.fStatistics.lTotal}
+        Dim colLabels = {Strings.fStatistics.lShort, Strings.fStatistics.lLong, Strings.fStatistics.lLnObj, Strings.fStatistics.lHidden, Strings.fStatistics.lLandmines, Strings.fStatistics.lErrors,
+                         Strings.fStatistics.lTotal}
         Dim data(rows, cols) As Integer
+        Dim dataWAV(1295, 1) As Integer
+
+        ' Check if #WAV has been assigned
+        For i = 0 To dataWAV.GetUpperBound(0)
+            If Not IsNothing(hWAV(i)) Then
+                dataWAV(i, 0) = 1
+            Else
+                dataWAV(i, 0) = 0
+            End If
+        Next
 
         For i As Integer = 1 To UBound(Notes)
             With Notes(i)
                 Dim row As Integer
                 Select Case .ColumnIndex
-                    Case niSCROLL : row = 1 - 1
-                    Case niBPM : row = 2 - 1
-                    Case niSTOP : row = 3 - 1
-                    Case niA1 : row = 4 - 1
-                    Case niA2 : row = 5 - 1
-                    Case niA3 : row = 6 - 1
-                    Case niA4 : row = 7 - 1
-                    Case niA5 : row = 8 - 1
-                    Case niA6 : row = 9 - 1
-                    Case niA7 : row = 10 - 1
-                    Case niA8 : row = 11 - 1
-                    Case niD1 : row = 12 - 1
-                    Case niD2 : row = 13 - 1
-                    Case niD3 : row = 14 - 1
-                    Case niD4 : row = 15 - 1
-                    Case niD5 : row = 16 - 1
-                    Case niD6 : row = 17 - 1
-                    Case niD7 : row = 18 - 1
-                    Case niD8 : row = 19 - 1
-                    Case Is >= niB : row = 23 - 1
-                    Case Else : row = 22 - 1
+                    Case niSCROLL : row = 0
+                    Case niBPM : row = 1
+                    Case niSTOP : row = 2
+                    Case niA1 : row = 3
+                    Case niA2 : row = 4
+                    Case niA3 : row = 5
+                    Case niA4 : row = 6
+                    Case niA5 : row = 7
+                    Case niA6 : row = 8
+                    Case niA7 : row = 9
+                    Case niA8 : row = 10
+                    Case niD1 : row = 11
+                    Case niD2 : row = 12
+                    Case niD3 : row = 13
+                    Case niD4 : row = 14
+                    Case niD5 : row = 15
+                    Case niD6 : row = 16
+                    Case niD7 : row = 17
+                    Case niD8 : row = 18
+                    Case Is >= niB : row = 22
+                    Case Else : row = 21
                 End Select
 
 
 StartCount:     If Not NTInput Then
-                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj) Then data(row, 0) += 1
+                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj) Then data(row, 0) += 1 : dataWAV(.Value / 10000, 1) += 1
                     If .LongNote Then data(row, 1) += 1
                     If .Value \ 10000 = LnObj Then data(row, 2) += 1
                     If .Hidden Then data(row, 3) += 1
@@ -2219,7 +2232,7 @@ StartCount:     If Not NTInput Then
                     If .HasError Then data(row, 5) += 1
 
                 Else
-                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj) Then data(row, 0) += 1
+                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj) Then data(row, 0) += 1 : dataWAV(.Value / 10000, 1) += 1
                     If .Length <> 0 Then data(row, 1) += 1
                     If .Value \ 10000 = LnObj Then data(row, 2) += 1
                     If .Hidden Then data(row, 3) += 1
@@ -2250,7 +2263,7 @@ StartCount:     If Not NTInput Then
         Next
         data(rows, cols) = UBound(Notes)
         ' Change to the whole table cause more convenient
-        Dim dStat As New dgStatistics(data, rowLabels, colLabels)
+        Dim dStat As New dgStatistics(data, rowLabels, colLabels, dataWAV)
         dStat.ShowDialog()
     End Sub
 
@@ -2749,7 +2762,6 @@ DoNothing:
 
         Dim xniArrayLen = xniArray1.Length
 
-        Dim xCol As Integer
         Dim vPos As Integer = -1
         Dim xIArray(0) As Integer
         Dim xValueArray(0) As Integer
@@ -3021,10 +3033,10 @@ RestartSorting: xSorted = False
     End Sub
 
     Private Sub TBVCOptions_Click(sender As Object, e As EventArgs) Handles mnVCOptions.Click
-        Dim xDiag As New OpVisualCO(vo, column, LWAV.Font)
-        xDiag.ShowDialog(Me)
-        UpdateColumnsX()
-        RefreshPanelAll()
+        ' Dim xDiag As New OpVisualCO(vo, column, LWAV.Font)
+        ' xDiag.ShowDialog(Me)
+        ' UpdateColumnsX()
+        ' RefreshPanelAll()
     End Sub
 
 
@@ -4984,7 +4996,7 @@ case2:              Dim xI0 As Integer
     Private Sub Expand_Load(sender As Object, e As EventArgs) Handles ECSelectSection.Click
         ReDim RandomFile(2)
         Dim xDOp As New OpExpand()
-        Dim ReadText As String
+        Dim ReadText As String = Nothing
         Try
             xDOp.ShowDialog(Me)
         Catch

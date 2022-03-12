@@ -52,7 +52,7 @@ Public Class dgStatistics
         ' StTotalValue.Text = Strings.fStatistics.recTotalValue
     End Sub
 
-    Public Sub New(ByVal data(,) As Integer, ByVal LRows() As String, ByVal LCols() As String)
+    Public Sub New(ByVal data(,) As Integer, ByVal LRows() As String, ByVal LCols() As String, ByVal dataWAV(,) As Integer)
         InitializeComponent()
 
         For row As Integer = 1 To TableLayoutPanel1.RowCount - 1
@@ -85,6 +85,25 @@ Public Class dgStatistics
                 TableLayoutPanel1.Controls.Add(xLabel, col, row)
             Next
         Next
+
+        Dim Text As String
+        For i = 0 To dataWAV.GetUpperBound(0)
+            ' 2 rows. First column - Type, assigned or unassigned
+            ' Second dimension - Usage in play lanes or BGM
+            If dataWAV(i, 0) = 0 AndAlso dataWAV(i, 1) = 0 Then Continue For
+            Text = "#WAV" & C10to36(i) & ": " & dataWAV(i, 1)
+            If dataWAV(i, 0) = 0 AndAlso dataWAV(i, 1) <> 0 Then Text &= " | Unassigned"
+            ListWAVUsage.Items.Add(Text)
+        Next
+
     End Sub
+    Private Function C10to36(ByVal xStart As Long) As String ' Copied from Utilities
+        If xStart < 1 Then xStart = 1
+        If xStart > 1295 Then xStart = 1295
+        Return C10to36S(xStart \ 36) & C10to36S(xStart Mod 36)
+    End Function
+    Private Function C10to36S(ByVal xStart As Integer) As Char ' Copied from Utilities
+        If xStart < 10 Then Return CChar(CStr(xStart)) Else Return Chr(xStart + 55)
+    End Function
 
 End Class

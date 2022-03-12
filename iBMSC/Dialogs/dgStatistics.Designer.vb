@@ -26,6 +26,8 @@ Partial Class dgStatistics
         Me.OK_Button = New System.Windows.Forms.Button()
         Me.lIcon = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.ListWAVUsage = New System.Windows.Forms.ListBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'OK_Button
@@ -33,7 +35,7 @@ Partial Class dgStatistics
         Me.OK_Button.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK_Button.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.OK_Button.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.OK_Button.Location = New System.Drawing.Point(483, 569)
+        Me.OK_Button.Location = New System.Drawing.Point(718, 569)
         Me.OK_Button.Name = "OK_Button"
         Me.OK_Button.Size = New System.Drawing.Size(78, 27)
         Me.OK_Button.TabIndex = 0
@@ -90,12 +92,34 @@ Partial Class dgStatistics
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(480, 540)
         Me.TableLayoutPanel1.TabIndex = 12
         '
+        'ListWAVUsage
+        '
+        Me.ListWAVUsage.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ListWAVUsage.FormattingEnabled = True
+        Me.ListWAVUsage.ItemHeight = 15
+        Me.ListWAVUsage.Location = New System.Drawing.Point(570, 42)
+        Me.ListWAVUsage.Name = "ListWAVUsage"
+        Me.ListWAVUsage.Size = New System.Drawing.Size(226, 514)
+        Me.ListWAVUsage.TabIndex = 13
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(567, 12)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(68, 15)
+        Me.Label1.TabIndex = 14
+        Me.Label1.Text = "Note Usage"
+        '
         'dgStatistics
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.CancelButton = Me.OK_Button
-        Me.ClientSize = New System.Drawing.Size(584, 611)
+        Me.ClientSize = New System.Drawing.Size(819, 611)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ListWAVUsage)
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.Controls.Add(Me.lIcon)
         Me.Controls.Add(Me.OK_Button)
@@ -107,11 +131,14 @@ Partial Class dgStatistics
         Me.Name = "dgStatistics"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Statistics"
+        Me.Text = "Statistics (Advanced)"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents OK_Button As System.Windows.Forms.Button
     Friend WithEvents lIcon As System.Windows.Forms.Label
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
+    Friend WithEvents ListWAVUsage As ListBox
+    Friend WithEvents Label1 As Label
 End Class

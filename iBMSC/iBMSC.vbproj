@@ -203,6 +203,12 @@
     <Compile Include="MyO2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Option Windows\OpVisual.Designer.vb">
+      <DependentUpon>OpVisual.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Option Windows\OpVisual.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Option Windows\OpExpand.Designer.vb">
       <DependentUpon>OpExpand.vb</DependentUpon>
     </Compile>
@@ -243,18 +249,6 @@
       <DependentUpon>OpPlayer.vb</DependentUpon>
     </Compile>
     <Compile Include="Option Windows\OpPlayer.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Option Windows\OpVisual.designer.vb">
-      <DependentUpon>OpVisual.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Option Windows\OpVisual.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Option Windows\OpVisualCO.designer.vb">
-      <DependentUpon>OpVisual.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Option Windows\OpVisualCO.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UndoRedo.vb" />
@@ -309,12 +303,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Option Windows\OpPlayer.resx">
       <DependentUpon>OpPlayer.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Option Windows\OpVisual.resx">
-      <DependentUpon>OpVisual.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Option Windows\OpVisualCO.resx">
-      <DependentUpon>OpVisualCO.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
