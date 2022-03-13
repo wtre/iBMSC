@@ -5,6 +5,8 @@
         InitializeComponent()
         LOverrides.Items.Clear()
 
+        If Not System.IO.Directory.Exists("Colors") Then My.Computer.FileSystem.CreateDirectory("Colors")
+
         F = "Colors\" + GetFileName(FileName) + ".xml"
         If Not My.Computer.FileSystem.FileExists(F) Then Exit Sub
 
