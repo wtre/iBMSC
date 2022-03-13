@@ -1600,8 +1600,8 @@ Partial Public Class MainWindow
         Dim e1 As BufferedGraphics = BufferedGraphicsManager.Current.Allocate(spMain(iI).CreateGraphics, New Rectangle(xDispX, xDispY, xDispW, xDispH))
         e1.Graphics.FillRectangle(vo.Bg, New Rectangle(xDispX, xDispY, xDispW, xDispH))
 
-        Dim CO As New COverride(0, 0, 0, 0, 0, 0)
-        If NTInput Then DrawNoteNT(Notes(foundNoteIndex), e1, xHS, xVS, xHeight, CO) Else DrawNote(Notes(foundNoteIndex), e1, xHS, xVS, xHeight)
+        Dim COverrides() As ColorOverride
+        If NTInput Then DrawNoteNT(Notes(foundNoteIndex), e1, xHS, xVS, xHeight, COverrides) Else DrawNote(Notes(foundNoteIndex), e1, xHS, xVS, xHeight)
 
         e1.Graphics.DrawRectangle(IIf(bAdjustLength, vo.kMouseOverE, vo.kMouseOver), xDispX, xDispY, xDispW - 1, xDispH - 1)
 

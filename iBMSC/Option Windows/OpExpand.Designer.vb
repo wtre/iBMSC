@@ -25,7 +25,7 @@ Partial Class OpExpand
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Cancel_Button = New System.Windows.Forms.Button()
         Me.OK_Button = New System.Windows.Forms.Button()
-        Me.ExpansionCodeList = New System.Windows.Forms.ListBox()
+        Me.LExpansionCode = New System.Windows.Forms.ListBox()
         Me.SuspendLayout()
         '
         'Label5
@@ -59,23 +59,23 @@ Partial Class OpExpand
         Me.OK_Button.TabIndex = 66
         Me.OK_Button.Text = "OK"
         '
-        'ExpansionCodeList
+        'LExpansionCode
         '
-        Me.ExpansionCodeList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.LExpansionCode.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ExpansionCodeList.FormattingEnabled = True
-        Me.ExpansionCodeList.Location = New System.Drawing.Point(12, 25)
-        Me.ExpansionCodeList.Name = "ExpansionCodeList"
-        Me.ExpansionCodeList.Size = New System.Drawing.Size(260, 394)
-        Me.ExpansionCodeList.TabIndex = 70
+        Me.LExpansionCode.FormattingEnabled = True
+        Me.LExpansionCode.Location = New System.Drawing.Point(12, 25)
+        Me.LExpansionCode.Name = "LExpansionCode"
+        Me.LExpansionCode.Size = New System.Drawing.Size(260, 394)
+        Me.LExpansionCode.TabIndex = 70
         '
         'OpExpand
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(284, 461)
-        Me.Controls.Add(Me.ExpansionCodeList)
+        Me.Controls.Add(Me.LExpansionCode)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Cancel_Button)
         Me.Controls.Add(Me.OK_Button)
@@ -89,5 +89,5 @@ Partial Class OpExpand
     Friend WithEvents Label5 As Label
     Friend WithEvents Cancel_Button As Button
     Friend WithEvents OK_Button As Button
-    Friend WithEvents ExpansionCodeList As ListBox
+    Friend WithEvents LExpansionCode As ListBox
 End Class

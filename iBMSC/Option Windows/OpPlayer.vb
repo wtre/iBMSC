@@ -137,14 +137,12 @@ Public Class OpPlayer
 
     'Affect pArgs
     Private Sub SavePArg()
-        pArg(CurrPlayer).Path = TPath.Text
-        pArg(CurrPlayer).aBegin = TPlayB.Text
-        pArg(CurrPlayer).aHere = TPlay.Text
-        pArg(CurrPlayer).aStop = TStop.Text
-        'pArg(CurrPlayer) = TPath.Text & vbCrLf & _
-        '                   TPlayB.Text & vbCrLf & _
-        '                   TPlay.Text & vbCrLf & _
-        '                   TStop.Text
+        With pArg(CurrPlayer)
+            .Path = TPath.Text
+            .aBegin = TPlayB.Text
+            .aHere = TPlay.Text
+            .aStop = TStop.Text
+        End With
     End Sub
 
     'affect all textboxes
@@ -152,11 +150,14 @@ Public Class OpPlayer
         'ImplicitChange = True
         'Dim xStr() As String = Split(pArg(CurrPlayer), vbCrLf)
         'If xStr.Length <> 4 Then ReDim Preserve xStr(3)
-        TPath.Text = pArg(CurrPlayer).Path
-        TPlayB.Text = pArg(CurrPlayer).aBegin
-        TPlay.Text = pArg(CurrPlayer).aHere
-        TStop.Text = pArg(CurrPlayer).aStop
+        With pArg(CurrPlayer)
+            TPath.Text = .Path
+            TPlayB.Text = .aBegin
+            TPlay.Text = .aHere
+            TStop.Text = .aStop
+        End With
         ValidateTextBox()
+
         'ImplicitChange = False
     End Sub
 

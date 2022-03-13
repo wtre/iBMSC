@@ -132,7 +132,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Option Windows\COverride.vb" />
     <Compile Include="Dialogs\dgStatisticsLegacy.Designer.vb" />
     <Compile Include="Dialogs\dgStatisticsLegacy.vb">
       <SubType>Form</SubType>
@@ -218,6 +217,12 @@
       <DependentUpon>OpExpand.vb</DependentUpon>
     </Compile>
     <Compile Include="Option Windows\OpExpand.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Option Windows\OpVisualOverride.Designer.vb">
+      <DependentUpon>OpVisualOverride.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Option Windows\OpVisualOverride.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PanelDraw.vb">
@@ -308,6 +313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Option Windows\OpPlayer.resx">
       <DependentUpon>OpPlayer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Option Windows\OpVisualOverride.resx">
+      <DependentUpon>OpVisualOverride.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

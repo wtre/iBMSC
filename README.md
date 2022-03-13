@@ -23,7 +23,8 @@ Listed in the order added.
 * Added note search function (goto measure except it's goto note). One note per VPosition only.
 * Added sort function. Selected notes are sorted based on their VPosition and Value.
 * Added mBMplay as a default player.
-* Added support for #RANDOM, including nested #RANDOM. Supports expansion field and main data field only. Not tested thoroughly.
+* Added support for #RANDOM, including nested #RANDOM. Supports expansion field and main data field only. Not tested thoroughly. Accessible via the "Select Section" button in Expansion Code or via Ctrl+R.
+* Added color overriding options where you can specify a range of notes to appear a specific color, such as red notes for drums and green notes for the piano. Accessible via the Options tab or via Shift+F12.
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8.
   * Numpad keys are now assigned to 2P lanes.
@@ -44,3 +45,5 @@ Listed in the order added.
   * F12 - Visual Options
 * Added advanced statistics (Ctrl+Shift+T)
 * Added keyboard shortcuts for previewing and replacing keysounds in the Sounds List (Spacebar to preview, enter to replace).
+* Added "Select Section" (Ctrl+R)
+* Added color overriding options (Shift+F12)

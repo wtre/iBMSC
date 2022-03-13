@@ -196,6 +196,37 @@ Public Class MainWindow
         vo = xvo
     End Sub
 
+    '----Visual Override Options
+    Structure ColorOverride
+        Public Name As String
+        Public RangeL As Integer
+        Public RangeU As Integer
+        Public NoteColor As Integer
+        Public TextColor As Integer
+        Public LongNoteColor As Integer
+        Public LongTextColor As Integer
+        Public BG As Integer
+
+        Public Sub New(ByVal xName As String,
+                       ByVal xRangeL As Integer,
+                       ByVal xRangeU As Integer,
+                       ByVal xNoteColor As Integer,
+                       ByVal xTextColor As Integer,
+                       ByVal xLongNoteColor As Integer,
+                       ByVal xLongTextColor As Integer,
+                       ByVal xBG As Integer)
+
+            Name = xName
+            RangeL = xRangeL
+            RangeU = xRangeU
+            NoteColor = xNoteColor
+            TextColor = xTextColor
+            LongNoteColor = xLongNoteColor
+            LongTextColor = xLongTextColor
+            BG = xBG
+        End Sub
+    End Structure
+
     '----Preview Options
     Structure PlayerArguments
         Public Path As String
@@ -2452,18 +2483,18 @@ StartCount:     If Not NTInput Then
         ' New function: Declare an array to see the range of selected notes. B columns ignored.
 
         Dim xRangeL As Integer = niB ' Big number
-        Dim xRangeR As Integer = 0 ' Smol number
+        Dim xRangeU As Integer = 0 ' Smol number
 
         ' Range finder
         For xI1 = 1 To UBound(Notes)
             If Not Notes(xI1).Selected Then Continue For
             If xRangeL > Notes(xI1).ColumnIndex Then xRangeL = Notes(xI1).ColumnIndex
-            If xRangeR < Notes(xI1).ColumnIndex Then xRangeR = Notes(xI1).ColumnIndex
+            If xRangeU < Notes(xI1).ColumnIndex Then xRangeU = Notes(xI1).ColumnIndex
         Next
 
         ' Modify xniArray based on range
         '  Out of range
-        If xRangeL > niD8 Or xRangeR < niA1 Then GoTo DoNothing
+        If xRangeL > niD8 Or xRangeU < niA1 Then GoTo DoNothing
 
         '  Semi-in Range
         '   Cut off left side
@@ -2481,22 +2512,22 @@ StartCount:     If Not NTInput Then
 
 MirrorSkip1:
         '   Cut off right side
-        If xRangeR > niD8 Then
-            xRangeR = xniArray0.Length
+        If xRangeU > niD8 Then
+            xRangeU = xniArray0.Length
             GoTo MirrorSkip2
         End If
 
         For xI1 = 0 To xniArray0.Length
-            If xniArray0(xI1) = xRangeR Then
-                xRangeR = xI1 + 1
+            If xniArray0(xI1) = xRangeU Then
+                xRangeU = xI1 + 1
                 Exit For
             End If
         Next
 
 MirrorSkip2:
 
-        Dim xniArray1(xRangeR - xRangeL - 1)
-        For xI1 = 0 To xRangeR - xRangeL - 1
+        Dim xniArray1(xRangeU - xRangeL - 1)
+        For xI1 = 0 To xRangeU - xRangeL - 1
             xniArray1(xI1) = xniArray0(xI1 + xRangeL)
         Next
 
@@ -2584,18 +2615,18 @@ DoNothing:
         ' New function: Declare an array to see the range of selected notes. B columns ignored.
 
         Dim xRangeL As Integer = niB ' Big number
-        Dim xRangeR As Integer = 0 ' Smol number
+        Dim xRangeU As Integer = 0 ' Smol number
 
         ' Range finder
         For xI1 = 1 To UBound(Notes)
             If Not Notes(xI1).Selected Then Continue For
             If xRangeL > Notes(xI1).ColumnIndex Then xRangeL = Notes(xI1).ColumnIndex
-            If xRangeR < Notes(xI1).ColumnIndex Then xRangeR = Notes(xI1).ColumnIndex
+            If xRangeU < Notes(xI1).ColumnIndex Then xRangeU = Notes(xI1).ColumnIndex
         Next
 
         ' Modify xniArray based on range
         '  Out of range
-        If xRangeL > niD8 Or xRangeR < niA1 Then GoTo DoNothing
+        If xRangeL > niD8 Or xRangeU < niA1 Then GoTo DoNothing
 
         '  Semi-in Range
         '   Cut off left side
@@ -2613,22 +2644,22 @@ DoNothing:
 
 Skip1:
         '   Cut off right side
-        If xRangeR > niD8 Then
-            xRangeR = xniArray0.Length
+        If xRangeU > niD8 Then
+            xRangeU = xniArray0.Length
             GoTo Skip2
         End If
 
         For xI1 = 0 To xniArray0.Length
-            If xniArray0(xI1) = xRangeR Then
-                xRangeR = xI1 + 1
+            If xniArray0(xI1) = xRangeU Then
+                xRangeU = xI1 + 1
                 Exit For
             End If
         Next
 
 Skip2:
 
-        Dim xniArray1(xRangeR - xRangeL - 1)
-        For xI1 = 0 To xRangeR - xRangeL - 1
+        Dim xniArray1(xRangeU - xRangeL - 1)
+        For xI1 = 0 To xRangeU - xRangeL - 1
             xniArray1(xI1) = xniArray0(xI1 + xRangeL)
         Next
 
@@ -2679,18 +2710,18 @@ DoNothing:
         ' New function: Declare an array to see the range of selected notes. B columns ignored.
 
         Dim xRangeL As Integer = niB ' Big number
-        Dim xRangeR As Integer = 0 ' Smol number
+        Dim xRangeU As Integer = 0 ' Smol number
 
         ' Range finder
         For xI1 = 1 To UBound(Notes)
             If Not Notes(xI1).Selected Then Continue For
             If xRangeL > Notes(xI1).ColumnIndex Then xRangeL = Notes(xI1).ColumnIndex
-            If xRangeR < Notes(xI1).ColumnIndex Then xRangeR = Notes(xI1).ColumnIndex
+            If xRangeU < Notes(xI1).ColumnIndex Then xRangeU = Notes(xI1).ColumnIndex
         Next
 
         ' Modify xniArray based on range
         '  Out of range
-        If xRangeL > niD8 Or xRangeR < niA1 Then GoTo DoNothing
+        If xRangeL > niD8 Or xRangeU < niA1 Then GoTo DoNothing
 
         '  Semi-in Range
         '   Cut off left side
@@ -2708,22 +2739,22 @@ DoNothing:
 
 Skip1:
         '   Cut off right side
-        If xRangeR > niD8 Then
-            xRangeR = xniArray0.Length
+        If xRangeU > niD8 Then
+            xRangeU = xniArray0.Length
             GoTo Skip2
         End If
 
         For xI1 = 0 To xniArray0.Length
-            If xniArray0(xI1) = xRangeR Then
-                xRangeR = xI1 + 1
+            If xniArray0(xI1) = xRangeU Then
+                xRangeU = xI1 + 1
                 Exit For
             End If
         Next
 
 Skip2:
 
-        Dim xniArray1(xRangeR - xRangeL - 1)
-        For xI1 = 0 To xRangeR - xRangeL - 1
+        Dim xniArray1(xRangeU - xRangeL - 1)
+        For xI1 = 0 To xRangeU - xRangeL - 1
             xniArray1(xI1) = xniArray0(xI1 + xRangeL)
         Next
 
@@ -3038,10 +3069,10 @@ RestartSorting: xSorted = False
     End Sub
 
     Private Sub TBVCOptions_Click(sender As Object, e As EventArgs) Handles mnVCOptions.Click
-        ' Dim xDiag As New OpVisualCO(vo, column, LWAV.Font)
-        ' xDiag.ShowDialog(Me)
-        ' UpdateColumnsX()
-        ' RefreshPanelAll()
+        Dim xDiag As New OpVisualOverride(FileName)
+        xDiag.ShowDialog(Me)
+        UpdateColumnsX()
+        RefreshPanelAll()
     End Sub
 
 

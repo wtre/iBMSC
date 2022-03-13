@@ -5,7 +5,7 @@
     Dim RangeL As Integer = -1
     Dim RangeU As Integer = -1
     Dim xStack As Integer = 0
-    Private Sub OK_Button_Click(sender As Object, e As EventArgs) Handles OK_Button.Click, ExpansionCodeList.DoubleClick
+    Private Sub OK_Button_Click(sender As Object, e As EventArgs) Handles OK_Button.Click, LExpansionCode.DoubleClick
         ' If no line selected
         If CurrSelection = -1 Then
             MsgBox("Error: No line selected.")
@@ -14,11 +14,11 @@
 
         ' Find the first line of the currect #if section, right after #if
         For L = CurrSelection To 0 Step -1
-            If SWIC(ExpansionCodeList.Items(L), "#ENDIF") AndAlso L <> CurrSelection Then
+            If SWIC(LExpansionCode.Items(L), "#ENDIF") AndAlso L <> CurrSelection Then
                 xStack += 1
             End If
 
-            If SWIC(ExpansionCodeList.Items(L), "#IF") Then
+            If SWIC(LExpansionCode.Items(L), "#IF") Then
                 If xStack > 0 Then
                     xStack -= 1
                 Else
@@ -30,11 +30,11 @@
         Next
         ' Find the last line of the currect #if section, right before #endif
         For U = CurrSelection To TExpansionTextSplit.Length - 1
-            If SWIC(ExpansionCodeList.Items(U), "#IF") AndAlso U <> CurrSelection Then
+            If SWIC(LExpansionCode.Items(U), "#IF") AndAlso U <> CurrSelection Then
                 xStack += 1
             End If
 
-            If SWIC(ExpansionCodeList.Items(U), "#ENDIF") Then
+            If SWIC(LExpansionCode.Items(U), "#ENDIF") Then
                 If xStack > 0 Then
                     xStack -= 1
                 Else
@@ -86,14 +86,14 @@
         End If
 
         ' List expansion code per line
-        ExpansionCodeList.Items.Clear()
+        LExpansionCode.Items.Clear()
         For Each xStrLine In TExpansionTextSplit
-            ExpansionCodeList.Items.Add(xStrLine)
+            LExpansionCode.Items.Add(xStrLine)
         Next
     End Sub
 
-    Private Sub ExpansionCodeList_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ExpansionCodeList.Click
-        CurrSelection = ExpansionCodeList.SelectedIndex
+    Private Sub ExpansionCodeList_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles LExpansionCode.Click
+        CurrSelection = LExpansionCode.SelectedIndex
     End Sub
 
     Private Function SWIC(str As String, strHash As String) As Boolean ' Copied from ChartIO.vb
