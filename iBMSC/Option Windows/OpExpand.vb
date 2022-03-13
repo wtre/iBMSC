@@ -48,7 +48,6 @@
         ' If RangeL or RangeU's values have not been found
         If RangeL = -1 Or RangeU = -1 Then
             MsgBox("Error: #IF Section not detected.")
-            MainWindow.RandomFile(1) = "-"
             Exit Sub
         End If
 
@@ -108,8 +107,4 @@
         Return Mid(s, 1, IIf(fslash > bslash, fslash, bslash) - 1)
     End Function
 
-    Private Sub OpExpand_Closing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        MainWindow.RandomFile(1) = "-"
-        Exit Sub
-    End Sub
 End Class

@@ -5002,6 +5002,7 @@ case2:              Dim xI0 As Integer
         ReDim RandomFile(2)
         Dim xDOp As New OpExpand()
         Dim ReadText As String = Nothing
+        RandomFile(1) = "-"
         Try
             xDOp.ShowDialog(Me)
         Catch
@@ -5027,6 +5028,7 @@ case2:              Dim xI0 As Integer
                 Exit Do
             End If
         Loop
+
         RandomFile(1) = ""
         For Each xStrLine In Split(ReadText, vbCrLf)
             If xStrLine <> "" AndAlso xStrLine <> "*---------------------- RANDOM DATA FIELD" Then

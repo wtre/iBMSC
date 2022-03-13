@@ -269,6 +269,7 @@ Partial Public Class MainWindow
                 Case Keys.C : TBCopy_Click(TBCopy, New EventArgs)
                 Case Keys.V : TBPaste_Click(TBPaste, New EventArgs)
                 Case Keys.A : mnSelectAll_Click(mnSelectAll, New EventArgs)
+                Case Keys.R : Expand_Load(Nothing, Nothing)
             End Select
         End If
 

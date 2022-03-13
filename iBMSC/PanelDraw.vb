@@ -535,7 +535,7 @@ Partial Public Class MainWindow
                 End If
             Next
 
-            Dim xI2 As Integer = 0
+            Dim xI2 As Integer
             Dim xI3 As Double
 
             For xI1 = xTHeight * wPrecision To 0 Step -1

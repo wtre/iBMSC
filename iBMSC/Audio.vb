@@ -101,7 +101,7 @@ Class NVorbisSource
 
     Public Property Position As Long Implements IAudioSource.Position
         Get
-            Return IIf(CanSeek, _vorbisReader.DecodedTime.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels, 0)
+            Return IIf(CanSeek, _vorbisReader.TimePosition.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels, 0)
         End Get
         Set(value As Long)
             If Not CanSeek Then
@@ -110,7 +110,7 @@ Class NVorbisSource
             If value < 0 Or value >= Length Then
                 Throw New ArgumentOutOfRangeException("value")
             End If
-            _vorbisReader.DecodedTime = TimeSpan.FromSeconds(value / _vorbisReader.SampleRate / _vorbisReader.Channels)
+            _vorbisReader.TimePosition = TimeSpan.FromSeconds(value / _vorbisReader.SampleRate / _vorbisReader.Channels)
         End Set
     End Property
 
