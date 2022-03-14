@@ -2325,7 +2325,7 @@ StartCount:     If Not NTInput Then
             Next
         End If
 
-        TBTotalValue.Text = xIAll * 7.605 / (0.01 * xIAll + 6.5)
+        TBTotalValue.Text = Math.Round(xIAll * 7.605 / (0.01 * xIAll + 6.5), 2)
         TBStatistics.Text = xIAll
     End Sub
 
