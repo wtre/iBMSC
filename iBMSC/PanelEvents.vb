@@ -1601,7 +1601,7 @@ Partial Public Class MainWindow
         e1.Graphics.FillRectangle(vo.Bg, New Rectangle(xDispX, xDispY, xDispW, xDispH))
 
         Dim COverrides() As ColorOverride
-        If NTInput Then DrawNoteNT(Notes(foundNoteIndex), e1, xHS, xVS, xHeight, COverrides) Else DrawNote(Notes(foundNoteIndex), e1, xHS, xVS, xHeight)
+        If NTInput Then DrawNoteNT(Notes(foundNoteIndex), e1, xHS, xVS, xHeight, COverrides) Else DrawNote(Notes(foundNoteIndex), e1, xHS, xVS, xHeight, COverrides)
 
         e1.Graphics.DrawRectangle(IIf(bAdjustLength, vo.kMouseOverE, vo.kMouseOver), xDispX, xDispY, xDispW - 1, xDispH - 1)
 

@@ -346,7 +346,7 @@ Partial Public Class MainWindow
             If NTInput Then
                 DrawNoteNT(Notes(xI1), e1, xHS, xVS, xTHeight, COverrides)
             Else
-                DrawNote(Notes(xI1), e1, xHS, xVS, xTHeight) ' , CO)
+                DrawNote(Notes(xI1), e1, xHS, xVS, xTHeight, COverrides)
             End If
         Next
     End Sub
@@ -378,7 +378,7 @@ Partial Public Class MainWindow
         If NTInput Then
             If Not bAdjustLength Then DrawNoteNT(Notes(KMouseOver), e1, xHS, xVS, xTHeight, COverrides)
         Else
-            DrawNote(Notes(KMouseOver), e1, xHS, xVS, xTHeight) ', CO
+            DrawNote(Notes(KMouseOver), e1, xHS, xVS, xTHeight, COverrides)
         End If
 
         Dim rect = GetNoteRectangle(KMouseOver, xTHeight, xHS, xVS)
@@ -550,7 +550,7 @@ Partial Public Class MainWindow
     ''' <param name="xVS">VS.Value.</param>
     ''' <param name="xHeight">Display height of the panel. (not ClipRectangle.Height)</param>
 
-    Private Sub DrawNote(ByVal sNote As Note, ByVal e As BufferedGraphics, ByVal xHS As Long, ByVal xVS As Long, ByVal xHeight As Integer) ' , ByVal CO As ColorOverride) ', Optional ByVal CheckError As Boolean = True) ', Optional ByVal ConnectToIndex As Long = 0)
+    Private Sub DrawNote(ByVal sNote As Note, ByVal e As BufferedGraphics, ByVal xHS As Long, ByVal xVS As Long, ByVal xHeight As Integer, ByVal CO() As ColorOverride) ', Optional ByVal CheckError As Boolean = True) ', Optional ByVal ConnectToIndex As Long = 0)
         If Not nEnabled(sNote.ColumnIndex) Then Exit Sub
         Dim xAlpha As Single = 1.0F
         If sNote.Hidden Then xAlpha = vo.kOpacity
@@ -578,13 +578,26 @@ Partial Public Class MainWindow
             dark = GetColumn(sNote.ColumnIndex).getDark(xAlpha)
 
             ' Color override
-            'Dim RangeL = 30000
-            'Dim RangeU = 50000
-            'Dim coC = -5592406
-            ' If sNote.Value >= RangeL And sNote.Value <= RangeU Then
-            ' bright = Color.FromArgb(coC)
-            ' dark = bright
-            ' ElseIf sNote.Landmine Then
+            If Not IsNothing(CO) Then
+
+                For i = 0 To UBound(CO)
+                    Dim CORangeL = CO(i).RangeL * 10000
+                    Dim CORangeU = CO(i).RangeU * 10000
+                    Dim CONoteColor = CO(i).NoteColor
+                    If sNote.Value >= CORangeL And sNote.Value <= CORangeU Then
+                        ' bright = Color.FromArgb((CInt(((CONoteColor >> 24) And &HFF) * xAlpha) << 24))
+                        ' dark = bright
+
+                        ' bright = Color.FromArgb(CONoteColor * xAlpha)
+
+                        bright = Color.FromArgb(CONoteColor * xAlpha)
+                        dark = Color.FromArgb(CONoteColor * xAlpha)
+                        Exit For
+                    End If
+
+                Next
+            End If
+
             If sNote.Landmine Then
                 bright = Color.Red
                 dark = Color.Red
@@ -694,15 +707,18 @@ Partial Public Class MainWindow
             ' Color override
             If Not IsNothing(CO) Then
 
-                For i = 0 To CO.Length - 1
+                For i = 0 To UBound(CO)
+                    Dim CORangeL = CO(i).RangeL * 10000
+                    Dim CORangeU = CO(i).RangeU * 10000
+                    Dim CONoteColor = CO(i).NoteColor
+                    If sNote.Value >= CORangeL And sNote.Value <= CORangeU Then
+                        ' bright = Color.FromArgb((CInt(((CONoteColor >> 24) And &HFF) * xAlpha) << 24))
+                        ' dark = bright
 
+                        ' bright = Color.FromArgb(CONoteColor * xAlpha)
 
-                    Dim RangeL = CO(i).RangeL * 10000
-                    Dim RangeU = CO(i).RangeU * 10000
-                    Dim NoteColorO = CO(i).NoteColor
-                    If sNote.Value >= RangeL And sNote.Value <= RangeU Then
-                        bright = Color.FromArgb(NoteColorO)
-                        dark = bright
+                        bright = Color.FromArgb(CONoteColor * xAlpha)
+                        dark = Color.FromArgb(CONoteColor * xAlpha)
                         Exit For
                     End If
 
