@@ -2603,12 +2603,10 @@ DoNothing:
         Dim xUndo As UndoRedo.LinkedURCmd = Nothing
         Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
-        'xRedo &= sCmdKM(niA1, .VPosition, .Value, IIf(NTInput, .Length, .LongNote), .Hidden, RealColumnToEnabled(niA7) - RealColumnToEnabled(niA1), 0, True) & vbCrLf
-        'xUndo &= sCmdKM(niA7, .VPosition, .Value, IIf(NTInput, .Length, .LongNote), .Hidden, RealColumnToEnabled(niA1) - RealColumnToEnabled(niA7), 0, True) & vbCrLf
 
         ' Array 0: Unmodified array
         ' Array 1: Modified array based on range
-        ' Array R: Array 1 reversed
+        ' Array R: Array 1 randomized
         Dim xniArray0 = New Integer() {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
         ' Dim xniArray1 = Integer() ' xniArray0
 
@@ -2663,17 +2661,15 @@ Skip2:
             xniArray1(xI1) = xniArray0(xI1 + xRangeL)
         Next
 
-        Dim xniArrayLen = xniArray1.Length
-        ' xniArrayR: Randomized array
         Dim xniArrayR = xniArray1.Clone()
-        Shuffle(xniArrayR, xniArrayLen)
+        Shuffle(xniArrayR)
 
         Dim xCol As Integer
         For xI1 = 1 To UBound(Notes)
             If Not Notes(xI1).Selected Then Continue For
 
             xCol = Notes(xI1).ColumnIndex
-            For xI2 = 0 To xniArrayLen - 1
+            For xI2 = 0 To xniArray1.Length - 1
                 If xCol = xniArray1(xI2) Then
                     xCol = xniArrayR(xI2)
                     Exit For
@@ -2698,12 +2694,9 @@ DoNothing:
         Dim xUndo As UndoRedo.LinkedURCmd = Nothing
         Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
-        'xRedo &= sCmdKM(niA1, .VPosition, .Value, IIf(NTInput, .Length, .LongNote), .Hidden, RealColumnToEnabled(niA7) - RealColumnToEnabled(niA1), 0, True) & vbCrLf
-        'xUndo &= sCmdKM(niA7, .VPosition, .Value, IIf(NTInput, .Length, .LongNote), .Hidden, RealColumnToEnabled(niA1) - RealColumnToEnabled(niA7), 0, True) & vbCrLf
 
         ' Array 0: Unmodified array
         ' Array 1: Modified array based on range
-        ' Array R: Array 1 reversed
         Dim xniArray0 = New Integer() {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
         ' Dim xniArray1 = Integer() ' xniArray0
 
@@ -2758,26 +2751,33 @@ Skip2:
             xniArray1(xI1) = xniArray0(xI1 + xRangeL)
         Next
 
-        Dim xniArrayLen = xniArray1.Length
-        ' xniArrayR: Randomized array
-        Dim xniArrayR = xniArray1.Clone()
-
         Dim xCol As Integer
         For xI1 = 1 To UBound(Notes)
             If Not Notes(xI1).Selected Then Continue For
-            Shuffle(xniArrayR, xniArrayLen)
-            xCol = Notes(xI1).ColumnIndex
-            For xI2 = 0 To xniArrayLen - 1
-                If xCol = xniArray1(xI2) Then
-                    xCol = xniArrayR(xI2)
-                    Exit For
-                End If
-
-            Next
-
+            xCol = xniArray1(Math.Floor(xniArray1.Length * Rnd()))
             Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
             Notes(xI1).ColumnIndex = xCol
         Next
+
+        ' Check for no clash with other notes. Freezes the application when there are too many notes in one VPosition
+        ' Dim xClash As Boolean
+        ' For xI1 = 1 To UBound(Notes)
+        '     If Not Notes(xI1).Selected Then Continue For
+        '     xClash = True
+        '     xCol = Notes(xI1).ColumnIndex
+        '     Do While xClash = True
+        '         xClash = False
+        '         For xI2 = 1 To UBound(Notes)
+        '             If Notes(xI2).VPosition = Notes(xI1).VPosition AndAlso Notes(xI2).ColumnIndex = xCol Then
+        '                 xClash = True
+        '                 xCol = xniArray1(Int((xniArray1.Length - 1) * Rnd()))
+        '             End If
+        '         Next
+        '     Loop
+        '     If Notes(xI1).ColumnIndex = xCol Then Exit For
+        '     Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
+        '     Notes(xI1).ColumnIndex = xCol
+        ' Next
 
 DoNothing:
 
@@ -5014,13 +5014,13 @@ case2:              Dim xI0 As Integer
 
 
     ' Generic shuffle for basic type arrays
-    Public Function Shuffle(Of T)(items As T(), Len As Integer)
+    Public Function Shuffle(Of T)(items As T())
         Dim temp As T
         Dim j As Int32
 
-        For i As Int32 = items.Count - 1 To 0 Step -1
+        For i As Int32 = items.Count To 1 Step -1
             ' Pick an item for position i.
-            j = Int(Len * Rnd())
+            j = Math.Floor(i * Rnd())
             ' Swap 
             temp = items(i)
             items(i) = items(j)
