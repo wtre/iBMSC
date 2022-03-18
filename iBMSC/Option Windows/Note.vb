@@ -7,6 +7,7 @@
         Public Hidden As Boolean
         Public Length As Double
         Public Landmine As Boolean
+        Public Ghost As Boolean
 
         Public LNPair As Integer
         Public Selected As Boolean
@@ -23,7 +24,8 @@
                Value = note.Value And
                LongNote = note.LongNote And
                Hidden = note.Hidden And
-               Landmine = note.Landmine
+               Landmine = note.Landmine And
+               Ghost = note.Ghost
         End Function
         Public Function equalsNT(note As Note) As Boolean
             Return VPosition = note.VPosition And
@@ -31,7 +33,8 @@
                Value = note.Value And
                Hidden = note.Hidden And
                Length = note.Length And
-               Landmine = note.Landmine
+               Landmine = note.Landmine And
+               Ghost = note.Ghost
         End Function
 
         Public Sub New(nColumnIndex As Integer,
@@ -40,7 +43,8 @@
                        Optional nLongNote As Double = 0,
                        Optional nHidden As Boolean = False,
                        Optional nSelected As Boolean = False,
-                       Optional nLandmine As Boolean = False)
+                       Optional nLandmine As Boolean = False,
+                       Optional nGhost As Boolean = False)
             VPosition = nVposition
             ColumnIndex = nColumnIndex
             Value = nValue
@@ -48,6 +52,7 @@
             Length = nLongNote
             Hidden = nHidden
             Landmine = nLandmine
+            Ghost = nGhost
         End Sub
 
         Friend Function ToBytes() As Byte()
@@ -66,6 +71,7 @@
             bw.Write(Length)
             bw.Write(Hidden)
             bw.Write(Landmine)
+            bw.Write(Ghost)
         End Sub
 
         Friend Sub FromBinReader(ByRef br As BinaryReader)
@@ -76,6 +82,7 @@
             Length = br.ReadDouble()
             Hidden = br.ReadBoolean()
             Landmine = br.ReadBoolean()
+            Ghost = br.ReadBoolean()
         End Sub
 
         Friend Sub FromBytes(ByRef bytes() As Byte)

@@ -12,6 +12,7 @@ Listed in the order added.
 * Fixed the Statistic Label not including notes between D1-D8. Statistic window still not fixed.
 * Fixed the total note count on the toolbar.
 * Reorganized the sidebar so you can tab between textboxes properly (mostly).
+* Prevented notes in Expansion Code from being loaded.
 ## Functionality
 * Added Random and S-Random. For S-random, note overlapping can occur.
 * Added a display for recommended #TOTAL.
@@ -23,7 +24,7 @@ Listed in the order added.
 * Added note search function (goto measure except it's goto note). One note per VPosition only.
 * Added sort function. Selected notes are sorted based on their VPosition and Value.
 * Added mBMplay as a default player.
-* Added support for #RANDOM, including nested #RANDOM. Supports expansion field and main data field only. Not tested thoroughly. Accessible via the "Select Section" button in Expansion Code or via Ctrl+R.
+* Added support for #RANDOM. Supports expansion field and main data field only. Not tested thoroughly, nested #RANDOM in "Modify Section" only. Accessible via the "Select Section" button in Expansion Code or via Ctrl+R.
 * Added color overriding options where you can specify a range of notes to appear a specific color, such as red notes for drums and green notes for the piano. Accessible via the Options tab or via Shift+F12.
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8.
@@ -43,7 +44,7 @@ Listed in the order added.
   * F9 - Player Options
   * F10 - General Options
   * F12 - Visual Options
-* Added advanced statistics (Ctrl+Shift+T)
+* Added advanced statistics (Ctrl+Shift+T).
 * Added keyboard shortcuts for previewing and replacing keysounds in the Sounds List (Spacebar to preview, enter to replace).
-* Added "Select Section" (Ctrl+R)
-* Added color overriding options (Shift+F12)
+* Added "Select Section" (Ctrl+R).
+* Added color overriding options (Shift+F12).

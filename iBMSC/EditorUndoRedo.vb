@@ -269,7 +269,7 @@ Partial Public Class MainWindow
 
     Private Sub RedoRemoveNoteSelected(ByVal xSel As Boolean, ByRef BaseUndo As UndoRedo.LinkedURCmd, ByRef BaseRedo As UndoRedo.LinkedURCmd)
         For xI1 As Integer = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
             Dim xUndo As New UndoRedo.AddNote(Notes(xI1))
             Dim xRedo As New UndoRedo.RemoveNote(Notes(xI1))
             xUndo.Next = BaseUndo

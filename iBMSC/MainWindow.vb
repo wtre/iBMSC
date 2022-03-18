@@ -79,11 +79,17 @@ Public Class MainWindow
 
     'IO
     Dim FileName As String = "Untitled.bms"
-    Dim RandomFileName As String = "___TempRandom" & GenerateRandomString(6, False) & ".bmsc"
-    Public RandomFile(2) As String
+    Dim RandomTempFileName As String = "___TempRandom" & GenerateRandomString(6, False) & ".bmsc"
+    Public ExpansionSplit(2) As String
     'Dim TitlePath As New Drawing2D.GraphicsPath
     Dim InitPath As String = ""
     Dim IsSaved As Boolean = True
+    Dim GhostMode As Integer = 0
+    ' Ghost mode
+    ' 0 - Default, ghost notes entirely uneditable
+    ' 1 - Ghost notes loaded with expectation of editing them
+    ' 2 - Ghost notes loaded as main notes and main notes temporarily changed to ghost notes
+    Dim GhostEdit As Boolean = False
 
     'Variables for Drag/Drop
     Dim DDFileName() As String = {}
@@ -781,7 +787,7 @@ Public Class MainWindow
         Dim xI1 As Integer = 1
         Dim xI2 As Integer
         Do
-            If Notes(xI1).Selected Then
+            If Notes(xI1).Selected AndAlso Not Notes(xI1).Ghost Then
                 For xI2 = xI1 + 1 To UBound(Notes)
                     Notes(xI2 - 1) = Notes(xI2)
                 Next
@@ -926,6 +932,7 @@ Public Class MainWindow
         THComment.Text = ""
         'THLnType.Text = "1"
         CHLnObj.SelectedIndex = 0
+        GhostMode = 0
 
         TExpansion.Text = ""
 
@@ -2536,7 +2543,7 @@ MirrorSkip2:
 
         Dim xCol As Integer
         For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             xCol = Notes(xI1).ColumnIndex
             ' MsgBox("Test" & "xCol: " & xCol & " xI1: " & xI1)
@@ -2577,7 +2584,7 @@ DoNothing:
 
         Dim xCol As Integer
         For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             xCol = Notes(xI1).ColumnIndex
             For xI2 = 0 To xniArrayLen - 1
@@ -2666,7 +2673,7 @@ Skip2:
 
         Dim xCol As Integer
         For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             xCol = Notes(xI1).ColumnIndex
             For xI2 = 0 To xniArray1.Length - 1
@@ -2690,7 +2697,6 @@ DoNothing:
 
     Private Sub POBSRandom_Click(sender As Object, e As EventArgs) Handles POBSRandom.Click
         Dim xI1 As Integer
-        Dim xI2 As Integer
         Dim xUndo As UndoRedo.LinkedURCmd = Nothing
         Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
@@ -2753,7 +2759,7 @@ Skip2:
 
         Dim xCol As Integer
         For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
             xCol = xniArray1(Math.Floor(xniArray1.Length * Rnd()))
             Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
             Notes(xI1).ColumnIndex = xCol
@@ -2807,7 +2813,7 @@ DoNothing:
         Dim xSorted As Boolean = False
         For xI1 = 1 To UBound(Notes)
 
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
             ' If starting a new row or same VPosition
             If xI3 = 0 Or vPos = Notes(xI1).VPosition Then
 RestartSorting: xSorted = False
@@ -3045,8 +3051,6 @@ RestartSorting: xSorted = False
     '... 'Me.RedoRemoveNote(K(xI1), True, xUndo, xRedo)
     'AddUndo(xUndo, xBaseRedo.Next)
 
-
-
     Private Sub TBAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim Aboutboxx1 As New AboutBox1()
         'If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath & "\About.png") Then
@@ -3257,6 +3261,7 @@ RestartSorting: xSorted = False
                 .VPosition = Notes(xI1).VPosition
                 .Selected = Notes(xI1).Selected
                 .Hidden = Notes(xI1).Hidden
+                .Ghost = Notes(xI1).Ghost
             End With
 
             If Notes(xI1).Length > 0 Then
@@ -3269,6 +3274,7 @@ RestartSorting: xSorted = False
                     .VPosition = Notes(xI1).VPosition + Notes(xI1).Length
                     .Selected = Notes(xI1).Selected
                     .Hidden = Notes(xI1).Hidden
+                    .Ghost = Notes(xI1).Ghost
                 End With
             End If
         Next
@@ -3502,7 +3508,7 @@ RestartSorting: xSorted = False
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
         For xI1 As Integer = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             Me.RedoLongNoteModify(Notes(xI1), Notes(xI1).VPosition, True, xUndo, xRedo)
             Notes(xI1).LongNote = True
@@ -3520,7 +3526,7 @@ RestartSorting: xSorted = False
 
         If Not NTInput Then
             For xI1 As Integer = 1 To UBound(Notes)
-                If Not Notes(xI1).Selected Then Continue For
+                If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                 Me.RedoLongNoteModify(Notes(xI1), Notes(xI1).VPosition, 0, xUndo, xRedo)
                 Notes(xI1).LongNote = False
@@ -3528,7 +3534,7 @@ RestartSorting: xSorted = False
 
         Else
             For xI1 As Integer = 1 To UBound(Notes)
-                If Not Notes(xI1).Selected Then Continue For
+                If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                 Me.RedoLongNoteModify(Notes(xI1), Notes(xI1).VPosition, 0, xUndo, xRedo)
                 Notes(xI1).Length = 0
@@ -3549,7 +3555,7 @@ RestartSorting: xSorted = False
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
         For xI1 As Integer = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             Me.RedoLongNoteModify(Notes(xI1), Notes(xI1).VPosition, Not Notes(xI1).LongNote, xUndo, xRedo)
             Notes(xI1).LongNote = Not Notes(xI1).LongNote
@@ -3567,7 +3573,7 @@ RestartSorting: xSorted = False
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
         For xI1 As Integer = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             Me.RedoHiddenNoteModify(Notes(xI1), True, True, xUndo, xRedo)
             Notes(xI1).Hidden = True
@@ -3584,7 +3590,7 @@ RestartSorting: xSorted = False
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
         For xI1 As Integer = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             Me.RedoHiddenNoteModify(Notes(xI1), False, True, xUndo, xRedo)
             Notes(xI1).Hidden = False
@@ -3601,7 +3607,7 @@ RestartSorting: xSorted = False
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
         For xI1 As Integer = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             Me.RedoHiddenNoteModify(Notes(xI1), Not Notes(xI1).Hidden, True, xUndo, xRedo)
             Notes(xI1).Hidden = Not Notes(xI1).Hidden
@@ -3635,8 +3641,7 @@ RestartSorting: xSorted = False
                 Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
                 For xI1 = 1 To UBound(Notes)
-                    If Not IsColumnNumeric(Notes(xI1).ColumnIndex) Then Continue For
-                    If Not Notes(xI1).Selected Then Continue For
+                    If Not IsColumnNumeric(Notes(xI1).ColumnIndex) Or Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                     Me.RedoRelabelNote(Notes(xI1), xD1, xUndo, xRedo)
                     Notes(xI1).Value = xD1
@@ -3665,8 +3670,7 @@ RestartSorting: xSorted = False
             Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
             For xI1 = 1 To UBound(Notes)
-                If IsColumnNumeric(Notes(xI1).ColumnIndex) Then Continue For
-                If Not Notes(xI1).Selected Then Continue For
+                If IsColumnNumeric(Notes(xI1).ColumnIndex) Or Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                 Me.RedoRelabelNote(Notes(xI1), xVal, xUndo, xRedo)
                 Notes(xI1).Value = xVal
@@ -3899,7 +3903,7 @@ Jump2:
         'Main process
         Dim xI1 As Integer = 1
         Do While xI1 <= UBound(Notes)
-            If ((xbSel And Notes(xI1).Selected) Or (xbUnsel And Not Notes(xI1).Selected)) AndAlso
+            If (Not Notes(xI1).Ghost) AndAlso ((xbSel And Notes(xI1).Selected) Or (xbUnsel And Not Notes(xI1).Selected)) AndAlso
                         fdrCheck(Notes(xI1)) AndAlso nEnabled(Notes(xI1).ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote)) And fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden) Then
                 RedoRemoveNote(Notes(xI1), xUndo, xRedo)
                 RemoveNote(xI1, False)
@@ -3945,7 +3949,7 @@ Jump2:
 
         'Main process
         For xI1 As Integer = 1 To UBound(Notes)
-            If ((xbSel And Notes(xI1).Selected) Or (xbUnsel And Not Notes(xI1).Selected)) AndAlso
+            If (Not Notes(xI1).Ghost) AndAlso ((xbSel And Notes(xI1).Selected) Or (xbUnsel And Not Notes(xI1).Selected)) AndAlso
                     fdrCheck(Notes(xI1)) AndAlso nEnabled(Notes(xI1).ColumnIndex) And Not IsColumnNumeric(Notes(xI1).ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote)) And fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden) Then
                 'xUndo &= sCmdKC(K(xI1).ColumnIndex, K(xI1).VPosition, xxLbl, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, 0, 0, K(xI1).Value, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, True) & vbCrLf
                 'xRedo &= sCmdKC(K(xI1).ColumnIndex, K(xI1).VPosition, K(xI1).Value, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, 0, 0, xxLbl, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, True) & vbCrLf
@@ -3986,7 +3990,7 @@ Jump2:
 
         'Main process
         For xI1 As Integer = 1 To UBound(Notes)
-            If ((xbSel And Notes(xI1).Selected) Or (xbUnsel And Not Notes(xI1).Selected)) AndAlso
+            If (Not Notes(xI1).Ghost) AndAlso ((xbSel And Notes(xI1).Selected) Or (xbUnsel And Not Notes(xI1).Selected)) AndAlso
                     fdrCheck(Notes(xI1)) AndAlso nEnabled(Notes(xI1).ColumnIndex) And IsColumnNumeric(Notes(xI1).ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote)) And fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden) Then
                 'xUndo &= sCmdKC(K(xI1).ColumnIndex, K(xI1).VPosition, xReplaceVal, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, 0, 0, K(xI1).Value, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, True) & vbCrLf
                 'xRedo &= sCmdKC(K(xI1).ColumnIndex, K(xI1).VPosition, K(xI1).Value, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, 0, 0, xReplaceVal, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, True) & vbCrLf
@@ -5029,45 +5033,104 @@ case2:              Dim xI0 As Integer
         Return items
     End Function
 
-    Private Sub Expand_Load(sender As Object, e As EventArgs) Handles ECSelectSection.Click
-        ReDim RandomFile(2)
+    Private Sub Expand_Load(sender As Object, e As EventArgs) Handles BExpansion.Click
+        ReDim ExpansionSplit(2)
         Dim xDOp As New OpExpand()
-        Dim ReadText As String = Nothing
-        RandomFile(1) = "-"
+        ExpansionSplit(1) = "-"
         Try
             xDOp.ShowDialog(Me)
         Catch
             Exit Sub
         End Try
+    End Sub
 
-        If RandomFile(1) = "-" Then Exit Sub
-        Dim RandomFilePath = ExcludeFileName(FileName) & "\" & RandomFileName
+    Public Sub Expand_DisplayGhostNotes(Optional xGhostMode As Integer = 0)
+        Select Case GhostMode
+            Case 0
+                GhostMode = xGhostMode
+            Case 1
+                GhostMode = 0
+            Case 2
+                Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.GhostNotesShowMain, MsgBoxStyle.YesNo)
+                If xResult = MsgBoxResult.No Then Exit Sub
+                If xResult = MsgBoxResult.Yes Then SaveBMS()
+                SwapGhostNotes()
+                GhostMode = 0
+        End Select
+        OpenBMS(ExpansionSplit(1), True)
+    End Sub
+
+    Public Sub Expand_ModifyNotes()
+        Select Case GhostMode
+            Case 2
+                SwapGhostNotes()
+        End Select
+        RemoveGhostNotes()
+        GhostMode = 2
+        OpenBMS(ExpansionSplit(1), True)
+        SwapGhostNotes()
+    End Sub
+
+    Public Sub Expand_ModifySection()
+        RemoveGhostNotes()
+        GhostMode = 0
+        Dim ReadText As String = Nothing
+        Dim RandomTempFilePath = ExcludeFileName(FileName) & "\" & RandomTempFileName
         ' Picks another random filename because the programme somehow generated the same exact RandomFileName as a previous instance. 1 in 2-billion chance btw
-        Do Until Not My.Computer.FileSystem.FileExists(RandomFilePath)
-            RandomFileName = "___TempRandom" & GenerateRandomString(6, False) & ".bmsc"
-            RandomFilePath = ExcludeFileName(FileName) & "\" & RandomFileName
+        Do Until Not My.Computer.FileSystem.FileExists(RandomTempFilePath)
+            RandomTempFileName = "___TempRandom" & GenerateRandomString(6, False) & ".bmsc"
+            RandomTempFilePath = ExcludeFileName(FileName) & "\" & RandomTempFileName
         Loop
-        RandomFile(1) = GenerateHeaderMeta() & GenerateHeaderIndexedData() & RandomFile(1)
+        ExpansionSplit(1) = GenerateHeaderMeta() & GenerateHeaderIndexedData() & ExpansionSplit(1)
         ' Dim xStrHeader As String = GenerateHeaderMeta()
         ' xStrHeader &= GenerateHeaderIndexedData()
-        My.Computer.FileSystem.WriteAllText(RandomFilePath, RandomFile(1), False, TextEncoding)
-        System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath & "\" & My.Application.Info.ProductName & ".exe", RandomFilePath)
+        My.Computer.FileSystem.WriteAllText(RandomTempFilePath, ExpansionSplit(1), False, TextEncoding)
+        System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath & "\" & My.Application.Info.ProductName & ".exe", RandomTempFilePath)
         Do Until False
             Threading.Thread.Sleep(3000)
-            ReadText = My.Computer.FileSystem.ReadAllText(RandomFilePath, TextEncoding)
+            ReadText = My.Computer.FileSystem.ReadAllText(RandomTempFilePath, TextEncoding)
             If ReadText.EndsWith("*---------------------- RANDOM DATA FIELD") Then
                 Exit Do
             End If
         Loop
 
-        RandomFile(1) = ""
+        ExpansionSplit(1) = ""
+        TExpansion.Text = ""
+        Dim xStrCompare() As String = Split(Replace(Replace(Replace(SaveBMS(), vbLf, vbCr), vbCr & vbCr, vbCr), vbCr, vbCrLf), vbCrLf,, CompareMethod.Text)
         For Each xStrLine In Split(ReadText, vbCrLf)
-            If xStrLine <> "" AndAlso xStrLine <> "*---------------------- RANDOM DATA FIELD" Then
-                RandomFile(1) &= xStrLine & vbCrLf
+            If (Not xStrCompare.Contains(xStrLine) AndAlso xStrLine <> "*---------------------- RANDOM DATA FIELD") Or
+                        SWIC(xStrLine, "#RANDOM") Or SWIC(xStrLine, "#IF") Or SWIC(xStrLine, "#ENDIF") Then
+                ExpansionSplit(1) &= xStrLine & vbCrLf
             End If
         Next
-        TExpansion.Text = Join(RandomFile, vbCrLf)
-        AddTempFileList(RandomFilePath)
+        TExpansion.Text = Join(ExpansionSplit, vbCrLf)
+        AddTempFileList(RandomTempFilePath)
+    End Sub
+
+    Public Sub Expand_RemoveGhostNotes()
+        Select Case GhostMode
+            Case 2
+                SwapGhostNotes()
+        End Select
+        RemoveGhostNotes()
+        GhostMode = 0
+    End Sub
+
+    Public Sub RemoveGhostNotes()
+        Dim xI1 As Integer = 1
+        Do While xI1 <= UBound(Notes)
+            If Notes(xI1).Ghost Then
+                RemoveNote(xI1)
+            Else
+                xI1 += 1
+            End If
+        Loop
+    End Sub
+
+    Public Sub SwapGhostNotes()
+        For xI1 = 1 To UBound(Notes)
+            Notes(xI1).Ghost = Not Notes(xI1).Ghost
+        Next
     End Sub
 
     Public Function GenerateRandomString(ByRef len As Integer, ByRef upper As Boolean) As String
@@ -5081,4 +5144,17 @@ case2:              Dim xI0 As Integer
         Return IIf(upper, final.ToUpper(), final)
     End Function
 
+    Private Sub TExpansion_Click(sender As Object, e As EventArgs) Handles TExpansion.Click
+        Select Case GhostMode
+            Case 1
+                Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.GhostNotesModifyExpansion1, MsgBoxStyle.YesNo)
+                If xResult = MsgBoxResult.No Then Exit Sub
+                GhostMode = 0
+            Case 2
+                Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.GhostNotesModifyExpansion2, MsgBoxStyle.YesNo)
+                If xResult = MsgBoxResult.No Then Exit Sub
+                SaveBMS()
+                Expand_RemoveGhostNotes()
+        End Select
+    End Sub
 End Class

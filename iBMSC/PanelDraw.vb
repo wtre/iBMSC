@@ -554,6 +554,7 @@ Partial Public Class MainWindow
         If Not nEnabled(sNote.ColumnIndex) Then Exit Sub
         Dim xAlpha As Single = 1.0F
         If sNote.Hidden Then xAlpha = vo.kOpacity
+        If sNote.Ghost Then xAlpha *= 0.1
 
         Dim xLabel As String = C10to36(sNote.Value \ 10000)
         If ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then
@@ -681,6 +682,7 @@ Partial Public Class MainWindow
         If Not nEnabled(sNote.ColumnIndex) Then Exit Sub
         Dim xAlpha As Single = 1.0F
         If sNote.Hidden Then xAlpha = vo.kOpacity
+        If sNote.Ghost Then xAlpha *= 0.1
 
         Dim xLabel As String = C10to36(sNote.Value \ 10000)
         If ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then xLabel = Path.GetFileNameWithoutExtension(hWAV(C36to10(xLabel)))

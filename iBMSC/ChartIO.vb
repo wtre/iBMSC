@@ -1,7 +1,8 @@
-﻿Imports iBMSC.Editor
+﻿Imports System.Linq
+Imports iBMSC.Editor
 
 Partial Public Class MainWindow
-    Private Sub OpenBMS(ByVal xStrAll As String)
+    Private Sub OpenBMS(ByVal xStrAll As String, Optional xGhost As Boolean = False)
         KMouseOver = -1
 
         'Line feed validation: will remove some empty lines
@@ -12,6 +13,10 @@ Partial Public Class MainWindow
         Dim xI1 As Integer
         Dim sLine As String
         Dim xExpansion As String = ""
+
+        ' Assume ghost note strings contain only notes in the section. Expansion field to be saved separately
+        If xGhost Then GoTo GhostJump1
+
         ReDim Notes(0)
         ReDim mColumn(999)
         ReDim hWAV(1295)
@@ -38,16 +43,15 @@ Partial Public Class MainWindow
         'switch, setSwitch      +1
         'case, skip, def        0
         'endSw                  -1
-
         'P: I'm gonna do what's called a pro gamer move
-
+GhostJump1:
         Dim xStack As Integer = 0
         Dim nLine As Integer = -1
 
         For Each sLine In xStrLine
             Dim sLineTrim As String = sLine.Trim
             If xStack > 0 Then GoTo Expansion
-
+            If xGhost Then GoTo GhostJump2
 
             If sLineTrim.StartsWith("#") And Mid(sLineTrim, 5, 3) = "02:" Then
                 Dim xIndex As Integer = Val(Mid(sLineTrim, 2, 3))
@@ -162,14 +166,15 @@ Partial Public Class MainWindow
                 CHLnObj.SelectedIndex = xValue
                 GoTo AddToxStrLine2
 
-                'TODO: LNOBJ value validation
+            End If
+            'TODO: LNOBJ value validation
 
-                'ElseIf SWIC(sLineTrim,"#LNTYPE") Then
-                '    CAdLNTYPE.Checked = True
-                '    If Mid(sLineTrim, 9) = "" Or Mid(sLineTrim, 9) = "1" Or Mid(sLineTrim, 9) = "01" Then CAdLNTYPEb.Text = "1"
-                '    CAdLNTYPEb.Text = Mid(sLineTrim, 9)
-
-            ElseIf sLineTrim.StartsWith("#") And Mid(sLineTrim, 7, 1) = ":" Then   'If the line contains Ks
+            'ElseIf SWIC(sLineTrim,"#LNTYPE") Then
+            '    CAdLNTYPE.Checked = True
+            '    If Mid(sLineTrim, 9) = "" Or Mid(sLineTrim, 9) = "1" Or Mid(sLineTrim, 9) = "01" Then CAdLNTYPEb.Text = "1"
+            '    CAdLNTYPEb.Text = Mid(sLineTrim, 9)
+GhostJump2:
+            If sLineTrim.StartsWith("#") And Mid(sLineTrim, 7, 1) = ":" Then   'If the line contains Ks
                 Dim xIdentifier As String = Mid(sLineTrim, 5, 2)
                 If BMSChannelToColumn(xIdentifier) = 0 Then GoTo AddExpansion
 
@@ -190,7 +195,6 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
 
             End If
         Next
-
         UpdateMeasureBottom()
 
         ReDim Preserve xStrLine2(nLine)
@@ -222,6 +226,7 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
                     .Selected = False
                     .VPosition = MeasureBottom(xMeasure) + MeasureLength(xMeasure) * (xI1 / 2 - 4) / ((Len(sLineTrim) - 7) / 2)
                     .Value = C36to10(Mid(sLineTrim, xI1, 2)) * 10000
+                    .Ghost = xGhost
 
                     If Channel = "03" Then .Value = Convert.ToInt32(Mid(sLineTrim, xI1, 2), 16) * 10000
                     If Channel = "08" Then .Value = hBPM(C36to10(Mid(sLineTrim, xI1, 2)))
@@ -234,6 +239,8 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
 
         If NTInput Then ConvertBMSE2NT()
 
+        If xGhost Then GoTo GhostJump3
+
         LWAV.Visible = False
         LWAV.Items.Clear()
         For xI1 = 1 To 1295
@@ -243,7 +250,7 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
         LWAV.Visible = True
 
         TExpansion.Text = xExpansion
-
+GhostJump3:
         SortByVPositionQuick(0, UBound(Notes))
         UpdatePairing()
         CalculateTotalPlayableNotes()
@@ -291,9 +298,13 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
             ConvertNT2BMSE()
         End If
 
-        Dim tempNote As Note     'Temp K
+        Dim tempNote As Note                    'Temp K
+        Dim xprevNotes(-1) As Note              'Notes too close to the next measure
 
-        Dim xprevNotes(-1) As Note  'Notes too close to the next measure
+        If GhostMode = 2 Then SwapGhostNotes() ' Revert main notes back to non-ghost notes
+        'Remove ghost notes from being saved
+        Dim NotesAll() As Note = Notes.Clone   'All notes including ghosts.
+        RemoveGhostNotes() ' Remove Ghost Notes from Notes()
 
         For MeasureIndex = 0 To MeasureAtDisplacement(GreatestVPosition) + 1  'For xI1 in each measure
             xStrMeasure(MeasureIndex) = vbCrLf
@@ -352,6 +363,33 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
                                          Strings.Messages.SavedFileWillContainErrors, MsgBoxStyle.Exclamation)
 
         ' Add expansion text
+        Select Case GhostMode
+            Case 0
+                ' Do nothing
+            Case 1, 2
+                ' Generate String array for duplicate comparison
+                Dim GhostModeTemp As Integer = GhostMode
+                GhostMode = 0
+                TExpansion.Text = ""
+                Dim xStrCompare() As String = Split(Replace(Replace(Replace(SaveBMS(), vbLf, vbCr), vbCr & vbCr, vbCr), vbCr, vbCrLf), vbCrLf,, CompareMethod.Text)
+                GhostMode = GhostModeTemp
+
+                ' Save ghost notes
+                Notes = NotesAll.Clone
+                SwapGhostNotes()
+                RemoveGhostNotes() ' Remove Ghost Notes from Notes()
+                TExpansion.Text = ExtractExpansion(ExpansionSplit(1))
+                Dim xStrExpNotes As String = SaveRandomBMS()
+                ExpansionSplit(1) = ""
+
+                For Each xStrLine In Split(xStrExpNotes, vbCrLf)
+                    If (Not xStrCompare.Contains(xStrLine) AndAlso xStrLine <> "*---------------------- RANDOM DATA FIELD") Or
+                                SWIC(xStrLine, "#RANDOM") Or SWIC(xStrLine, "#IF") Or SWIC(xStrLine, "#ENDIF") Then
+                        ExpansionSplit(1) &= xStrLine & vbCrLf
+                    End If
+                Next
+                TExpansion.Text = Join(ExpansionSplit, vbCrLf)
+        End Select
         Dim xStrExp As String = vbCrLf & "*---------------------- EXPANSION FIELD" & vbCrLf & TExpansion.Text & vbCrLf & vbCrLf
         If TExpansion.Text = "" Then xStrExp = ""
 
@@ -366,6 +404,17 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
         ' Generate headers now, since we have the unique BPM/STOP/etc declarations.
         Dim xStrHeader As String = GenerateHeaderMeta()
         xStrHeader &= GenerateHeaderIndexedData()
+
+        ' Return ghost notes back to Notes
+        Notes = NotesAll.Clone
+        Select Case GhostMode
+            Case 0
+
+            Case 1
+
+            Case 2
+                SwapGhostNotes()
+        End Select
 
         Dim xStrAll As String = xStrHeader & vbCrLf & xStrExp & vbCrLf & xStrMain
         Return xStrAll
@@ -469,6 +518,35 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
         Return xStrAll
     End Function
 
+    Private Function ExtractExpansion(ByVal xString As String) As String
+        xString = Replace(Replace(Replace(xString, vbLf, vbCr), vbCr & vbCr, vbCr), vbCr, vbCrLf)
+        Dim xStrLine() As String = Split(xString, vbCrLf, , CompareMethod.Text)
+        Dim xExpansion As String = ""
+        Dim sLine As String
+        Dim xStack As Integer = 0
+        For Each sLine In xStrLine
+            Dim sLineTrim As String = sLine.Trim
+            If xStack > 0 Then
+                GoTo ExtractExpansion
+            ElseIf sLineTrim.StartsWith("#") And Mid(sLineTrim, 7, 1) = ":" Then   'If the line contains Ks
+                Dim xIdentifier As String = Mid(sLineTrim, 5, 2)
+                If BMSChannelToColumn(xIdentifier) = 0 Then GoTo ExtractAddExpansion
+            Else
+ExtractExpansion: If SWIC(sLineTrim, "#IF") Or SWIC(sLineTrim, "#SWITCH") Or SWIC(sLineTrim, "#SETSWITCH") Then
+                    xStack += 1 : GoTo ExtractAddExpansion
+                ElseIf SWIC(sLineTrim, "#ENDIF") Or SWIC(sLineTrim, "#ENDSW") Then
+                    xStack -= 1 : GoTo ExtractAddExpansion
+
+                ElseIf sLineTrim.StartsWith("#") Then
+ExtractAddExpansion: xExpansion &= sLine & vbCrLf
+
+                End If
+            End If
+        Next
+
+        Return xExpansion
+    End Function
+
     Private Function GenerateHeaderMeta() As String
         Dim xStrHeader As String = vbCrLf & "*---------------------- HEADER FIELD" & vbCrLf & vbCrLf
         xStrHeader &= "#PLAYER " & (CHPlayer.SelectedIndex + 1) & vbCrLf
@@ -541,7 +619,7 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
             End If
         Next
 
-        If UpperLimit < LowerLimit Then UpperLimit = NoteCount + 1
+        If UpperLimit <LowerLimit Then UpperLimit= NoteCount + 1
     End Sub
 
     Private Function GenerateKeyTracks(MeasureIndex As Integer, ByRef hasOverlapping As Boolean, NotesInMeasure() As Note, ByRef xprevNotes() As Note) As String

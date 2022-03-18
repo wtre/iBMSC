@@ -39,7 +39,7 @@ Partial Public Class MainWindow
                 'xRedo = sCmdKMs(0, xVPosition - muVPosition, True)
                 Dim xVPos As Double
                 For xI1 = 1 To UBound(Notes)
-                    If Not Notes(xI1).Selected Then Continue For
+                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                     xVPos = Notes(xI1).VPosition + xVPosition - muVPosition
                     Me.RedoMoveNote(Notes(xI1), Notes(xI1).ColumnIndex, xVPos, xUndo, xRedo)
@@ -72,7 +72,7 @@ Partial Public Class MainWindow
                 'xRedo = sCmdKMs(0, xVPosition - mVPosition, True)
                 Dim xVPos As Double
                 For xI1 = 1 To UBound(Notes)
-                    If Not Notes(xI1).Selected Then Continue For
+                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                     xVPos = Notes(xI1).VPosition + xVPosition - mVPosition
                     Me.RedoMoveNote(Notes(xI1), Notes(xI1).ColumnIndex, xVPos, xUndo, xRedo)
@@ -102,7 +102,7 @@ Partial Public Class MainWindow
                 'xRedo = sCmdKMs(-1 - mLeft, 0, True)
                 Dim xCol As Integer
                 For xI1 = 1 To UBound(Notes)
-                    If Not Notes(xI1).Selected Then Continue For
+                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                     xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) - 1 - mLeft)
                     Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
@@ -119,7 +119,7 @@ Partial Public Class MainWindow
                 'xRedo = sCmdKMs(1, 0, True)
                 Dim xCol As Integer
                 For xI1 = 1 To UBound(Notes)
-                    If Not Notes(xI1).Selected Then Continue For
+                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                     xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) + 1)
                     Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
@@ -371,7 +371,7 @@ Partial Public Class MainWindow
         Dim bMoveAndDeselectFirstNote = My.Computer.Keyboard.ShiftKeyDown
 
         For xI2 As Integer = 1 To UBound(Notes)
-            If Not Notes(xI2).Selected Then Continue For
+            If Not Notes(xI2).Selected Or Notes(xI2).Ghost Then Continue For
 
             RedoMoveNote(Notes(xI2), xTargetColumn, Notes(xI2).VPosition, xUndo, xRedo)
             Notes(xI2).ColumnIndex = xTargetColumn
@@ -867,6 +867,11 @@ Partial Public Class MainWindow
         Dim Note As Note = Notes(NoteIndex)
         Dim NoteColumn As Integer = Note.ColumnIndex
 
+        ' Switch ghost mode if ghost mode = 1 or 2 and double clicked on ghost note
+        If GhostMode = 1 AndAlso Note.Ghost Then SwapGhostNotes() : GhostMode = 2 : Exit Sub
+        If GhostMode = 2 AndAlso Note.Ghost Then SwapGhostNotes() : GhostMode = 1 : Exit Sub
+        If Note.Ghost Then MsgBox("To modify ghost notes, please select only one section from the expansion code.") : Exit Sub
+
         If IsColumnNumeric(NoteColumn) Then
             'BPM/Stop prompt
             Dim xMessage As String = Strings.Messages.PromptEnterNumeric
@@ -1046,6 +1051,7 @@ Partial Public Class MainWindow
                         UpdateSelectionBox(xHS, xVS, xHeight)
 
                         'ElseIf Not KMouseDown = -1 Then
+                        ' Click and drag notes
                     ElseIf SelectedNotes.Length <> 0 Then
                         UpdateSelectedNotes(xHeight, xVS, xHS, e)
 
@@ -1271,7 +1277,7 @@ Partial Public Class MainWindow
         Dim minLength As Double = 0
         Dim maxHeight As Double = 191999
         For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
             If Notes(xI1).Length + dVPosition < minLength Then minLength = Notes(xI1).Length + dVPosition
             If Notes(xI1).Length + Notes(xI1).VPosition + dVPosition > maxHeight Then maxHeight = Notes(xI1).Length + Notes(xI1).VPosition + dVPosition
         Next
@@ -1285,7 +1291,7 @@ Partial Public Class MainWindow
         'start moving
         Dim xLen As Double
         For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             xLen = Notes(xI1).Length + dVPosition - minLength - maxHeight
             RedoLongNoteModify(SelectedNotes(Notes(xI1).TempIndex), Notes(xI1).VPosition, xLen, xUndo, xRedo)
@@ -1323,7 +1329,7 @@ Partial Public Class MainWindow
         Dim xVPos As Double
         Dim xLen As Double
         For xI1 = 0 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             xVPos = Notes(xI1).VPosition + dVPosition + minLength - minVPosition
             xLen = Notes(xI1).Length - dVPosition - minLength + minVPosition
@@ -1360,7 +1366,7 @@ Partial Public Class MainWindow
         Dim mVPosition As Double = 0
         Dim muVPosition As Double = 191999
         For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             If ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) + colChange < dstColumn Then _
                 dstColumn = ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) + colChange
@@ -1464,6 +1470,7 @@ Partial Public Class MainWindow
     End Sub
 
     Private Sub OnSelectModeMoveNotes(e As MouseEventArgs, xHS As Long, xITemp As Integer)
+        If Notes(xITemp).Ghost Then Exit Sub
         Dim mouseVPosition = GetMouseVPosition(gSnap)
         If DisableVerticalMove Then mouseVPosition = SelectedNotes(0).VPosition
         Dim dVPosition = mouseVPosition - Notes(xITemp).VPosition  'delta VPosition
@@ -1508,7 +1515,7 @@ Partial Public Class MainWindow
 
         'start moving
         For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
             xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) + dColumn - mLeft)
             xVPos = Notes(xI1).VPosition + dVPosition - mVPosition - muVPosition

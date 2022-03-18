@@ -232,7 +232,7 @@ Partial Class MainWindow
         Me.POptions = New System.Windows.Forms.Panel()
         Me.POExpansion = New System.Windows.Forms.Panel()
         Me.POExpansionInner = New System.Windows.Forms.Panel()
-        Me.ECSelectSection = New System.Windows.Forms.Button()
+        Me.BExpansion = New System.Windows.Forms.Button()
         Me.TExpansion = New System.Windows.Forms.TextBox()
         Me.POExpansionResizer = New System.Windows.Forms.Button()
         Me.POExpansionSwitch = New System.Windows.Forms.CheckBox()
@@ -1281,7 +1281,7 @@ Partial Class MainWindow
         Me.TBMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBNew, Me.TBOpen, Me.TBSave, Me.ToolStripSeparator1, Me.TBCut, Me.TBCopy, Me.TBPaste, Me.TBFind, Me.ToolStripSeparator24, Me.TBStatistics, Me.POConvert, Me.TBMyO2, Me.ToolStripSeparator4, Me.TBErrorCheck, Me.TBPreviewOnClick, Me.TBShowFileName, Me.ToolStripSeparator8, Me.TBNTInput, Me.TBWavIncrease, Me.ToolStripSeparator2, Me.TBUndo, Me.TBRedo, Me.ToolStripSeparator5, Me.TBTimeSelect, Me.TBSelect, Me.TBWrite, Me.ToolStripSeparator3, Me.TBPlayB, Me.TBPlay, Me.TBStop, Me.TBPOptions, Me.ToolStripSeparator7, Me.TBVOptions, Me.TBGOptions, Me.TBLanguage, Me.TBTheme, Me.POBStorm, Me.TBTotalValue})
         Me.TBMain.Location = New System.Drawing.Point(3, 23)
         Me.TBMain.Name = "TBMain"
-        Me.TBMain.Size = New System.Drawing.Size(818, 25)
+        Me.TBMain.Size = New System.Drawing.Size(764, 25)
         Me.TBMain.TabIndex = 64
         Me.TBMain.Text = "Main Toolbar"
         '
@@ -2271,7 +2271,7 @@ Partial Class MainWindow
         '
         'POExpansionInner
         '
-        Me.POExpansionInner.Controls.Add(Me.ECSelectSection)
+        Me.POExpansionInner.Controls.Add(Me.BExpansion)
         Me.POExpansionInner.Controls.Add(Me.TExpansion)
         Me.POExpansionInner.Controls.Add(Me.POExpansionResizer)
         Me.POExpansionInner.Dock = System.Windows.Forms.DockStyle.Top
@@ -2282,27 +2282,27 @@ Partial Class MainWindow
         Me.POExpansionInner.TabIndex = 7
         Me.POExpansionInner.Visible = False
         '
-        'ECSelectSection
+        'BExpansion
         '
-        Me.ECSelectSection.Anchor = System.Windows.Forms.AnchorStyles.Bottom
-        Me.ECSelectSection.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.ECSelectSection.Location = New System.Drawing.Point(0, 250)
-        Me.ECSelectSection.Name = "ECSelectSection"
-        Me.ECSelectSection.Size = New System.Drawing.Size(183, 20)
-        Me.ECSelectSection.TabIndex = 1003
-        Me.ECSelectSection.Text = "Select Section"
-        Me.ECSelectSection.UseVisualStyleBackColor = True
+        Me.BExpansion.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.BExpansion.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.BExpansion.Location = New System.Drawing.Point(0, 250)
+        Me.BExpansion.Name = "BExpansion"
+        Me.BExpansion.Size = New System.Drawing.Size(183, 20)
+        Me.BExpansion.TabIndex = 1003
+        Me.BExpansion.Text = "Select Section"
+        Me.BExpansion.UseVisualStyleBackColor = True
         '
         'TExpansion
         '
         Me.TExpansion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TExpansion.Dock = System.Windows.Forms.DockStyle.Top
+        Me.TExpansion.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TExpansion.HideSelection = False
         Me.TExpansion.Location = New System.Drawing.Point(0, 0)
         Me.TExpansion.Multiline = True
         Me.TExpansion.Name = "TExpansion"
         Me.TExpansion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TExpansion.Size = New System.Drawing.Size(183, 245)
+        Me.TExpansion.Size = New System.Drawing.Size(183, 270)
         Me.TExpansion.TabIndex = 1002
         Me.TExpansion.WordWrap = False
         '
@@ -4553,7 +4553,6 @@ Partial Class MainWindow
     Friend WithEvents THBanner As TextBox
     Friend WithEvents THStageFile As TextBox
     Friend WithEvents THSubTitle As TextBox
-    Friend WithEvents THSubArtist As TextBox
     Friend WithEvents POHeaderExpander As CheckBox
     Friend WithEvents POHeaderPart1 As TableLayoutPanel
     Friend WithEvents Label3 As Label
@@ -4572,6 +4571,7 @@ Partial Class MainWindow
     Friend WithEvents Label6 As Label
     Friend WithEvents POHeaderSwitch As CheckBox
     Friend WithEvents POptionsScroll As Panel
-    Friend WithEvents ECSelectSection As Button
+    Friend WithEvents BExpansion As Button
     Friend WithEvents TBTotalValue As ToolStripLabel
+    Friend WithEvents THSubArtist As TextBox
 End Class
