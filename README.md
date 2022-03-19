@@ -15,7 +15,7 @@ Listed in the order added.
 * Prevented notes in Expansion Code from being loaded.
 
 ## Functionalities
-* Added Random and S-Random. For S-random, note overlapping can occur.
+* Added Random and S-Random.
 * Added a display for recommended #TOTAL.
 * The application now saves the option "Disable Vertical Moves".
 * Changed the temporary bms file extension from .bms to .bmsc.
@@ -38,7 +38,7 @@ Listed in the order added.
 * Added shortcuts for toggling lanes.
   * Alt+B - BPM lane
   * Alt+S - Stop lane
-  * Alt+C - Scroll lane
+  * Alt+R - Scroll lane
   * Alt+G - BGA/Layer/Poor
 * Added shortcuts for the panel splitter (Alt+Left and Alt+Right).
 * Added Options shortcut
