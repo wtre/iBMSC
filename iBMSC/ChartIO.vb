@@ -277,7 +277,7 @@ GhostJump3:
         Return str.StartsWith(strHash, StringComparison.CurrentCultureIgnoreCase)
     End Function
 
-    Private Function SaveBMS() As String
+    Private Function SaveBMS(Optional xRandom As Boolean = False) As String
         CalculateGreatestVPosition()
         SortByVPositionInsertion()
         UpdatePairing()
@@ -362,34 +362,36 @@ GhostJump3:
                                            Strings.Messages.SCROLLOverflowError & UBound(hBMSCROLL) & " > " & 1295 & vbCrLf &
                                          Strings.Messages.SavedFileWillContainErrors, MsgBoxStyle.Exclamation)
 
+        ' If xRandom then return bms style random data field, combining expansion text and main data field.
+        If xRandom Then
+            Return TExpansion.Text & vbCrLf & Join(xStrMeasure, "") & vbCrLf & "*---------------------- RANDOM DATA FIELD"
+        End If
+
         ' Add expansion text
-        Select Case GhostMode
-            Case 0
-                ' Do nothing
-            Case 1, 2
-                ' Generate String array for duplicate comparison
-                Dim GhostModeTemp As Integer = GhostMode
-                GhostMode = 0
-                TExpansion.Text = ""
-                Dim xStrCompare() As String = Split(Replace(Replace(Replace(SaveBMS(), vbLf, vbCr), vbCr & vbCr, vbCr), vbCr, vbCrLf), vbCrLf,, CompareMethod.Text)
-                GhostMode = GhostModeTemp
+        If GhostMode <> 0 Then
+            ' Generate String array for duplicate comparison
+            Dim GhostModeTemp As Integer = GhostMode
+            GhostMode = 0
+            TExpansion.Text = ""
+            Dim xStrCompare() As String = Split(Replace(Replace(Replace(SaveBMS(), vbLf, vbCr), vbCr & vbCr, vbCr), vbCr, vbCrLf), vbCrLf,, CompareMethod.Text)
 
-                ' Save ghost notes
-                Notes = NotesAll.Clone
-                SwapGhostNotes()
-                RemoveGhostNotes() ' Remove Ghost Notes from Notes()
-                TExpansion.Text = ExtractExpansion(ExpansionSplit(1))
-                Dim xStrExpNotes As String = SaveRandomBMS()
-                ExpansionSplit(1) = ""
+            ' Save ghost notes
+            Notes = NotesAll.Clone
+            SwapGhostNotes()
+            RemoveGhostNotes() ' Remove Ghost Notes from Notes()
+            TExpansion.Text = ExtractExpansion(ExpansionSplit(1))
+            Dim xStrExpNotes As String = SaveBMS(True)
+            GhostMode = GhostModeTemp
 
-                For Each xStrLine In Split(xStrExpNotes, vbCrLf)
-                    If (Not xStrCompare.Contains(xStrLine) AndAlso xStrLine <> "*---------------------- RANDOM DATA FIELD") Or
-                                SWIC(xStrLine, "#RANDOM") Or SWIC(xStrLine, "#IF") Or SWIC(xStrLine, "#ENDIF") Then
-                        ExpansionSplit(1) &= xStrLine & vbCrLf
-                    End If
-                Next
-                TExpansion.Text = Join(ExpansionSplit, vbCrLf)
-        End Select
+            ExpansionSplit(1) = ""
+            For Each xStrLine In Split(xStrExpNotes, vbCrLf)
+                If (Not xStrCompare.Contains(xStrLine) AndAlso xStrLine <> "*---------------------- RANDOM DATA FIELD") Or
+                            SWIC(xStrLine, "#RANDOM") Or SWIC(xStrLine, "#IF") Or SWIC(xStrLine, "#ENDIF") Then
+                    ExpansionSplit(1) &= xStrLine & vbCrLf
+                End If
+            Next
+            TExpansion.Text = Join(ExpansionSplit, vbCrLf)
+        End If
         Dim xStrExp As String = vbCrLf & "*---------------------- EXPANSION FIELD" & vbCrLf & TExpansion.Text & vbCrLf & vbCrLf
         If TExpansion.Text = "" Then xStrExp = ""
 
@@ -401,121 +403,15 @@ GhostJump3:
             NTInput = True
         End If
 
+        ' Return ghost notes back to Notes
+        Notes = NotesAll.Clone
+        If GhostMode = 2 Then SwapGhostNotes()
+
         ' Generate headers now, since we have the unique BPM/STOP/etc declarations.
         Dim xStrHeader As String = GenerateHeaderMeta()
         xStrHeader &= GenerateHeaderIndexedData()
 
-        ' Return ghost notes back to Notes
-        Notes = NotesAll.Clone
-        Select Case GhostMode
-            Case 0
-
-            Case 1
-
-            Case 2
-                SwapGhostNotes()
-        End Select
-
-        Dim xStrAll As String = xStrHeader & vbCrLf & xStrExp & vbCrLf & xStrMain
-        Return xStrAll
-    End Function
-
-    Private Function SaveRandomBMS() As String
-        ' Straight up copied and pasted from SaveBMS. Optimization will be later.
-        CalculateGreatestVPosition()
-        SortByVPositionInsertion()
-        UpdatePairing()
-        Dim MeasureIndex As Integer
-        Dim hasOverlapping As Boolean = False
-        'Dim xStrAll As String = ""   'for all 
-        Dim xStrMeasure(MeasureAtDisplacement(GreatestVPosition) + 1) As String
-
-        ' We regenerate these when traversing the bms event list.
-        ReDim hBPM(0)
-        ReDim hSTOP(0)
-        ReDim hBMSCROLL(0)
-
-        Dim xNTInput As Boolean = NTInput
-        Dim xKBackUp() As Note = Notes
-        If xNTInput Then
-            NTInput = False
-            ConvertNT2BMSE()
-        End If
-
-        Dim tempNote As Note     'Temp K
-
-        Dim xprevNotes(-1) As Note  'Notes too close to the next measure
-
-        For MeasureIndex = 0 To MeasureAtDisplacement(GreatestVPosition) + 1  'For xI1 in each measure
-            xStrMeasure(MeasureIndex) = vbCrLf
-
-            Dim consistentDecimalStr = WriteDecimalWithDot(MeasureLength(MeasureIndex) / 192.0R)
-
-            ' Handle fractional measure
-            If MeasureLength(MeasureIndex) <> 192.0R Then xStrMeasure(MeasureIndex) &= "#" & Add3Zeros(MeasureIndex) & "02:" & consistentDecimalStr & vbCrLf
-
-            ' Get note count in current measure
-            Dim LowerLimit As Integer = Nothing
-            Dim UpperLimit As Integer = Nothing
-            GetMeasureLimits(MeasureIndex, LowerLimit, UpperLimit)
-
-            If UpperLimit - LowerLimit = 0 Then Continue For 'If there is no K in the current measure then end this loop
-
-            ' Get notes from this measure
-            Dim xUPrevText As Integer = UBound(xprevNotes)
-            Dim NotesInMeasure(UpperLimit - LowerLimit + xUPrevText) As Note
-
-            ' Copy notes from previous array
-            For i = 0 To xUPrevText
-                NotesInMeasure(i) = xprevNotes(i)
-            Next
-
-            ' Copy notes in current measure
-            For i = LowerLimit To UpperLimit - 1
-                NotesInMeasure(i - LowerLimit + xprevNotes.Length) = Notes(i)
-            Next
-
-            ' Find greatest column.
-            ' Since background tracks have the highest column values
-            ' this - niB will yield the number of B columns.
-            Dim GreatestColumn = 0
-            For Each tempNote In NotesInMeasure
-                GreatestColumn = Math.Max(tempNote.ColumnIndex, GreatestColumn)
-            Next
-
-            ReDim xprevNotes(-1)
-            xStrMeasure(MeasureIndex) &= GenerateBackgroundTracks(MeasureIndex, hasOverlapping, NotesInMeasure, GreatestColumn, xprevNotes)
-            xStrMeasure(MeasureIndex) &= GenerateKeyTracks(MeasureIndex, hasOverlapping, NotesInMeasure, xprevNotes)
-        Next
-
-        ' Warn about 255 limit if neccesary.
-        If hasOverlapping Then MsgBox(Strings.Messages.SaveWarning & vbCrLf &
-                                                          Strings.Messages.NoteOverlapError & vbCrLf &
-                                                Strings.Messages.SavedFileWillContainErrors, MsgBoxStyle.Exclamation)
-        If UBound(hBPM) > IIf(BPMx1296, 1295, 255) Then MsgBox(Strings.Messages.SaveWarning & vbCrLf &
-                                                          Strings.Messages.BPMOverflowError & UBound(hBPM) & " > " & IIf(BPMx1296, 1295, 255) & vbCrLf &
-                                                Strings.Messages.SavedFileWillContainErrors, MsgBoxStyle.Exclamation)
-        If UBound(hSTOP) > IIf(STOPx1296, 1295, 255) Then MsgBox(Strings.Messages.SaveWarning & vbCrLf &
-                                                           Strings.Messages.STOPOverflowError & UBound(hSTOP) & " > " & IIf(STOPx1296, 1295, 255) & vbCrLf &
-                                                  Strings.Messages.SavedFileWillContainErrors, MsgBoxStyle.Exclamation)
-        If UBound(hBMSCROLL) > 1295 Then MsgBox(Strings.Messages.SaveWarning & vbCrLf &
-                                           Strings.Messages.SCROLLOverflowError & UBound(hBMSCROLL) & " > " & 1295 & vbCrLf &
-                                         Strings.Messages.SavedFileWillContainErrors, MsgBoxStyle.Exclamation)
-
-        ' Add expansion text
-        Dim xStrExp As String = vbCrLf & TExpansion.Text & vbCrLf & vbCrLf
-        If TExpansion.Text = "" Then xStrExp = ""
-
-        ' Output main data field.
-        Dim xStrMain As String = vbCrLf & Join(xStrMeasure, "") & vbCrLf
-
-        If xNTInput Then
-            Notes = xKBackUp
-            NTInput = True
-        End If
-
-        Dim xStrAll As String = xStrExp & vbCrLf & xStrMain & vbCrLf & "*---------------------- RANDOM DATA FIELD"
-        Return xStrAll
+        Return xStrHeader & vbCrLf & xStrExp & vbCrLf & xStrMain
     End Function
 
     Private Function ExtractExpansion(ByVal xString As String) As String

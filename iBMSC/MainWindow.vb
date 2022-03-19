@@ -864,7 +864,7 @@ Public Class MainWindow
         End If
 
         If xRandomFile Then
-            xStrAll = SaveRandomBMS()
+            xStrAll = SaveBMS(True)
             My.Computer.FileSystem.WriteAllText(FileName, xStrAll, False, TextEncoding)
             If BeepWhileSaved Then Beep()
         End If
@@ -3187,10 +3187,24 @@ RestartSorting: xSorted = False
     End Sub
 
     Private Sub THGenre_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _
-    THGenre.TextChanged, THTitle.TextChanged, THArtist.TextChanged, THPlayLevel.TextChanged, CHRank.SelectedIndexChanged, TExpansion.TextChanged,
+    THGenre.TextChanged, THTitle.TextChanged, THArtist.TextChanged, THPlayLevel.TextChanged, CHRank.SelectedIndexChanged,
     THSubTitle.TextChanged, THSubArtist.TextChanged, THStageFile.TextChanged, THBanner.TextChanged, THBackBMP.TextChanged,
     CHDifficulty.SelectedIndexChanged, THExRank.TextChanged, THTotal.TextChanged, THComment.TextChanged
         If IsSaved Then SetIsSaved(False)
+    End Sub
+
+    Private Sub TExpansion_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TExpansion.TextChanged
+        THGenre_TextChanged(sender, e)
+        If GhostExpansionModify Then
+            Select Case GhostMode
+                Case 1
+                    GhostMode = 0
+                Case 2
+                    SwapGhostNotes()
+                    GhostMode = 0
+            End Select
+            GhostExpansionModify = False
+        End If
     End Sub
 
     Private Sub CHLnObj_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CHLnObj.SelectedIndexChanged
@@ -5148,11 +5162,11 @@ case2:              Dim xI0 As Integer
         Select Case GhostMode
             Case 1
                 Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.GhostNotesModifyExpansion1, MsgBoxStyle.YesNo)
-                If xResult = MsgBoxResult.No Then Exit Sub
+                If xResult = MsgBoxResult.No Then GhostExpansionModify = True : Exit Sub
                 GhostMode = 0
             Case 2
                 Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.GhostNotesModifyExpansion2, MsgBoxStyle.YesNo)
-                If xResult = MsgBoxResult.No Then Exit Sub
+                If xResult = MsgBoxResult.No Then GhostExpansionModify = True : Exit Sub
                 SaveBMS()
                 Expand_RemoveGhostNotes()
         End Select
