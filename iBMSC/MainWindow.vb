@@ -89,6 +89,7 @@ Public Class MainWindow
     ' 0 - Default, ghost notes entirely uneditable
     ' 1 - Ghost notes loaded with expectation of editing them
     ' 2 - Ghost notes loaded as main notes and main notes temporarily changed to ghost notes
+    Dim GhostExpansionModify As Boolean = False
     Dim GhostEdit As Boolean = False
 
     'Variables for Drag/Drop
