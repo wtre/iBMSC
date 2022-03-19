@@ -13,19 +13,20 @@ Listed in the order added.
 * Fixed the total note count on the toolbar.
 * Reorganized the sidebar so you can tab between textboxes properly (mostly).
 * Prevented notes in Expansion Code from being loaded.
-## Functionality
+
+## Functionalities
 * Added Random and S-Random. For S-random, note overlapping can occur.
 * Added a display for recommended #TOTAL.
 * The application now saves the option "Disable Vertical Moves".
 * Changed the temporary bms file extension from .bms to .bmsc.
 * Added advanced statistics (Ctrl+Shift+T).
-* Added custom color for a specified range of notes. XML must be typed out manually for now. The added window currently does nothing.
 * Removed restriction for drag and dropping files, as well as opening files. Mainly for opening bms template files, not tested thoroughly.
 * Added note search function (goto measure except it's goto note). One note per VPosition only.
 * Added sort function. Selected notes are sorted based on their VPosition and Value.
 * Added mBMplay as a default player.
 * Added support for #RANDOM. Supports expansion field and main data field only. Not tested thoroughly, nested #RANDOM in "Modify Section" only. Accessible via the "Select Section" button in Expansion Code or via Ctrl+R.
 * Added color overriding options where you can specify a range of notes to appear a specific color, such as red notes for drums and green notes for the piano. Accessible via the Options tab or via Shift+F12.
+
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8.
   * Numpad keys are now assigned to 2P lanes.
@@ -48,3 +49,18 @@ Listed in the order added.
 * Added keyboard shortcuts for previewing and replacing keysounds in the Sounds List (Spacebar to preview, enter to replace).
 * Added "Select Section" (Ctrl+R).
 * Added color overriding options (Shift+F12).
+
+## New dialog/option boxes
+### Advanced Statistics
+* Displays note statistics over individual lanes from A1 to D8.
+* Displays note usages, including #WAV assigned notes with 0 note count and #WAV unassigned notes with non-zero note count.
+
+### Select Expansion Code
+* Display ghost notes: Select an #if section to display its notes in ghost form.
+* Display ghost notes (All): Display all notes in ghost form.
+* Modify notes: Select an #if section and jump straight to modifying them.
+* Modify section: Opens a instance of pBMSC, allowing you to modify the #if section individually.
+* Remove ghost notes: Remove all ghost notes.
+
+### Visual Override Options
+* Creates a list of note ranges with a specified color and replaces specified notes' display color.
