@@ -1337,8 +1337,6 @@ EndSearch:
         Next
     End Sub
 
-
-
     Public Sub ExceptionSave(ByVal Path As String)
         SaveiBMSC(Path)
     End Sub
@@ -2502,7 +2500,7 @@ StartCount:     If Not NTInput Then
 
         ' Modify xniArray based on range
         '  Out of range
-        If xRangeL > niD8 Or xRangeU < niA1 Then GoTo DoNothing
+        If xRangeL > xniArray0(UBound(xniArray0)) Or xRangeU < xniArray0(0) Then GoTo DoNothing
 
         '  Semi-in Range
         '   Cut off left side
@@ -2511,7 +2509,7 @@ StartCount:     If Not NTInput Then
             GoTo MirrorSkip1
         End If
 
-        For xI1 = 0 To xniArray0.Length
+        For xI1 = 0 To UBound(xniArray0)
             If xniArray0(xI1) = xRangeL Then
                 xRangeL = xI1
                 Exit For
@@ -2525,7 +2523,7 @@ MirrorSkip1:
             GoTo MirrorSkip2
         End If
 
-        For xI1 = 0 To xniArray0.Length
+        For xI1 = 0 To UBound(xniArray0)
             If xniArray0(xI1) = xRangeU Then
                 xRangeU = xI1 + 1
                 Exit For
@@ -2632,7 +2630,7 @@ DoNothing:
 
         ' Modify xniArray based on range
         '  Out of range
-        If xRangeL > niD8 Or xRangeU < niA1 Then GoTo DoNothing
+        If xRangeL > xniArray0(UBound(xniArray0)) Or xRangeU < xniArray0(0) Then GoTo DoNothing
 
         '  Semi-in Range
         '   Cut off left side
@@ -2641,7 +2639,7 @@ DoNothing:
             GoTo Skip1
         End If
 
-        For xI1 = 0 To xniArray0.Length
+        For xI1 = 0 To UBound(xniArray0)
             If xniArray0(xI1) = xRangeL Then
                 xRangeL = xI1
                 Exit For
@@ -2655,7 +2653,7 @@ Skip1:
             GoTo Skip2
         End If
 
-        For xI1 = 0 To xniArray0.Length
+        For xI1 = 0 To UBound(xniArray0)
             If xniArray0(xI1) = xRangeU Then
                 xRangeU = xI1 + 1
                 Exit For
@@ -2721,7 +2719,7 @@ DoNothing:
 
         ' Modify xniArray based on range
         '  Out of range
-        If xRangeL > niD8 Or xRangeU < niA1 Then GoTo DoNothing
+        If xRangeL > xniArray0(UBound(xniArray0)) Or xRangeU < xniArray0(0) Then GoTo DoNothing
 
         '  Semi-in Range
         '   Cut off left side
@@ -2730,7 +2728,7 @@ DoNothing:
             GoTo Skip1
         End If
 
-        For xI1 = 0 To xniArray0.Length
+        For xI1 = 0 To UBound(xniArray0)
             If xniArray0(xI1) = xRangeL Then
                 xRangeL = xI1
                 Exit For
@@ -2744,7 +2742,7 @@ Skip1:
             GoTo Skip2
         End If
 
-        For xI1 = 0 To xniArray0.Length
+        For xI1 = 0 To UBound(xniArray0)
             If xniArray0(xI1) = xRangeU Then
                 xRangeU = xI1 + 1
                 Exit For
@@ -2757,34 +2755,31 @@ Skip2:
         For xI1 = 0 To xRangeU - xRangeL - 1
             xniArray1(xI1) = xniArray0(xI1 + xRangeL)
         Next
-
-        Dim xCol As Integer
-        For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
-            xCol = xniArray1(Math.Floor(xniArray1.Length * Rnd()))
-            Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
-            Notes(xI1).ColumnIndex = xCol
-        Next
-
-        ' Check for no clash with other notes. Freezes the application when there are too many notes in one VPosition
-        ' Dim xClash As Boolean
-        ' For xI1 = 1 To UBound(Notes)
-        '     If Not Notes(xI1).Selected Then Continue For
-        '     xClash = True
-        '     xCol = Notes(xI1).ColumnIndex
-        '     Do While xClash = True
-        '         xClash = False
-        '         For xI2 = 1 To UBound(Notes)
-        '             If Notes(xI2).VPosition = Notes(xI1).VPosition AndAlso Notes(xI2).ColumnIndex = xCol Then
-        '                 xClash = True
-        '                 xCol = xniArray1(Int((xniArray1.Length - 1) * Rnd()))
-        '             End If
-        '         Next
-        '     Loop
-        '     If Notes(xI1).ColumnIndex = xCol Then Exit For
-        '     Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
-        '     Notes(xI1).ColumnIndex = xCol
-        ' Next
+        Dim xniArray1R = xniArray1.Clone
+        ' Find array of indexes of selected notes in the same vPosition
+        xI1 = 1
+        Dim xI1Arr(-1) As Integer
+        Dim vPos As Integer
+        ' Find the first index of selected notes
+        Do While xI1 <= UBound(Notes)
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
+            ' Begin building array until vPosition changes
+            vPos = Notes(xI1).VPosition
+            Do While xI1 <= UBound(Notes) AndAlso Notes(xI1).VPosition = vPos
+                If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
+                ReDim Preserve xI1Arr(xI1Arr.Length)
+                xI1Arr(UBound(xI1Arr)) = xI1
+                xI1 += 1
+            Loop
+            Shuffle(xniArray1R)
+            For xI2 = 0 To UBound(xI1Arr)
+                Dim xI2I = xI1Arr(xI2)
+                Me.RedoMoveNote(Notes(xI2I), xniArray1R(xI2), Notes(xI2I).VPosition, xUndo, xRedo)
+                Notes(xI2I).ColumnIndex = xniArray1R(xI2)
+            Next
+            ReDim xI1Arr(-1)
+            xniArray1R = xniArray1.Clone
+        Loop
 
 DoNothing:
 
@@ -5037,14 +5032,15 @@ case2:              Dim xI0 As Integer
         Dim temp As T
         Dim j As Int32
 
-        For i As Int32 = items.Count To 1 Step -1
+        For i = items.Count To 2 Step -1
             ' Pick an item for position i.
             j = Math.Floor(i * Rnd())
             ' Swap 
+            i -= 1
             temp = items(i)
             items(i) = items(j)
             items(j) = temp
-        Next i
+        Next
         Return items
     End Function
 
