@@ -387,7 +387,7 @@ Partial Public Class MainWindow
         Dim pen = IIf(bAdjustLength, vo.kMouseOverE, vo.kMouseOver)
         e1.Graphics.DrawRectangle(pen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1)
 
-        If ModifierMultiselectActive() Then
+        If ModifierMultiselectVisibleActive() Or ModifierMultiselectNoteActive() Then
             For Each note In Notes
                 If IsNoteVisible(note, xTHeight, xVS) AndAlso IsLabelMatch(note, KMouseOver) Then
                     Dim nrect = GetNoteRectangle(note, xTHeight, xHS, xVS)
