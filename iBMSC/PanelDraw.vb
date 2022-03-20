@@ -48,6 +48,8 @@ Partial Public Class MainWindow
 
         'Bg color
         DrawBackgroundColor(e1, xTHeight, xTWidth, xPanelHScroll, xI1)
+        ' Determine current mode: PMS, DP or SP
+        If GetColumn(5).Width = 0 Then gXKeyMode = "PMS" Else If CHPlayer.SelectedIndex <> 0 Then gXKeyMode = "DP" Else gXKeyMode = "SP"
 
         xI1 = DrawPanelLines(e1, xTHeight, xTWidth, xPanelHScroll, xPanelDisplacement, xVSu)
 

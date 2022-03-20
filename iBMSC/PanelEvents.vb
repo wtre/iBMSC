@@ -199,63 +199,34 @@ Partial Public Class MainWindow
                 MoveToBGM(xUndo, xRedo)
 
             ' Ctrl + Keys → 2P lanes
-            Case Keys.Oem8, Keys.D8
-                If My.Computer.Keyboard.CtrlKeyDown Then
-                    MoveToColumn(niD8, xUndo, xRedo)
-                Else
-                    MoveToColumn(niA1, xUndo, xRedo)
-                End If
             Case Keys.Oem1, Keys.D1
-                If My.Computer.Keyboard.CtrlKeyDown Then
-                    MoveToColumn(niD1, xUndo, xRedo)
-                Else
-                    MoveToColumn(niA2, xUndo, xRedo)
-                End If
+                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA1, niA2, niD1, xUndo, xRedo) Else MTCFromMode(niA2, niA2, niA2, xUndo, xRedo)
             Case Keys.Oem2, Keys.D2
-                If My.Computer.Keyboard.CtrlKeyDown Then
-                    MoveToColumn(niD2, xUndo, xRedo)
-                Else
-                    MoveToColumn(niA3, xUndo, xRedo)
-                End If
+                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA2, niA3, niD2, xUndo, xRedo) Else MTCFromMode(niA3, niA3, niA3, xUndo, xRedo)
             Case Keys.Oem3, Keys.D3
-                If My.Computer.Keyboard.CtrlKeyDown Then
-                    MoveToColumn(niD3, xUndo, xRedo)
-                Else
-                    MoveToColumn(niA4, xUndo, xRedo)
-                End If
+                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA3, niA4, niD3, xUndo, xRedo) Else MTCFromMode(niA4, niA4, niA4, xUndo, xRedo)
             Case Keys.Oem4, Keys.D4
-                If My.Computer.Keyboard.CtrlKeyDown Then
-                    MoveToColumn(niD4, xUndo, xRedo)
-                Else
-                    MoveToColumn(niA5, xUndo, xRedo)
-                End If
+                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA4, niA5, niD4, xUndo, xRedo) Else MTCFromMode(niA5, niA5, niA5, xUndo, xRedo)
             Case Keys.Oem5, Keys.D5
-                If My.Computer.Keyboard.CtrlKeyDown Then
-                    MoveToColumn(niD5, xUndo, xRedo)
-                Else
-                    MoveToColumn(niA6, xUndo, xRedo)
-                End If
+                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA5, niA6, niD5, xUndo, xRedo) Else MTCFromMode(niA6, niA6, niA6, xUndo, xRedo)
             Case Keys.Oem6, Keys.D6
-                If My.Computer.Keyboard.CtrlKeyDown Then
-                    MoveToColumn(niD6, xUndo, xRedo)
-                Else
-                    MoveToColumn(niA7, xUndo, xRedo)
-                End If
+                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA6, niD2, niD6, xUndo, xRedo) Else MTCFromMode(niA7, niD2, niA7, xUndo, xRedo)
             Case Keys.Oem7, Keys.D7
-                If My.Computer.Keyboard.CtrlKeyDown Then
-                    MoveToColumn(niD7, xUndo, xRedo)
-                Else
-                    MoveToColumn(niA8, xUndo, xRedo)
-                End If
+                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA7, niD3, niD7, xUndo, xRedo) Else MTCFromMode(niA8, niD3, niA8, xUndo, xRedo)
+            Case Keys.Oem8, Keys.D8
+                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA8, niD4, niD8, xUndo, xRedo) Else MTCFromMode(niA1, niD4, niA1, xUndo, xRedo)
+            Case Keys.D9 ' Oem9 not a thing apparently
+                MTCFromMode(-1, niD5, -1, xUndo, xRedo)
 
-            Case Keys.Q, Keys.NumPad1 : If Not My.Computer.Keyboard.CtrlKeyDown Then MoveToColumn(niD1, xUndo, xRedo)
-            Case Keys.W, Keys.NumPad2 : If Not My.Computer.Keyboard.CtrlKeyDown Then MoveToColumn(niD2, xUndo, xRedo)
-            Case Keys.E, Keys.NumPad3 : If Not My.Computer.Keyboard.CtrlKeyDown Then MoveToColumn(niD3, xUndo, xRedo)
-            Case Keys.R, Keys.NumPad4 : If Not My.Computer.Keyboard.CtrlKeyDown Then MoveToColumn(niD4, xUndo, xRedo)
-            Case Keys.T, Keys.NumPad5 : If Not My.Computer.Keyboard.CtrlKeyDown Then MoveToColumn(niD5, xUndo, xRedo)
-            Case Keys.Y, Keys.NumPad6 : If Not My.Computer.Keyboard.CtrlKeyDown Then MoveToColumn(niD6, xUndo, xRedo)
-            Case Keys.U, Keys.NumPad7 : If Not My.Computer.Keyboard.CtrlKeyDown Then MoveToColumn(niD7, xUndo, xRedo)
-            Case Keys.I, Keys.NumPad8 : If Not My.Computer.Keyboard.CtrlKeyDown Then MoveToColumn(niD8, xUndo, xRedo)
+            Case Keys.Q, Keys.NumPad1 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA2, niA2, niD1, xUndo, xRedo)
+            Case Keys.W, Keys.NumPad2 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA3, niA3, niD2, xUndo, xRedo)
+            Case Keys.E, Keys.NumPad3 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA4, niA4, niD3, xUndo, xRedo)
+            Case Keys.R, Keys.NumPad4 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA5, niA5, niD4, xUndo, xRedo)
+            Case Keys.T, Keys.NumPad5 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA6, niA6, niD5, xUndo, xRedo)
+            Case Keys.Y, Keys.NumPad6 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA7, niD2, niD6, xUndo, xRedo)
+            Case Keys.U, Keys.NumPad7 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA8, niD3, niD7, xUndo, xRedo)
+            Case Keys.I, Keys.NumPad8 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA1, niD4, niD8, xUndo, xRedo)
+            Case Keys.O, Keys.NumPad9 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(-1, niD5, -1, xUndo, xRedo)
 
 
 
@@ -281,6 +252,20 @@ Partial Public Class MainWindow
 
         PMainInMouseMove(sender)
         POStatusRefresh()
+    End Sub
+
+    Private Sub MTCFromMode(ByVal ColSP As Integer, ByVal ColPMS As Integer, ByVal ColDP As Integer, xUndo As UndoRedo.LinkedURCmd, xRedo As UndoRedo.LinkedURCmd)
+        Dim xCol As Integer
+        Select Case gXKeyMode
+            Case "SP"
+                xCol = ColSP
+            Case "PMS"
+                xCol = ColPMS
+            Case "DP"
+                xCol = ColDP
+        End Select
+        If xCol = -1 Then Exit Sub
+        MoveToColumn(xCol, xUndo, xRedo)
     End Sub
 
     Private Sub SelectAllWithHoveredNoteLabel()

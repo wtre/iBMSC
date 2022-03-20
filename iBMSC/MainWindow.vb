@@ -194,7 +194,7 @@ Public Class MainWindow
     'Dim gA8 As Boolean = False
     Dim iPlayer As Integer = 0
     Dim gColumns As Integer = 46
-
+    Dim gXKeyMode As String = "SP" ' Determines from column width 7key mode, 9key mode or 14key mode
 
     '----Visual Options
     Dim vo As New visualSettings()
@@ -2483,7 +2483,17 @@ StartCount:     If Not NTInput Then
         ' Array 0: Unmodified array
         ' Array 1: Modified array based on range
         ' Array R: Array 1 reversed
-        Dim xniArray0 = New Integer() {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+        Dim xniArray0() As Integer
+        Select Case gXKeyMode
+            Case "SP"
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+            Case "PMS"
+                xniArray0 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
+            Case "DP"
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+            Case Else
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+        End Select
         ' Dim xniArray1 = Integer() ' xniArray0
 
         ' New function: Declare an array to see the range of selected notes. B columns ignored.
@@ -2568,6 +2578,7 @@ DoNothing:
 
 
     Private Sub POBFlip_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBFlip.Click
+        If gXKeyMode <> "DP" Then Exit Sub
         Dim xI1 As Integer
         Dim xI2 As Integer
         Dim xUndo As UndoRedo.LinkedURCmd = Nothing
@@ -2613,7 +2624,17 @@ DoNothing:
         ' Array 0: Unmodified array
         ' Array 1: Modified array based on range
         ' Array R: Array 1 randomized
-        Dim xniArray0 = New Integer() {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+        Dim xniArray0() As Integer
+        Select Case gXKeyMode
+            Case "SP"
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+            Case "PMS"
+                xniArray0 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
+            Case "DP"
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+            Case Else
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+        End Select
         ' Dim xniArray1 = Integer() ' xniArray0
 
         ' New function: Declare an array to see the range of selected notes. B columns ignored.
@@ -2702,7 +2723,17 @@ DoNothing:
 
         ' Array 0: Unmodified array
         ' Array 1: Modified array based on range
-        Dim xniArray0 = New Integer() {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+        Dim xniArray0() As Integer
+        Select Case gXKeyMode
+            Case "SP"
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+            Case "PMS"
+                xniArray0 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
+            Case "DP"
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+            Case Else
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+        End Select
         ' Dim xniArray1 = Integer() ' xniArray0
 
         ' New function: Declare an array to see the range of selected notes. B columns ignored.
@@ -2796,7 +2827,17 @@ DoNothing:
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
         ' Array 1: Unmodified array
-        Dim xniArray1 = New Integer() {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+        Dim xniArray1() As Integer
+        Select Case gXKeyMode
+            Case "SP"
+                xniArray1 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+            Case "PMS"
+                xniArray1 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
+            Case "DP"
+                xniArray1 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+            Case Else
+                xniArray1 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+        End Select
 
         Dim xniArrayLen = xniArray1.Length
 
