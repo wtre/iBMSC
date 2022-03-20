@@ -6,16 +6,16 @@ See README.md.iBMSC for the original iBMSC README file and REAME.md.uBMSC for th
 # Changes
 Listed in the order added.
 ## Bugfixes
-* Added keybindings for lane D1-D8. See **Keyboard Shortcuts** for more information.
+* Added keybindings for DP and PMS. See **Keyboard Shortcuts** for more information.
 * Fixed the search function such that notes on lane A8 and D8 are now searchable.
-* Fixed the mirror function such that notes between A1 and D8 are reflected locally.
+* Fixed the mirror function such that notes between A1 and D8 are reflected locally. Supports PMS as well.
 * Fixed the Statistic Label not including notes between D1-D8. Statistic window still not fixed.
 * Fixed the total note count on the toolbar.
 * Reorganized the sidebar so you can tab between textboxes properly (mostly).
 * Prevented notes in Expansion Code from being loaded.
 
 ## Functionalities
-* Added Random and S-Random.
+* Added Random and S-Random. Supports PMS as well.
 * Added a display for recommended #TOTAL.
 * The application now saves the option "Disable Vertical Moves".
 * Changed the temporary bms file extension from .bms to .bmsc.
@@ -33,6 +33,7 @@ Listed in the order added.
   * QWERTYUI keys are also assigned to 2P lanes.
   * 1 to 7 are now assigned to A2 to A8, and 8 is now assigned to A1.
   * Ctrl+1 to Ctrl+8 are now assigned to D1-D8.
+  * For PMS: Number keys 1-9 assign the notes to PMS lanes when a PMS theme is used.
 * Added Save As keyboard shortcut (Ctrl+Alt+S)
 * Added recent bms keyboard shortcuts (Alt+1 to Alt+5)
 * Added shortcuts for toggling lanes.
