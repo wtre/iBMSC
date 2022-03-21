@@ -69,7 +69,7 @@ Partial Public Class MainWindow
         DrawSelectionBox(xIndex, e1)
 
         'Mouse Over
-        If TBSelect.Checked AndAlso Not KMouseOver = -1 Then
+        If TBSelect.Checked AndAlso Not KMouseOver = -1 AndAlso KMouseOver <= UBound(Notes) Then
             DrawMouseOver(e1, xTHeight, xPanelHScroll, xPanelDisplacement)
         End If
 

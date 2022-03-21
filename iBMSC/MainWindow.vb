@@ -2373,7 +2373,7 @@ StartCount:     If Not NTInput Then
                 FSH.Text = ""
                 FSE.Text = ""
 
-            Else
+            ElseIf xI1 <= UBound(Notes) Then
                 Dim xMeasure As Integer = MeasureAtDisplacement(Notes(xI1).VPosition)
                 Dim xMLength As Double = MeasureLength(xMeasure)
                 Dim xVposMod As Double = Notes(xI1).VPosition - MeasureBottom(xMeasure)
