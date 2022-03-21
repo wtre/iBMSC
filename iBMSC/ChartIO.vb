@@ -2,7 +2,7 @@
 Imports iBMSC.Editor
 
 Partial Public Class MainWindow
-    Private Sub OpenBMS(ByVal xStrAll As String, Optional xGhost As Boolean = False)
+    Private Sub OpenBMS(ByVal xStrAll As String, Optional xGhost As Boolean = False, Optional xComment As Boolean = False)
         KMouseOver = -1
 
         'Line feed validation: will remove some empty lines
@@ -13,9 +13,12 @@ Partial Public Class MainWindow
         Dim xI1 As Integer
         Dim sLine As String
         Dim xExpansion As String = ""
+        Dim xEditorExpansion As String = ""
+        Dim nNotes As Integer = 1
 
         ' Assume ghost note strings contain only notes in the section. Expansion field to be saved separately
-        If xGhost Then GoTo GhostJump1
+        If xGhost Then nNotes = Notes.Length : GoTo SkipInitialization
+        If xComment Then xStrLine2 = xStrLine : nNotes = Notes.Length : GoTo SkipInitialization
 
         ReDim Notes(0)
         ReDim mColumn(999)
@@ -23,6 +26,8 @@ Partial Public Class MainWindow
         ReDim hBPM(1295)    'x10000
         ReDim hSTOP(1295)
         ReDim hBMSCROLL(1295)
+        ReDim hCOM(1295)
+        hCOMNum = 0
         Me.InitializeNewBMS()
         Me.InitializeOpenBMS()
 
@@ -44,14 +49,16 @@ Partial Public Class MainWindow
         'case, skip, def        0
         'endSw                  -1
         'P: I'm gonna do what's called a pro gamer move
-GhostJump1:
+SkipInitialization:
         Dim xStack As Integer = 0
         Dim nLine As Integer = -1
 
         For Each sLine In xStrLine
             Dim sLineTrim As String = sLine.Trim
+            If sLineTrim = "" Then Continue For
+
             If xStack > 0 Then GoTo Expansion
-            If xGhost Then GoTo GhostJump2
+            If xGhost Then GoTo SkipLoadingHeader
 
             If sLineTrim.StartsWith("#") And Mid(sLineTrim, 5, 3) = "02:" Then
                 Dim xIndex As Integer = Val(Mid(sLineTrim, 2, 3))
@@ -166,6 +173,16 @@ GhostJump1:
                 CHLnObj.SelectedIndex = xValue
                 GoTo AddToxStrLine2
 
+            ElseIf SWIC(sLineTrim, "#ECMD") Then
+                xEditorExpansion &= sLineTrim.Replace("#ECMD", "#") & vbCrLf
+                Continue For
+
+            ElseIf SWIC(sLineTrim, "#ECOM") Then ' Comment notes
+                Dim xComVal = C36to10(Val(Mid(sLineTrim, Len("#ECOM") + 1, 2)))
+                hCOM(C36to10(xComVal)) = Mid(sLineTrim, Len("#ECOM") + 4)
+                If xComVal > hCOMNum Then hCOMNum = xComVal
+                Continue For
+
             End If
             'TODO: LNOBJ value validation
 
@@ -173,7 +190,7 @@ GhostJump1:
             '    CAdLNTYPE.Checked = True
             '    If Mid(sLineTrim, 9) = "" Or Mid(sLineTrim, 9) = "1" Or Mid(sLineTrim, 9) = "01" Then CAdLNTYPEb.Text = "1"
             '    CAdLNTYPEb.Text = Mid(sLineTrim, 9)
-GhostJump2:
+SkipLoadingHeader:
             If sLineTrim.StartsWith("#") And Mid(sLineTrim, 7, 1) = ":" Then   'If the line contains Ks
                 Dim xIdentifier As String = Mid(sLineTrim, 5, 2)
                 If BMSChannelToColumn(xIdentifier) = 0 Then GoTo AddExpansion
@@ -197,9 +214,9 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
         Next
         UpdateMeasureBottom()
 
-        ReDim Preserve xStrLine2(nLine)
-
+SkipUpdateMeasureBottom:
         ' BPM must be updated before loading notes, do not combine loops
+        ReDim Preserve xStrLine2(nLine)
         For Each sLineTrim In xStrLine2
 
             If Not (sLineTrim.StartsWith("#") And Mid(sLineTrim, 7, 1) = ":") Then Continue For 'If the line contains Ks ' P: The hell is a K
@@ -227,6 +244,7 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
                     .VPosition = MeasureBottom(xMeasure) + MeasureLength(xMeasure) * (xI1 / 2 - 4) / ((Len(sLineTrim) - 7) / 2)
                     .Value = C36to10(Mid(sLineTrim, xI1, 2)) * 10000
                     .Ghost = xGhost
+                    .Comment = xComment
 
                     If Channel = "03" Then .Value = Convert.ToInt32(Mid(sLineTrim, xI1, 2), 16) * 10000
                     If Channel = "08" Then .Value = hBPM(C36to10(Mid(sLineTrim, xI1, 2)))
@@ -237,9 +255,15 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
             Next
         Next
 
-        If NTInput Then ConvertBMSE2NT()
+        If xEditorExpansion <> "" Then OpenBMS(xEditorExpansion,, True)
 
-        If xGhost Then GoTo GhostJump3
+        If xGhost Then
+            If NTInput Then ConvertBMSE2NT(nNotes)
+            GoTo SkipLWAVAndExpansion
+        ElseIf xComment Then
+            GoTo SkipLWAVAndExpansion
+        End If
+        If NTInput Then ConvertBMSE2NT()
 
         LWAV.Visible = False
         LWAV.Items.Clear()
@@ -250,7 +274,7 @@ AddExpansion:       xExpansion &= sLine & vbCrLf
         LWAV.Visible = True
 
         TExpansion.Text = xExpansion
-GhostJump3:
+SkipLWAVAndExpansion:
         SortByVPositionQuick(0, UBound(Notes))
         UpdatePairing()
         CalculateTotalPlayableNotes()
@@ -292,7 +316,8 @@ GhostJump3:
         ReDim hBMSCROLL(0)
 
         Dim xNTInput As Boolean = NTInput
-        Dim xKBackUp() As Note = Notes
+        If GhostMode = 2 Then SwapGhostNotes() ' Revert main notes back to non-ghost notes
+        Dim xKBackUp() As Note = Notes.Clone 'All notes
         If xNTInput Then
             NTInput = False
             ConvertNT2BMSE()
@@ -301,10 +326,8 @@ GhostJump3:
         Dim tempNote As Note                    'Temp K
         Dim xprevNotes(-1) As Note              'Notes too close to the next measure
 
-        If GhostMode = 2 Then SwapGhostNotes() ' Revert main notes back to non-ghost notes
-        'Remove ghost notes from being saved
-        Dim NotesAll() As Note = Notes.Clone   'All notes including ghosts.
         RemoveGhostNotes() ' Remove Ghost Notes from Notes()
+        RemoveCommentNotes() ' Remove Comment Notes from Notes()
 
         For MeasureIndex = 0 To MeasureAtDisplacement(GreatestVPosition) + 1  'For xI1 in each measure
             xStrMeasure(MeasureIndex) = vbCrLf
@@ -368,50 +391,80 @@ GhostJump3:
         End If
 
         ' Add expansion text
+        ' Add and combine ghost notes with existing expansion text
+        Dim GhostModeTemp As Integer = -1
         If GhostMode <> 0 Then
             ' Generate String array for duplicate comparison
-            Dim GhostModeTemp As Integer = GhostMode
+            GhostModeTemp = GhostMode
             GhostMode = 0
             TExpansion.Text = ""
+            Dim xKBackUpG() As Note = xKBackUp.Clone
             Dim xStrCompare() As String = Split(Replace(Replace(Replace(SaveBMS(), vbLf, vbCr), vbCr & vbCr, vbCr), vbCr, vbCrLf), vbCrLf,, CompareMethod.Text)
 
             ' Save ghost notes
-            Notes = NotesAll.Clone
+            Notes = xKBackUpG.Clone
+            If xNTInput Then ConvertNT2BMSE()
             SwapGhostNotes()
-            RemoveGhostNotes() ' Remove Ghost Notes from Notes()
+            RemoveGhostNotes() ' Remove Main Notes from Notes()
+            RemoveCommentNotes() ' Remove Comment Notes from Notes()
             TExpansion.Text = ExtractExpansion(ExpansionSplit(1))
-            Dim xStrExpNotes As String = SaveBMS(True)
+            Dim xStrExpGhostNotes As String = SaveBMS(True)
             GhostMode = GhostModeTemp
 
             ExpansionSplit(1) = ""
-            For Each xStrLine In Split(xStrExpNotes, vbCrLf)
+            For Each xStrLine In Split(xStrExpGhostNotes, vbCrLf)
                 If (Not xStrCompare.Contains(xStrLine) AndAlso xStrLine <> "*---------------------- RANDOM DATA FIELD") Or
                             SWIC(xStrLine, "#RANDOM") Or SWIC(xStrLine, "#IF") Or SWIC(xStrLine, "#ENDIF") Then
                     ExpansionSplit(1) &= xStrLine & vbCrLf
                 End If
             Next
             TExpansion.Text = Join(ExpansionSplit, vbCrLf)
+            xKBackUp = xKBackUpG.Clone
         End If
+        ' Combine all expansion texts
         Dim xStrExp As String = vbCrLf & "*---------------------- EXPANSION FIELD" & vbCrLf & TExpansion.Text & vbCrLf & vbCrLf
         If TExpansion.Text = "" Then xStrExp = ""
+
+        ' Add comment notes
+        Dim xStrEditorCommentNotes As String = ""
+        Notes = xKBackUp.Clone
+        If xNTInput Then ConvertNT2BMSE()
+        ' Swap comment notes. Not a sub/function since expected to use only once.
+        For xI1 = 1 To UBound(Notes)
+            Notes(xI1).Comment = Not Notes(xI1).Comment
+        Next
+        RemoveCommentNotes() ' Remove non-comment notes
+        If UBound(Notes) > 0 Then
+            Dim ExpansionTextTemp = TExpansion.Text
+            TExpansion.Text = ""
+            If GhostModeTemp <> -1 Then GhostMode = 0
+            xStrEditorCommentNotes = SaveBMS(True).Replace("*---------------------- RANDOM DATA FIELD", "").Replace(vbCrLf & vbCrLf, vbCrLf).Replace("#", "#ECMD")
+            If GhostModeTemp <> -1 Then GhostMode = GhostModeTemp
+            For i = 1 To UBound(hCOM)
+                If Not IsNothing(hCOM(i)) Then xStrEditorCommentNotes &= vbCrLf & "#ECOM" & C10to36(i) & " " & hCOM(i)
+            Next
+            TExpansion.Text = ExpansionTextTemp
+        End If
+        Dim xStrEditor As String = vbCrLf & "*---------------------- EDITOR EXPANSION FIELD" & vbCrLf & xStrEditorCommentNotes & vbCrLf & vbCrLf
+        If xStrEditorCommentNotes = "" Then xStrEditor = ""
 
         ' Output main data field.
         Dim xStrMain As String = "*---------------------- MAIN DATA FIELD" & vbCrLf & vbCrLf & Join(xStrMeasure, "") & vbCrLf
 
+        ' Restore notes
+        Notes = xKBackUp.Clone
         If xNTInput Then
-            Notes = xKBackUp
             NTInput = True
         End If
 
         ' Return ghost notes back to Notes
-        Notes = NotesAll.Clone
         If GhostMode = 2 Then SwapGhostNotes()
 
         ' Generate headers now, since we have the unique BPM/STOP/etc declarations.
         Dim xStrHeader As String = GenerateHeaderMeta()
         xStrHeader &= GenerateHeaderIndexedData()
 
-        Return xStrHeader & vbCrLf & xStrExp & vbCrLf & xStrMain
+        Return xStrHeader & vbCrLf & xStrExp & vbCrLf & xStrEditor & vbCrLf & xStrMain
     End Function
 
     Private Function ExtractExpansion(ByVal xString As String) As String
@@ -515,7 +568,7 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
             End If
         Next
 
-        If UpperLimit <LowerLimit Then UpperLimit= NoteCount + 1
+        If UpperLimit < LowerLimit Then UpperLimit = NoteCount + 1
     End Sub
 
     Private Function GenerateKeyTracks(MeasureIndex As Integer, ByRef hasOverlapping As Boolean, NotesInMeasure() As Note, ByRef xprevNotes() As Note) As String

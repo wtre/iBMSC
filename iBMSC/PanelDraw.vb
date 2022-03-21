@@ -559,9 +559,8 @@ Partial Public Class MainWindow
         If sNote.Ghost Then xAlpha *= 0.1
 
         Dim xLabel As String = C10to36(sNote.Value \ 10000)
-        If ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then
-            xLabel = Path.GetFileNameWithoutExtension(hWAV(C36to10(xLabel)))
-        End If
+        If sNote.Comment Then xLabel = WordWrapConvert(hCOM(C36to10(xLabel))) Else _
+        If ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then xLabel = Path.GetFileNameWithoutExtension(hWAV(C36to10(xLabel)))
 
         Dim xPen As Pen
         Dim xBrush As Drawing2D.LinearGradientBrush
@@ -569,9 +568,17 @@ Partial Public Class MainWindow
 
         Dim bright As Color
         Dim dark As Color
-        Dim p1 = New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex), xHS),
+        Dim xnLeft = nLeft(sNote.ColumnIndex)
+        Dim xColumnWidth As Integer = GetColumnWidth(sNote.ColumnIndex)
+        If sNote.Comment Then
+            For i = 1 To 4
+                xColumnWidth += GetColumnWidth(sNote.ColumnIndex + i)
+            Next
+        End If
+
+        Dim p1 = New Point(HorizontalPositiontoDisplay(xnLeft, xHS),
                            NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight - 10)
-        Dim p2 = New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex) + GetColumnWidth(sNote.ColumnIndex), xHS),
+        Dim p2 = New Point(HorizontalPositiontoDisplay(xnLeft + xColumnWidth, xHS),
                            NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) + 10)
 
         If Not sNote.LongNote Then
@@ -619,22 +626,22 @@ Partial Public Class MainWindow
         xBrush = New Drawing2D.LinearGradientBrush(p1, p2, bright, dark)
 
         ' Fill
-        e.Graphics.FillRectangle(xBrush, HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex), xHS) + 2,
+        e.Graphics.FillRectangle(xBrush, HorizontalPositiontoDisplay(xnLeft, xHS) + 2,
                                  NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + 1,
-                                 GetColumnWidth(sNote.ColumnIndex) * gxWidth - 3,
+                                 xColumnWidth * gxWidth - 3,
                                  vo.kHeight - 1)
         ' Outline
         e.Graphics.DrawRectangle(xPen,
-                                 HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex), xHS) + 1,
+                                 HorizontalPositiontoDisplay(xnLeft, xHS) + 1,
                                  NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight,
-                                 GetColumnWidth(sNote.ColumnIndex) * gxWidth - 2,
+                                 xColumnWidth * gxWidth - 2,
                                  vo.kHeight)
 
         ' Label
-        e.Graphics.DrawString(IIf(IsColumnNumeric(sNote.ColumnIndex), sNote.Value / 10000, xLabel),
+        e.Graphics.DrawString(IIf(IsColumnNumeric(sNote.ColumnIndex) AndAlso Not sNote.Comment, sNote.Value / 10000, xLabel),
                               vo.kFont, xBrush2,
-                              HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex), xHS) + vo.kLabelHShift,
-                              NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + vo.kLabelVShift)
+                              HorizontalPositiontoDisplay(xnLeft, xHS) + vo.kLabelHShift,
+                              NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + vo.kLabelVShift - IIf(sNote.Comment, CInt(sNote.Length * gxHeight), 0))
 
         If sNote.ColumnIndex < niB Then
             If sNote.LNPair <> 0 Then
@@ -648,20 +655,22 @@ Partial Public Class MainWindow
 
         'If ErrorCheck AndAlso (sNote.LongNote Xor sNote.PairWithI <> 0) Then e.Graphics.DrawImage(My.Resources.ImageError, _
         If ErrorCheck AndAlso sNote.HasError Then e.Graphics.DrawImage(My.Resources.ImageError,
-                                                            CInt(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex) + GetColumnWidth(sNote.ColumnIndex) / 2, xHS) - 12),
+                                                            CInt(HorizontalPositiontoDisplay(xnLeft + xColumnWidth / 2, xHS) - 12),
                                                             CInt(NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight / 2 - 12),
                                                             24, 24)
 
-        If sNote.Selected Then e.Graphics.DrawRectangle(vo.kSelected, HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex), xHS), NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight - 1, GetColumnWidth(sNote.ColumnIndex) * gxWidth, vo.kHeight + 2)
+        If sNote.Selected Then e.Graphics.DrawRectangle(vo.kSelected, HorizontalPositiontoDisplay(xnLeft, xHS), NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight - 1, xColumnWidth * gxWidth, vo.kHeight + 2)
 
     End Sub
 
     Private Sub DrawPairedLNBody(sNote As Note, e As BufferedGraphics, xHS As Long, xVS As Long, xHeight As Integer, xAlpha As Single)
+        Dim xnLeft = nLeft(sNote.ColumnIndex)
+        Dim xColumnWidth = GetColumnWidth(sNote.ColumnIndex)
         Dim xPen2 As New Pen(GetColumn(sNote.ColumnIndex).getLongBright(xAlpha))
         Dim xBrush3 As New Drawing2D.LinearGradientBrush(
-                    New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex) - 0.5 * GetColumnWidth(sNote.ColumnIndex), xHS),
+                    New Point(HorizontalPositiontoDisplay(xnLeft - 0.5 * xColumnWidth, xHS),
                             NoteRowToPanelHeight(Notes(sNote.LNPair).VPosition, xVS, xHeight)),
-                    New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex) + 1.5 * GetColumnWidth(sNote.ColumnIndex), xHS),
+                    New Point(HorizontalPositiontoDisplay(xnLeft + 1.5 * xColumnWidth, xHS),
                             NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) + vo.kHeight),
                     GetColumn(sNote.ColumnIndex).getLongBright(xAlpha),
                     GetColumn(sNote.ColumnIndex).getLongDark(xAlpha))
@@ -687,6 +696,7 @@ Partial Public Class MainWindow
         If sNote.Ghost Then xAlpha *= 0.1
 
         Dim xLabel As String = C10to36(sNote.Value \ 10000)
+        If sNote.Comment Then xLabel = WordWrapConvert(hCOM(C36to10(xLabel))) Else _
         If ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then xLabel = Path.GetFileNameWithoutExtension(hWAV(C36to10(xLabel)))
 
         Dim xPen1 As Pen
@@ -698,11 +708,18 @@ Partial Public Class MainWindow
         Dim bright As Color
         Dim dark As Color
 
-        If sNote.Length = 0 Then
-            p1 = New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex), xHS),
-                           NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight - 10)
+        Dim xnLeft = nLeft(sNote.ColumnIndex)
+        Dim xColumnWidth As Integer = GetColumnWidth(sNote.ColumnIndex)
+        If sNote.Comment Then
+            For i = 1 To 4
+                xColumnWidth += GetColumnWidth(sNote.ColumnIndex + i)
+            Next
+        End If
 
-            p2 = New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex) + GetColumnWidth(sNote.ColumnIndex), xHS),
+        If sNote.Length = 0 Then
+            p1 = New Point(HorizontalPositiontoDisplay(xnLeft, xHS),
+                           NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight - 10)
+            p2 = New Point(HorizontalPositiontoDisplay(xnLeft + xColumnWidth, xHS),
                            NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) + 10)
 
             bright = GetColumn(sNote.ColumnIndex).getBright(xAlpha)
@@ -735,9 +752,9 @@ Partial Public Class MainWindow
             End If
             xBrush2 = New SolidBrush(GetColumn(sNote.ColumnIndex).cText)
         Else
-            p1 = New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex) - 0.5 * GetColumnWidth(sNote.ColumnIndex), xHS),
+            p1 = New Point(HorizontalPositiontoDisplay(xnLeft - 0.5 * xColumnWidth, xHS),
                            NoteRowToPanelHeight(sNote.VPosition + sNote.Length, xVS, xHeight) - vo.kHeight)
-            p2 = New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex) + 1.5 * GetColumnWidth(sNote.ColumnIndex), xHS),
+            p2 = New Point(HorizontalPositiontoDisplay(xnLeft + 1.5 * xColumnWidth, xHS),
                                       NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight))
 
             bright = GetColumn(sNote.ColumnIndex).getLongBright(xAlpha)
@@ -751,21 +768,21 @@ Partial Public Class MainWindow
 
         ' Note gradient
         e.Graphics.FillRectangle(xBrush,
-                                     HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex), xHS) + 1,
+                                     HorizontalPositiontoDisplay(xnLeft, xHS) + 1,
                                      NoteRowToPanelHeight(sNote.VPosition + sNote.Length, xVS, xHeight) - vo.kHeight + 1,
-                                     GetColumnWidth(sNote.ColumnIndex) * gxWidth - 1,
+                                     xColumnWidth * gxWidth - 1,
                                      CInt(sNote.Length * gxHeight) + vo.kHeight - 1)
 
         ' Outline
-        e.Graphics.DrawRectangle(xPen1, HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex), xHS) + 1,
+        e.Graphics.DrawRectangle(xPen1, HorizontalPositiontoDisplay(xnLeft, xHS) + 1,
                                      NoteRowToPanelHeight(sNote.VPosition + sNote.Length, xVS, xHeight) - vo.kHeight,
-                                            GetColumnWidth(sNote.ColumnIndex) * gxWidth - 3, CInt(sNote.Length * gxHeight) + vo.kHeight)
+                                            xColumnWidth * gxWidth - 3, CInt(sNote.Length * gxHeight) + vo.kHeight)
 
         ' Note B36
-        e.Graphics.DrawString(IIf(IsColumnNumeric(sNote.ColumnIndex), sNote.Value / 10000, xLabel),
+        e.Graphics.DrawString(IIf(IsColumnNumeric(sNote.ColumnIndex) AndAlso Not sNote.Comment, sNote.Value / 10000, xLabel),
                               vo.kFont, xBrush2,
-                              HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex), xHS) + vo.kLabelHShiftL - 2,
-                              NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + vo.kLabelVShift)
+                              HorizontalPositiontoDisplay(xnLeft, xHS) + vo.kLabelHShiftL - 2,
+                              NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + vo.kLabelVShift - IIf(sNote.Comment, CInt(sNote.Length * gxHeight), 0))
 
         ' Draw paired body
         If sNote.ColumnIndex < niB Then
@@ -778,16 +795,16 @@ Partial Public Class MainWindow
         ' Select Box
         If sNote.Selected Then
             e.Graphics.DrawRectangle(vo.kSelected,
-                                    HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex), xHS),
+                                    HorizontalPositiontoDisplay(xnLeft, xHS),
                                     NoteRowToPanelHeight(sNote.VPosition + sNote.Length, xVS, xHeight) - vo.kHeight - 1,
-                                    GetColumnWidth(sNote.ColumnIndex) * gxWidth,
+                                    xColumnWidth * gxWidth,
                                     CInt(sNote.Length * gxHeight) + vo.kHeight + 2)
         End If
 
         ' Errors
         If ErrorCheck AndAlso sNote.HasError Then
             e.Graphics.DrawImage(My.Resources.ImageError,
-                                 CInt(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex) + GetColumnWidth(sNote.ColumnIndex) / 2, xHS) - 12),
+                                 CInt(HorizontalPositiontoDisplay(xnLeft + xColumnWidth / 2, xHS) - 12),
                                  CInt(NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight / 2 - 12),
                                  24, 24)
         End If
@@ -796,4 +813,9 @@ Partial Public Class MainWindow
         '                      New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex + 1), xHS), VerticalPositiontoDisplay(sNote.VPosition, xVS, xHeight) - vo.kHeight - 2))
 
     End Sub
+
+    Private Function WordWrapConvert(ByVal s As String)
+        If s = "" Then Return ""
+        Return s.Replace("\n", vbCrLf)
+    End Function
 End Class

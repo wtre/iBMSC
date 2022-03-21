@@ -30,7 +30,10 @@
     End Sub
 
     Private Sub BDisplayGhostAll_Click(sender As Object, e As EventArgs) Handles BDisplayGhostAll.Click
-        MainWindow.ExpansionSplit(1) = MainWindow.TExpansion.Text
+        MainWindow.ExpansionSplit(1) = ""
+        For Each xStrLine In MainWindow.TExpansion.Text.Split(vbCrLf)
+            If xStrLine <> "" AndAlso Not SWIC(xStrLine, "#RANDOM") AndAlso Not SWIC(xStrLine, "#IF") Then MainWindow.ExpansionSplit(1) &= xStrLine & vbCrLf
+        Next
         Me.Close()
         MainWindow.Expand_DisplayGhostNotes()
     End Sub

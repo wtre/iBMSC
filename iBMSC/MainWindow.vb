@@ -163,12 +163,15 @@ Public Class MainWindow
 
     '----ErrorCheck Options
     Dim ErrorCheck As Boolean = True
+    Dim ErrorJackSpeed As Double = Notes(0).Value / 10000 / 192
 
     '----Header Options
     Dim hWAV(1295) As String
     Dim hBPM(1295) As Long   'x10000
     Dim hSTOP(1295) As Long
     Dim hBMSCROLL(1295) As Long
+    Dim hCOM(1295) As String
+    Dim hCOMNum As Integer = 0
 
     '----Grid Options
     Dim gSnap As Boolean = True
@@ -787,6 +790,8 @@ Public Class MainWindow
         KMouseOver = -1
         Dim xI1 As Integer = 1
         Dim xI2 As Integer
+        Dim xIC As Integer
+        Dim xComCount(1295) As Integer
         Do
             If Notes(xI1).Selected AndAlso Not Notes(xI1).Ghost Then
                 For xI2 = xI1 + 1 To UBound(Notes)
@@ -797,6 +802,29 @@ Public Class MainWindow
             End If
             xI1 += 1
         Loop While xI1 < UBound(Notes) + 1
+
+        ' Check and remove comments
+        For xI1 = 1 To UBound(Notes)
+            If Notes(xI1).Comment Then
+                xIC = Notes(xI1).Value / 10000
+                xComCount(xIC) += 1
+            End If
+        Next
+        xI1 = 1
+        Do While xI1 <= hCOMNum
+            If xComCount(xI1) = 0 Then
+                RemoveCommentLine(xI1)
+                If xI1 = xComCount.Length Then
+                    xComCount(xI1) = 0
+                    Exit Do
+                Else
+                    xComCount(xI1) = xComCount(xI1 + 1)
+                End If
+            Else
+                xI1 += 1
+            End If
+        Loop
+
         If SortAndUpdatePairing Then SortByVPositionInsertion() : UpdatePairing()
         CalculateTotalPlayableNotes()
     End Sub
@@ -934,6 +962,7 @@ Public Class MainWindow
         'THLnType.Text = "1"
         CHLnObj.SelectedIndex = 0
         GhostMode = 0
+        ReDim hCOM(1295)
 
         TExpansion.Text = ""
 
@@ -2316,18 +2345,23 @@ StartCount:     If Not NTInput Then
     Private Sub CalculateTotalPlayableNotes()
         Dim xI1 As Integer
         Dim xIAll As Integer = 0
+        Dim xITemp As Integer = 0
 
         If Not NTInput Then
             For xI1 = 1 To UBound(Notes)
-                If Notes(xI1).ColumnIndex >= niA1 And Notes(xI1).ColumnIndex <= niD8 Then xIAll += 1
+                If Notes(xI1).ColumnIndex >= niA1 And Notes(xI1).ColumnIndex <= niD8 Then
+                    If Not (Notes(xI1).LongNote Or Notes(xI1).Hidden Or Notes(xI1).Landmine Or Notes(xI1).Hidden Or Notes(xI1).Value \ 10000 = LnObj Or Notes(xI1).Comment) Then
+                        xIAll += 1
+                    ElseIf Notes(xI1).LongNote AndAlso Not (Notes(xI1).Hidden Or Notes(xI1).Landmine Or Notes(xI1).Hidden Or Notes(xI1).Value \ 10000 = LnObj Or Notes(xI1).Comment) Then
+                        xITemp += 1
+                    End If
+                End If
             Next
-
+            xIAll += xITemp / 2
         Else
             For xI1 = 1 To UBound(Notes)
-                If Notes(xI1).ColumnIndex >= niA1 And Notes(xI1).ColumnIndex <= niD8 Then
-                    If Not (Notes(xI1).LongNote Or Notes(xI1).Hidden Or Notes(xI1).Landmine Or Notes(xI1).Hidden Or Notes(xI1).Value \ 10000 = LnObj) Then xIAll += 1
-                    ' If Notes(xI1).Length <> 0 Then xIAll += 1
-                End If
+                If Notes(xI1).ColumnIndex >= niA1 And Notes(xI1).ColumnIndex <= niD8 AndAlso
+                   Not (Notes(xI1).LongNote Or Notes(xI1).Hidden Or Notes(xI1).Landmine Or Notes(xI1).Hidden Or Notes(xI1).Value \ 10000 = LnObj Or Notes(xI1).Comment) Then xIAll += 1
             Next
         End If
 
@@ -3251,16 +3285,16 @@ RestartSorting: xSorted = False
         RefreshPanelAll()
     End Sub
 
-    Private Sub ConvertBMSE2NT()
+    Private Sub ConvertBMSE2NT(Optional xIFrom As Integer = 1)
         ReDim SelectedNotes(-1)
-        SortByVPositionInsertion()
+        If xIFrom = 1 Then SortByVPositionInsertion()
 
-        For i2 As Integer = 0 To UBound(Notes)
+        For i2 As Integer = xIFrom To UBound(Notes)
             Notes(i2).Length = 0.0#
         Next
 
-        Dim i As Integer = 1
-        Dim j As Integer = 0
+        Dim i As Integer = xIFrom
+        Dim j As Integer
         Dim xUbound As Integer = UBound(Notes)
 
         Do While i <= xUbound
@@ -3288,7 +3322,7 @@ RestartSorting: xSorted = False
 
         ReDim Preserve Notes(xUbound)
 
-        For i = 0 To xUbound
+        For i = xIFrom To xUbound
             Notes(i).LongNote = False
         Next
 
@@ -3313,6 +3347,7 @@ RestartSorting: xSorted = False
                 .Selected = Notes(xI1).Selected
                 .Hidden = Notes(xI1).Hidden
                 .Ghost = Notes(xI1).Ghost
+                .Comment = Notes(xI1).Comment
             End With
 
             If Notes(xI1).Length > 0 Then
@@ -3326,6 +3361,7 @@ RestartSorting: xSorted = False
                     .Selected = Notes(xI1).Selected
                     .Hidden = Notes(xI1).Hidden
                     .Ghost = Notes(xI1).Ghost
+                    .Comment = Notes(xI1).Comment
                 End With
             End If
         Next
@@ -5179,6 +5215,17 @@ case2:              Dim xI0 As Integer
         Loop
     End Sub
 
+    Public Sub RemoveCommentNotes()
+        Dim xI1 As Integer = 1
+        Do While xI1 <= UBound(Notes)
+            If Notes(xI1).Comment Then
+                RemoveNote(xI1)
+            Else
+                xI1 += 1
+            End If
+        Loop
+    End Sub
+
     Public Sub SwapGhostNotes()
         For xI1 = 1 To UBound(Notes)
             Notes(xI1).Ghost = Not Notes(xI1).Ghost
@@ -5208,5 +5255,24 @@ case2:              Dim xI0 As Integer
                 SaveBMS()
                 Expand_RemoveGhostNotes()
         End Select
+    End Sub
+
+    Public Sub AddCommentLine(ByVal xComment As String)
+        For i = 1 To UBound(hCOM)
+            If IsNothing(hCOM(i)) Then hCOM(i) = xComment : hCOMNum = i : Exit For
+        Next
+    End Sub
+
+    Public Sub RemoveCommentLine(ByVal xI As Integer)
+        Do While hCOM(xI) <> ""
+            If xI = hCOM.Length Then
+                hCOM(xI) = ""
+                Exit Do
+            Else
+                hCOM(xI) = hCOM(xI + 1)
+            End If
+            xI += 1
+        Loop
+        hCOMNum = xI - 1
     End Sub
 End Class

@@ -536,7 +536,7 @@ Partial Public Class MainWindow
         'Play wav
         If ClickStopPreview Then PreviewNote("", True)
         'My.Computer.Audio.Stop()
-        If NoteIndex > 0 And PreviewOnClick AndAlso Not IsColumnNumeric(Notes(NoteIndex).ColumnIndex) Then
+        If NoteIndex > 0 AndAlso PreviewOnClick AndAlso Not IsColumnNumeric(Notes(NoteIndex).ColumnIndex) AndAlso Not Notes(NoteIndex).Comment Then
             Dim xI2 As Integer = Notes(NoteIndex).Value \ 10000
             If xI2 <= 0 Then xI2 = 1
             If xI2 >= 1296 Then xI2 = 1295
@@ -599,16 +599,28 @@ Partial Public Class MainWindow
                 If xColumn = niSTOP Then xMessage = Strings.Messages.PromptEnterSTOP
                 If xColumn = niSCROLL Then xMessage = Strings.Messages.PromptEnterSCROLL
 
+                Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+                Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+                Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
                 Dim valstr As String = InputBox(xMessage, Text)
                 Dim value As Double = Val(valstr) * 10000
+                If valstr.StartsWith("-c ") Then ' Input comment notes
+                    If valstr = "-c " Then valstr &= " "
+                    For xI1 = 1 To UBound(Notes)
+                        If Notes(xI1).VPosition = xVPosition AndAlso Notes(xI1).ColumnIndex = xColumn Then _
+                            RedoRemoveNote(Notes(xI1), xUndo, xRedo)
+                    Next
+                    Dim valstrcomment As String = Mid(valstr, 4)
+                    AddCommentLine(valstrcomment)
 
-                If (xColumn = niSCROLL And valstr = "0") Or value <> 0 Then
+                    Dim n = New Note(xColumn, xVPosition, hCOMNum * 10000, 0, Hidden,,,, True)
+                    RedoAddNote(n, xUndo, xRedo)
+
+                    AddNote(n)
+                    AddUndo(xUndo, xBaseRedo.Next)
+                ElseIf (xColumn = niSCROLL And valstr = "0") Or value <> 0 Then ' Input normal notes
                     If xColumn <> niSCROLL And value <= 0 Then value = 1
-
-                    Dim xUndo As UndoRedo.LinkedURCmd = Nothing
-                    Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
-                    Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
-
                     For xI1 = 1 To UBound(Notes)
                         If Notes(xI1).VPosition = xVPosition AndAlso Notes(xI1).ColumnIndex = xColumn Then _
                             RedoRemoveNote(Notes(xI1), xUndo, xRedo)
@@ -869,7 +881,14 @@ Partial Public Class MainWindow
         If GhostMode = 2 AndAlso Note.Ghost Then SwapGhostNotes() : GhostMode = 1 : Exit Sub
         If Note.Ghost Then MsgBox("To modify ghost notes, please select only one section from the expansion code.") : Exit Sub
 
-        If IsColumnNumeric(NoteColumn) Then
+        If Note.Comment Then
+            ' Edit comment
+            Dim xMessage As String = Strings.Messages.PromptEnter
+            Dim valstr As String = InputBox(xMessage, Me.Text, hCOM(Note.Value / 10000))
+            If valstr = "" Then valstr = " "
+            ' Replace comment
+            hCOM(Note.Value / 10000) = valstr
+        ElseIf IsColumnNumeric(NoteColumn) Then
             'BPM/Stop prompt
             Dim xMessage As String = Strings.Messages.PromptEnterNumeric
             If NoteColumn = niBPM Then xMessage = Strings.Messages.PromptEnterBPM
@@ -1698,8 +1717,21 @@ Partial Public Class MainWindow
 
                         Dim valstr As String = InputBox(xMessage, Me.Text)
                         Dim value As Long = Val(valstr) * 10000
+                        If valstr.StartsWith("-c ") Then ' Input comment notes
+                            If valstr = "-c " Then valstr &= " "
+                            For xI1 = 1 To UBound(Notes)
+                                If Notes(xI1).VPosition = xVPosition AndAlso Notes(xI1).ColumnIndex = xColumn Then _
+                            RedoRemoveNote(Notes(xI1), xUndo, xRedo)
+                            Next
+                            Dim valstrcomment As String = Mid(valstr, 4)
+                            AddCommentLine(valstrcomment)
 
-                        If (xColumn = niSCROLL And valstr = "0") Or value <> 0 Then
+                            Dim n = New Note(xColumn, xVPosition, hCOMNum * 10000, 0, HiddenNote,,,, True)
+                            RedoAddNote(n, xUndo, xRedo)
+
+                            AddNote(n)
+                            AddUndo(xUndo, xBaseRedo.Next)
+                        ElseIf (xColumn = niSCROLL And valstr = "0") Or value <> 0 Then
                             For xI1 = 1 To UBound(Notes)
                                 If Notes(xI1).VPosition = xVPosition AndAlso Notes(xI1).ColumnIndex = xColumn Then _
                             RedoRemoveNote(Notes(xI1), xUndo, xRedo)
