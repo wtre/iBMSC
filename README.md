@@ -16,7 +16,7 @@ Listed in the order added.
 * Rare bug that occurs when the mouse is highlighting a long note while toggling between NT and BMSE simultaneously.
 
 ## Functionalities
-* Added Random and S-Random. Supports PMS as well.
+* Added Random, R-Random, S-Random and H-Random. Supports PMS as well.
 * Added a display for recommended #TOTAL.
 * The application now saves the option "Disable Vertical Moves".
 * Changed the temporary bms file extension from .bms to .bmsc.
