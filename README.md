@@ -13,6 +13,7 @@ Listed in the order added.
 * Fixed the total note count on the toolbar.
 * Reorganized the sidebar so you can tab between textboxes properly (mostly).
 * Prevented notes in Expansion Code from being loaded.
+* Rare bug that occurs when the mouse is highlighting a long note while toggling between NT and BMSE simultaneously.
 
 ## Functionalities
 * Added Random and S-Random. Supports PMS as well.
@@ -26,6 +27,7 @@ Listed in the order added.
 * Added mBMplay as a default player.
 * Added support for #RANDOM. Supports expansion field and main data field only. Not tested thoroughly, nested #RANDOM in "Modify Section" only. Accessible via the "Select Section" button in Expansion Code or via Ctrl+R.
 * Added color overriding options where you can specify a range of notes to appear a specific color, such as red notes for drums and green notes for the piano. Accessible via the Options tab or via Shift+F12.
+* Added comment notes. Comment notes will be saved as #ECMD and #ECOM within the same bms/pms file. Not tested thoroughly.
 
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8.

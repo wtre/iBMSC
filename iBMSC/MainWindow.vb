@@ -820,6 +820,9 @@ Public Class MainWindow
                 Else
                     xComCount(xI1) = xComCount(xI1 + 1)
                 End If
+                For xI2 = 1 To UBound(Notes)
+                    If Notes(xI2).Value / 10000 > xI1 Then Notes(xI2).Value -= 10000
+                Next
             Else
                 xI1 += 1
             End If
