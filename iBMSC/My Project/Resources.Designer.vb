@@ -518,6 +518,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property x16HRandom() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("x16HRandom", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property x16Import() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("x16Import", resourceCulture)
@@ -808,6 +818,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property x16Random() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("x16Random", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property x16Redo() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("x16Redo", resourceCulture)
@@ -831,6 +851,16 @@ Namespace My.Resources
         Friend ReadOnly Property x16Remove() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("x16Remove", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property x16RRandom() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("x16RRandom", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -891,6 +921,16 @@ Namespace My.Resources
         Friend ReadOnly Property x16ShowFileNameN() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("x16ShowFileNameN", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property x16SRandom() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("x16SRandom", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

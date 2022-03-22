@@ -2190,6 +2190,7 @@ EndSearch:
         UpdatePairing()
 
         Dim data(6, 5) As Integer
+        Dim dataLNToggle As Boolean = True ' For halving long note counts in Not NTInput mode
         For i As Integer = 1 To UBound(Notes)
             With Notes(i)
                 Dim row As Integer = -1
@@ -2206,7 +2207,10 @@ EndSearch:
 
 StartCount:     If Not NTInput Then
                     If Not .LongNote Then data(row, 0) += 1
-                    If .LongNote Then data(row, 1) += 1
+                    If .LongNote Then
+                        If dataLNToggle Then data(row, 1) += 1
+                        dataLNToggle = Not dataLNToggle
+                    End If
                     If .Value \ 10000 = LnObj Then data(row, 2) += 1
                     If .Hidden Then data(row, 3) += 1
                     If .HasError Then data(row, 4) += 1
@@ -2246,6 +2250,7 @@ StartCount:     If Not NTInput Then
                          Strings.fStatistics.lTotal}
         Dim data(rows, cols) As Integer
         Dim dataWAV(1295, 1) As Integer
+        Dim dataLNToggle As Boolean = True ' For halving long note counts in Not NTInput mode
 
         Dim noteLanes = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8,
                          niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
@@ -2288,20 +2293,23 @@ StartCount:     If Not NTInput Then
 
 
 StartCount:     If Not NTInput Then
-                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj) Then
+                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj Or .Comment) Then
                         data(row, 0) += 1
                         If noteLanes.Contains(.ColumnIndex) Or .ColumnIndex >= niB Then
                             dataWAV(.Value / 10000, 1) += 1
                         End If
                     End If
-                    If .LongNote Then data(row, 1) += 1
+                    If .LongNote Then
+                        If dataLNToggle Then data(row, 1) += 1 : dataWAV(.Value / 10000, 1) += 1
+                        dataLNToggle = Not dataLNToggle
+                    End If
                     If .Value \ 10000 = LnObj Then data(row, 2) += 1
                     If .Hidden Then data(row, 3) += 1
                     If .Landmine Then data(row, 4) += 1
                     If .HasError Then data(row, 5) += 1
 
                 Else
-                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj) Then
+                    If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj Or .Comment) Then
                         data(row, 0) += 1
                         If noteLanes.Contains(.ColumnIndex) Or .ColumnIndex >= niB Then
                             dataWAV(.Value / 10000, 1) += 1
@@ -2352,19 +2360,23 @@ StartCount:     If Not NTInput Then
 
         If Not NTInput Then
             For xI1 = 1 To UBound(Notes)
-                If Notes(xI1).ColumnIndex >= niA1 And Notes(xI1).ColumnIndex <= niD8 Then
-                    If Not (Notes(xI1).LongNote Or Notes(xI1).Hidden Or Notes(xI1).Landmine Or Notes(xI1).Hidden Or Notes(xI1).Value \ 10000 = LnObj Or Notes(xI1).Comment) Then
-                        xIAll += 1
-                    ElseIf Notes(xI1).LongNote AndAlso Not (Notes(xI1).Hidden Or Notes(xI1).Landmine Or Notes(xI1).Hidden Or Notes(xI1).Value \ 10000 = LnObj Or Notes(xI1).Comment) Then
-                        xITemp += 1
+                With Notes(xI1)
+                    If .ColumnIndex >= niA1 And .ColumnIndex <= niD8 Then
+                        If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj Or .Comment) Then
+                            xIAll += 1
+                        ElseIf .LongNote AndAlso Not (.Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj Or .Comment) Then
+                            xITemp += 1
+                        End If
                     End If
-                End If
+                End With
             Next
             xIAll += xITemp / 2
         Else
             For xI1 = 1 To UBound(Notes)
-                If Notes(xI1).ColumnIndex >= niA1 And Notes(xI1).ColumnIndex <= niD8 AndAlso
-                   Not (Notes(xI1).LongNote Or Notes(xI1).Hidden Or Notes(xI1).Landmine Or Notes(xI1).Hidden Or Notes(xI1).Value \ 10000 = LnObj Or Notes(xI1).Comment) Then xIAll += 1
+                With Notes(xI1)
+                    If .ColumnIndex >= niA1 And .ColumnIndex <= niD8 AndAlso
+                       Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj Or .Comment) Then xIAll += 1
+                End With
             Next
         End If
 
@@ -2651,7 +2663,7 @@ DoNothing:
         RefreshPanelAll()
     End Sub
 
-    Private Sub POBRandom_Click(sender As Object, e As EventArgs) Handles POBRandom.Click
+    Private Sub POBRandomAll(ByVal Mode As String)
         Dim xI1 As Integer
         Dim xI2 As Integer
         Dim xUndo As UndoRedo.LinkedURCmd = Nothing
@@ -2726,136 +2738,105 @@ Skip2:
         Next
 
         Dim xniArrayR = xniArray1.Clone()
-        Shuffle(xniArrayR)
 
-        Dim xCol As Integer
-        For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
-
-            xCol = Notes(xI1).ColumnIndex
-            For xI2 = 0 To xniArray1.Length - 1
-                If xCol = xniArray1(xI2) Then
-                    xCol = xniArrayR(xI2)
-                    Exit For
+        Select Case Mode
+            Case "Random", "RRandom"
+                If Mode = "Random" Then
+                    Shuffle(xniArrayR)
+                Else
+                    Dim R As Integer = Math.Floor(xniArrayR.Length * Rnd())
+                    For i = 0 To UBound(xniArrayR)
+                        xniArrayR(i) = xniArray1((i + R) Mod xniArrayR.Length)
+                    Next
                 End If
 
-            Next
+                Dim xCol As Integer
+                For xI1 = 1 To UBound(Notes)
+                    With Notes(xI1)
+                        If Not .Selected Or .Ghost Then Continue For
 
-            Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
-            Notes(xI1).ColumnIndex = xCol
-        Next
+                        xCol = .ColumnIndex
+                        For xI2 = 0 To xniArray1.Length - 1
+                            If xCol = xniArray1(xI2) Then
+                                xCol = xniArrayR(xI2)
+                                Exit For
+                            End If
+
+                        Next
+
+                        Me.RedoMoveNote(Notes(xI1), xCol, .VPosition, xUndo, xRedo)
+                        .ColumnIndex = xCol
+                    End With
+                Next
+            Case "SRandom", "HRandom"
+                ' Find array of indexes of selected notes in the same vPosition
+                xI1 = 1
+                Dim xI1Arr(-1) As Integer
+                Dim vPos As Integer
+                Dim xI1ArrPrevUBound As Integer = -1
+                ' Find the first index of selected notes
+                Do While xI1 <= UBound(Notes)
+                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
+                    ' Begin building array until vPosition changes
+                    vPos = Notes(xI1).VPosition
+                    Do While xI1 <= UBound(Notes) AndAlso Notes(xI1).VPosition = vPos
+                        If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
+                        ReDim Preserve xI1Arr(xI1Arr.Length)
+                        xI1Arr(UBound(xI1Arr)) = xI1
+                        xI1 += 1
+                    Loop
+                    If Mode = "SRandom" Or xI1ArrPrevUBound = -1 Then ' If SRandom or for HRandom, if it's the first set of notes
+                        Shuffle(xniArrayR)
+                    Else
+                        Dim xniArrayR1(xI1ArrPrevUBound) As String
+                        Dim xniArrayR2(UBound(xniArray1) - xI1ArrPrevUBound - 1) As String
+                        For i = 0 To UBound(xniArrayR1)
+                            xniArrayR1(i) = xniArrayR(i)
+                        Next
+                        For i = 0 To UBound(xniArrayR2)
+                            xniArrayR2(i) = xniArrayR(i + xI1ArrPrevUBound + 1)
+                        Next
+                        Shuffle(xniArrayR1)
+                        Shuffle(xniArrayR2)
+                        For i = 0 To UBound(xniArrayR2)
+                            xniArrayR(i) = xniArrayR2(i)
+                        Next
+                        For i = UBound(xniArrayR2) + 1 To UBound(xniArrayR)
+                            xniArrayR(i) = xniArrayR1(i - UBound(xniArrayR2) - 1)
+                        Next
+                    End If
+                    For xI2 = 0 To UBound(xI1Arr)
+                        Dim xI2I = xI1Arr(xI2)
+                        Me.RedoMoveNote(Notes(xI2I), xniArrayR(xI2), Notes(xI2I).VPosition, xUndo, xRedo)
+                        Notes(xI2I).ColumnIndex = xniArrayR(xI2)
+                    Next
+                    xI1ArrPrevUBound = UBound(xI1Arr)
+                    ReDim xI1Arr(-1)
+                Loop
+        End Select
+
 
 DoNothing:
 
         AddUndo(xUndo, xBaseRedo.Next)
         UpdatePairing()
         RefreshPanelAll()
+    End Sub
+    Private Sub POBRandom_Click(sender As Object, e As EventArgs) Handles POBRandom.Click
+        POBRandomAll("Random")
+    End Sub
+
+    Private Sub POBRRandom_Click(sender As Object, e As EventArgs) Handles POBRRandom.Click
+        POBRandomAll("RRandom")
     End Sub
 
     Private Sub POBSRandom_Click(sender As Object, e As EventArgs) Handles POBSRandom.Click
-        Dim xI1 As Integer
-        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
-        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
-        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
-
-        ' Array 0: Unmodified array
-        ' Array 1: Modified array based on range
-        Dim xniArray0() As Integer
-        Select Case gXKeyMode
-            Case "SP"
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
-            Case "PMS"
-                xniArray0 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
-            Case "DP"
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
-            Case Else
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
-        End Select
-        ' Dim xniArray1 = Integer() ' xniArray0
-
-        ' New function: Declare an array to see the range of selected notes. B columns ignored.
-
-        Dim xRangeL As Integer = niB ' Big number
-        Dim xRangeU As Integer = 0 ' Smol number
-
-        ' Range finder
-        For xI1 = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Then Continue For
-            If xRangeL > Notes(xI1).ColumnIndex Then xRangeL = Notes(xI1).ColumnIndex
-            If xRangeU < Notes(xI1).ColumnIndex Then xRangeU = Notes(xI1).ColumnIndex
-        Next
-
-        ' Modify xniArray based on range
-        '  Out of range
-        If xRangeL > xniArray0(UBound(xniArray0)) Or xRangeU < xniArray0(0) Then GoTo DoNothing
-
-        '  Semi-in Range
-        '   Cut off left side
-        If xRangeL < niA1 Then
-            xRangeL = 0
-            GoTo Skip1
-        End If
-
-        For xI1 = 0 To UBound(xniArray0)
-            If xniArray0(xI1) = xRangeL Then
-                xRangeL = xI1
-                Exit For
-            End If
-        Next
-
-Skip1:
-        '   Cut off right side
-        If xRangeU > niD8 Then
-            xRangeU = xniArray0.Length
-            GoTo Skip2
-        End If
-
-        For xI1 = 0 To UBound(xniArray0)
-            If xniArray0(xI1) = xRangeU Then
-                xRangeU = xI1 + 1
-                Exit For
-            End If
-        Next
-
-Skip2:
-
-        Dim xniArray1(xRangeU - xRangeL - 1)
-        For xI1 = 0 To xRangeU - xRangeL - 1
-            xniArray1(xI1) = xniArray0(xI1 + xRangeL)
-        Next
-        Dim xniArray1R = xniArray1.Clone
-        ' Find array of indexes of selected notes in the same vPosition
-        xI1 = 1
-        Dim xI1Arr(-1) As Integer
-        Dim vPos As Integer
-        ' Find the first index of selected notes
-        Do While xI1 <= UBound(Notes)
-            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
-            ' Begin building array until vPosition changes
-            vPos = Notes(xI1).VPosition
-            Do While xI1 <= UBound(Notes) AndAlso Notes(xI1).VPosition = vPos
-                If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
-                ReDim Preserve xI1Arr(xI1Arr.Length)
-                xI1Arr(UBound(xI1Arr)) = xI1
-                xI1 += 1
-            Loop
-            Shuffle(xniArray1R)
-            For xI2 = 0 To UBound(xI1Arr)
-                Dim xI2I = xI1Arr(xI2)
-                Me.RedoMoveNote(Notes(xI2I), xniArray1R(xI2), Notes(xI2I).VPosition, xUndo, xRedo)
-                Notes(xI2I).ColumnIndex = xniArray1R(xI2)
-            Next
-            ReDim xI1Arr(-1)
-            xniArray1R = xniArray1.Clone
-        Loop
-
-DoNothing:
-
-        AddUndo(xUndo, xBaseRedo.Next)
-        UpdatePairing()
-        RefreshPanelAll()
+        POBRandomAll("SRandom")
     End Sub
 
+    Private Sub POBHRandom_Click(sender As Object, e As EventArgs) Handles POBHRandom.Click
+        POBRandomAll("HRandom")
+    End Sub
     Private Sub POBSort_Click(sender As Object, e As EventArgs) Handles POBSort.Click
         Dim xI1 As Integer
         Dim xI2 As Integer

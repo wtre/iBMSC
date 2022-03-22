@@ -1,4 +1,6 @@
-﻿Public Class OpVisualOverride
+﻿Imports System.Windows.Forms
+
+Public Class OpVisualOverride
     Dim COverrides() As MainWindow.ColorOverride
     Dim F As String
     Public Sub New(ByVal FileName As String)
