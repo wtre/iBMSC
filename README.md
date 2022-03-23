@@ -62,7 +62,7 @@ Listed in the order added.
 * Display ghost notes: Select an #if section to display its notes in ghost form.
 * Display ghost notes (All): Display all notes in ghost form.
 * Modify notes: Select an #if section and jump straight to modifying them.
-* Modify section: Opens a instance of pBMSC, allowing you to modify the #if section individually.
+* Modify section: Open an instance of pBMSC, allowing you to modify the #if section individually.
 * Remove ghost notes: Remove all ghost notes.
 
 ### Visual Override Options

@@ -2731,7 +2731,6 @@ Skip1:
         Next
 
 Skip2:
-
         Dim xniArray1(xRangeU - xRangeL - 1)
         For xI1 = 0 To xRangeU - xRangeL - 1
             xniArray1(xI1) = xniArray0(xI1 + xRangeL)
@@ -2741,6 +2740,7 @@ Skip2:
 
         Select Case Mode
             Case "Random", "RRandom"
+                ' Shuffle columns
                 If Mode = "Random" Then
                     Shuffle(xniArrayR)
                 Else
@@ -2750,6 +2750,7 @@ Skip2:
                     Next
                 End If
 
+                ' Move notes
                 Dim xCol As Integer
                 For xI1 = 1 To UBound(Notes)
                     With Notes(xI1)
@@ -2773,7 +2774,7 @@ Skip2:
                 xI1 = 1
                 Dim xI1Arr(-1) As Integer
                 Dim vPos As Integer
-                Dim xI1ArrPrevUBound As Integer = -1
+                Dim xI1ArrPrevUBound As Integer = -1 ' Used for HRandom
                 ' Find the first index of selected notes
                 Do While xI1 <= UBound(Notes)
                     If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
@@ -2785,6 +2786,8 @@ Skip2:
                         xI1Arr(UBound(xI1Arr)) = xI1
                         xI1 += 1
                     Loop
+
+                    ' Shuffle columns
                     If Mode = "SRandom" Or xI1ArrPrevUBound = -1 Then ' If SRandom or for HRandom, if it's the first set of notes
                         Shuffle(xniArrayR)
                     Else
@@ -2805,6 +2808,8 @@ Skip2:
                             xniArrayR(i) = xniArrayR1(i - UBound(xniArrayR2) - 1)
                         Next
                     End If
+
+                    ' Move notes
                     For xI2 = 0 To UBound(xI1Arr)
                         Dim xI2I = xI1Arr(xI2)
                         Me.RedoMoveNote(Notes(xI2I), xniArrayR(xI2), Notes(xI2I).VPosition, xUndo, xRedo)
@@ -3808,17 +3813,12 @@ Jump2:
 
         'Main process
         For xI1 As Integer = 1 To UBound(Notes)
-            ' Dim bbba As Boolean = xbSel And xSel(xI1)
-            ' Dim bbbb As Boolean = xbUnsel And Not xSel(xI1)
-            ' Dim bbbc As Boolean = nEnabled(Notes(xI1).ColumnIndex)
-            ' Dim bbbd As Boolean = fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote))
-            ' Dim bbbe As Boolean = fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden)
-            ' Dim bbbf As Boolean = fdrCheck(Notes(xI1))
-
-            If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
-                    nEnabled(Notes(xI1).ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote)) And fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden) Then
-                Notes(xI1).Selected = fdrCheck(Notes(xI1))
-            End If
+            With Notes(xI1)
+                If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
+                    nEnabled(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, .Length, .LongNote)) And fdrRangeS(xbVisible, xbHidden, .Hidden) Then
+                    .Selected = fdrCheck(Notes(xI1))
+                End If
+            End With
         Next
 
         RefreshPanelAll()
@@ -3853,10 +3853,12 @@ Jump2:
 
         'Main process
         For xI1 As Integer = 1 To UBound(Notes)
-            If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
-                        nEnabled(Notes(xI1).ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote)) And fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden) Then
-                Notes(xI1).Selected = Not fdrCheck(Notes(xI1))
-            End If
+            With Notes(xI1)
+                If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
+                    nEnabled(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, .Length, .LongNote)) And fdrRangeS(xbVisible, xbHidden, .Hidden) Then
+                    .Selected = Not fdrCheck(Notes(xI1))
+                End If
+            End With
         Next
 
         RefreshPanelAll()
@@ -3891,14 +3893,16 @@ Jump2:
         Next
 
         For xI1 = UBound(Notes) To 1 Step -1
-            If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
-                    nEnabled(Notes(xI1).ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote)) And fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden) AndAlso
+            With Notes(xI1)
+                If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
+                    nEnabled(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, .Length, .LongNote)) And fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
                     fdrCheck(Notes(xI1)) AndAlso
-                    Notes(xI1).VPosition < -PanelVScroll(PanelFocus) Then
-                PanelVScroll(PanelFocus) = -Notes(xI1).VPosition
-                Notes(xI1).Selected = True
-                Exit For
-            End If
+                    .VPosition < -PanelVScroll(PanelFocus) Then
+                    PanelVScroll(PanelFocus) = - .VPosition
+                    .Selected = True
+                    Exit For
+                End If
+            End With
         Next
 
         RefreshPanelAll()
@@ -3932,14 +3936,16 @@ Jump2:
         Next
 
         For xI1 = 1 To UBound(Notes)
-            If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
-                    nEnabled(Notes(xI1).ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote)) And fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden) AndAlso
+            With Notes(xI1)
+                If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
+                    nEnabled(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, .Length, .LongNote)) And fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
                     fdrCheck(Notes(xI1)) AndAlso
-                    Notes(xI1).VPosition > -PanelVScroll(PanelFocus) Then
-                PanelVScroll(PanelFocus) = -Notes(xI1).VPosition
-                Notes(xI1).Selected = True
-                Exit For
-            End If
+                    .VPosition > -PanelVScroll(PanelFocus) Then
+                    PanelVScroll(PanelFocus) = - .VPosition
+                    .Selected = True
+                    Exit For
+                End If
+            End With
         Next
 
         RefreshPanelAll()
@@ -3974,13 +3980,15 @@ Jump2:
         'Main process
         Dim xI1 As Integer = 1
         Do While xI1 <= UBound(Notes)
-            If (Not Notes(xI1).Ghost) AndAlso ((xbSel And Notes(xI1).Selected) Or (xbUnsel And Not Notes(xI1).Selected)) AndAlso
-                        fdrCheck(Notes(xI1)) AndAlso nEnabled(Notes(xI1).ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote)) And fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden) Then
-                RedoRemoveNote(Notes(xI1), xUndo, xRedo)
-                RemoveNote(xI1, False)
-            Else
-                xI1 += 1
-            End If
+            With Notes(xI1)
+                If (Not .Ghost) AndAlso ((xbSel And .Selected) Or (xbUnsel And Not .Selected)) AndAlso
+                        fdrCheck(Notes(xI1)) AndAlso nEnabled(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, .Length, .LongNote)) And fdrRangeS(xbVisible, xbHidden, .Hidden) Then
+                    RedoRemoveNote(Notes(xI1), xUndo, xRedo)
+                    RemoveNote(xI1, False)
+                Else
+                    xI1 += 1
+                End If
+            End With
         Loop
 
         AddUndo(xUndo, xBaseRedo.Next)
@@ -4020,13 +4028,13 @@ Jump2:
 
         'Main process
         For xI1 As Integer = 1 To UBound(Notes)
-            If (Not Notes(xI1).Ghost) AndAlso ((xbSel And Notes(xI1).Selected) Or (xbUnsel And Not Notes(xI1).Selected)) AndAlso
-                    fdrCheck(Notes(xI1)) AndAlso nEnabled(Notes(xI1).ColumnIndex) And Not IsColumnNumeric(Notes(xI1).ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote)) And fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden) Then
-                'xUndo &= sCmdKC(K(xI1).ColumnIndex, K(xI1).VPosition, xxLbl, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, 0, 0, K(xI1).Value, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, True) & vbCrLf
-                'xRedo &= sCmdKC(K(xI1).ColumnIndex, K(xI1).VPosition, K(xI1).Value, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, 0, 0, xxLbl, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, True) & vbCrLf
-                Me.RedoRelabelNote(Notes(xI1), xxLbl, xUndo, xRedo)
-                Notes(xI1).Value = xxLbl
-            End If
+            With Notes(xI1)
+                If (Not .Ghost) AndAlso ((xbSel And .Selected) Or (xbUnsel And Not .Selected)) AndAlso
+                    fdrCheck(Notes(xI1)) AndAlso nEnabled(.ColumnIndex) And Not IsColumnNumeric(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, .Length, .LongNote)) And fdrRangeS(xbVisible, xbHidden, .Hidden) Then
+                    Me.RedoRelabelNote(Notes(xI1), xxLbl, xUndo, xRedo)
+                    .Value = xxLbl
+                End If
+            End With
         Next
 
         AddUndo(xUndo, xBaseRedo.Next)
@@ -4061,13 +4069,13 @@ Jump2:
 
         'Main process
         For xI1 As Integer = 1 To UBound(Notes)
-            If (Not Notes(xI1).Ghost) AndAlso ((xbSel And Notes(xI1).Selected) Or (xbUnsel And Not Notes(xI1).Selected)) AndAlso
-                    fdrCheck(Notes(xI1)) AndAlso nEnabled(Notes(xI1).ColumnIndex) And IsColumnNumeric(Notes(xI1).ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, Notes(xI1).Length, Notes(xI1).LongNote)) And fdrRangeS(xbVisible, xbHidden, Notes(xI1).Hidden) Then
-                'xUndo &= sCmdKC(K(xI1).ColumnIndex, K(xI1).VPosition, xReplaceVal, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, 0, 0, K(xI1).Value, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, True) & vbCrLf
-                'xRedo &= sCmdKC(K(xI1).ColumnIndex, K(xI1).VPosition, K(xI1).Value, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, 0, 0, xReplaceVal, IIf(NTInput, K(xI1).Length, K(xI1).LongNote), K(xI1).Hidden, True) & vbCrLf
-                Me.RedoRelabelNote(Notes(xI1), xReplaceVal, xUndo, xRedo)
-                Notes(xI1).Value = xReplaceVal
-            End If
+            With Notes(xI1)
+                If (Not .Ghost) AndAlso ((xbSel And .Selected) Or (xbUnsel And Not .Selected)) AndAlso
+                    fdrCheck(Notes(xI1)) AndAlso nEnabled(.ColumnIndex) And IsColumnNumeric(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, IIf(NTInput, .Length, .LongNote)) And fdrRangeS(xbVisible, xbHidden, .Hidden) Then
+                    Me.RedoRelabelNote(Notes(xI1), xReplaceVal, xUndo, xRedo)
+                    .Value = xReplaceVal
+                End If
+            End With
         Next
 
         AddUndo(xUndo, xBaseRedo.Next)
