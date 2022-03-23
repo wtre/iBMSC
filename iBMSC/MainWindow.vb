@@ -2745,8 +2745,9 @@ Skip2:
                     Shuffle(xniArrayR)
                 Else
                     Dim R As Integer = Math.Floor(xniArrayR.Length * Rnd())
+                    Dim M As Integer = Math.Floor(2 * Rnd()) * 2 - 1
                     For i = 0 To UBound(xniArrayR)
-                        xniArrayR(i) = xniArray1((i + R) Mod xniArrayR.Length)
+                        xniArrayR(i) = xniArray1((i * M + R + xniArrayR.Length) Mod xniArrayR.Length)
                     Next
                 End If
 
