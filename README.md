@@ -28,6 +28,7 @@ Listed in the order added.
 * Added support for #RANDOM. Supports expansion field and main data field only. Not tested thoroughly, nested #RANDOM in "Modify Section" only. Accessible via the "Select Section" button in Expansion Code or via Ctrl+R.
 * Added color overriding options where you can specify a range of notes to appear a specific color, such as red notes for drums and green notes for the piano. Accessible via the Options tab or via Shift+F12.
 * Added comment notes. Comment notes will be saved as #ECMD and #ECOM within the same bms/pms file. Not tested thoroughly.
+* The window will now follow notes being moved by arrow keys.
 
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8.
@@ -54,6 +55,7 @@ Listed in the order added.
 * Added color overriding options (Shift+F12).
 
 ## New dialog/option boxes
+
 ### Advanced Statistics
 * Displays note statistics over individual lanes from A1 to D8.
 * Displays note usages, including #WAV assigned notes with 0 note count and #WAV unassigned notes with non-zero note count.

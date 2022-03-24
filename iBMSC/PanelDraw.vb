@@ -558,9 +558,7 @@ Partial Public Class MainWindow
         If sNote.Hidden Then xAlpha = vo.kOpacity
         If sNote.Ghost Then xAlpha *= 0.1
 
-        Dim xLabel As String = C10to36(sNote.Value \ 10000)
-        If sNote.Comment Then xLabel = WordWrapConvert(hCOM(C36to10(xLabel))) Else _
-        If ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then xLabel = Path.GetFileNameWithoutExtension(hWAV(C36to10(xLabel)))
+        Dim xLabel As String = GetNoteLabel(sNote)
 
         Dim xPen As Pen
         Dim xBrush As Drawing2D.LinearGradientBrush
@@ -674,10 +672,18 @@ Partial Public Class MainWindow
                             NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) + vo.kHeight),
                     GetColumn(sNote.ColumnIndex).getLongBright(xAlpha),
                     GetColumn(sNote.ColumnIndex).getLongDark(xAlpha))
-        e.Graphics.FillRectangle(xBrush3, HorizontalPositiontoDisplay(nLeft(Notes(sNote.LNPair).ColumnIndex), xHS) + 3, NoteRowToPanelHeight(Notes(sNote.LNPair).VPosition, xVS, xHeight) + 1,
-                                        GetColumnWidth(Notes(sNote.LNPair).ColumnIndex) * gxWidth - 5, NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - NoteRowToPanelHeight(Notes(sNote.LNPair).VPosition, xVS, xHeight) - vo.kHeight - 1)
-        e.Graphics.DrawRectangle(xPen2, HorizontalPositiontoDisplay(nLeft(Notes(sNote.LNPair).ColumnIndex), xHS) + 2, NoteRowToPanelHeight(Notes(sNote.LNPair).VPosition, xVS, xHeight),
-                                        GetColumnWidth(Notes(sNote.LNPair).ColumnIndex) * gxWidth - 4, NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - NoteRowToPanelHeight(Notes(sNote.LNPair).VPosition, xVS, xHeight) - vo.kHeight)
+
+        Dim xX As Single = HorizontalPositiontoDisplay(nLeft(Notes(sNote.LNPair).ColumnIndex), xHS)
+        Dim xWidth As Single = GetColumnWidth(Notes(sNote.LNPair).ColumnIndex) * gxWidth
+        If sNote.Comment Then
+            For i = 1 To 4
+                xWidth += GetColumnWidth(Notes(sNote.LNPair).ColumnIndex + i) * gxWidth
+            Next
+        End If
+        e.Graphics.FillRectangle(xBrush3, xX + 3, NoteRowToPanelHeight(Notes(sNote.LNPair).VPosition, xVS, xHeight) + 1,
+                                        xWidth - 5, NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - NoteRowToPanelHeight(Notes(sNote.LNPair).VPosition, xVS, xHeight) - vo.kHeight - 1)
+        e.Graphics.DrawRectangle(xPen2, xX + 2, NoteRowToPanelHeight(Notes(sNote.LNPair).VPosition, xVS, xHeight),
+                                        xWidth - 4, NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - NoteRowToPanelHeight(Notes(sNote.LNPair).VPosition, xVS, xHeight) - vo.kHeight)
     End Sub
 
     ''' <summary>
@@ -695,9 +701,7 @@ Partial Public Class MainWindow
         If sNote.Hidden Then xAlpha = vo.kOpacity
         If sNote.Ghost Then xAlpha *= 0.1
 
-        Dim xLabel As String = C10to36(sNote.Value \ 10000)
-        If sNote.Comment Then xLabel = WordWrapConvert(hCOM(C36to10(xLabel))) Else _
-        If ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then xLabel = Path.GetFileNameWithoutExtension(hWAV(C36to10(xLabel)))
+        Dim xLabel As String = GetNoteLabel(sNote)
 
         Dim xPen1 As Pen
         Dim xBrush As Drawing2D.LinearGradientBrush
@@ -817,5 +821,21 @@ Partial Public Class MainWindow
     Private Function WordWrapConvert(ByVal s As String)
         If s = "" Then Return ""
         Return s.Replace("\n", vbCrLf)
+    End Function
+
+    Private Function GetNoteLabel(ByVal sNote As Note)
+        Dim xLabel As String = C10to36(sNote.Value \ 10000)
+        ' If note is a comment note
+        If sNote.Comment Then
+            ' If it is an LN and it is the lower note in its LN pair, display nothing
+            If sNote.LNPair > 0 AndAlso Notes(sNote.LNPair).VPosition > sNote.VPosition Then
+                xLabel = ""
+            Else
+                xLabel = WordWrapConvert(hCOM(C36to10(xLabel)))
+            End If
+        ElseIf ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then
+            xLabel = Path.GetFileNameWithoutExtension(hWAV(C36to10(xLabel)))
+        End If
+        Return xLabel
     End Function
 End Class
