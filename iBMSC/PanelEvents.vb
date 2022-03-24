@@ -37,18 +37,16 @@ Partial Public Class MainWindow
                 Next
                 muVPosition -= 191999
 
-                'xRedo = sCmdKMs(0, xVPosition - muVPosition, True)
                 Dim xVPos As Double
-                For xI1 = 1 To UBound(Notes)
+                For xI1 = UBound(Notes) To 1 Step -1
                     If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                     xVPos = Notes(xI1).VPosition + xVPosition - muVPosition
                     Me.RedoMoveNote(Notes(xI1), Notes(xI1).ColumnIndex, xVPos, xUndo, xRedo)
                     Notes(xI1).VPosition = xVPos
+                    IsNoteInPanel(xVPos, Notes(xI1).Length)
                 Next
-                'xUndo = sCmdKMs(0, -xVPosition + muVPosition, True)
 
-                If xVPosition - muVPosition <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
                 SortByVPositionInsertion()
                 UpdatePairing()
                 CalculateTotalPlayableNotes()
@@ -70,16 +68,15 @@ Partial Public Class MainWindow
                     End If
                 Next
 
-                'xRedo = sCmdKMs(0, xVPosition - mVPosition, True)
                 Dim xVPos As Double
-                For xI1 = 1 To UBound(Notes)
+                For xI1 = UBound(Notes) To 1 Step -1
                     If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                     xVPos = Notes(xI1).VPosition + xVPosition - mVPosition
                     Me.RedoMoveNote(Notes(xI1), Notes(xI1).ColumnIndex, xVPos, xUndo, xRedo)
                     Notes(xI1).VPosition = xVPos
+                    IsNoteInPanel(xVPos, Notes(xI1).Length)
                 Next
-                'xUndo = sCmdKMs(0, -xVPosition + mVPosition, True)
 
                 If xVPosition - mVPosition <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
                 SortByVPositionInsertion()
@@ -100,16 +97,16 @@ Partial Public Class MainWindow
                                                         ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) - 1,
                                                         mLeft)
                 Next
-                'xRedo = sCmdKMs(-1 - mLeft, 0, True)
+
                 Dim xCol As Integer
-                For xI1 = 1 To UBound(Notes)
+                For xI1 = UBound(Notes) To 1 Step -1
                     If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                     xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) - 1 - mLeft)
                     Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
                     Notes(xI1).ColumnIndex = xCol
+                    IsNoteInPanel(Notes(xI1).VPosition, Notes(xI1).Length)
                 Next
-                'xUndo = sCmdKMs(1 + mLeft, 0, True)
 
                 If -1 - mLeft <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
                 UpdatePairing()
@@ -117,16 +114,15 @@ Partial Public Class MainWindow
                 RefreshPanelAll()
 
             Case Keys.Right
-                'xRedo = sCmdKMs(1, 0, True)
                 Dim xCol As Integer
-                For xI1 = 1 To UBound(Notes)
+                For xI1 = UBound(Notes) To 1 Step -1
                     If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
 
                     xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) + 1)
                     Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
                     Notes(xI1).ColumnIndex = xCol
+                    IsNoteInPanel(Notes(xI1).VPosition, Notes(xI1).Length)
                 Next
-                'xUndo = sCmdKMs(-1, 0, True)
 
                 AddUndo(xUndo, xBaseRedo.Next)
                 UpdatePairing()
@@ -1630,6 +1626,14 @@ Partial Public Class MainWindow
 
         e1.Render(spMain(iI).CreateGraphics)
         e1.Dispose()
+    End Sub
+
+    Private Sub IsNoteInPanel(xVPos As Double, xLength As Double)
+        If -PanelVScroll(PanelFocus) > xVPos Then ' If notes are moved lower than the window
+            PanelVScroll(PanelFocus) = -xVPos
+        ElseIf -PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight * 0.95 < xVPos + xLength Then ' If notes are moved higher than the window
+            PanelVScroll(PanelFocus) = -xVPos + spMain(PanelFocus).Height / gxHeight * 0.95 - xLength
+        End If
     End Sub
 
     Private Function GetColumnAtX(x As Integer, xHS As Integer) As Integer

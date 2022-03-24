@@ -3570,7 +3570,6 @@ RestartSorting: xSorted = False
                 AutoFocusMouseEnter = .cMEnterFocus.Checked
                 FirstClickDisabled = .cMClickFocus.Checked
                 ClickStopPreview = .cMStopPreview.Checked
-                ' KeyBindDP = .cMKeyBindDP.Checked
             End With
             If AutoSaveInterval Then AutoSaveTimer.Interval = AutoSaveInterval
             AutoSaveTimer.Enabled = AutoSaveInterval
