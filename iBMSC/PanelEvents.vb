@@ -1126,6 +1126,15 @@ Partial Public Class MainWindow
             End If
         End If
 
+        '
+        Dim foundNoteIndex As Integer = -1
+        For noteIndex = 1 To UBound(Notes)
+            If MouseInNote(e, xhs, xvs, xHeight, Notes(noteIndex)) Then
+                foundNoteIndex = noteIndex
+                Exit For
+            End If
+        Next
+
         'If moving
         If Not bAdjustLength Then
             OnSelectModeMoveNotes(e, xhs, xITemp)
@@ -1133,12 +1142,14 @@ Partial Public Class MainWindow
         ElseIf bAdjustUpper Then    'If adjusting upper end
             Dim dVPosition = mouseVPosition - Notes(xITemp).VPosition - Notes(xITemp).Length  'delta Length
             '< 0 means shorten, > 0 means lengthen
+            If foundNoteIndex > -1 Then dVPosition = Notes(foundNoteIndex).VPosition - Notes(xITemp).VPosition - Notes(xITemp).Length
 
             OnAdjustUpperEnd(dVPosition)
 
         Else    'If adjusting lower end
             Dim dVPosition = mouseVPosition - Notes(xITemp).VPosition  'delta VPosition
             '> 0 means shorten, < 0 means lengthen
+            If foundNoteIndex > -1 Then dVPosition = Notes(foundNoteIndex).VPosition - Notes(xITemp).VPosition
 
             OnAdjustLowerEnd(dVPosition)
         End If
