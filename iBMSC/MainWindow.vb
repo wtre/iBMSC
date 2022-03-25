@@ -156,6 +156,9 @@ Public Class MainWindow
     'Variables misc
     Dim menuVPosition As Double = 0.0#
     Dim tempResize As Integer = 0
+    Dim hCOM(1295) As String '
+    Dim hCOMNum As Integer = 0
+    Dim gXKeyMode As String = "SP" ' Determines from column width 7key mode, 9key mode or 14key mode
 
     '----AutoSave Options
     Dim PreviousAutoSavedFileName As String = ""
@@ -170,8 +173,6 @@ Public Class MainWindow
     Dim hBPM(1295) As Long   'x10000
     Dim hSTOP(1295) As Long
     Dim hBMSCROLL(1295) As Long
-    Dim hCOM(1295) As String
-    Dim hCOMNum As Integer = 0
 
     '----Grid Options
     Dim gSnap As Boolean = True
@@ -197,7 +198,6 @@ Public Class MainWindow
     'Dim gA8 As Boolean = False
     Dim iPlayer As Integer = 0
     Dim gColumns As Integer = 46
-    Dim gXKeyMode As String = "SP" ' Determines from column width 7key mode, 9key mode or 14key mode
 
     '----Visual Options
     Dim vo As New visualSettings()
