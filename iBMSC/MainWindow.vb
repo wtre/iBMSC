@@ -60,6 +60,8 @@ Public Class MainWindow
     Dim Recent() As String = {"", "", "", "", ""}
     Dim NTInput As Boolean = True
     Dim ShowFileName As Boolean = False
+    Dim ShowWaveform As Boolean = False
+    Dim WaveformLoaded As Boolean = False
 
     Dim BeepWhileSaved As Boolean = True
     Dim BPMx1296 As Boolean = False
@@ -159,6 +161,7 @@ Public Class MainWindow
     Dim hCOM(1295) As String '
     Dim hCOMNum As Integer = 0
     Dim gXKeyMode As String = "SP" ' Determines from column width 7key mode, 9key mode or 14key mode
+    Dim wLWAV(1295) As wWav
 
     '----AutoSave Options
     Dim PreviousAutoSavedFileName As String = ""
@@ -205,6 +208,23 @@ Public Class MainWindow
     Public Sub setVO(ByVal xvo As visualSettings)
         vo = xvo
     End Sub
+
+    '----Note Waveforms
+    Structure wWav
+        Public wWavL() As Single
+        Public wWavR() As Single
+        Public wSampleRate As Single
+
+        Public Sub New(xWavL() As Single,
+                       xWavR() As Single,
+                       xSampleRate As Integer)
+            wWavL = xWavL
+            wWavR = xWavR
+            wSampleRate = xSampleRate
+        End Sub
+    End Structure
+    'Note Waveform Options
+
 
     '----Visual Override Options
     Structure ColorOverride
@@ -966,6 +986,9 @@ Public Class MainWindow
         CHLnObj.SelectedIndex = 0
         GhostMode = 0
         ReDim hCOM(1295)
+        hCOMNum = 0
+        ReDim wLWAV(1295)
+        WaveformLoaded = False
 
         TExpansion.Text = ""
 
@@ -1986,6 +2009,7 @@ EndSearch:
                 Next
                 For i = 0 To xLWAVIds.Count - 1
                     hWAV(xLWAVIds(i) + 1) = ""
+                    wLWAV(xLWAVIds(i) + 1) = New wWav({}, {}, 0)
                     LWAV.Items.Item(xLWAVIds(i)) = C10to36(xLWAVIds(i) + 1) & ": "
                 Next
                 If IsSaved Then SetIsSaved(False)
@@ -2021,6 +2045,21 @@ EndSearch:
         mnShowFileName.Checked = ShowFileName
         TBShowFileName.Image = IIf(ShowFileName, My.Resources.x16ShowFileName, My.Resources.x16ShowFileNameN)
         mnShowFileName.Image = IIf(ShowFileName, My.Resources.x16ShowFileName, My.Resources.x16ShowFileNameN)
+        RefreshPanelAll()
+    End Sub
+
+    Private Sub TBShowWaveform_Click(sender As Object, e As EventArgs) Handles TBShowWaveform.Click, mnShowWaveform.Click
+        ShowWaveform = sender.Checked
+        TBShowWaveform.Checked = ShowWaveform
+        mnShowWaveform.Checked = ShowWaveform
+        TBShowWaveform.Image = My.Resources.x16ShowWaveform
+        mnShowWaveform.Image = My.Resources.x16ShowWaveform
+        If Not WaveformLoaded AndAlso ShowWaveform Then
+            For xI1 = 1 To UBound(wLWAV)
+                If hWAV(xI1) <> "" Then wLWAV(xI1) = LoadWaveForm(ExcludeFileName(FileName) & "\" & hWAV(xI1))
+            Next
+            WaveformLoaded = True
+        End If
         RefreshPanelAll()
     End Sub
 
@@ -3176,6 +3215,8 @@ RestartSorting: xSorted = False
             hWAV(xIndices(xI1) + 1) = GetFileName(xPath(xI1))
             LWAV.Items.Item(xIndices(xI1)) = C10to36(xIndices(xI1) + 1) & ": " & GetFileName(xPath(xI1))
             'xI2 += 1
+            ' Add waveforms to wLWAV
+            If ShowWaveform Then wLWAV(xIndices(xI1) + 1) = LoadWaveForm(xPath(xI1))
         Next
 
         LWAV.SelectedIndices.Clear()

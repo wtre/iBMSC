@@ -25,27 +25,10 @@ Partial Public Class MainWindow
         If xDWAV.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
         InitPath = ExcludeFileName(xDWAV.FileName)
 
-        Dim src = CSCore.Codecs.CodecFactory.Instance.GetCodec(xDWAV.FileName)
-
-        src.ToStereo()
-        Dim samples(src.Length) As Single
-        src.ToSampleSource().Read(samples, 0, src.Length)
-
-        Dim flen = (src.Length - 1) / src.WaveFormat.Channels
-
-        ' Copy interleaved data
-        ReDim wWavL(flen + 1)
-        ReDim wWavR(flen + 1)
-        For i As Integer = 0 To flen
-            If 2 * i < src.Length Then
-                wWavL(i) = samples(2 * i)
-            End If
-            If 2 * i + 1 < src.Length Then
-                wWavR(i) = samples(2 * i + 1)
-            End If
-        Next
-
-        wSampleRate = src.WaveFormat.SampleRate
+        Dim w As wWav = LoadWaveForm(xDWAV.FileName)
+        wWavL = w.wWavL
+        wWavR = w.wWavR
+        wSampleRate = w.wSampleRate
         RefreshPanelAll()
 
         TWFileName.Text = xDWAV.FileName
@@ -65,4 +48,41 @@ Partial Public Class MainWindow
         TWPosition2.Enabled = Not wLock
         RefreshPanelAll()
     End Sub
+
+    Private Function LoadWaveForm(ByVal filepath As String)
+        filepath = Audio.CheckFilename(filepath)
+        If Not System.IO.File.Exists(filepath) Then Return New wWav({}, {}, 0)
+
+        Dim src = CSCore.Codecs.CodecFactory.Instance.GetCodec(filepath)
+
+        src.ToStereo()
+        Dim samples(src.Length) As Single
+        src.ToSampleSource().Read(samples, 0, src.Length)
+
+        Dim flen = (src.Length - 1) / src.WaveFormat.Channels
+
+        ' Copy interleaved data
+        ReDim wWavL(flen + 1)
+        ReDim wWavR(flen + 1)
+        For i As Integer = 0 To flen
+            If 2 * i < src.Length Then
+                wWavL(i) = samples(2 * i)
+            End If
+            If 2 * i + 1 < src.Length Then
+                wWavR(i) = samples(2 * i + 1)
+            End If
+        Next
+
+        Dim flenReduced As Integer
+        For i = UBound(wWavL) To 0 Step -1
+            If wWavL(i) = 0 AndAlso wWavR(i) = 0 Then
+                flenReduced = i
+            Else
+                ReDim Preserve wWavL(flenReduced)
+                ReDim Preserve wWavR(flenReduced)
+                Exit For
+            End If
+        Next
+        Return New wWav(wWavL, wWavR, src.WaveFormat.SampleRate)
+    End Function
 End Class

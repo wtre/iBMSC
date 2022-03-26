@@ -532,7 +532,7 @@ Partial Public Class MainWindow
         'Play wav
         If ClickStopPreview Then PreviewNote("", True)
         'My.Computer.Audio.Stop()
-        If NoteIndex > 0 AndAlso PreviewOnClick AndAlso Not IsColumnNumeric(Notes(NoteIndex).ColumnIndex) AndAlso Not Notes(NoteIndex).Comment Then
+        If NoteIndex > 0 AndAlso PreviewOnClick AndAlso IsColumnSound(Notes(NoteIndex).ColumnIndex) AndAlso Not Notes(NoteIndex).Comment Then
             Dim xI2 As Integer = Notes(NoteIndex).Value \ 10000
             If xI2 <= 0 Then xI2 = 1
             If xI2 >= 1296 Then xI2 = 1295

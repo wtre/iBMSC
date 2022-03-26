@@ -79,6 +79,7 @@ Partial Public Class MainWindow
             .WriteAttributeString("AutoFocusMouseEnter", AutoFocusMouseEnter)
             .WriteAttributeString("FirstClickDisabled", FirstClickDisabled)
             .WriteAttributeString("ShowFileName", ShowFileName)
+            .WriteAttributeString("ShowWaveform", ShowWaveform)
             .WriteAttributeString("MiddleButtonMoveMethod", MiddleButtonMoveMethod)
             .WriteAttributeString("AutoSaveInterval", AutoSaveInterval)
             .WriteAttributeString("PreviewOnClick", PreviewOnClick)
@@ -339,6 +340,10 @@ Partial Public Class MainWindow
                 XMLLoadAttribute(.GetAttribute("ShowFileName"), ShowFileName)
                 TBShowFileName.Checked = ShowFileName
                 TBShowFileName_Click(TBShowFileName, New System.EventArgs)
+
+                XMLLoadAttribute(.GetAttribute("ShowWaveform"), ShowWaveform)
+                TBShowWaveform.Checked = ShowWaveform
+                TBShowWaveform_Click(TBShowWaveform, New System.EventArgs)
 
                 XMLLoadAttribute(.GetAttribute("MiddleButtonMoveMethod"), MiddleButtonMoveMethod)
                 XMLLoadAttribute(.GetAttribute("AutoFocusMouseEnter"), AutoFocusMouseEnter)
@@ -680,6 +685,7 @@ EndOfSub:
                     XMLLoadLocaleMenu(eOptions.Item("ErrorCheck"), mnErrorCheck.Text)
                     XMLLoadLocaleMenu(eOptions.Item("PreviewOnClick"), mnPreviewOnClick.Text)
                     XMLLoadLocaleMenu(eOptions.Item("ShowFileName"), mnShowFileName.Text)
+                    XMLLoadLocaleMenu(eOptions.Item("ShowWaveform"), mnShowWaveform.Text)
                     XMLLoadLocaleMenu(eOptions.Item("GeneralOptions"), mnGOptions.Text)
                     XMLLoadLocaleMenu(eOptions.Item("VisualOptions"), mnVOptions.Text)
                     XMLLoadLocaleMenu(eOptions.Item("PlayerOptions"), mnPOptions.Text)
@@ -721,6 +727,7 @@ EndOfSub:
                 XMLLoadLocale(eToolBar.Item("ErrorCheck"), TBErrorCheck.Text)
                 XMLLoadLocale(eToolBar.Item("PreviewOnClick"), TBPreviewOnClick.Text)
                 XMLLoadLocale(eToolBar.Item("ShowFileName"), TBShowFileName.Text)
+                XMLLoadLocale(eToolBar.Item("ShowWaveform"), TBShowWaveform.Text)
                 XMLLoadLocale(eToolBar.Item("Undo"), TBUndo.Text)
                 XMLLoadLocale(eToolBar.Item("Redo"), TBRedo.Text)
                 XMLLoadLocale(eToolBar.Item("NT"), TBNTInput.Text)

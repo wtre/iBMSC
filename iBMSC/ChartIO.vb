@@ -26,8 +26,6 @@ Partial Public Class MainWindow
         ReDim hBPM(1295)    'x10000
         ReDim hSTOP(1295)
         ReDim hBMSCROLL(1295)
-        ReDim hCOM(1295)
-        hCOMNum = 0
         Me.InitializeNewBMS()
         Me.InitializeOpenBMS()
 
@@ -269,9 +267,12 @@ SkipUpdateMeasureBottom:
         LWAV.Items.Clear()
         For xI1 = 1 To 1295
             LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
+            ' Add waveforms to wLWAV
+            If hWAV(xI1) <> "" AndAlso ShowWaveform Then wLWAV(xI1) = LoadWaveForm(ExcludeFileName(FileName) & "\" & hWAV(xI1))
         Next
         LWAV.SelectedIndex = 0
         LWAV.Visible = True
+        If ShowWaveform Then WaveformLoaded = True
 
         TExpansion.Text = xExpansion
 SkipLWAVAndExpansion:

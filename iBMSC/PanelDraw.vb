@@ -57,11 +57,13 @@ Partial Public Class MainWindow
         xI1 = DrawColumnCaptions(e1, xTWidth, xPanelHScroll, xI1)
 
         'WaveForm
-        DrawWaveform(e1, xTHeight, xVSR, xI1)
+        DrawWaveform(e1, xTHeight, xPanelHScroll, xVSR)
 
         'K
         'If Not K Is Nothing Then
         DrawNotes(e1, xTHeight, xPanelHScroll, xPanelDisplacement)
+
+        If ShowWaveform Then DrawWaveformNotes(e1, xTHeight, xPanelHScroll, xVSR)
 
         'End If
 
@@ -487,9 +489,32 @@ Partial Public Class MainWindow
         Return e1
     End Function
 
-    Private Sub DrawWaveform(e1 As BufferedGraphics, xTHeight As Integer, xVSR As Integer, xI1 As Integer)
-        If wWavL IsNot Nothing And wWavR IsNot Nothing And wPrecision > 0 Then
-            If wLock Then
+    Private Sub DrawWaveform(e1 As BufferedGraphics, xTHeight As Integer, xHS As Integer, xVSR As Integer, Optional xINote As Integer = -1)
+        Dim xwWavL() As Single
+        Dim xwWavR() As Single
+        Dim xwSampleRate As Integer
+        Dim xwPosition As Double
+        Dim xwLeft As Integer
+        If xINote = -1 Then
+            xwWavL = wWavL
+            xwWavR = wWavR
+            xwSampleRate = wSampleRate
+            xwPosition = wPosition
+            xwLeft = wLeft
+        Else
+            Dim xINoteValue = Notes(xINote).Value / 10000
+            Dim xnLeft = nLeft(Notes(xINote).ColumnIndex)
+            Dim xColumnWidth As Integer = GetColumnWidth(Notes(xINote).ColumnIndex)
+
+            xwWavL = wLWAV(xINoteValue).wWavL
+            xwWavR = wLWAV(xINoteValue).wWavR
+            xwSampleRate = wLWAV(xINoteValue).wSampleRate
+            xwPosition = Notes(xINote).VPosition
+            xwLeft = (HorizontalPositiontoDisplay(xnLeft, xHS) + HorizontalPositiontoDisplay(xnLeft + xColumnWidth, xHS)) / 2
+        End If
+
+        If xwWavL IsNot Nothing And xwWavR IsNot Nothing And wPrecision > 0 Then
+            If wLock AndAlso xINote = -1 Then
                 For xI0 As Integer = 1 To UBound(Notes)
                     If Notes(xI0).ColumnIndex >= niB Then wPosition = Notes(xI0).VPosition : Exit For
                 Next
@@ -500,19 +525,19 @@ Partial Public Class MainWindow
 
             Dim xD1 As Double
 
-            Dim bVPosition() As Double = {wPosition}
+            Dim bVPosition() As Double = {xwPosition}
             Dim bBPM() As Decimal = {Notes(0).Value / 10000}
             Dim bWavDataIndex() As Decimal = {0}
 
             For xI1 = 1 To UBound(Notes)
                 If Notes(xI1).ColumnIndex = niBPM Then
-                    If Notes(xI1).VPosition >= wPosition Then
+                    If Notes(xI1).VPosition >= xwPosition Then
                         ReDim Preserve bVPosition(UBound(bVPosition) + 1)
                         ReDim Preserve bBPM(UBound(bBPM) + 1)
                         ReDim Preserve bWavDataIndex(UBound(bWavDataIndex) + 1)
                         bVPosition(UBound(bVPosition)) = Notes(xI1).VPosition
                         bBPM(UBound(bBPM)) = Notes(xI1).Value / 10000
-                        bWavDataIndex(UBound(bWavDataIndex)) = (Notes(xI1).VPosition - bVPosition(UBound(bVPosition) - 1)) * 1.25 * wSampleRate / bBPM(UBound(bBPM) - 1) + bWavDataIndex(UBound(bWavDataIndex) - 1)
+                        bWavDataIndex(UBound(bWavDataIndex)) = (Notes(xI1).VPosition - bVPosition(UBound(bVPosition) - 1)) * 1.25 * xwSampleRate / bBPM(UBound(bBPM) - 1) + bWavDataIndex(UBound(bWavDataIndex) - 1)
                     Else
                         bBPM(0) = Notes(xI1).Value / 10000
                     End If
@@ -521,6 +546,7 @@ Partial Public Class MainWindow
 
             Dim xI2 As Integer
             Dim xI3 As Double
+            Dim xIPts As Integer = -1
 
             For xI1 = xTHeight * wPrecision To 0 Step -1
                 xI3 = (-xI1 / wPrecision + xTHeight + xVSR * gxHeight - 1) / gxHeight
@@ -528,19 +554,29 @@ Partial Public Class MainWindow
                     If bVPosition(xI2) >= xI3 Then Exit For
                 Next
                 xI2 -= 1
-                xD1 = bWavDataIndex(xI2) + (xI3 - bVPosition(xI2)) * 1.25 * wSampleRate / bBPM(xI2)
+                xD1 = bWavDataIndex(xI2) + (xI3 - bVPosition(xI2)) * 1.25 * xwSampleRate / bBPM(xI2)
 
-                If xD1 <= UBound(wWavL) And xD1 >= 0 Then
-                    xPtsL(xI1) = New PointF(wWavL(Int(xD1)) * wWidth + wLeft, xI1 / wPrecision)
-                    xPtsR(xI1) = New PointF(wWavR(Int(xD1)) * wWidth + wLeft, xI1 / wPrecision)
-                Else
-                    xPtsL(xI1) = New PointF(wLeft, xI1 / wPrecision)
-                    xPtsR(xI1) = New PointF(wLeft, xI1 / wPrecision)
+                If xD1 <= UBound(xwWavL) And xD1 >= 0 Then
+                    xIPts += 1
+                    xPtsL(xIPts) = New PointF(xwWavL(Int(xD1)) * wWidth + xwLeft, xI1 / wPrecision)
+                    xPtsR(xIPts) = New PointF(xwWavR(Int(xD1)) * wWidth + xwLeft, xI1 / wPrecision)
                 End If
             Next
+            ReDim Preserve xPtsL(xIPts)
+            ReDim Preserve xPtsR(xIPts)
+            If xPtsL.Length <= 1 Or xPtsR.Length <= 1 Then Exit Sub
             e1.Graphics.DrawLines(vo.pBGMWav, xPtsL)
             e1.Graphics.DrawLines(vo.pBGMWav, xPtsR)
         End If
+    End Sub
+
+    Private Sub DrawWaveformNotes(e1 As BufferedGraphics, xTHeight As Integer, xHS As Integer, xVSR As Integer)
+        For xINote = 1 To UBound(Notes)
+            If Not (-PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition) AndAlso _ ' If note is not higher than window
+               IsColumnSound(Notes(xINote).ColumnIndex) AndAlso _ ' Column is sound
+               Not Notes(xINote).Comment Then _ ' Note is not comment
+                  DrawWaveform(e1, xTHeight, xHS, xVSR, xINote)
+        Next
     End Sub
 
     ''' <summary>
@@ -636,7 +672,7 @@ Partial Public Class MainWindow
                                  vo.kHeight)
 
         ' Label
-        e.Graphics.DrawString(IIf(IsColumnNumeric(sNote.ColumnIndex) AndAlso Not sNote.Comment, sNote.Value / 10000, xLabel),
+        e.Graphics.DrawString(xLabel,
                               vo.kFont, xBrush2,
                               HorizontalPositiontoDisplay(xnLeft, xHS) + vo.kLabelHShift,
                               NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + vo.kLabelVShift - IIf(sNote.Comment, CInt(sNote.Length * gxHeight), 0))
@@ -783,7 +819,7 @@ Partial Public Class MainWindow
                                             xColumnWidth * gxWidth - 3, CInt(sNote.Length * gxHeight) + vo.kHeight)
 
         ' Note B36
-        e.Graphics.DrawString(IIf(IsColumnNumeric(sNote.ColumnIndex) AndAlso Not sNote.Comment, sNote.Value / 10000, xLabel),
+        e.Graphics.DrawString(xLabel,
                               vo.kFont, xBrush2,
                               HorizontalPositiontoDisplay(xnLeft, xHS) + vo.kLabelHShiftL - 2,
                               NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + vo.kLabelVShift - IIf(sNote.Comment, CInt(sNote.Length * gxHeight), 0))
@@ -833,6 +869,8 @@ Partial Public Class MainWindow
             Else
                 xLabel = WordWrapConvert(hCOM(C36to10(xLabel)))
             End If
+        ElseIf IsColumnNumeric(sNote.ColumnIndex) Then ' IIf(IsColumnNumeric(sNote.ColumnIndex) AndAlso Not sNote.Comment, sNote.Value / 10000, xLabel)
+            xLabel = sNote.Value / 10000
         ElseIf ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then
             xLabel = Path.GetFileNameWithoutExtension(hWAV(C36to10(xLabel)))
         End If

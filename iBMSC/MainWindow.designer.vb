@@ -103,6 +103,7 @@ Partial Class MainWindow
         Me.mnErrorCheck = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnPreviewOnClick = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnShowFileName = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnShowWaveform = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator20 = New System.Windows.Forms.ToolStripSeparator()
         Me.mnGOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnVOptions = New System.Windows.Forms.ToolStripMenuItem()
@@ -366,6 +367,7 @@ Partial Class MainWindow
         Me.Label6 = New System.Windows.Forms.Label()
         Me.POHeaderSwitch = New System.Windows.Forms.CheckBox()
         Me.POptionsScroll = New System.Windows.Forms.Panel()
+        Me.TBShowWaveform = New System.Windows.Forms.ToolStripButton()
         Me.cmnLanguage.SuspendLayout()
         Me.cmnTheme.SuspendLayout()
         Me.Menu1.SuspendLayout()
@@ -1043,7 +1045,7 @@ Partial Class MainWindow
         '
         'mnOptions
         '
-        Me.mnOptions.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnNTInput, Me.mnErrorCheck, Me.mnPreviewOnClick, Me.mnShowFileName, Me.ToolStripSeparator20, Me.mnGOptions, Me.mnVOptions, Me.mnVCOptions, Me.mnPOptions, Me.mnLanguage, Me.mnTheme})
+        Me.mnOptions.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnNTInput, Me.mnErrorCheck, Me.mnPreviewOnClick, Me.mnShowFileName, Me.mnShowWaveform, Me.ToolStripSeparator20, Me.mnGOptions, Me.mnVOptions, Me.mnVCOptions, Me.mnPOptions, Me.mnLanguage, Me.mnTheme})
         Me.mnOptions.Name = "mnOptions"
         Me.mnOptions.Size = New System.Drawing.Size(61, 19)
         Me.mnOptions.Text = "&Options"
@@ -1086,6 +1088,14 @@ Partial Class MainWindow
         Me.mnShowFileName.Name = "mnShowFileName"
         Me.mnShowFileName.Size = New System.Drawing.Size(253, 22)
         Me.mnShowFileName.Text = "Show &File Name on Notes"
+        '
+        'mnShowWaveform
+        '
+        Me.mnShowWaveform.CheckOnClick = True
+        Me.mnShowWaveform.Image = Global.iBMSC.My.Resources.Resources.x16ShowWaveform
+        Me.mnShowWaveform.Name = "mnShowWaveform"
+        Me.mnShowWaveform.Size = New System.Drawing.Size(253, 22)
+        Me.mnShowWaveform.Text = "Show &Waveform on Notes"
         '
         'ToolStripSeparator20
         '
@@ -1294,10 +1304,10 @@ Partial Class MainWindow
         Me.TBMain.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar
         Me.TBMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.TBMain.Dock = System.Windows.Forms.DockStyle.None
-        Me.TBMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBNew, Me.TBOpen, Me.TBSave, Me.ToolStripSeparator1, Me.TBCut, Me.TBCopy, Me.TBPaste, Me.TBFind, Me.ToolStripSeparator24, Me.TBStatistics, Me.POConvert, Me.TBMyO2, Me.ToolStripSeparator4, Me.TBErrorCheck, Me.TBPreviewOnClick, Me.TBShowFileName, Me.ToolStripSeparator8, Me.TBNTInput, Me.TBWavIncrease, Me.ToolStripSeparator2, Me.TBUndo, Me.TBRedo, Me.ToolStripSeparator5, Me.TBTimeSelect, Me.TBSelect, Me.TBWrite, Me.ToolStripSeparator3, Me.TBPlayB, Me.TBPlay, Me.TBStop, Me.TBPOptions, Me.ToolStripSeparator7, Me.TBVOptions, Me.TBGOptions, Me.TBLanguage, Me.TBTheme, Me.POBStorm, Me.TBTotalValue})
+        Me.TBMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBNew, Me.TBOpen, Me.TBSave, Me.ToolStripSeparator1, Me.TBCut, Me.TBCopy, Me.TBPaste, Me.TBFind, Me.ToolStripSeparator24, Me.TBStatistics, Me.POConvert, Me.TBMyO2, Me.ToolStripSeparator4, Me.TBErrorCheck, Me.TBPreviewOnClick, Me.TBShowFileName, Me.TBShowWaveform, Me.ToolStripSeparator8, Me.TBNTInput, Me.TBWavIncrease, Me.ToolStripSeparator2, Me.TBUndo, Me.TBRedo, Me.ToolStripSeparator5, Me.TBTimeSelect, Me.TBSelect, Me.TBWrite, Me.ToolStripSeparator3, Me.TBPlayB, Me.TBPlay, Me.TBStop, Me.TBPOptions, Me.ToolStripSeparator7, Me.TBVOptions, Me.TBGOptions, Me.TBLanguage, Me.TBTheme, Me.POBStorm, Me.TBTotalValue})
         Me.TBMain.Location = New System.Drawing.Point(3, 23)
         Me.TBMain.Name = "TBMain"
-        Me.TBMain.Size = New System.Drawing.Size(764, 25)
+        Me.TBMain.Size = New System.Drawing.Size(841, 25)
         Me.TBMain.TabIndex = 64
         Me.TBMain.Text = "Main Toolbar"
         '
@@ -4117,6 +4127,17 @@ Partial Class MainWindow
         Me.POptionsScroll.Size = New System.Drawing.Size(200, 781)
         Me.POptionsScroll.TabIndex = 28
         '
+        'TBShowWaveform
+        '
+        Me.TBShowWaveform.CheckOnClick = True
+        Me.TBShowWaveform.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.TBShowWaveform.Image = Global.iBMSC.My.Resources.Resources.x16ShowWaveform
+        Me.TBShowWaveform.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.TBShowWaveform.Name = "TBShowWaveform"
+        Me.TBShowWaveform.Size = New System.Drawing.Size(23, 22)
+        Me.TBShowWaveform.Text = "Show Waveform on Notes"
+        Me.TBShowWaveform.ToolTipText = "Show Waveform on Notes"
+        '
         'MainWindow
         '
         Me.AllowDrop = True
@@ -4592,4 +4613,6 @@ Partial Class MainWindow
     Friend WithEvents THSubArtist As TextBox
     Friend WithEvents POBRRandom As ToolStripMenuItem
     Friend WithEvents POBHRandom As ToolStripMenuItem
+    Friend WithEvents mnShowWaveform As ToolStripMenuItem
+    Friend WithEvents TBShowWaveform As ToolStripButton
 End Class
