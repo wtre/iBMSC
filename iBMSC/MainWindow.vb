@@ -2052,8 +2052,8 @@ EndSearch:
         ShowWaveform = sender.Checked
         TBShowWaveform.Checked = ShowWaveform
         mnShowWaveform.Checked = ShowWaveform
-        TBShowWaveform.Image = My.Resources.x16ShowWaveform
-        mnShowWaveform.Image = My.Resources.x16ShowWaveform
+        TBShowWaveform.Image = IIf(ShowWaveform, My.Resources.x16ShowWaveform, My.Resources.x16ShowWaveformN)
+        mnShowWaveform.Image = IIf(ShowWaveform, My.Resources.x16ShowWaveform, My.Resources.x16ShowWaveformN)
         If Not WaveformLoaded AndAlso ShowWaveform Then
             For xI1 = 1 To UBound(wLWAV)
                 If hWAV(xI1) <> "" Then wLWAV(xI1) = LoadWaveForm(ExcludeFileName(FileName) & "\" & hWAV(xI1))
