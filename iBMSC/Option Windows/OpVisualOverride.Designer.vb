@@ -31,14 +31,14 @@ Partial Class OpVisualOverride
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.TName = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.TRangeL = New System.Windows.Forms.TextBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.TRangeU = New System.Windows.Forms.TextBox()
-        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.BColor = New System.Windows.Forms.Button()
-        Me.TName = New System.Windows.Forms.TextBox()
+        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
+        Me.TRangeU = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.TRangeL = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         Me.SuspendLayout()
@@ -137,6 +137,14 @@ Partial Class OpVisualOverride
         Me.Label4.Text = "Note Color"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
+        'TName
+        '
+        Me.TName.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TName.Location = New System.Drawing.Point(142, 3)
+        Me.TName.Name = "TName"
+        Me.TName.Size = New System.Drawing.Size(134, 20)
+        Me.TName.TabIndex = 10
+        '
         'Label1
         '
         Me.Label1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -163,36 +171,15 @@ Partial Class OpVisualOverride
         Me.Label3.Text = "Option Name"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'TRangeL
+        'BColor
         '
-        Me.TRangeL.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TRangeL.Location = New System.Drawing.Point(3, 3)
-        Me.TRangeL.MaxLength = 2
-        Me.TRangeL.Name = "TRangeL"
-        Me.TRangeL.Size = New System.Drawing.Size(40, 20)
-        Me.TRangeL.TabIndex = 11
-        '
-        'Label5
-        '
-        Me.Label5.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(49, 0)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(40, 25)
-        Me.Label5.TabIndex = 0
-        Me.Label5.Text = "to"
-        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TRangeU
-        '
-        Me.TRangeU.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TRangeU.Location = New System.Drawing.Point(95, 3)
-        Me.TRangeU.MaxLength = 2
-        Me.TRangeU.Name = "TRangeU"
-        Me.TRangeU.Size = New System.Drawing.Size(42, 20)
-        Me.TRangeU.TabIndex = 12
+        Me.BColor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.BColor.Location = New System.Drawing.Point(142, 69)
+        Me.BColor.Name = "BColor"
+        Me.BColor.Size = New System.Drawing.Size(134, 28)
+        Me.BColor.TabIndex = 30
+        Me.BColor.Text = "Button1"
+        Me.BColor.UseVisualStyleBackColor = True
         '
         'TableLayoutPanel2
         '
@@ -211,23 +198,36 @@ Partial Class OpVisualOverride
         Me.TableLayoutPanel2.Size = New System.Drawing.Size(140, 25)
         Me.TableLayoutPanel2.TabIndex = 14
         '
-        'BColor
+        'TRangeU
         '
-        Me.BColor.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.BColor.Location = New System.Drawing.Point(142, 69)
-        Me.BColor.Name = "BColor"
-        Me.BColor.Size = New System.Drawing.Size(134, 28)
-        Me.BColor.TabIndex = 13
-        Me.BColor.Text = "Button1"
-        Me.BColor.UseVisualStyleBackColor = True
+        Me.TRangeU.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TRangeU.Location = New System.Drawing.Point(95, 3)
+        Me.TRangeU.MaxLength = 2
+        Me.TRangeU.Name = "TRangeU"
+        Me.TRangeU.Size = New System.Drawing.Size(42, 20)
+        Me.TRangeU.TabIndex = 21
         '
-        'TName
+        'Label5
         '
-        Me.TName.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TName.Location = New System.Drawing.Point(142, 3)
-        Me.TName.Name = "TName"
-        Me.TName.Size = New System.Drawing.Size(134, 20)
-        Me.TName.TabIndex = 10
+        Me.Label5.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(49, 0)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(40, 25)
+        Me.Label5.TabIndex = 0
+        Me.Label5.Text = "to"
+        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TRangeL
+        '
+        Me.TRangeL.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TRangeL.Location = New System.Drawing.Point(3, 3)
+        Me.TRangeL.MaxLength = 2
+        Me.TRangeL.Name = "TRangeL"
+        Me.TRangeL.Size = New System.Drawing.Size(40, 20)
+        Me.TRangeL.TabIndex = 20
         '
         'OpVisualOverride
         '

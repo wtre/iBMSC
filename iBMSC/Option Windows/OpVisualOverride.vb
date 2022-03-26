@@ -134,6 +134,7 @@ Public Class OpVisualOverride
     End Function
 
     Private Sub SaveCOverride(sender As Object, e As KeyEventArgs) Handles TName.KeyUp, TRangeL.KeyUp, TRangeU.KeyUp
+        If IsNothing(COverrides) Then Exit Sub
         With COverrides(LOverrides.SelectedIndex)
             .Name = TName.Text
             .RangeL = C36to10(TRangeL.Text)
