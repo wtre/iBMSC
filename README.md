@@ -29,7 +29,8 @@ Listed in the order added.
 * Added color overriding options where you can specify a range of notes to appear a specific color, such as red notes for drums and green notes for the piano. Accessible via the Options tab or via Shift+F12.
 * Added comment notes. Comment notes will be saved as #ECMD and #ECOM within the same bms/pms file. Not tested thoroughly.
 * The window will now follow notes being moved by arrow keys.
-* When creating LNs in NT mode, the VPosition will snap to the highlighted note if any
+* When creating LNs in NT mode, the VPosition will snap to the highlighted note if any.
+* Added "Show Waveform on Notes".
 
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8.
