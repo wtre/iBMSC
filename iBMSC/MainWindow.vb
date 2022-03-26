@@ -256,6 +256,7 @@ Public Class MainWindow
             BG = xBG
         End Sub
     End Structure
+    Dim COverrides() As ColorOverride = Nothing
 
     '----Preview Options
     Structure PlayerArguments
