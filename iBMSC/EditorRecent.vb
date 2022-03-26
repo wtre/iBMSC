@@ -59,19 +59,24 @@
         End If
         If ClosingPopSave() Then Exit Sub
 
-        Select Case UCase(Path.GetExtension(xFileName))
-            Case ".BMS", ".BME", ".BML", ".PMS", ".TXT"
+        Select Case LCase(Path.GetExtension(xFileName))
+            Case ".bms", ".bme", ".bml", ".pms", ".txt"
                 InitPath = ExcludeFileName(xFileName)
                 SetFileName(xFileName)
                 ClearUndo()
                 OpenBMS(My.Computer.FileSystem.ReadAllText(xFileName, TextEncoding))
-                SetFileName(FileName)
                 SetIsSaved(True)
-            Case ".IBMSC"
+            Case ".ibmsc"
                 InitPath = ExcludeFileName(xFileName)
                 SetFileName("Imported_" & GetFileName(xFileName))
                 OpeniBMSC(xFileName)
                 SetIsSaved(False)
+            Case Else
+                InitPath = ExcludeFileName(xFileName)
+                SetFileName(xFileName)
+                ClearUndo()
+                OpenBMS(My.Computer.FileSystem.ReadAllText(xFileName, TextEncoding))
+                SetIsSaved(True)
         End Select
     End Sub
 

@@ -1083,31 +1083,31 @@ Public Class MainWindow
     Friend Sub ReadFile(ByVal xPath As String)
         Select Case LCase(Path.GetExtension(xPath))
             Case ".bms", ".bme", ".bml", ".pms", ".txt"
+                SetFileName(xPath)
                 OpenBMS(My.Computer.FileSystem.ReadAllText(xPath, TextEncoding))
                 ClearUndo()
                 NewRecent(xPath)
-                SetFileName(xPath)
                 SetIsSaved(True)
 
             Case ".sm"
+                SetFileName("Untitled.bms")
                 If OpenSM(My.Computer.FileSystem.ReadAllText(xPath, TextEncoding)) Then Return
                 InitPath = ExcludeFileName(xPath)
                 ClearUndo()
-                SetFileName("Untitled.bms")
                 SetIsSaved(False)
 
             Case ".ibmsc"
+                SetFileName("Imported_" & GetFileName(xPath))
                 OpeniBMSC(xPath)
                 InitPath = ExcludeFileName(xPath)
                 NewRecent(xPath)
-                SetFileName("Imported_" & GetFileName(xPath))
                 SetIsSaved(False)
 
             Case Else
+                SetFileName(xPath)
                 OpenBMS(My.Computer.FileSystem.ReadAllText(xPath, TextEncoding))
                 ClearUndo()
                 NewRecent(xPath)
-                SetFileName(xPath)
                 SetIsSaved(True)
 
         End Select
