@@ -158,6 +158,7 @@ Partial Class MainWindow
         Me.TBErrorCheck = New System.Windows.Forms.ToolStripButton()
         Me.TBPreviewOnClick = New System.Windows.Forms.ToolStripButton()
         Me.TBShowFileName = New System.Windows.Forms.ToolStripButton()
+        Me.TBShowWaveform = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
         Me.TBNTInput = New System.Windows.Forms.ToolStripButton()
         Me.TBWavIncrease = New System.Windows.Forms.ToolStripButton()
@@ -367,7 +368,6 @@ Partial Class MainWindow
         Me.Label6 = New System.Windows.Forms.Label()
         Me.POHeaderSwitch = New System.Windows.Forms.CheckBox()
         Me.POptionsScroll = New System.Windows.Forms.Panel()
-        Me.TBShowWaveform = New System.Windows.Forms.ToolStripButton()
         Me.cmnLanguage.SuspendLayout()
         Me.cmnTheme.SuspendLayout()
         Me.Menu1.SuspendLayout()
@@ -1307,7 +1307,7 @@ Partial Class MainWindow
         Me.TBMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBNew, Me.TBOpen, Me.TBSave, Me.ToolStripSeparator1, Me.TBCut, Me.TBCopy, Me.TBPaste, Me.TBFind, Me.ToolStripSeparator24, Me.TBStatistics, Me.POConvert, Me.TBMyO2, Me.ToolStripSeparator4, Me.TBErrorCheck, Me.TBPreviewOnClick, Me.TBShowFileName, Me.TBShowWaveform, Me.ToolStripSeparator8, Me.TBNTInput, Me.TBWavIncrease, Me.ToolStripSeparator2, Me.TBUndo, Me.TBRedo, Me.ToolStripSeparator5, Me.TBTimeSelect, Me.TBSelect, Me.TBWrite, Me.ToolStripSeparator3, Me.TBPlayB, Me.TBPlay, Me.TBStop, Me.TBPOptions, Me.ToolStripSeparator7, Me.TBVOptions, Me.TBGOptions, Me.TBLanguage, Me.TBTheme, Me.POBStorm, Me.TBTotalValue})
         Me.TBMain.Location = New System.Drawing.Point(3, 23)
         Me.TBMain.Name = "TBMain"
-        Me.TBMain.Size = New System.Drawing.Size(841, 25)
+        Me.TBMain.Size = New System.Drawing.Size(787, 25)
         Me.TBMain.TabIndex = 64
         Me.TBMain.Text = "Main Toolbar"
         '
@@ -1516,6 +1516,17 @@ Partial Class MainWindow
         Me.TBShowFileName.Name = "TBShowFileName"
         Me.TBShowFileName.Size = New System.Drawing.Size(23, 22)
         Me.TBShowFileName.Text = "Show File Name on Notes"
+        '
+        'TBShowWaveform
+        '
+        Me.TBShowWaveform.CheckOnClick = True
+        Me.TBShowWaveform.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.TBShowWaveform.Image = Global.iBMSC.My.Resources.Resources.x16ShowWaveform
+        Me.TBShowWaveform.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.TBShowWaveform.Name = "TBShowWaveform"
+        Me.TBShowWaveform.Size = New System.Drawing.Size(23, 22)
+        Me.TBShowWaveform.Text = "Show Waveform on Notes"
+        Me.TBShowWaveform.ToolTipText = "Show Waveform on Notes"
         '
         'ToolStripSeparator8
         '
@@ -2310,11 +2321,12 @@ Partial Class MainWindow
         '
         'BExpansion
         '
-        Me.BExpansion.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.BExpansion.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BExpansion.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.BExpansion.Location = New System.Drawing.Point(0, 250)
+        Me.BExpansion.Location = New System.Drawing.Point(0, 245)
         Me.BExpansion.Name = "BExpansion"
-        Me.BExpansion.Size = New System.Drawing.Size(183, 20)
+        Me.BExpansion.Size = New System.Drawing.Size(183, 25)
         Me.BExpansion.TabIndex = 1003
         Me.BExpansion.Text = "Select Section"
         Me.BExpansion.UseVisualStyleBackColor = True
@@ -2322,13 +2334,13 @@ Partial Class MainWindow
         'TExpansion
         '
         Me.TExpansion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TExpansion.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TExpansion.Dock = System.Windows.Forms.DockStyle.Top
         Me.TExpansion.HideSelection = False
         Me.TExpansion.Location = New System.Drawing.Point(0, 0)
         Me.TExpansion.Multiline = True
         Me.TExpansion.Name = "TExpansion"
         Me.TExpansion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TExpansion.Size = New System.Drawing.Size(183, 270)
+        Me.TExpansion.Size = New System.Drawing.Size(183, 245)
         Me.TExpansion.TabIndex = 1002
         Me.TExpansion.WordWrap = False
         '
@@ -4126,17 +4138,6 @@ Partial Class MainWindow
         Me.POptionsScroll.Name = "POptionsScroll"
         Me.POptionsScroll.Size = New System.Drawing.Size(200, 781)
         Me.POptionsScroll.TabIndex = 28
-        '
-        'TBShowWaveform
-        '
-        Me.TBShowWaveform.CheckOnClick = True
-        Me.TBShowWaveform.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.TBShowWaveform.Image = Global.iBMSC.My.Resources.Resources.x16ShowWaveform
-        Me.TBShowWaveform.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.TBShowWaveform.Name = "TBShowWaveform"
-        Me.TBShowWaveform.Size = New System.Drawing.Size(23, 22)
-        Me.TBShowWaveform.Text = "Show Waveform on Notes"
-        Me.TBShowWaveform.ToolTipText = "Show Waveform on Notes"
         '
         'MainWindow
         '

@@ -3266,7 +3266,7 @@ RestartSorting: xSorted = False
         LBeat.Height = POBeat.Height - 25
     End Sub
     Private Sub POExpansion_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles POExpansion.Resize
-        TExpansion.Height = POExpansion.Height - 2
+        TExpansion.Height = POExpansion.Height - 25 - BExpansion.Height
     End Sub
 
     Private Sub mn_DropDownClosed(ByVal sender As Object, ByVal e As System.EventArgs)
