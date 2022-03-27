@@ -33,7 +33,7 @@ Listed in the order added.
 * Added "Show Waveform on Notes".
 
 ## Keyboard shortcuts
-* Changed keybinding to allow note placement between D1 and D8.
+* Changed keybinding to allow note placement between D1 and D8:
   * Numpad keys are now assigned to 2P lanes.
   * QWERTYUI keys are also assigned to 2P lanes.
   * 1 to 7 are now assigned to A2 to A8, and 8 is now assigned to A1.
@@ -41,13 +41,13 @@ Listed in the order added.
   * For PMS: Number keys 1-9 assign the notes to PMS lanes when a PMS theme is used.
 * Added Save As keyboard shortcut (Ctrl+Alt+S)
 * Added recent bms keyboard shortcuts (Alt+1 to Alt+5)
-* Added shortcuts for toggling lanes.
+* Added shortcuts for toggling lanes:
   * Alt+B - BPM lane
   * Alt+S - Stop lane
   * Alt+R - Scroll lane
   * Alt+G - BGA/Layer/Poor
 * Added shortcuts for the panel splitter (Alt+Left and Alt+Right).
-* Added Options shortcut
+* Added Options shortcut:
   * F9 - Player Options
   * F10 - General Options
   * F12 - Visual Options
@@ -55,6 +55,13 @@ Listed in the order added.
 * Added keyboard shortcuts for previewing and replacing keysounds in the Sounds List (Spacebar to preview, enter to replace).
 * Added "Select Section" (Ctrl+R).
 * Added color overriding options (Shift+F12).
+* Revised shortcuts for grid division values:
+  * Period now increases the division value, and comma now decreases the division value.
+  * Hold Ctrl for incremental value change
+  * Hold Shift for x3 multiplier or divisor
+  * Hold Alt to change the sub value
+  * For example, Shift+Alt+Comma = divide the sub value by 3 (rounded)
+* Added shortcut for scrolling through #WAV selection (Shift+Scroll).
 
 ## New dialog/option boxes
 

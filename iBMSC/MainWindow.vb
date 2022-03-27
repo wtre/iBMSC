@@ -1669,7 +1669,7 @@ EndSearch:
         Dim iI As Integer = sender.Tag
 
         ' az: We got a wheel event when we're zooming in/out
-        If My.Computer.Keyboard.CtrlKeyDown Then
+        If My.Computer.Keyboard.CtrlKeyDown Or My.Computer.Keyboard.ShiftKeyDown Then
             sender.Value = VSValue ' Undo the scroll
             Exit Sub
         End If

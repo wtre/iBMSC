@@ -153,10 +153,32 @@ Partial Public Class MainWindow
                 If PanelFocus = 2 Then RightPanelScroll.Value = IIf(RightPanelScroll.Value + gPgUpDn < 0, RightPanelScroll.Value + gPgUpDn, 0)
 
             Case Keys.Oemcomma
-                If gDivide * 2 <= CGDivide.Maximum Then CGDivide.Value = gDivide * 2
+                With My.Computer.Keyboard
+                    Dim Modif As Integer = IIf(.ShiftKeyDown, 3, 2)
+                    If Not .CtrlKeyDown And Not .AltKeyDown Then ' Divide CGDivide
+                        If CGDivide.Value \ Modif >= CGDivide.Minimum Then CGDivide.Value \= Modif
+                    ElseIf .CtrlKeyDown And Not .AltKeyDown Then ' Decrease CGDivide by 1
+                        If CGDivide.Value - 1 >= CGDivide.Minimum Then CGDivide.Value -= 1
+                    ElseIf Not .CtrlKeyDown And .AltKeyDown Then ' Divide CGSub
+                        If CGSub.Value \ Modif >= CGSub.Minimum Then CGSub.Value \= Modif
+                    Else ' Decrease CGSub by 1
+                        If CGSub.Value - 1 >= CGSub.Minimum Then CGSub.Value -= 1
+                    End If
+                End With
 
             Case Keys.OemPeriod
-                If gDivide \ 2 >= CGDivide.Minimum Then CGDivide.Value = gDivide \ 2
+                With My.Computer.Keyboard
+                    Dim Modif As Integer = IIf(.ShiftKeyDown, 3, 2)
+                    If Not .CtrlKeyDown And Not .AltKeyDown Then ' Divide CGDivide
+                        If CGDivide.Value * Modif <= CGDivide.Maximum Then CGDivide.Value *= Modif
+                    ElseIf .CtrlKeyDown And Not .AltKeyDown Then ' Decrease CGDivide by 1
+                        If CGDivide.Value + 1 <= CGDivide.Maximum Then CGDivide.Value += 1
+                    ElseIf Not .CtrlKeyDown And .AltKeyDown Then ' Divide CGSub
+                        If CGSub.Value * Modif <= CGSub.Maximum Then CGSub.Value *= Modif
+                    Else ' Decrease CGSub by 1
+                        If CGSub.Value + 1 <= CGSub.Maximum Then CGSub.Value += 1
+                    End If
+                End With
 
             Case Keys.OemQuestion
                 'Dim xTempSwap As Integer = gSlash
@@ -176,6 +198,7 @@ Partial Public Class MainWindow
 
             Case Keys.Add
                 IncreaseCurrentWav()
+
             Case Keys.Subtract
                 DecreaseCurrentWav()
 
@@ -1666,10 +1689,15 @@ Partial Public Class MainWindow
 
     ' az: Handle zoom in/out. Should work with any of the three splitters.
     Private Sub PMain_Scroll(sender As Object, e As MouseEventArgs) Handles PMainIn.MouseWheel, PMainInL.MouseWheel, PMainInR.MouseWheel
-        If Not My.Computer.Keyboard.CtrlKeyDown Then Exit Sub
-        Dim dv = Math.Round(CGHeight2.Value + e.Delta / 120)
-        CGHeight2.Value = Math.Min(CGHeight2.Maximum, Math.Max(CGHeight2.Minimum, dv))
-        CGHeight.Value = CGHeight2.Value / 4
+        With My.Computer.Keyboard
+            If .CtrlKeyDown Then
+                Dim dv = Math.Round(CGHeight2.Value + e.Delta / 120)
+                CGHeight2.Value = Math.Min(CGHeight2.Maximum, Math.Max(CGHeight2.Minimum, dv))
+                CGHeight.Value = CGHeight2.Value / 4
+            ElseIf .ShiftKeyDown Then
+                If Math.Sign(e.Delta) = -1 Then IncreaseCurrentWav() Else DecreaseCurrentWav()
+            End If
+        End With
     End Sub
 
 
