@@ -22,25 +22,25 @@ Partial Class OpPlayer
     '不要使用代码编辑器修改它。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.OK_Button = New System.Windows.Forms.Button
-        Me.Cancel_Button = New System.Windows.Forms.Button
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.TPlayB = New System.Windows.Forms.TextBox
-        Me.TPlay = New System.Windows.Forms.TextBox
-        Me.TStop = New System.Windows.Forms.TextBox
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.TPath = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.BBrowse = New System.Windows.Forms.Button
-        Me.BDefault = New System.Windows.Forms.Button
-        Me.BRemove = New System.Windows.Forms.Button
-        Me.BAdd = New System.Windows.Forms.Button
-        Me.LPlayer = New System.Windows.Forms.ListBox
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
+        Me.OK_Button = New System.Windows.Forms.Button()
+        Me.Cancel_Button = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.TPlayB = New System.Windows.Forms.TextBox()
+        Me.TPlay = New System.Windows.Forms.TextBox()
+        Me.TStop = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.TPath = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.BBrowse = New System.Windows.Forms.Button()
+        Me.BDefault = New System.Windows.Forms.Button()
+        Me.BRemove = New System.Windows.Forms.Button()
+        Me.BAdd = New System.Windows.Forms.Button()
+        Me.LPlayer = New System.Windows.Forms.ListBox()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -120,8 +120,8 @@ Partial Class OpPlayer
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(225, 60)
         Me.Label6.TabIndex = 11
-        Me.Label6.Text = "References (case-sensitive):" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<apppath> = Directory of the application" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<measure>" & _
-            " = Current measure" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<filename> = File Name"
+        Me.Label6.Text = "References (case-sensitive):" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<apppath> = Directory of the application" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<measure>" &
+    " = Current measure" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<filename> = File Name"
         '
         'TPath
         '

@@ -180,7 +180,7 @@ Public Class OpVisualOverride
         Return C36to10S(xStart.Chars(0)) * 36 + C36to10S(xStart.Chars(1))
     End Function
 
-    Private Sub LOverrides_Click(sender As Object, e As EventArgs) Handles LOverrides.Click
+    Private Sub LOverrides_Click(sender As Object, e As EventArgs) Handles LOverrides.Click, LOverrides.KeyUp
         If IsNothing(COverrides) Or LOverrides.SelectedIndex = -1 Then Exit Sub
         ShowInTextbox()
     End Sub

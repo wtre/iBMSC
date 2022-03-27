@@ -24,7 +24,7 @@ Public Class OpExpand
         Next
     End Sub
 
-    Private Sub BDisplayGhost_Click(sender As Object, e As EventArgs) Handles BDisplayGhost.Click
+    Private Sub BDisplayGhost_Click(sender As Object, e As EventArgs) Handles BDisplayGhost.Click, LExpansionCode.DoubleClick
         Select_Section()
         If MainWindow.ExpansionSplit(1) = "-" Then Exit Sub
         Me.Close()

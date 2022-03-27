@@ -11,7 +11,7 @@ Listed in the order added.
 * Fixed the mirror function such that notes between A1 and D8 are reflected locally. Supports PMS as well.
 * Fixed the Statistic Label not including notes between D1-D8. Statistic window still not fixed.
 * Fixed the total note count on the toolbar.
-* Reorganized the sidebar so you can tab between textboxes properly (mostly).
+* Reorganized the sidebar so you can tab between textboxes properly.
 * Prevented notes in Expansion Code from being loaded.
 * Rare bug that occurs when the mouse is highlighting a long note while toggling between NT and BMSE simultaneously.
 
