@@ -193,6 +193,7 @@ Partial Class MainWindow
         Me.TVCBPM = New System.Windows.Forms.ToolStripTextBox()
         Me.BVCCalculate = New System.Windows.Forms.ToolStripButton()
         Me.BConvertStop = New System.Windows.Forms.ToolStripButton()
+        Me.BDefineMeasure = New System.Windows.Forms.ToolStripButton()
         Me.FStatus = New System.Windows.Forms.StatusStrip()
         Me.FSC = New System.Windows.Forms.ToolStripStatusLabel()
         Me.FSW = New System.Windows.Forms.ToolStripStatusLabel()
@@ -586,7 +587,7 @@ Partial Class MainWindow
         Me.mnMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.mnMain.Location = New System.Drawing.Point(0, 0)
         Me.mnMain.Name = "mnMain"
-        Me.mnMain.Size = New System.Drawing.Size(952, 23)
+        Me.mnMain.Size = New System.Drawing.Size(1080, 23)
         Me.mnMain.TabIndex = 57
         '
         'mnFile
@@ -1702,17 +1703,17 @@ Partial Class MainWindow
         Me.pStatus.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.pStatus.Location = New System.Drawing.Point(0, 759)
         Me.pStatus.Name = "pStatus"
-        Me.pStatus.Size = New System.Drawing.Size(952, 22)
+        Me.pStatus.Size = New System.Drawing.Size(1080, 22)
         Me.pStatus.TabIndex = 62
         '
         'FStatus2
         '
         Me.FStatus2.AccessibleRole = System.Windows.Forms.AccessibleRole.StatusBar
-        Me.FStatus2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FSSS, Me.FSSL, Me.FSSH, Me.BVCReverse, Me.LblMultiply, Me.TVCM, Me.LblDivide, Me.TVCD, Me.BVCApply, Me.TVCBPM, Me.BVCCalculate, Me.BConvertStop})
+        Me.FStatus2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FSSS, Me.FSSL, Me.FSSH, Me.BVCReverse, Me.LblMultiply, Me.TVCM, Me.LblDivide, Me.TVCD, Me.BVCApply, Me.TVCBPM, Me.BVCCalculate, Me.BConvertStop, Me.BDefineMeasure})
         Me.FStatus2.Location = New System.Drawing.Point(0, 0)
         Me.FStatus2.Name = "FStatus2"
         Me.FStatus2.ShowItemToolTips = True
-        Me.FStatus2.Size = New System.Drawing.Size(952, 22)
+        Me.FStatus2.Size = New System.Drawing.Size(1080, 22)
         Me.FStatus2.TabIndex = 0
         Me.FStatus2.Text = "Status"
         Me.FStatus2.Visible = False
@@ -1831,6 +1832,17 @@ Partial Class MainWindow
         Me.BConvertStop.ToolTipText = "This will move notes within the selection and preserve the selection, given the B" &
     "PM value next to this button. Considers center bar."
         '
+        'BDefineMeasure
+        '
+        Me.BDefineMeasure.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.BDefineMeasure.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.BDefineMeasure.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BDefineMeasure.Name = "BDefineMeasure"
+        Me.BDefineMeasure.Size = New System.Drawing.Size(93, 20)
+        Me.BDefineMeasure.Text = "Define Measure"
+        Me.BDefineMeasure.ToolTipText = "This will move notes within the selection and preserve the selection, given the B" &
+    "PM value next to this button. Considers center bar."
+        '
         'FStatus
         '
         Me.FStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.StatusBar
@@ -1838,7 +1850,7 @@ Partial Class MainWindow
         Me.FStatus.Location = New System.Drawing.Point(0, 0)
         Me.FStatus.Name = "FStatus"
         Me.FStatus.ShowItemToolTips = True
-        Me.FStatus.Size = New System.Drawing.Size(952, 22)
+        Me.FStatus.Size = New System.Drawing.Size(1080, 22)
         Me.FStatus.SizingGrip = False
         Me.FStatus.TabIndex = 62
         Me.FStatus.Text = "Status"
@@ -1948,11 +1960,11 @@ Partial Class MainWindow
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SpL)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.PMainR)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.PMainL)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(952, 711)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1080, 711)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
-        Me.ToolStripContainer1.Size = New System.Drawing.Size(952, 759)
+        Me.ToolStripContainer1.Size = New System.Drawing.Size(1080, 759)
         Me.ToolStripContainer1.TabIndex = 65
         Me.ToolStripContainer1.Text = "ToolStripContainer1"
         '
@@ -1972,7 +1984,7 @@ Partial Class MainWindow
         Me.PMain.ForeColor = System.Drawing.Color.White
         Me.PMain.Location = New System.Drawing.Point(5, 0)
         Me.PMain.Name = "PMain"
-        Me.PMain.Size = New System.Drawing.Size(942, 711)
+        Me.PMain.Size = New System.Drawing.Size(1070, 711)
         Me.PMain.TabIndex = 58
         Me.PMain.Tag = "1"
         '
@@ -1984,7 +1996,7 @@ Partial Class MainWindow
         Me.PMainIn.ForeColor = System.Drawing.Color.White
         Me.PMainIn.Location = New System.Drawing.Point(0, 0)
         Me.PMainIn.Name = "PMainIn"
-        Me.PMainIn.Size = New System.Drawing.Size(925, 694)
+        Me.PMainIn.Size = New System.Drawing.Size(1053, 694)
         Me.PMainIn.TabIndex = 0
         Me.PMainIn.TabStop = True
         Me.PMainIn.Tag = "1"
@@ -1994,7 +2006,7 @@ Partial Class MainWindow
         Me.MainPanelScroll.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar
         Me.MainPanelScroll.Dock = System.Windows.Forms.DockStyle.Right
         Me.MainPanelScroll.LargeChange = 592
-        Me.MainPanelScroll.Location = New System.Drawing.Point(925, 0)
+        Me.MainPanelScroll.Location = New System.Drawing.Point(1053, 0)
         Me.MainPanelScroll.Maximum = 591
         Me.MainPanelScroll.Minimum = -10000
         Me.MainPanelScroll.Name = "MainPanelScroll"
@@ -2011,7 +2023,7 @@ Partial Class MainWindow
         Me.HS.Location = New System.Drawing.Point(0, 694)
         Me.HS.Maximum = 1233
         Me.HS.Name = "HS"
-        Me.HS.Size = New System.Drawing.Size(942, 17)
+        Me.HS.Size = New System.Drawing.Size(1070, 17)
         Me.HS.TabIndex = 3
         Me.HS.Tag = "1"
         '
@@ -2020,7 +2032,7 @@ Partial Class MainWindow
         Me.SpR.Dock = System.Windows.Forms.DockStyle.Right
         Me.SpR.FlatAppearance.BorderSize = 0
         Me.SpR.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.SpR.Location = New System.Drawing.Point(947, 0)
+        Me.SpR.Location = New System.Drawing.Point(1075, 0)
         Me.SpR.Name = "SpR"
         Me.SpR.Size = New System.Drawing.Size(5, 711)
         Me.SpR.TabIndex = 59
@@ -2050,7 +2062,7 @@ Partial Class MainWindow
         Me.PMainR.Dock = System.Windows.Forms.DockStyle.Right
         Me.PMainR.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PMainR.ForeColor = System.Drawing.Color.White
-        Me.PMainR.Location = New System.Drawing.Point(952, 0)
+        Me.PMainR.Location = New System.Drawing.Point(1080, 0)
         Me.PMainR.Name = "PMainR"
         Me.PMainR.Size = New System.Drawing.Size(0, 711)
         Me.PMainR.TabIndex = 56
@@ -2152,7 +2164,7 @@ Partial Class MainWindow
         Me.POptionsResizer.Dock = System.Windows.Forms.DockStyle.Right
         Me.POptionsResizer.FlatAppearance.BorderSize = 0
         Me.POptionsResizer.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.POptionsResizer.Location = New System.Drawing.Point(952, 0)
+        Me.POptionsResizer.Location = New System.Drawing.Point(1080, 0)
         Me.POptionsResizer.Name = "POptionsResizer"
         Me.POptionsResizer.Size = New System.Drawing.Size(6, 781)
         Me.POptionsResizer.TabIndex = 67
@@ -4134,7 +4146,7 @@ Partial Class MainWindow
         Me.POptionsScroll.AutoScroll = True
         Me.POptionsScroll.Controls.Add(Me.POptions)
         Me.POptionsScroll.Dock = System.Windows.Forms.DockStyle.Right
-        Me.POptionsScroll.Location = New System.Drawing.Point(958, 0)
+        Me.POptionsScroll.Location = New System.Drawing.Point(1086, 0)
         Me.POptionsScroll.Name = "POptionsScroll"
         Me.POptionsScroll.Size = New System.Drawing.Size(200, 781)
         Me.POptionsScroll.TabIndex = 28
@@ -4143,7 +4155,7 @@ Partial Class MainWindow
         '
         Me.AllowDrop = True
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(1158, 781)
+        Me.ClientSize = New System.Drawing.Size(1286, 781)
         Me.Controls.Add(Me.ToolStripContainer1)
         Me.Controls.Add(Me.pStatus)
         Me.Controls.Add(Me.POptionsResizer)
@@ -4616,4 +4628,5 @@ Partial Class MainWindow
     Friend WithEvents POBHRandom As ToolStripMenuItem
     Friend WithEvents mnShowWaveform As ToolStripMenuItem
     Friend WithEvents TBShowWaveform As ToolStripButton
+    Friend WithEvents BDefineMeasure As ToolStripButton
 End Class

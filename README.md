@@ -31,6 +31,7 @@ Listed in the order added.
 * The window will now follow notes being moved by arrow keys.
 * When creating LNs in NT mode, the VPosition will snap to the highlighted note if any.
 * Added "Show Waveform on Notes".
+* Added "Define Measure" in Time Selection Tool. Allows defining a custom measure, add a measure line or remove measure lines. Also accessible via the Insert key while Time Selection Tool is selected.
 
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8:
@@ -62,6 +63,7 @@ Listed in the order added.
   * Hold Alt to change the sub value
   * For example, Shift+Alt+Comma = divide the sub value by 3 (rounded)
 * Added shortcut for scrolling through #WAV selection (Shift+Scroll).
+* Added shortcut for defining measures with Time Selection Tool (Insert).
 
 ## New dialog/option boxes
 

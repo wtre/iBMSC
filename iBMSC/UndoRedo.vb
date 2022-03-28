@@ -15,6 +15,7 @@ Public Class UndoRedo
     Public Const opNT As Byte = 18
     'Public Const opChangeVisibleColumns As Byte = 19
     Public Const opWavAutoincFlag As Byte = 20
+    Public Const opChangeMeasure As Byte = 21
 
     Public Const opNoOperation As Byte = 255
 
@@ -51,6 +52,7 @@ Public Class UndoRedo
             Case opNT : Return New NT(b)
                 'Case opChangeVisibleColumns : Return New ChangeVisibleColumns(b)
             Case opWavAutoincFlag : Return New WavAutoincFlag(b)
+            Case opChangeMeasure : Return New ChangeMeasure(b)
             Case opNoOperation : Return New NoOperation(b)
             Case Else : Return Nothing
         End Select
@@ -360,7 +362,39 @@ Public Class UndoRedo
         End Function
     End Class
 
+    Public Class ChangeMeasure : Inherits LinkedURCmd
+        '1 + 8 * Indices.Length
+        Public MeasureLength() As Double = {}
 
+        Public Overrides Function toBytes() As Byte()
+            Dim xToBytes() As Byte = {opChangeMeasure}
+            Dim bitDouble = 8
+            ReDim Preserve xToBytes(1 + bitDouble * MeasureLength.Length)
+            For xI1 As Integer = 1 To UBound(xToBytes) Step bitDouble
+                Dim xId() As Byte = BitConverter.GetBytes(MeasureLength((xI1 - 1) \ bitDouble))
+                For xIb = 0 To bitDouble - 1
+                    xToBytes(xI1 + xIb) = xId(xIb)
+                Next
+            Next
+                Return xToBytes
+        End Function
+
+        Public Sub New(ByVal b() As Byte)
+            Dim bitDouble = 8
+            ReDim Preserve MeasureLength(999)
+            For xI1 As Integer = 0 To UBound(MeasureLength)
+                MeasureLength(xI1) = BitConverter.ToInt32(b, 1 + xI1 * bitDouble)
+            Next
+        End Sub
+
+        Public Sub New(ByVal xMeasureLength() As Double)
+            MeasureLength = xMeasureLength
+        End Sub
+
+        Public Overrides Function ofType() As Byte
+            Return opChangeMeasure
+        End Function
+    End Class
 
     Public Class ChangeTimeSelection : Inherits LinkedURCmd
         '1 + 8 + 8 + 8 + 1 = 26

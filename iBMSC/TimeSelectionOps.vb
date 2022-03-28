@@ -38,6 +38,36 @@ Partial Public Class MainWindow
         '    Case 2 : PMainInR.Focus()
         'End Select
     End Sub
+    Private Sub BConvertStop_Click(sender As Object, e As EventArgs) Handles BConvertStop.Click
+        SortByVPositionInsertion()
+        ConvertAreaToStop()
+
+        SortByVPositionInsertion()
+        UpdatePairing()
+        RefreshPanelAll()
+        POStatusRefresh()
+
+        Beep()
+        TVCBPM.Focus()
+    End Sub
+
+    Private Sub BDefineMeasure_Click(sender As Object, e As EventArgs) Handles BDefineMeasure.Click
+        If Not TBTimeSelect.Checked Then Exit Sub
+
+        ' Me.RedoRemoveNote(Notes(xI0), xUndo, xRedo)
+        ' RemoveNote(xI0)
+
+        SortByVPositionInsertion()
+        AddOrRemoveMeasureLine()
+
+        SortByVPositionInsertion()
+        UpdatePairing()
+        RefreshPanelAll()
+        POStatusRefresh()
+
+        Beep()
+        TVCBPM.Focus()
+    End Sub
 
     Private Sub BPMChangeTop(ByVal xRatio As Double, Optional ByVal bAddUndo As Boolean = True, Optional ByVal bOverWriteUndo As Boolean = False)
         'Dim xUndo As String = vbCrLf
@@ -664,17 +694,92 @@ EndOfAdjustment:
 
     End Sub
 
-    Private Sub BConvertStop_Click(sender As Object, e As EventArgs) Handles BConvertStop.Click
-        SortByVPositionInsertion()
-        ConvertAreaToStop()
+    Private Sub AddOrRemoveMeasureLine()
+        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
-        SortByVPositionInsertion()
-        UpdatePairing()
-        RefreshPanelAll()
-        POStatusRefresh()
+        Dim xMeasureLengthBefore = MeasureLength.Clone
+        ' TODO: Incorporate MeasureAtDisplacement
 
-        Beep()
-        TVCBPM.Focus()
+        If vSelLength = 0 Then
+            For xIM = 1 To UBound(MeasureLength)
+                If vSelStart = MeasureBottom(xIM) Then
+                    RemoveMeasureLine(xIM)
+                    GoTo EndOfSub
+                ElseIf vSelStart < MeasureBottom(xIM) Then
+                    AddMeasureLine(vSelStart)
+                    GoTo EndOfSub
+                End If
+            Next
+        Else
+            Dim xVLower As Double = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
+            Dim xVUpper As Double = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+            Dim xIML As Integer = -1
+            Dim xIMU As Integer = -1
+
+            For xIM = 1 To UBound(MeasureLength)
+                ' Find the lowest measure higher than or equal to xVLower
+                If xIML = -1 AndAlso xVLower <= MeasureBottom(xIM) Then xIML = xIM
+                ' Find the highest measure lower than or equal xVUpper
+                If xVUpper = MeasureBottom(xIM) Then
+                    xIMU = xIM
+                    Exit For
+                ElseIf xVUpper < MeasureBottom(xIM) Then
+                    xIMU = xIM - 1
+                    Exit For
+                End If
+            Next
+
+            ' Remove measure lines inside selection
+            For i = xIMU To xIML Step -1
+                RemoveMeasureLine(i)
+            Next
+
+            ' Add measure lines at vSelStart and vSelStart + vSelLength
+            AddMeasureLine(xVLower)
+            AddMeasureLine(xVUpper)
+        End If
+
+EndOfSub:
+        RedoChangeMeasure(xMeasureLengthBefore, MeasureLength.Clone, xUndo, xRedo)
+        AddUndo(xUndo, xBaseRedo.Next)
     End Sub
 
+    Private Sub AddMeasureLine(ByVal vPos As Integer)
+        For xIM = 1 To UBound(MeasureLength)
+            If vPos < MeasureBottom(xIM) Then
+                For xIM2 = UBound(MeasureLength) To xIM + 1 Step -1
+                    MeasureLength(xIM2) = MeasureLength(xIM2 - 1)
+                Next
+                MeasureLength(xIM) = MeasureBottom(xIM) - vPos
+                MeasureLength(xIM - 1) = vPos - MeasureBottom(xIM - 1)
+                Exit For
+            End If
+        Next
+
+        For xILB = 0 To 999
+            Dim a As Double = MeasureLength(xILB) / 192.0R
+            Dim xxD = GetDenominator(a)
+            LBeat.Items(xILB) = Add3Zeros(xILB) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ")
+        Next
+
+        UpdateMeasureBottom()
+    End Sub
+
+    Private Sub RemoveMeasureLine(ByVal xIM As Integer)
+        MeasureLength(xIM - 1) += MeasureLength(xIM)
+        For xIM2 = xIM To UBound(MeasureLength) - 1
+            MeasureLength(xIM2) = MeasureLength(xIM2 + 1)
+        Next
+        MeasureLength(UBound(MeasureLength)) = 192.0R
+
+        For xILB = 0 To 999
+            Dim a As Double = MeasureLength(xILB) / 192.0R
+            Dim xxD = GetDenominator(a)
+            LBeat.Items(xILB) = Add3Zeros(xILB) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ")
+        Next
+
+        UpdateMeasureBottom()
+    End Sub
 End Class

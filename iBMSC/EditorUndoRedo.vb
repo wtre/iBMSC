@@ -104,6 +104,13 @@ Partial Public Class MainWindow
                     Next
                     UpdateMeasureBottom()
 
+                Case UndoRedo.opChangeMeasure
+                    Dim xCmd As UndoRedo.ChangeMeasure = sCmd
+                    For xIM = 0 To UBound(xCmd.MeasureLength)
+                        MeasureLength(xIM) = xCmd.MeasureLength(xIM)
+                    Next
+                    UpdateMeasureBottom()
+
                 Case UndoRedo.opChangeTimeSelection
                     Dim xCmd As UndoRedo.ChangeTimeSelection = sCmd
                     vSelStart = xCmd.SelStart
@@ -379,6 +386,15 @@ Partial Public Class MainWindow
         BaseUndo = xUndo(0)
 
         Dim xRedo As New UndoRedo.ChangeMeasureLength(nVal, xIndices.Clone)
+        If BaseRedo IsNot Nothing Then BaseRedo.Next = xRedo
+        BaseRedo = xRedo
+    End Sub
+
+    Private Sub RedoChangeMeasure(ByVal MeasureLength0() As Double, ByVal MeasureLength1() As Double, ByRef BaseUndo As UndoRedo.LinkedURCmd, ByRef BaseRedo As UndoRedo.LinkedURCmd)
+        Dim xUndo As New UndoRedo.ChangeMeasure(MeasureLength0)
+        Dim xRedo As New UndoRedo.ChangeMeasure(MeasureLength1)
+        xUndo.Next = BaseUndo
+        BaseUndo = xUndo
         If BaseRedo IsNot Nothing Then BaseRedo.Next = xRedo
         BaseRedo = xRedo
     End Sub

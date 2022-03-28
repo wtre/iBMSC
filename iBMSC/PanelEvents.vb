@@ -129,6 +129,9 @@ Partial Public Class MainWindow
                 CalculateTotalPlayableNotes()
                 RefreshPanelAll()
 
+            Case Keys.Insert
+                If TBTimeSelect.Checked Then BDefineMeasure_Click(BDefineMeasure, New System.EventArgs)
+
             Case Keys.Delete
                 mnDelete_Click(mnDelete, New System.EventArgs)
 
