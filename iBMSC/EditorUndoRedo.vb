@@ -108,6 +108,9 @@ Partial Public Class MainWindow
                     Dim xCmd As UndoRedo.ChangeMeasure = sCmd
                     For xIM = 0 To UBound(xCmd.MeasureLength)
                         MeasureLength(xIM) = xCmd.MeasureLength(xIM)
+                        Dim a As Double = MeasureLength(xIM) / 192.0R
+                        Dim xxD = GetDenominator(a)
+                        LBeat.Items(xIM) = Add3Zeros(xIM) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ")
                     Next
                     UpdateMeasureBottom()
 
