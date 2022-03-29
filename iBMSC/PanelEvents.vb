@@ -1168,14 +1168,14 @@ Partial Public Class MainWindow
         ElseIf bAdjustUpper Then    'If adjusting upper end
             Dim dVPosition = mouseVPosition - Notes(xITemp).VPosition - Notes(xITemp).Length  'delta Length
             '< 0 means shorten, > 0 means lengthen
-            If foundNoteIndex > -1 Then dVPosition = Notes(foundNoteIndex).VPosition - Notes(xITemp).VPosition - Notes(xITemp).Length
+            If foundNoteIndex > -1 AndAlso foundNoteIndex <> xITemp Then dVPosition = Notes(foundNoteIndex).VPosition - Notes(xITemp).VPosition - Notes(xITemp).Length
 
             OnAdjustUpperEnd(dVPosition)
 
         Else    'If adjusting lower end
             Dim dVPosition = mouseVPosition - Notes(xITemp).VPosition  'delta VPosition
             '> 0 means shorten, < 0 means lengthen
-            If foundNoteIndex > -1 Then dVPosition = Notes(foundNoteIndex).VPosition - Notes(xITemp).VPosition
+            If foundNoteIndex > -1 AndAlso foundNoteIndex <> xITemp Then dVPosition = Notes(foundNoteIndex).VPosition - Notes(xITemp).VPosition
 
             OnAdjustLowerEnd(dVPosition)
         End If
