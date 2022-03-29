@@ -130,7 +130,19 @@ Partial Public Class MainWindow
                 RefreshPanelAll()
 
             Case Keys.Insert
-                If TBTimeSelect.Checked Then BDefineMeasure_Click(BDefineMeasure, New System.EventArgs)
+                If TBTimeSelect.Checked Then
+                    With My.Computer.Keyboard
+                        If Not .CtrlKeyDown And Not .ShiftKeyDown Then
+                            BDefineMeasure_Click(BDefineMeasure, New System.EventArgs)
+                        ElseIf .CtrlKeyDown And Not .ShiftKeyDown Then
+                            BInsertOrRemoveSpaceM_Click(BInsertOrRemoveSpaceM, New System.EventArgs)
+                        ElseIf Not .CtrlKeyDown And .ShiftKeyDown Then
+                            BInsertOrRemoveSpaceN_Click(BInsertOrRemoveSpaceN, New System.EventArgs)
+                        Else
+                            InsertOrRemoveSpaceMN(sender, New System.EventArgs)
+                        End If
+                    End With
+                End If
 
             Case Keys.Delete
                 mnDelete_Click(mnDelete, New System.EventArgs)

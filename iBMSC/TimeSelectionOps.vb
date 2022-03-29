@@ -53,18 +53,60 @@ Partial Public Class MainWindow
 
     Private Sub BDefineMeasure_Click(sender As Object, e As EventArgs) Handles BDefineMeasure.Click
         If Not TBTimeSelect.Checked Then Exit Sub
-
-        ' Me.RedoRemoveNote(Notes(xI0), xUndo, xRedo)
-        ' RemoveNote(xI0)
-
-        SortByVPositionInsertion()
         AddOrRemoveMeasureLine()
 
-        SortByVPositionInsertion()
-        UpdatePairing()
         RefreshPanelAll()
         POStatusRefresh()
 
+        Beep()
+        TVCBPM.Focus()
+    End Sub
+
+    Private Sub BInsertOrRemoveSpaceM_Click(sender As Object, e As EventArgs) Handles BInsertOrRemoveSpaceM.Click
+        If Not TBTimeSelect.Checked Or vSelLength = 0 Then Exit Sub
+
+        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+        InsertOrRemoveSpaceMeasure(xUndo, xRedo)
+        AddUndo(xUndo, xBaseRedo.Next)
+
+        RefreshPanelAll()
+        POStatusRefresh()
+        Beep()
+        TVCBPM.Focus()
+    End Sub
+
+    Private Sub BInsertOrRemoveSpaceN_Click(sender As Object, e As EventArgs) Handles BInsertOrRemoveSpaceN.Click
+        If Not TBTimeSelect.Checked Or vSelLength = 0 Then Exit Sub
+
+        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+        InsertOrRemoveSpaceNote(xUndo, xRedo)
+        AddUndo(xUndo, xBaseRedo.Next)
+
+        RefreshPanelAll()
+        POStatusRefresh()
+        Beep()
+        TVCBPM.Focus()
+    End Sub
+
+    Private Sub InsertOrRemoveSpaceMN(sender As Object, e As EventArgs) Handles BInsertOrRemoveSpaceMN.Click
+        If Not TBTimeSelect.Checked Or vSelLength = 0 Then Exit Sub
+
+        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+        InsertOrRemoveSpaceMeasure(xUndo, xRedo)
+        InsertOrRemoveSpaceNote(xUndo, xRedo)
+        AddUndo(xUndo, xBaseRedo.Next)
+
+        RefreshPanelAll()
+        POStatusRefresh()
         Beep()
         TVCBPM.Focus()
     End Sub
@@ -781,5 +823,98 @@ EndOfSub:
         Next
 
         UpdateMeasureBottom()
+    End Sub
+
+    Private Sub InsertOrRemoveSpaceMeasure(ByRef xUndo As UndoRedo.LinkedURCmd, ByRef xRedo As UndoRedo.LinkedURCmd)
+        Dim xMeasureLengthBefore = MeasureLength.Clone()
+
+        Dim xVLower As Double = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
+        Dim xIM As Integer = MeasureAtDisplacement(xVLower)
+
+        MeasureLength(xIM) = Math.Max((MeasureLength(xIM) + vSelLength), 1)
+        Dim a As Double = MeasureLength(xIM) / 192.0R
+        Dim xxD As Long = GetDenominator(a)
+        LBeat.Items(xIM) = Add3Zeros(xIM) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ")
+
+        RedoChangeMeasure(xMeasureLengthBefore, MeasureLength.Clone, xUndo, xRedo)
+
+        UpdateMeasureBottom()
+    End Sub
+
+    Private Sub InsertOrRemoveSpaceNote(ByRef xUndo As UndoRedo.LinkedURCmd, ByRef xRedo As UndoRedo.LinkedURCmd)
+        Dim xVLower As Double = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
+        Dim xVUpper As Double = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+
+        ' Change to NTInput because easier to code
+        If Not NTInput Then
+            ConvertBMSE2NT()
+        End If
+
+        If vSelLength < 0 Then ' Remove space
+            Dim xIN As Integer = 1
+            Do While xIN <= UBound(Notes)
+
+                With Notes(xIN)
+                    If .Length = 0 AndAlso .Selected Then ' If not LN and note within selection
+                        RedoRemoveNote(Notes(xIN), xUndo, xRedo)
+                        RemoveNote(xIN)
+                    ElseIf .VPosition >= xVUpper Then ' ElseIf note is above xVLower, move lower
+                        Dim vPos = Notes(xIN).VPosition + vSelLength
+                        RedoMoveNote(Notes(xIN), Notes(xIN).ColumnIndex, vPos, xUndo, xRedo)
+                        Notes(xIN).VPosition = vPos
+                        xIN += 1
+                    ElseIf .Length <> 0 AndAlso .Selected Then ' ElseIf LN
+                        Dim xNVLower = .VPosition
+                        Dim xNVUpper = .VPosition + .Length
+                        If xNVLower < xVLower Then ' If LN's VPosition is lower than selection, trim accordingly
+                            If xNVUpper <= xVUpper Then
+                                RedoLongNoteModify(Notes(xIN), .VPosition, xVLower - xNVLower, xUndo, xRedo)
+                                .Length = xVLower - xNVLower
+                            Else
+                                RedoLongNoteModify(Notes(xIN), .VPosition, .Length + vSelLength, xUndo, xRedo)
+                                .Length += vSelLength
+                            End If
+                            xIN += 1
+                        ElseIf xNVUpper <= xVUpper Then ' ElseIf LN is within selection, remove
+                            RedoRemoveNote(Notes(xIN), xUndo, xRedo)
+                            RemoveNote(xIN)
+                        ElseIf xNVLower = xVLower Then
+                            RedoLongNoteModify(Notes(xIN), .VPosition, .Length + vSelLength, xUndo, xRedo)
+                            .Length += vSelLength
+                            xIN += 1
+                        Else
+                            RedoLongNoteModify(Notes(xIN), xVLower, xNVUpper - xVUpper, xUndo, xRedo)
+                            .Length = xNVUpper - xVUpper
+                            .VPosition = xVLower
+                            xIN += 1
+                        End If
+                    Else
+                        xIN += 1
+                    End If
+                End With
+            Loop
+        ElseIf vSelLength > 0 Then ' Insert space
+            ' TODO: Add upper bound
+            For xIN = 1 To UBound(Notes)
+                With Notes(xIN)
+                    If .Length = 0 AndAlso .VPosition >= xVLower Then ' If note is above xVLower, move upper
+                        Dim vPos = Notes(xIN).VPosition + vSelLength
+                        RedoMoveNote(Notes(xIN), .ColumnIndex, vPos, xUndo, xRedo)
+                        .VPosition = vPos
+                    ElseIf .Length <> 0 AndAlso .VPosition <= xVLower Then ' ElseIf LN andalso VPosition is lower than or equal to XVLower
+                        RedoLongNoteModify(Notes(xIN), .VPosition, .Length + vSelLength, xUndo, xRedo)
+                        .Length += vSelLength
+                    ElseIf .Length <> 0 AndAlso .VPosition > xVLower Then
+                        Dim vPos = Notes(xIN).VPosition + vSelLength
+                        RedoMoveNote(Notes(xIN), .ColumnIndex, vPos, xUndo, xRedo)
+                        .VPosition = vPos
+                    End If
+                End With
+            Next
+        End If
+
+        If Not NTInput Then
+            ConvertNT2BMSE()
+        End If
     End Sub
 End Class

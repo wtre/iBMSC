@@ -988,6 +988,7 @@ Public Class MainWindow
         GhostMode = 0
         ReDim hCOM(1295)
         hCOMNum = 0
+        COverrides = Nothing
         ReDim wLWAV(1295)
         WaveformLoaded = False
 
