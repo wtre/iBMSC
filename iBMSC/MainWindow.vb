@@ -2141,10 +2141,8 @@ EndSearch:
                         If Double.TryParse(xMeasureLengthClipboard(xIL), xRatio) Then
                             If xRatio <= 0.0# Or xRatio >= 1000.0# Then System.Media.SystemSounds.Hand.Play() : Exit Sub
 
-                            Dim xxD As Long = GetDenominator(xRatio)
-
                             LBeat.SelectedIndex = xIL0 + xIL
-                            ApplyBeat(xRatio, CInt(xRatio * xxD), xxD, xUndo, xRedo, xBaseRedo)
+                            ApplyBeat(xRatio, xUndo, xRedo)
                         End If
                     Next
 
@@ -4833,8 +4831,17 @@ Jump2:
 
 
 
-    Private Sub ApplyBeat(ByVal xRatio As Double, ByVal xN As Integer, ByVal xD As Integer, ByRef xUndo As UndoRedo.LinkedURCmd, ByRef xRedo As UndoRedo.LinkedURCmd, ByRef xBaseRedo As UndoRedo.LinkedURCmd)
+    Private Sub ApplyBeat(ByVal xRatio As Double, ByRef xUndo As UndoRedo.LinkedURCmd, ByRef xRedo As UndoRedo.LinkedURCmd, Optional xN As Integer = -1, Optional xD As Integer = -1)
         SortByVPositionInsertion()
+        If xN = -1 AndAlso xD = -1 Then
+            If xRatio = 1 Then
+                xD = CGSub.Value
+                xN = xD
+            Else
+                xD = GetDenominator(xRatio)
+                xN = CInt(xRatio * xD)
+            End If
+        End If
 
         Me.RedoChangeMeasureLengthSelected(192 * xRatio, xUndo, xRedo)
 
@@ -5007,7 +5014,8 @@ case2:              Dim xI0 As Integer
         Dim xxN As Integer = nBeatN.Value
         Dim xxRatio As Double = xxN / xxD
 
-        ApplyBeat(xxRatio, xxN, xxD, xUndo, xRedo, xBaseRedo)
+        ApplyBeat(xxRatio, xUndo, xRedo, xxN, xxD)
+        AddUndo(xUndo, xBaseRedo.Next)
 
         RefreshPanelAll()
         POStatusRefresh()
@@ -5024,7 +5032,7 @@ case2:              Dim xI0 As Integer
 
             Dim xxD As Long = GetDenominator(a)
 
-            ApplyBeat(a, CInt(a * xxD), xxD, xUndo, xRedo, xBaseRedo)
+            ApplyBeat(a, xUndo, xRedo)
         End If
         AddUndo(xUndo, xBaseRedo.Next)
 
