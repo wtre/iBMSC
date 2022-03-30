@@ -2110,6 +2110,62 @@ EndSearch:
         CalculateGreatestVPosition()
     End Sub
 
+    Private Sub LBeatCopyPaste(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles LBeat.PreviewKeyDown
+        Select Case e.KeyCode
+            Case Keys.C
+                If My.Computer.Keyboard.CtrlKeyDown Then
+                    Dim xIndices(LBeat.SelectedIndices.Count - 1) As Integer
+
+                    LBeat.SelectedIndices.CopyTo(xIndices, 0)
+                    Dim xMeasureLengthSelected(UBound(xIndices)) As String
+                    For xIL = 0 To UBound(xIndices)
+                        xMeasureLengthSelected(xIL) = (MeasureLength(xIL) / 192.0R).ToString
+                    Next
+
+                    Clipboard.SetText(Join(xMeasureLengthSelected, vbCrLf))
+                End If
+            Case Keys.V
+                If My.Computer.Keyboard.CtrlKeyDown Then
+                    If LBeat.SelectedIndex = -1 Then Exit Sub
+                    Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+                    Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+                    Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+                    Dim xMeasureLengthBefore = MeasureLength.Clone
+
+                    Dim xMeasureLengthClipboard() As String = Split(Clipboard.GetText, vbCrLf)
+
+                    Dim xIL0 As Integer = LBeat.SelectedIndex
+                    Dim xRatio As Double
+                    For xIL = 0 To UBound(xMeasureLengthClipboard)
+                        LBeat.SelectedIndices.Clear()
+                        If Double.TryParse(xMeasureLengthClipboard(xIL), xRatio) Then
+                            If xRatio <= 0.0# Or xRatio >= 1000.0# Then System.Media.SystemSounds.Hand.Play() : Exit Sub
+
+                            Dim xxD As Long = GetDenominator(xRatio)
+
+                            LBeat.SelectedIndex = xIL0 + xIL
+                            ApplyBeat(xRatio, CInt(xRatio * xxD), xxD, xUndo, xRedo, xBaseRedo)
+                        End If
+                    Next
+
+                    LBeat.SelectedIndices.Clear()
+                    For xI1 As Integer = 0 To UBound(xMeasureLengthClipboard)
+                        LBeat.SelectedIndices.Add(xIL0 + xI1)
+                    Next
+
+                    RedoChangeMeasure(xMeasureLengthBefore, MeasureLength.Clone, xUndo, xRedo)
+                    AddUndo(xUndo, xBaseRedo.Next)
+
+                    RefreshPanelAll()
+                    POStatusRefresh()
+                End If
+            Case Keys.Z
+                If My.Computer.Keyboard.CtrlKeyDown Then TBUndo_Click(TBUndo, New EventArgs)
+            Case Keys.Y
+                If My.Computer.Keyboard.CtrlKeyDown Then TBRedo_Click(TBRedo, New EventArgs)
+        End Select
+    End Sub
+
     'Private Function pArgPath(ByVal I As Integer)
     '    Return Mid(pArgs(I), 1, InStr(pArgs(I), vbCrLf) - 1)
     'End Function
@@ -4777,12 +4833,8 @@ Jump2:
 
 
 
-    Private Sub ApplyBeat(ByVal xRatio As Double, ByVal xDisplay As String)
+    Private Sub ApplyBeat(ByVal xRatio As Double, ByVal xN As Integer, ByVal xD As Integer, ByRef xUndo As UndoRedo.LinkedURCmd, ByRef xRedo As UndoRedo.LinkedURCmd, ByRef xBaseRedo As UndoRedo.LinkedURCmd)
         SortByVPositionInsertion()
-
-        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
-        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
-        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
         Me.RedoChangeMeasureLengthSelected(192 * xRatio, xUndo, xRedo)
 
@@ -4801,7 +4853,7 @@ Jump2:
             Dim xUpBefore As Double = xBottom + MeasureLength(xI1)
             Dim xUpAfter As Double = xUpBefore + dLength
 
-            Select Case BeatChangeMode
+            Select Case BeatChangeMode ' CBeatPreserve => Case 0
                 Case 1
 case2:              Dim xI0 As Integer
 
@@ -4931,43 +4983,53 @@ case2:              Dim xI0 As Integer
             End Select
 
             MeasureLength(xI1) = xRatio * 192.0R
-            LBeat.Items(xI1) = Add3Zeros(xI1) & ": " & xDisplay
+            LBeat.Items(xI1) = Add3Zeros(xI1) & ": " & xRatio & " ( " & xN & " / " & xD & " ) "
         Next
         UpdateMeasureBottom()
-        'xUndo &= vbCrLf & xUndo2
-        'xRedo &= vbCrLf & xRedo2
 
         LBeat.SelectedIndices.Clear()
         For xI1 As Integer = 0 To UBound(xIndices)
             LBeat.SelectedIndices.Add(xIndices(xI1))
         Next
 
-        AddUndo(xUndo, xBaseRedo.Next)
         SortByVPositionInsertion()
         UpdatePairing()
         CalculateTotalPlayableNotes()
         CalculateGreatestVPosition()
-        RefreshPanelAll()
-        POStatusRefresh()
     End Sub
 
     Private Sub BBeatApply_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BBeatApply.Click
+        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
         Dim xxD As Integer = nBeatD.Value
         Dim xxN As Integer = nBeatN.Value
         Dim xxRatio As Double = xxN / xxD
 
-        ApplyBeat(xxRatio, xxRatio & " ( " & xxN & " / " & xxD & " ) ")
+        ApplyBeat(xxRatio, xxN, xxD, xUndo, xRedo, xBaseRedo)
+
+        RefreshPanelAll()
+        POStatusRefresh()
     End Sub
 
     Private Sub BBeatApplyV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BBeatApplyV.Click
+        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
         Dim a As Double
         If Double.TryParse(tBeatValue.Text, a) Then
             If a <= 0.0# Or a >= 1000.0# Then System.Media.SystemSounds.Hand.Play() : Exit Sub
 
             Dim xxD As Long = GetDenominator(a)
 
-            ApplyBeat(a, a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) "))
+            ApplyBeat(a, CInt(a * xxD), xxD, xUndo, xRedo, xBaseRedo)
         End If
+        AddUndo(xUndo, xBaseRedo.Next)
+
+        RefreshPanelAll()
+        POStatusRefresh()
     End Sub
 
 
