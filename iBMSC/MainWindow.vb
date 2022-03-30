@@ -3228,7 +3228,7 @@ RestartSorting: xSorted = False
         RefreshPanelAll()
     End Sub
 
-    Private Sub TBVCOptions_Click(sender As Object, e As EventArgs) Handles mnVCOptions.Click
+    Private Sub TBVCOptions_Click(sender As Object, e As EventArgs) Handles mnVCOptions.Click, BWAVColorOverride.Click
         Dim xDiag As New OpVisualOverride(FileName)
         xDiag.ShowDialog(Me)
         UpdateColumnsX()
@@ -4600,6 +4600,53 @@ Jump2:
         LWAV.SelectedIndices.Clear()
         For xI1 As Integer = 0 To UBound(xIndices)
             LWAV.SelectedIndices.Add(xIndices(xI1))
+        Next
+
+        If IsSaved Then SetIsSaved(False)
+        RefreshPanelAll()
+        POStatusRefresh()
+    End Sub
+
+    Private Sub BWAVDuplicate_Click(sender As Object, e As EventArgs) Handles BWAVDuplicate.Click
+        Dim xIndices(LWAV.SelectedIndices.Count - 1) As Integer
+        LWAV.SelectedIndices.CopyTo(xIndices, 0)
+
+        ' Duplicate WAVs
+        Dim xWAVDup(2 * (xIndices(UBound(xIndices)) - xIndices(0) + 1)) As String
+        ' Duplicate first selected WAV
+        xWAVDup(0) = hWAV(xIndices(0) + 1)
+        xWAVDup(1) = hWAV(xIndices(0) + 1)
+        Dim xID As Integer = 1
+        For xI1 = 1 To UBound(xIndices)
+            ' If skipped indices, add same amount of skipped indices
+            If xIndices(xI1) - xIndices(xI1 - 1) > 1 Then
+                For xISkip = 2 To xIndices(xI1) - xIndices(xI1 - 1)
+                    xID += 1
+                    xWAVDup(xID) = ""
+                Next
+            End If
+
+            ' Continue duplicating selected WAVs
+            For xI2 = 0 To 1
+                xID += 1
+                xWAVDup(xID) = hWAV(xIndices(xI1) + 1)
+            Next
+        Next
+        ReDim Preserve xWAVDup(xID)
+
+        ' Add duplicated WAV list to hWAV
+        Dim xIL0 As Integer = LWAV.SelectedIndex
+        Dim xIL1 As Integer
+        For xI3 = 0 To xID
+            xIL1 = xIL0 + xI3
+            If xIL1 > LWAV.Items.Count - 1 Then xIL1 = LWAV.Items.Count - 1 : Exit For
+            hWAV(xIL1 + 1) = xWAVDup(xI3)
+            LWAV.Items.Item(xIL1) = C10to36(xIL1 + 1) & ": " & xWAVDup(xI3)
+        Next
+
+        LWAV.SelectedIndices.Clear()
+        For xI1 = xIL0 To xIL1
+            LWAV.SelectedIndices.Add(xI1)
         Next
 
         If IsSaved Then SetIsSaved(False)

@@ -33,6 +33,8 @@ Listed in the order added.
 * Added "Show Waveform on Notes".
 * Added "Define Measure" in Time Selection Tool. Allows defining a custom measure, add a measure line or remove measure lines. Also accessible via the Insert key while Time Selection Tool is selected.
 * Added "Insert/Remove Space" in Time Selection Tool. Allows inserting space into the measure, either measure only, notes only or both. Also accessible via Ctrl+Insert, Shift+Insert and Ctrl+Shift+Insert respectively.
+* Added ability to copy and paste measure lengths over multiple measures.
+* Added ability to duplicate #WAV's.
 
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8:

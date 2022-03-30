@@ -118,8 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="x16Lock" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\MiscButtons\x16Lock.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="x16Select" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ImageButtonsSmall\x16Select.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="x16settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16settings.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -129,6 +129,9 @@
   </data>
   <data name="x16Up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16Up.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="x16ShowWaveform" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ImageButtonsSmall\x16ShowWaveform.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="x16TimeSelection" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16TimeSelection.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -151,9 +154,6 @@
   <data name="SplashScreenx" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\SplashScreenx.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WAVWidth" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\MiscButtons\WAVWidth.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="x16Play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16Play.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -175,6 +175,9 @@
   <data name="x16Random" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16Random.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="lgheight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\MiscButtons\lgheight.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="x16PlayerDefault" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\MiscButtons\x16PlayerDefault.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -193,11 +196,11 @@
   <data name="x16PreviewCheckN" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16PreviewCheckN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="x16Select" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ImageButtonsSmall\x16Select.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ConvertNotesL" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtons\ConvertNotesL.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="x16Lock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\MiscButtons\x16Lock.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Expand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\Expand.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,11 +220,8 @@
   <data name="x16Paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16Paste.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="x16Add" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\MiscButtons\x16Add.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="x16Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ImageButtonsSmall\x16Down.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="x16ShowFileNameN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ImageButtonsSmall\x16ShowFileNameN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="x16Cut" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16Cut.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -256,14 +256,17 @@
   <data name="x16Import2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16Import2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="x16ModifyLabelY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ImageButtonsSmall\x16ModifyLabelY.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="x16Associate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16Associate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="x16NTInput" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ImageButtonsSmall\x16NTInput.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="x16Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ImageButtonsSmall\x16Down.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="lgheight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\MiscButtons\lgheight.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="x16Add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\MiscButtons\x16Add.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="x16PlayerOptions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16PlayerOptions.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -276,9 +279,6 @@
   </data>
   <data name="x16MultiSelect" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16MultiSelect.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="x16ShowFileNameN" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ImageButtonsSmall\x16ShowFileNameN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="x16ShowFileName" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16ShowFileName.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -295,6 +295,9 @@
   <data name="ConvertNotesHV" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtons\ConvertNotesHV.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="x16ShowWaveformN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ImageButtonsSmall\x16ShowWaveformN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="x16VisualOptions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16VisualOptions.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -310,20 +313,20 @@
   <data name="Statistics3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtons\Statistics3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="x16Pen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ImageButtonsSmall\x16Pen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="TransparentBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\TransparentBG.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="x16CheckErrorN" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16CheckErrorN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="x16Language" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ImageButtonsSmall\x16Language.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="x16New" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16New.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="x16ModifyLabelY" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ImageButtonsSmall\x16ModifyLabelY.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="WAVWidth" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\MiscButtons\WAVWidth.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ConvertNotesN" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtons\ConvertNotesN.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -352,11 +355,14 @@
   <data name="WAVSaturation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\MiscButtons\WAVSaturation.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="x16Language" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ImageButtonsSmall\x16Language.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="x16Pen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ImageButtonsSmall\x16Pen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="x16Flip" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\..\backup\3.4.0.12\iBMSC\ImageButtonsSmall\x16Flip.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="x16NTInput" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ImageButtonsSmall\x16NTInput.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CursorResizeRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\CursorResizeRight.cur;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -369,6 +375,9 @@
   </data>
   <data name="x16PreviewCheck" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16PreviewCheck.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WAVDuplicate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\MiscButtons\WAVDuplicate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="x16Stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ImageButtonsSmall\x16Stop.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -403,10 +412,7 @@
   <data name="lgwidth" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\MiscButtons\lgwidth.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="x16ShowWaveform" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ImageButtonsSmall\x16ShowWaveform.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="x16ShowWaveformN" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ImageButtonsSmall\x16ShowWaveformN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="x16Color" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ImageButtonsSmall\x16Color.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

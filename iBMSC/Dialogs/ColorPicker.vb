@@ -140,97 +140,97 @@ Public Class ColorPicker
             Case 0
                 Dim xHue As Integer = inH.Value
                 For xI1 = 0 To 255 Step xPrecision
-                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                    New Point(0, 0), _
-                                                    New Point(0, 128), _
-                                                    Color.White, _
-                                                    HSL2RGB(xHue, xI1 / 255 * 1000, 500)), _
-                                              xI1, _
-                                              0, _
-                                              xPrecision, _
+                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                    New Point(0, 0),
+                                                    New Point(0, 128),
+                                                    Color.White,
+                                                    HSL2RGB(xHue, xI1 / 255 * 1000, 500)),
+                                              xI1,
+                                              0,
+                                              xPrecision,
                                               128)
-                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                    New Point(0, 128), _
-                                                    New Point(0, 256), _
-                                                    HSL2RGB(xHue, xI1 / 255 * 1000, 500), _
-                                                    Color.Black), _
-                                              xI1, _
-                                              128, _
-                                              xPrecision, _
+                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                    New Point(0, 128),
+                                                    New Point(0, 256),
+                                                    HSL2RGB(xHue, xI1 / 255 * 1000, 500),
+                                                    Color.Black),
+                                              xI1,
+                                              128,
+                                              xPrecision,
                                               128)
                 Next
             Case 1
                 Dim xSaturation As Integer = inS.Value
                 For xI1 = 0 To 255 Step xPrecision
-                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                    New Point(0, 0), _
-                                                    New Point(0, 128), _
-                                                    Color.White, _
-                                                    HSL2RGB(xI1 / 255 * 360, xSaturation, 500)), _
-                                              xI1, _
-                                              0, _
-                                              xPrecision, _
+                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                    New Point(0, 0),
+                                                    New Point(0, 128),
+                                                    Color.White,
+                                                    HSL2RGB(xI1 / 255 * 360, xSaturation, 500)),
+                                              xI1,
+                                              0,
+                                              xPrecision,
                                               128)
-                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                    New Point(0, 128), _
-                                                    New Point(0, 256), _
-                                                    HSL2RGB(xI1 / 255 * 360, xSaturation, 500), _
-                                                    Color.Black), _
-                                              xI1, _
-                                              128, _
-                                              xPrecision, _
+                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                    New Point(0, 128),
+                                                    New Point(0, 256),
+                                                    HSL2RGB(xI1 / 255 * 360, xSaturation, 500),
+                                                    Color.Black),
+                                              xI1,
+                                              128,
+                                              xPrecision,
                                               128)
                 Next
             Case 2
                 Dim xLightness As Integer = inL.Value
                 For xI1 = 0 To 255 Step xPrecision
-                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                    New Point(0, 0), _
-                                                    New Point(0, 256), _
-                                                    HSL2RGB(xI1 / 255 * 360, 1000, xLightness), _
-                                                    HSL2RGB(xI1 / 255 * 360, 0, xLightness)), _
-                                              xI1, _
-                                              0, _
-                                              xPrecision, _
+                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                    New Point(0, 0),
+                                                    New Point(0, 256),
+                                                    HSL2RGB(xI1 / 255 * 360, 1000, xLightness),
+                                                    HSL2RGB(xI1 / 255 * 360, 0, xLightness)),
+                                              xI1,
+                                              0,
+                                              xPrecision,
                                               256)
                 Next
             Case 3
                 Dim xRed As Integer = inR.Value
                 For xI1 = 0 To 255 Step xPrecision
-                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                    New Point(0, 0), _
-                                                    New Point(0, 256), _
-                                                    Color.FromArgb(xRed, 255, xI1), _
-                                                    Color.FromArgb(xRed, 0, xI1)), _
-                                              xI1, _
-                                              0, _
-                                              xPrecision, _
+                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                    New Point(0, 0),
+                                                    New Point(0, 256),
+                                                    Color.FromArgb(xRed, 255, xI1),
+                                                    Color.FromArgb(xRed, 0, xI1)),
+                                              xI1,
+                                              0,
+                                              xPrecision,
                                               256)
                 Next
             Case 4
                 Dim xGreen As Integer = inG.Value
                 For xI1 = 0 To 255 Step xPrecision
-                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                    New Point(0, 0), _
-                                                    New Point(0, 256), _
-                                                    Color.FromArgb(255, xGreen, xI1), _
-                                                    Color.FromArgb(0, xGreen, xI1)), _
-                                              xI1, _
-                                              0, _
-                                              xPrecision, _
+                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                    New Point(0, 0),
+                                                    New Point(0, 256),
+                                                    Color.FromArgb(255, xGreen, xI1),
+                                                    Color.FromArgb(0, xGreen, xI1)),
+                                              xI1,
+                                              0,
+                                              xPrecision,
                                               256)
                 Next
             Case 5
                 Dim xBlue As Integer = inB.Value
                 For xI1 = 0 To 255 Step xPrecision
-                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                    New Point(0, 0), _
-                                                    New Point(0, 256), _
-                                                    Color.FromArgb(255, xI1, xBlue), _
-                                                    Color.FromArgb(0, xI1, xBlue)), _
-                                              xI1, _
-                                              0, _
-                                              xPrecision, _
+                    e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                    New Point(0, 0),
+                                                    New Point(0, 256),
+                                                    Color.FromArgb(255, xI1, xBlue),
+                                                    Color.FromArgb(0, xI1, xBlue)),
+                                              xI1,
+                                              0,
+                                              xPrecision,
                                               256)
                 Next
         End Select
@@ -409,53 +409,53 @@ Public Class ColorPicker
             Case 1
                 Dim xxH As Integer = inH.Value
                 Dim xxL As Integer = inL.Value
-                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                New Point(0, 0), _
-                                                New Point(0, 256), _
-                                                HSL2RGB(xxH, 1000, xxL), _
-                                                HSL2RGB(xxH, 0, xxL)), _
+                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                New Point(0, 0),
+                                                New Point(0, 256),
+                                                HSL2RGB(xxH, 1000, xxL),
+                                                HSL2RGB(xxH, 0, xxL)),
                                             0, 0, xWidth, 256)
             Case 2
                 Dim xxH As Integer = inH.Value
                 Dim xxS As Integer = inS.Value
-                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                     New Point(0, 0), _
-                                                     New Point(0, 128), _
-                                                     HSL2RGB(xxH, xxS, 1000), _
-                                                     HSL2RGB(xxH, xxS, 500)), _
+                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                     New Point(0, 0),
+                                                     New Point(0, 128),
+                                                     HSL2RGB(xxH, xxS, 1000),
+                                                     HSL2RGB(xxH, xxS, 500)),
                                                  0, 0, xWidth, 128)
-                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                     New Point(0, 128), _
-                                                     New Point(0, 256), _
-                                                     HSL2RGB(xxH, xxS, 500), _
-                                                     HSL2RGB(xxH, xxS, 0)), _
+                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                     New Point(0, 128),
+                                                     New Point(0, 256),
+                                                     HSL2RGB(xxH, xxS, 500),
+                                                     HSL2RGB(xxH, xxS, 0)),
                                                  0, 128, xWidth, 128)
             Case 3
                 Dim xxG As Integer = inG.Value
                 Dim xxB As Integer = inB.Value
-                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                New Point(0, 0), _
-                                                New Point(0, 256), _
-                                                Color.FromArgb(255, xxG, xxB), _
-                                                Color.FromArgb(0, xxG, xxB)), _
+                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                New Point(0, 0),
+                                                New Point(0, 256),
+                                                Color.FromArgb(255, xxG, xxB),
+                                                Color.FromArgb(0, xxG, xxB)),
                                             0, 0, xWidth, 256)
             Case 4
                 Dim xxR As Integer = inR.Value
                 Dim xxB As Integer = inB.Value
-                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                New Point(0, 0), _
-                                                New Point(0, 256), _
-                                                Color.FromArgb(xxR, 255, xxB), _
-                                                Color.FromArgb(xxR, 0, xxB)), _
+                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                New Point(0, 0),
+                                                New Point(0, 256),
+                                                Color.FromArgb(xxR, 255, xxB),
+                                                Color.FromArgb(xxR, 0, xxB)),
                                             0, 0, xWidth, 256)
             Case 5
                 Dim xxR As Integer = inR.Value
                 Dim xxG As Integer = inG.Value
-                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush( _
-                                                New Point(0, 0), _
-                                                New Point(0, 256), _
-                                                Color.FromArgb(xxR, xxG, 255), _
-                                                Color.FromArgb(xxR, xxG, 0)), _
+                e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
+                                                New Point(0, 0),
+                                                New Point(0, 256),
+                                                Color.FromArgb(xxR, xxG, 255),
+                                                Color.FromArgb(xxR, xxG, 0)),
                                             0, 0, xWidth, 256)
         End Select
 
@@ -540,14 +540,14 @@ Public Class ColorPicker
         If xRegion.X < 62 Then
             e1.Graphics.FillRectangle(New Drawing.SolidBrush(OrigColor), 0, 0, 61, 28)
             e1.Graphics.DrawLine(New Pen(Color.FromKnownColor(KnownColor.WindowFrame)), 61, 0, 61, 28)
-            e1.Graphics.DrawString("Orig", xFont, IIf(OrigColor.GetBrightness + (255 - OrigColor.A) / 255 > 0.5, Brushes.Black, Brushes.White), _
-                                      31 - e1.Graphics.MeasureString("Orig", xFont).Width / 2, _
+            e1.Graphics.DrawString("Orig", xFont, IIf(OrigColor.GetBrightness + (255 - OrigColor.A) / 255 > 0.5, Brushes.Black, Brushes.White),
+                                      31 - e1.Graphics.MeasureString("Orig", xFont).Width / 2,
                                       14 - e1.Graphics.MeasureString("Orig", xFont).Height / 2)
         End If
 
         e1.Graphics.FillRectangle(New Drawing.SolidBrush(NewColor), 62, 0, 61, 28)
-        e1.Graphics.DrawString("New", xFont, IIf(NewColor.GetBrightness + (255 - NewColor.A) / 255 > 0.5, Brushes.Black, Brushes.White), _
-                               93 - e1.Graphics.MeasureString("New", xFont).Width / 2, _
+        e1.Graphics.DrawString("New", xFont, IIf(NewColor.GetBrightness + (255 - NewColor.A) / 255 > 0.5, Brushes.Black, Brushes.White),
+                               93 - e1.Graphics.MeasureString("New", xFont).Width / 2,
                                14 - e1.Graphics.MeasureString("New", xFont).Height / 2)
 
         e1.Render(pPrev.CreateGraphics)

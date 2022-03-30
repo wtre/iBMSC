@@ -25,16 +25,16 @@ Partial Class MainWindow
         Me.TBLangDef = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBLangRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
-        Me.TBLanguage = New System.Windows.Forms.ToolStripDropDownButton()
         Me.mnLanguage = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TBLanguage = New System.Windows.Forms.ToolStripDropDownButton()
         Me.cmnTheme = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.TBThemeDef = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeSave = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeLoadComptability = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
-        Me.mnTheme = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBTheme = New System.Windows.Forms.ToolStripDropDownButton()
+        Me.mnTheme = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Menu1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.MInsert = New System.Windows.Forms.ToolStripMenuItem()
@@ -237,6 +237,8 @@ Partial Class MainWindow
         Me.BWAVBrowse = New System.Windows.Forms.Button()
         Me.BWAVDown = New System.Windows.Forms.Button()
         Me.BWAVUp = New System.Windows.Forms.Button()
+        Me.BWAVDuplicate = New System.Windows.Forms.Button()
+        Me.BWAVColorOverride = New System.Windows.Forms.Button()
         Me.POptions = New System.Windows.Forms.Panel()
         Me.POExpansion = New System.Windows.Forms.Panel()
         Me.POExpansionInner = New System.Windows.Forms.Panel()
@@ -456,7 +458,7 @@ Partial Class MainWindow
         '
         Me.cmnLanguage.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBLangDef, Me.TBLangRefresh, Me.ToolStripSeparator9})
         Me.cmnLanguage.Name = "cmnLanguage"
-        Me.cmnLanguage.OwnerItem = Me.mnLanguage
+        Me.cmnLanguage.OwnerItem = Me.TBLanguage
         Me.cmnLanguage.Size = New System.Drawing.Size(121, 54)
         '
         'TBLangDef
@@ -477,6 +479,14 @@ Partial Class MainWindow
         Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
         Me.ToolStripSeparator9.Size = New System.Drawing.Size(117, 6)
         '
+        'mnLanguage
+        '
+        Me.mnLanguage.DropDown = Me.cmnLanguage
+        Me.mnLanguage.Image = Global.iBMSC.My.Resources.Resources.x16Language
+        Me.mnLanguage.Name = "mnLanguage"
+        Me.mnLanguage.Size = New System.Drawing.Size(253, 22)
+        Me.mnLanguage.Text = "&Language"
+        '
         'TBLanguage
         '
         Me.TBLanguage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -487,19 +497,11 @@ Partial Class MainWindow
         Me.TBLanguage.Size = New System.Drawing.Size(29, 22)
         Me.TBLanguage.Text = "Language"
         '
-        'mnLanguage
-        '
-        Me.mnLanguage.DropDown = Me.cmnLanguage
-        Me.mnLanguage.Image = Global.iBMSC.My.Resources.Resources.x16Language
-        Me.mnLanguage.Name = "mnLanguage"
-        Me.mnLanguage.Size = New System.Drawing.Size(253, 22)
-        Me.mnLanguage.Text = "&Language"
-        '
         'cmnTheme
         '
         Me.cmnTheme.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBThemeDef, Me.TBThemeSave, Me.TBThemeRefresh, Me.TBThemeLoadComptability, Me.ToolStripSeparator6})
         Me.cmnTheme.Name = "cmnLanguage"
-        Me.cmnTheme.OwnerItem = Me.TBTheme
+        Me.cmnTheme.OwnerItem = Me.mnTheme
         Me.cmnTheme.Size = New System.Drawing.Size(246, 98)
         '
         'TBThemeDef
@@ -533,14 +535,6 @@ Partial Class MainWindow
         Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
         Me.ToolStripSeparator6.Size = New System.Drawing.Size(242, 6)
         '
-        'mnTheme
-        '
-        Me.mnTheme.DropDown = Me.cmnTheme
-        Me.mnTheme.Image = Global.iBMSC.My.Resources.Resources.x16Theme
-        Me.mnTheme.Name = "mnTheme"
-        Me.mnTheme.Size = New System.Drawing.Size(253, 22)
-        Me.mnTheme.Text = "&Theme"
-        '
         'TBTheme
         '
         Me.TBTheme.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -550,6 +544,14 @@ Partial Class MainWindow
         Me.TBTheme.Name = "TBTheme"
         Me.TBTheme.Size = New System.Drawing.Size(29, 22)
         Me.TBTheme.Text = "Theme"
+        '
+        'mnTheme
+        '
+        Me.mnTheme.DropDown = Me.cmnTheme
+        Me.mnTheme.Image = Global.iBMSC.My.Resources.Resources.x16Theme
+        Me.mnTheme.Name = "mnTheme"
+        Me.mnTheme.Size = New System.Drawing.Size(253, 22)
+        Me.mnTheme.Text = "&Theme"
         '
         'Timer1
         '
@@ -1124,7 +1126,7 @@ Partial Class MainWindow
         '
         'mnVCOptions
         '
-        Me.mnVCOptions.Image = Global.iBMSC.My.Resources.Resources.x16VisualOptions
+        Me.mnVCOptions.Image = Global.iBMSC.My.Resources.Resources.x16Color
         Me.mnVCOptions.Name = "mnVCOptions"
         Me.mnVCOptions.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.F12), System.Windows.Forms.Keys)
         Me.mnVCOptions.Size = New System.Drawing.Size(253, 22)
@@ -1149,7 +1151,6 @@ Partial Class MainWindow
         '
         Me.cmnConversion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.POBLong, Me.POBShort, Me.POBLongShort, Me.ToolStripSeparator10, Me.POBHidden, Me.POBVisible, Me.POBHiddenVisible, Me.ToolStripSeparator11, Me.POBModify, Me.POBMirror, Me.POBFlip, Me.POBRandom, Me.POBRRandom, Me.POBSRandom, Me.POBHRandom, Me.POBSort})
         Me.cmnConversion.Name = "cmnLanguage"
-        Me.cmnConversion.OwnerItem = Me.POConvert
         Me.cmnConversion.Size = New System.Drawing.Size(222, 324)
         '
         'POBLong
@@ -2323,6 +2324,28 @@ Partial Class MainWindow
         Me.ToolTipUniversal.SetToolTip(Me.BWAVUp, "Move Up")
         Me.BWAVUp.UseVisualStyleBackColor = True
         '
+        'BWAVDuplicate
+        '
+        Me.BWAVDuplicate.Image = Global.iBMSC.My.Resources.Resources.WAVDuplicate
+        Me.BWAVDuplicate.Location = New System.Drawing.Point(96, 0)
+        Me.BWAVDuplicate.Margin = New System.Windows.Forms.Padding(0)
+        Me.BWAVDuplicate.Name = "BWAVDuplicate"
+        Me.BWAVDuplicate.Size = New System.Drawing.Size(24, 24)
+        Me.BWAVDuplicate.TabIndex = 606
+        Me.ToolTipUniversal.SetToolTip(Me.BWAVDuplicate, "Duplicate")
+        Me.BWAVDuplicate.UseVisualStyleBackColor = True
+        '
+        'BWAVColorOverride
+        '
+        Me.BWAVColorOverride.Image = Global.iBMSC.My.Resources.Resources.x16Color
+        Me.BWAVColorOverride.Location = New System.Drawing.Point(120, 0)
+        Me.BWAVColorOverride.Margin = New System.Windows.Forms.Padding(0)
+        Me.BWAVColorOverride.Name = "BWAVColorOverride"
+        Me.BWAVColorOverride.Size = New System.Drawing.Size(24, 24)
+        Me.BWAVColorOverride.TabIndex = 607
+        Me.ToolTipUniversal.SetToolTip(Me.BWAVColorOverride, "Override color")
+        Me.BWAVColorOverride.UseVisualStyleBackColor = True
+        '
         'POptions
         '
         Me.POptions.AutoSize = True
@@ -2755,9 +2778,11 @@ Partial Class MainWindow
         Me.FlowLayoutPanel3.Controls.Add(Me.BWAVDown)
         Me.FlowLayoutPanel3.Controls.Add(Me.BWAVBrowse)
         Me.FlowLayoutPanel3.Controls.Add(Me.BWAVRemove)
+        Me.FlowLayoutPanel3.Controls.Add(Me.BWAVDuplicate)
+        Me.FlowLayoutPanel3.Controls.Add(Me.BWAVColorOverride)
         Me.FlowLayoutPanel3.Location = New System.Drawing.Point(3, 3)
         Me.FlowLayoutPanel3.Name = "FlowLayoutPanel3"
-        Me.FlowLayoutPanel3.Size = New System.Drawing.Size(96, 24)
+        Me.FlowLayoutPanel3.Size = New System.Drawing.Size(144, 24)
         Me.FlowLayoutPanel3.TabIndex = 26
         Me.FlowLayoutPanel3.WrapContents = False
         '
@@ -4665,4 +4690,6 @@ Partial Class MainWindow
     Friend WithEvents BInsertOrRemoveSpaceM As ToolStripButton
     Friend WithEvents BInsertOrRemoveSpaceN As ToolStripButton
     Friend WithEvents BInsertOrRemoveSpaceMN As ToolStripButton
+    Friend WithEvents BWAVDuplicate As Button
+    Friend WithEvents BWAVColorOverride As Button
 End Class
