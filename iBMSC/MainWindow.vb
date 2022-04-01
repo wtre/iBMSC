@@ -169,7 +169,7 @@ Public Class MainWindow
 
     '----ErrorCheck Options
     Dim ErrorCheck As Boolean = True
-    Dim ErrorJackSpeed As Double = Notes(0).Value / 10000 / 192
+    Dim ErrorJackSpeed As Double = 255 / 60 / 4 / 16
 
     '----Header Options
     Dim hWAV(1295) As String
@@ -1257,10 +1257,22 @@ Public Class MainWindow
 
     Private Sub UpdatePairing()
         Dim i As Integer, j As Integer
+        Dim xniArray0() As Integer
+        Select Case gXKeyMode
+            Case "SP"
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+            Case "PMS"
+                xniArray0 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
+            Case "DP"
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+            Case Else
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+        End Select
 
         If NTInput Then
             For i = 0 To UBound(Notes)
                 Notes(i).HasError = False
+                Notes(i).ErrorType = 0
                 Notes(i).LNPair = 0
                 If Notes(i).Length < 0 Then Notes(i).Length = 0
             Next
@@ -1295,11 +1307,25 @@ Public Class MainWindow
                         End If
                     End If
                 End If
+
+                ' Jack checking
+                Dim xIComp = i - 1
+                Do While xIComp > 0
+                    If Notes(xIComp).VPosition = Notes(i).VPosition Then xIComp -= 1 : Continue Do
+                    If GetTimeFromVPosition(Notes(i).VPosition) - GetTimeFromVPosition(Notes(xIComp).VPosition) > ErrorJackSpeed Then Exit Do
+                    If xniArray0.Contains(Notes(i).ColumnIndex) AndAlso Notes(i).ColumnIndex = Notes(xIComp).ColumnIndex Then
+                        Notes(i).HasError = True
+                        Notes(i).ErrorType = 1
+                        Exit Do
+                    End If
+                    xIComp -= 1
+                Loop
             Next
 
         Else
             For i = 0 To UBound(Notes)
                 Notes(i).HasError = False
+                Notes(i).ErrorType = 0
                 Notes(i).LNPair = 0
             Next
 
@@ -1376,6 +1402,19 @@ EndSearch:
                     Next
 
                 End If
+
+                ' Jack checking
+                Dim xIComp = i - 1
+                Do While xIComp > 0
+                    If Notes(xIComp).VPosition = Notes(i).VPosition Then xIComp -= 1 : Continue Do
+                    If GetTimeFromVPosition(Notes(i).VPosition) - GetTimeFromVPosition(Notes(xIComp).VPosition) > ErrorJackSpeed Then Exit Do
+                    If xniArray0.Contains(Notes(i).ColumnIndex) AndAlso Notes(i).ColumnIndex = Notes(xIComp).ColumnIndex Then
+                        Notes(i).HasError = True
+                        Notes(i).ErrorType = 1
+                        Exit Do
+                    End If
+                    xIComp -= 1
+                Loop
             Next
 
 
@@ -2584,16 +2623,18 @@ StartCount:     If Not NTInput Then
 
         Dim stop_contrib As Double
         Dim bpm_contrib As Double
+        Dim duration = 0.0
 
         For i = 0 To bpm_notes.Count() - 1
             ' az: sum bpm contribution first
-            Dim duration = 0.0
+            ' P: Yeah but not all of them
             Dim current_note = bpm_notes.ElementAt(i)
             Dim notevpos = Math.Max(0, current_note.VPosition)
+            If notevpos > vpos Then Exit For
 
             If i + 1 <> bpm_notes.Count() Then
                 Dim next_note = bpm_notes.ElementAt(i + 1)
-                duration = next_note.VPosition - notevpos
+                duration = Math.Min(next_note.VPosition, vpos) - notevpos
             Else
                 duration = vpos - notevpos
             End If

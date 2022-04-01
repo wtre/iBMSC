@@ -13,6 +13,7 @@
         Public LNPair As Integer
         Public Selected As Boolean
         Public HasError As Boolean
+        Public ErrorType As Integer
 
         'Public TempBoolean As Boolean
         Public TempSelected As Boolean
