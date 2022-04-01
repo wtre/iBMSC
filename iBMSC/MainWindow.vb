@@ -2584,16 +2584,18 @@ StartCount:     If Not NTInput Then
 
         Dim stop_contrib As Double
         Dim bpm_contrib As Double
+        Dim duration = 0.0
 
         For i = 0 To bpm_notes.Count() - 1
             ' az: sum bpm contribution first
-            Dim duration = 0.0
+            ' P: Yeah but not all of them
             Dim current_note = bpm_notes.ElementAt(i)
             Dim notevpos = Math.Max(0, current_note.VPosition)
+            If notevpos > vpos Then Exit For
 
             If i + 1 <> bpm_notes.Count() Then
                 Dim next_note = bpm_notes.ElementAt(i + 1)
-                duration = next_note.VPosition - notevpos
+                duration = Math.Min(next_note.VPosition, vpos) - notevpos
             Else
                 duration = vpos - notevpos
             End If
