@@ -78,8 +78,18 @@ Partial Public Class MainWindow
 
         'Bg color
         DrawBackgroundColor(e1, xTHeight, xTWidth, xPanelHScroll, xI1)
+
         ' Determine current mode: PMS, DP or SP
-        If GetColumn(5).Width = 0 Then gXKeyMode = "PMS" Else If CHPlayer.SelectedIndex <> 0 Then gXKeyMode = "DP" Else gXKeyMode = "SP"
+        If GetColumn(5).Width = 0 Then
+            gXKeyMode = "PMS"
+            gXKeyCol = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
+        ElseIf CHPlayer.SelectedIndex <> 0 Then
+            gXKeyMode = "DP"
+            gXKeyCol = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+        Else
+            gXKeyMode = "SP"
+            gXKeyCol = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+        End If
 
         xI1 = DrawPanelLines(e1, xTHeight, xTWidth, xPanelHScroll, xPanelDisplacement, xVSu)
 

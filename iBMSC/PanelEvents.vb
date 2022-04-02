@@ -828,19 +828,8 @@ Partial Public Class MainWindow
                     If IsNoteVisible(xI1, xTHeight, xVS) AndAlso IsLabelMatch(Notes(xI1), NoteIndex) Then Notes(xI1).Selected = Not Notes(xI1).Selected
                 Next
             ElseIf ModifierMultiselectNoteActive() Then
-                Dim xniArray1() As Integer
-                Select Case gXKeyMode
-                    Case "SP"
-                        xniArray1 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niB}
-                    Case "PMS"
-                        xniArray1 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5, niB}
-                    Case "DP"
-                        xniArray1 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8, niB}
-                    Case Else
-                        xniArray1 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niB}
-                End Select
                 For xI1 = 0 To UBound(Notes)
-                    If IsLabelMatch(Notes(xI1), NoteIndex) AndAlso xniArray1.Contains(Notes(xI1).ColumnIndex) Then Notes(xI1).Selected = Not Notes(xI1).Selected
+                    If IsLabelMatch(Notes(xI1), NoteIndex) AndAlso Iscolumnsound(Notes(xI1).ColumnIndex) Then Notes(xI1).Selected = Not Notes(xI1).Selected
                 Next
             Else
                 ' az description: If the clicked note is not selected, select only this one.

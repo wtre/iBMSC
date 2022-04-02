@@ -161,6 +161,7 @@ Public Class MainWindow
     Dim hCOM(1295) As String '
     Dim hCOMNum As Integer = 0
     Dim gXKeyMode As String = "SP" ' Determines from column width 7key mode, 9key mode or 14key mode
+    Dim gXKeyCol() As Integer
     Dim wLWAV(1295) As wWav
 
     '----AutoSave Options
@@ -2629,17 +2630,7 @@ StartCount:     If Not NTInput Then
         ' Array 0: Unmodified array
         ' Array 1: Modified array based on range
         ' Array R: Array 1 reversed
-        Dim xniArray0() As Integer
-        Select Case gXKeyMode
-            Case "SP"
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
-            Case "PMS"
-                xniArray0 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
-            Case "DP"
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
-            Case Else
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
-        End Select
+        Dim xniArray0() As Integer = gXKeyCol
         ' Dim xniArray1 = Integer() ' xniArray0
 
         ' New function: Declare an array to see the range of selected notes. B columns ignored.
@@ -2770,17 +2761,7 @@ DoNothing:
         ' Array 0: Unmodified array
         ' Array 1: Modified array based on range
         ' Array R: Array 1 randomized
-        Dim xniArray0() As Integer
-        Select Case gXKeyMode
-            Case "SP"
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
-            Case "PMS"
-                xniArray0 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
-            Case "DP"
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
-            Case Else
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
-        End Select
+        Dim xniArray0() As Integer = gXKeyCol
         ' Dim xniArray1 = Integer() ' xniArray0
 
         ' New function: Declare an array to see the range of selected notes. B columns ignored.
@@ -2948,17 +2929,7 @@ DoNothing:
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
         ' Array 1: Unmodified array
-        Dim xniArray1() As Integer
-        Select Case gXKeyMode
-            Case "SP"
-                xniArray1 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
-            Case "PMS"
-                xniArray1 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
-            Case "DP"
-                xniArray1 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
-            Case Else
-                xniArray1 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
-        End Select
+        Dim xniArray1() As Integer = gXKeyCol
 
         Dim xniArrayLen = xniArray1.Length
 
