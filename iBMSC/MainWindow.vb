@@ -170,7 +170,7 @@ Public Class MainWindow
 
     '----ErrorCheck Options
     Dim ErrorCheck As Boolean = True
-    Dim ErrorJackSpeed As Double = Notes(0).Value / 10000 / 192
+    Dim ErrorJackSpeed As Double = 255 / 60 / 4 / 16
 
     '----Header Options
     Dim hWAV(1295) As String
@@ -1258,10 +1258,22 @@ Public Class MainWindow
 
     Private Sub UpdatePairing()
         Dim i As Integer, j As Integer
+        Dim xniArray0() As Integer
+        Select Case gXKeyMode
+            Case "SP"
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+            Case "PMS"
+                xniArray0 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
+            Case "DP"
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+            Case Else
+                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+        End Select
 
         If NTInput Then
             For i = 0 To UBound(Notes)
                 Notes(i).HasError = False
+                Notes(i).ErrorType = 0
                 Notes(i).LNPair = 0
                 If Notes(i).Length < 0 Then Notes(i).Length = 0
             Next
@@ -1296,11 +1308,15 @@ Public Class MainWindow
                         End If
                     End If
                 End If
+
+                ' Jack checking
+                If Notes(i).TempMouseDown Then CheckJack(i, xniArray0)
             Next
 
         Else
             For i = 0 To UBound(Notes)
                 Notes(i).HasError = False
+                Notes(i).ErrorType = 0
                 Notes(i).LNPair = 0
             Next
 
@@ -1377,6 +1393,9 @@ EndSearch:
                     Next
 
                 End If
+
+                ' Jack checking
+                If Notes(i).TempMouseDown Then CheckJack(i, xniArray0)
             Next
 
 
@@ -1393,6 +1412,20 @@ EndSearch:
             End If
             'K(i).TimeOffset = currentMS + (K(i).VPosition - currentBPMVPosition) / currentBPM * 1250
         Next
+    End Sub
+
+    Private Sub CheckJack(ByVal xIN As Integer, ByVal xniArray0() As Integer)
+        Dim xIComp = xIN - 1
+        Do While xIComp > 0
+            If Notes(xIComp).VPosition = Notes(xIN).VPosition Then xIComp -= 1 : Continue Do
+            If GetTimeFromVPosition(Notes(xIN).VPosition) - GetTimeFromVPosition(Notes(xIComp).VPosition) > ErrorJackSpeed Then Exit Do
+            If xniArray0.Contains(Notes(xIN).ColumnIndex) AndAlso Notes(xIN).ColumnIndex = Notes(xIComp).ColumnIndex Then
+                Notes(xIN).HasError = True
+                Notes(xIN).ErrorType = 1
+                Exit Do
+            End If
+            xIComp -= 1
+        Loop
     End Sub
 
     Public Sub ExceptionSave(ByVal Path As String)

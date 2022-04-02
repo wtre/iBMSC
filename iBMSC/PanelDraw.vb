@@ -692,8 +692,14 @@ Partial Public Class MainWindow
         'e.Graphics.DrawString(sNote.TimeOffset.ToString("0.##"), New Font("Verdana", 9), Brushes.Cyan, _
         '                      New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex + 1), xHS), VerticalPositiontoDisplay(sNote.VPosition, xVS, xHeight) - vo.kHeight - 2))
 
-        'If ErrorCheck AndAlso (sNote.LongNote Xor sNote.PairWithI <> 0) Then e.Graphics.DrawImage(My.Resources.ImageError, _
-        If ErrorCheck AndAlso sNote.HasError Then e.Graphics.DrawImage(My.Resources.ImageError,
+        Dim ErrorGraphics As Bitmap
+        Select Case sNote.ErrorType
+            Case 1
+                ErrorGraphics = My.Resources.ImageErrorR
+            Case Else
+                ErrorGraphics = My.Resources.ImageError
+        End Select
+        If ErrorCheck AndAlso sNote.HasError Then e.Graphics.DrawImage(ErrorGraphics,
                                                             CInt(HorizontalPositiontoDisplay(xnLeft + xColumnWidth / 2, xHS) - 12),
                                                             CInt(NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight / 2 - 12),
                                                             24, 24)
@@ -844,8 +850,15 @@ Partial Public Class MainWindow
         End If
 
         ' Errors
+        Dim ErrorGraphics As Bitmap
+        Select Case sNote.ErrorType
+            Case 1
+                ErrorGraphics = My.Resources.ImageErrorR
+            Case Else
+                ErrorGraphics = My.Resources.ImageError
+        End Select
         If ErrorCheck AndAlso sNote.HasError Then
-            e.Graphics.DrawImage(My.Resources.ImageError,
+            e.Graphics.DrawImage(ErrorGraphics,
                                  CInt(HorizontalPositiontoDisplay(xnLeft + xColumnWidth / 2, xHS) - 12),
                                  CInt(NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight / 2 - 12),
                                  24, 24)
