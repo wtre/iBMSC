@@ -37,6 +37,11 @@ Public Class MainWindow
     'Private Const SWP_FRAMECHANGED As Integer = &H20
     'Private Const SWP_REFRESH As Integer = SWP_NOZORDER Or SWP_NOSIZE Or SWP_NOMOVE Or SWP_NOACTIVATE Or SWP_FRAMECHANGED
 
+    Public Sub New()
+        InitializeComponent()
+        Audio.Initialize()
+        SupportedAudioExtension = GetSupportedExtensions() ' I don't think this line is good but it's all I've got.
+    End Sub
 
     Dim MeasureLength(999) As Double
     Dim MeasureBottom(999) As Double
@@ -97,7 +102,8 @@ Public Class MainWindow
     'Variables for Drag/Drop
     Dim DDFileName() As String = {}
     Dim SupportedFileExtension() As String = {".bms", ".bme", ".bml", ".pms", ".txt", ".sm", ".ibmsc"}
-    Dim SupportedAudioExtension() As String = {".wav", ".mp3", ".ogg"}
+    Dim SupportedAudioExtension() As String = {}
+
 
     'Variables for theme
     'Dim SaveTheme As Boolean = True
@@ -316,12 +322,6 @@ Public Class MainWindow
     Dim fdriValL As Integer
     Dim fdriValU As Integer
     Dim fdriCol() As Integer
-
-
-    Public Sub New()
-        InitializeComponent()
-        Audio.Initialize()
-    End Sub
 
     ''' <summary>
     ''' 

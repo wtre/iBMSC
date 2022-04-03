@@ -6,12 +6,14 @@ Imports CSCore.SoundOut
 Module Audio
     Dim Output As WasapiOut
     Dim Source As IWaveSource
+    Dim SupportedExt() As String = CodecFactory.Instance.GetSupportedFileExtensions()
 
     Public Sub Initialize()
         Output = New WasapiOut()
         CodecFactory.Instance.Register("ogg", New CodecFactoryEntry(Function(s)
                                                                         Return New NVorbisSource(s).ToWaveSource()
                                                                     End Function, ".ogg"))
+        SupportedExt = CodecFactory.Instance.GetSupportedFileExtensions()
     End Sub
 
     Public Sub Finalize()
@@ -24,16 +26,19 @@ Module Audio
         If File.Exists(filename) Then
             Return filename
         End If
-        Dim ext = Path.GetExtension(filename)
-        If String.Compare(ext, ".ogg") = 0 Then
-            Dim wpath = Path.ChangeExtension(filename, ".wav")
-            Return IIf(File.Exists(wpath), wpath, filename)
-        End If
-        If String.Compare(ext, ".wav") = 0 Then
-            Dim opath = Path.ChangeExtension(filename, ".ogg")
-            Return IIf(File.Exists(opath), opath, filename)
-        End If
+
+        For Each ext In SupportedExt
+            If File.Exists(Path.ChangeExtension(filename, "." & ext)) Then Return Path.ChangeExtension(filename, "." & ext)
+        Next
         Return filename
+    End Function
+
+    Public Function GetSupportedExtensions(Optional appendStr As String = ".")
+        Dim Ext(UBound(SupportedExt)) As String
+        For i = 0 To UBound(SupportedExt)
+            Ext(i) = appendStr & SupportedExt(i)
+        Next
+        Return Ext
     End Function
 
     Public Sub Play(ByVal filename As String)
