@@ -36,6 +36,7 @@ Listed in the order added.
 * Added ability to copy and paste measure lengths over multiple measures.
 * Added ability to duplicate #WAV's.
 * Added technical error check (Jack notes, impossible chords for PMS, and impossible scratches for DP). Not a toggle because running it live will severely reduce performance. Accessible via the Options tab or via Ctrl+Alt+E.
+* Added better support for all audio files (supported by CSCore + ogg).
 
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8:
