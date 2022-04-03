@@ -25,7 +25,7 @@ Partial Public Class MainWindow
         If xDWAV.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
         InitPath = ExcludeFileName(xDWAV.FileName)
 
-        Dim w As wWav = LoadWaveForm(xDWAV.FileName)
+        Dim w As WavSample = LoadWaveForm(xDWAV.FileName)
         wWavL = w.wWavL
         wWavR = w.wWavR
         wSampleRate = w.wSampleRate
@@ -51,7 +51,7 @@ Partial Public Class MainWindow
 
     Private Function LoadWaveForm(ByVal filepath As String)
         filepath = Audio.CheckFilename(filepath)
-        If Not System.IO.File.Exists(filepath) Then Return New wWav({}, {}, 0)
+        If Not System.IO.File.Exists(filepath) Then Return New WavSample({}, {}, 0)
 
         Dim src = CSCore.Codecs.CodecFactory.Instance.GetCodec(filepath)
 
@@ -83,6 +83,6 @@ Partial Public Class MainWindow
                 Exit For
             End If
         Next
-        Return New wWav(wWavL, wWavR, src.WaveFormat.SampleRate)
+        Return New WavSample(wWavL, wWavR, src.WaveFormat.SampleRate)
     End Function
 End Class

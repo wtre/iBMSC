@@ -162,7 +162,7 @@ Public Class MainWindow
     Dim hCOMNum As Integer = 0
     Dim gXKeyMode As String = "SP" ' Determines from column width 7key mode, 9key mode or 14key mode
     Dim gXKeyCol() As Integer
-    Dim wLWAV(1295) As wWav
+    Dim wLWAV(1295) As WavSample
 
     '----AutoSave Options
     Dim PreviousAutoSavedFileName As String = ""
@@ -213,7 +213,7 @@ Public Class MainWindow
     End Sub
 
     '----Note Waveforms
-    Structure wWav
+    Structure WavSample
         Public wWavL() As Single
         Public wWavR() As Single
         Public wSampleRate As Single
@@ -1411,9 +1411,8 @@ EndSearch:
         Next
     End Sub
 
-    Private Sub CheckError(sender As Object, e As EventArgs) Handles mnTechnicalErrorCheck.Click
+    Private Sub CheckTechnicalError(sender As Object, e As EventArgs) Handles mnTechnicalErrorCheck.Click
         For xIN = 1 To UBound(Notes)
-            Notes(xIN).HasError = False
             Notes(xIN).ErrorType = 0
         Next
         If gXKeyMode = "PMS" Then CheckErrorImpossibleChord()
@@ -2165,7 +2164,7 @@ EndSearch:
                 Next
                 For i = 0 To xLWAVIds.Count - 1
                     hWAV(xLWAVIds(i) + 1) = ""
-                    wLWAV(xLWAVIds(i) + 1) = New wWav({}, {}, 0)
+                    wLWAV(xLWAVIds(i) + 1) = New WavSample({}, {}, 0)
                     LWAV.Items.Item(xLWAVIds(i)) = C10to36(xLWAVIds(i) + 1) & ": "
                 Next
                 If IsSaved Then SetIsSaved(False)

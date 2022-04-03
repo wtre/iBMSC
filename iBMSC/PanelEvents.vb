@@ -281,7 +281,7 @@ Partial Public Class MainWindow
         If My.Computer.Keyboard.CtrlKeyDown AndAlso My.Computer.Keyboard.AltKeyDown AndAlso Not My.Computer.Keyboard.ShiftKeyDown Then
             Select Case e.KeyCode
                 Case Keys.R : Expand_Load(Nothing, Nothing)
-                Case Keys.E : CheckError(Nothing, Nothing)
+                Case Keys.E : CheckTechnicalError(Nothing, Nothing)
             End Select
         End If
 
