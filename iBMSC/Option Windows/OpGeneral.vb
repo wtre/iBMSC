@@ -56,9 +56,9 @@ Public Class OpGeneral
         Me.Close()
     End Sub
 
-    Public Sub New(ByVal xMsWheel As Integer, ByVal xPgUpDn As Integer, ByVal xMiddleButton As Integer, ByVal xTextEncoding As Integer, ByVal xGridPartition As Integer, _
-                   ByVal xAutoSave As Integer, ByVal xBeep As Boolean, ByVal xBPMx As Boolean, ByVal xSTOPx As Boolean, _
-                   ByVal xMFEnter As Boolean, ByVal xMFClick As Boolean, ByVal xMStopPreview As Boolean)
+    Public Sub New(ByVal xMsWheel As Integer, ByVal xPgUpDn As Integer, ByVal xMiddleButton As Integer, ByVal xTextEncoding As Integer, ByVal xGridPartition As Integer,
+                   ByVal xAutoSave As Integer, ByVal xBeep As Boolean, ByVal xBPMx As Boolean, ByVal xSTOPx As Boolean,
+                   ByVal xMFEnter As Boolean, ByVal xMFClick As Boolean, ByVal xMStopPreview As Boolean, ByVal xJackBPM As Double, ByVal xJackTH As Double)
         InitializeComponent()
 
         On Error Resume Next
@@ -82,6 +82,8 @@ Public Class OpGeneral
         CTextEncoding.SelectedIndex = xTextEncoding
         'CSortingMethod.SelectedIndex = xSort
         nGridPartition.Value = xGridPartition
+        nJackBPM.Value = xJackBPM
+        nJackTH.Value = xJackTH
 
         If xMiddleButton = 0 Then rMiddleAuto.Checked = True _
                              Else rMiddleDrag.Checked = True
@@ -358,5 +360,18 @@ Public Class OpGeneral
 
     Private Sub cAutoSave_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cAutoSave.CheckedChanged
         NAutoSave.Enabled = cAutoSave.Checked
+    End Sub
+
+    Private Sub nJackTH_ValueChanged(sender As Object, e As EventArgs) Handles nJackTH.ValueChanged
+        Select Case nJackTH.Value Mod 100
+            Case 1, 21, 31, 41, 51, 61, 71, 81, 91
+                LabelTH.Text = "st"
+            Case 2, 22, 32, 42, 52, 62, 72, 82, 92
+                LabelTH.Text = "nd"
+            Case 3, 23, 33, 43, 53, 63, 73, 83, 93
+                LabelTH.Text = "rd"
+            Case Else
+                LabelTH.Text = "th"
+        End Select
     End Sub
 End Class

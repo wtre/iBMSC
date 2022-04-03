@@ -170,7 +170,9 @@ Public Class MainWindow
 
     '----ErrorCheck Options
     Dim ErrorCheck As Boolean = True
-    Dim ErrorJackSpeed As Double = 255 / 60 / 4 / 16
+    Dim ErrorJackBPM As Double = 255
+    Dim ErrorJackTH As Double = 16
+    Dim ErrorJackSpeed As Double = 60 * 4 / ErrorJackBPM / ErrorJackTH
 
     '----Header Options
     Dim hWAV(1295) As String
@@ -1272,10 +1274,11 @@ Public Class MainWindow
 
         If NTInput Then
             For i = 0 To UBound(Notes)
-                Notes(i).HasError = False
-                Notes(i).ErrorType = 0
                 Notes(i).LNPair = 0
                 If Notes(i).Length < 0 Then Notes(i).Length = 0
+                If Notes(i).ErrorType = 1 Then Continue For
+                Notes(i).HasError = False
+                Notes(i).ErrorType = 0
             Next
 
             For i = 1 To UBound(Notes)
@@ -1308,9 +1311,6 @@ Public Class MainWindow
                         End If
                     End If
                 End If
-
-                ' Jack checking
-                If Notes(i).TempMouseDown Then CheckJack(i, xniArray0)
             Next
 
         Else
@@ -1393,9 +1393,6 @@ EndSearch:
                     Next
 
                 End If
-
-                ' Jack checking
-                If Notes(i).TempMouseDown Then CheckJack(i, xniArray0)
             Next
 
 
@@ -1414,19 +1411,142 @@ EndSearch:
         Next
     End Sub
 
-    Private Sub CheckJack(ByVal xIN As Integer, ByVal xniArray0() As Integer)
-        Dim xIComp = xIN - 1
-        Do While xIComp > 0
-            If Notes(xIComp).VPosition = Notes(xIN).VPosition Then xIComp -= 1 : Continue Do
-            If GetTimeFromVPosition(Notes(xIN).VPosition) - GetTimeFromVPosition(Notes(xIComp).VPosition) > ErrorJackSpeed Then Exit Do
-            If xniArray0.Contains(Notes(xIN).ColumnIndex) AndAlso Notes(xIN).ColumnIndex = Notes(xIComp).ColumnIndex Then
+    Private Sub CheckError(sender As Object, e As EventArgs) Handles mnTechnicalErrorCheck.Click
+        For xIN = 1 To UBound(Notes)
+            Notes(xIN).HasError = False
+            Notes(xIN).ErrorType = 0
+        Next
+        If gXKeyMode = "PMS" Then CheckErrorImpossibleChord()
+        If gXKeyMode = "DP" Then CheckErrorImpossibleScratch()
+        CheckErrorJack()
+    End Sub
+
+    Private Sub CheckErrorImpossibleChord()
+        For xIN = 1 To UBound(Notes)
+            If Not gXKeyCol.Contains(Notes(xIN).ColumnIndex) Or Not IsPlayableNote(xIN) Then Continue For
+            Dim xIColArray() As Integer = {FindColumnNumber(Notes(xIN).ColumnIndex)} ' Array of columns
+            Dim xINArray() As Integer = {xIN} ' Array of notes in the columns
+            Dim xIComp = xIN - 1
+            Do While xIComp > 0 ' If note is in range, add to xIColArray and xINArray
+                If GetTimeFromVPosition(Notes(xIN).VPosition) - GetTimeFromVPosition(Notes(xIComp).VPosition) > ErrorJackSpeed Then Exit Do
+                If Not gXKeyCol.Contains(Notes(xIComp).ColumnIndex) Or Not IsPlayableNote(xIComp) Then xIComp -= 1 : Continue Do
+                ReDim Preserve xIColArray(xIColArray.Length)
+                xIColArray(UBound(xIColArray)) = FindColumnNumber(Notes(xIComp).ColumnIndex)
+                ReDim Preserve xINArray(xINArray.Length)
+                xINArray(UBound(xINArray)) = xIComp
+                xIComp -= 1
+            Loop
+
+            Dim xIColArray2 = FindLNColumnsAtVPosition(Notes(xIN).VPosition) ' Account for LNs
+            ReDim Preserve xIColArray(UBound(xIColArray) + xIColArray2.Length)
+            For xINCol = 0 To UBound(xIColArray2)
+                xIColArray(UBound(xIColArray) - xINCol) = FindColumnNumber(xIColArray2(xINCol))
+            Next
+            Array.Sort(xIColArray)
+
+            Dim posLHand As Integer = 0 ' Position of left hand based on the leftmost note, i.e. 1 - 4
+            Dim posRHand As Integer = 0 ' Position of right hand based on the leftmost note, i.e. 4 - 7
+            For Each xIN2 In xIColArray
+                If posLHand = 0 Then ' Assign to left hand
+                    posLHand = xIN2
+                    Continue For
+                ElseIf posLHand + 2 < xIN2 AndAlso posRHand = 0 Then ' Assign to right hand
+                    posRHand = xIN2
+                ElseIf posRHand <> 0 AndAlso posRHand + 2 < xIN2 Then ' If right hand is assigned and note is out of hand range
+                    For Each xINAssign In xINArray ' Assign error type 1 to every note in xINArray
+                        Notes(xINAssign).HasError = True
+                        Notes(xINAssign).ErrorType = 1
+                    Next
+                End If
+            Next
+        Next
+    End Sub
+
+    Private Sub CheckErrorImpossibleScratch()
+        Dim xKArrayLFull() As Integer = {niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+        Dim xKArrayRFull() As Integer = {niD1, niD2, niD3, niD4, niD5, niD6, niD7}
+        Dim xKArrayL() As Integer = {niA5, niA6, niA7, niA8}
+        Dim xKArrayR() As Integer = {niD1, niD2, niD3, niD4}
+        Dim xScrL As Integer = niA1
+        Dim xScrR As Integer = niD8
+        For xIN = 1 To UBound(Notes) ' Check for notes near scratch notes
+            If (Not Notes(xIN).ColumnIndex = xScrL AndAlso Not Notes(xIN).ColumnIndex = xScrR) Or Not IsPlayableNote(xIN) Then Continue For
+            Dim xKArray() = xKArrayL
+            Dim xKArrayFull() = xKArrayLFull
+            If Notes(xIN).ColumnIndex = xScrR Then xKArray = xKArrayR : xKArrayFull = xKArrayRFull
+
+            Dim xIColArray(-1) As Integer
+            Dim xIComp = xIN - 1
+            Do While xIComp > 0 ' If note is in range, add to xIColArray and xINArray
+                If GetTimeFromVPosition(Notes(xIN).VPosition) - GetTimeFromVPosition(Notes(xIComp).VPosition) > ErrorJackSpeed Then Exit Do
+                If Not xKArray.Contains(Notes(xIComp).ColumnIndex) Or Not IsPlayableNote(xIComp) Then xIComp -= 1 : Continue Do
+                ReDim Preserve xIColArray(xIColArray.Length)
+                xIComp -= 1
+            Loop
+            xIComp = xIN + 1
+            Do While xIComp <= UBound(Notes) ' If note is in range, add to xIColArray and xINArray
+                If GetTimeFromVPosition(Notes(xIComp).VPosition) - GetTimeFromVPosition(Notes(xIN).VPosition) > ErrorJackSpeed Then Exit Do
+                If Not xKArray.Contains(Notes(xIComp).ColumnIndex) Or Not IsPlayableNote(xIComp) Then xIComp += 1 : Continue Do
+                ReDim Preserve xIColArray(xIColArray.Length)
+                xIComp += 1
+            Loop
+
+            Dim xIColArray2 = FindLNColumnsAtVPosition(Notes(xIN).VPosition) ' Account for LNs
+            Dim xIColArray3(-1) As Integer
+            For xIComp = 0 To UBound(xIColArray2)
+                If xKArrayFull.Contains(xIColArray2(xIComp)) Then ReDim Preserve xIColArray3(xIColArray3.Length)
+            Next
+
+            If xIColArray.Length + xIColArray3.Length > 0 Then
                 Notes(xIN).HasError = True
                 Notes(xIN).ErrorType = 1
-                Exit Do
             End If
-            xIComp -= 1
-        Loop
+        Next
     End Sub
+
+    Private Sub CheckErrorJack()
+        For xIN = 1 To UBound(Notes)
+            If Not IsPlayableNote(xIN) Then Continue For
+            Dim xIComp = xIN - 1
+            Do While xIComp > 0
+                If Notes(xIComp).VPosition = Notes(xIN).VPosition Then xIComp -= 1 : Continue Do
+                If GetTimeFromVPosition(Notes(xIN).VPosition) - GetTimeFromVPosition(Notes(xIComp).VPosition) > ErrorJackSpeed Then Exit Do
+                If gXKeyCol.Contains(Notes(xIN).ColumnIndex) AndAlso Notes(xIN).ColumnIndex = Notes(xIComp).ColumnIndex Then
+                    Notes(xIN).HasError = True
+                    Notes(xIN).ErrorType = 1
+                    Exit Do
+                End If
+                xIComp -= 1
+            Loop
+        Next
+    End Sub
+
+    Private Function FindColumnNumber(xI)
+        For i = 0 To UBound(gXKeyCol)
+            If xI = gXKeyCol(i) Then Return i + 1
+        Next
+        Return 0
+    End Function
+
+    Private Function FindLNColumnsAtVPosition(ByVal VPos As Double) As Integer()
+        ' NTInput
+        If Not NTInput Then ConvertBMSE2NT()
+
+        Dim xN = From note In Notes
+                 Where note.Length > 0 AndAlso note.VPosition <= VPos AndAlso VPos <= note.VPosition + note.Length AndAlso gXKeyCol.Contains(note.ColumnIndex)
+                 Select note
+
+        Dim col(xN.Count - 1) As Integer
+        For i = 0 To UBound(col)
+            col(i) = xN(i).ColumnIndex
+        Next
+        If Not NTInput Then ConvertNT2BMSE()
+        Return col
+    End Function
+
+    Private Function IsPlayableNote(ByVal xI As Integer)
+        Return Not (Notes(xI).Hidden Or Notes(xI).Landmine Or Notes(xI).Comment)
+    End Function
 
     Public Sub ExceptionSave(ByVal Path As String)
         SaveiBMSC(Path)
@@ -3656,7 +3776,7 @@ RestartSorting: xSorted = False
 
         Dim xDiag As New OpGeneral(gWheel, gPgUpDn, MiddleButtonMoveMethod, xTE, 192.0R / BMSGridLimit,
             AutoSaveInterval, BeepWhileSaved, BPMx1296, STOPx1296,
-            AutoFocusMouseEnter, FirstClickDisabled, ClickStopPreview)
+            AutoFocusMouseEnter, FirstClickDisabled, ClickStopPreview, ErrorJackBPM, ErrorJackTH)
 
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
             With xDiag
@@ -3673,6 +3793,9 @@ RestartSorting: xSorted = False
                 AutoFocusMouseEnter = .cMEnterFocus.Checked
                 FirstClickDisabled = .cMClickFocus.Checked
                 ClickStopPreview = .cMStopPreview.Checked
+                ErrorJackBPM = .nJackBPM.Value
+                ErrorJackTH = .nJackTH.Value
+                ErrorJackSpeed = 60 * 4 / .nJackBPM.Value / .nJackTH.Value
             End With
             If AutoSaveInterval Then AutoSaveTimer.Interval = AutoSaveInterval
             AutoSaveTimer.Enabled = AutoSaveInterval

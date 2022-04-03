@@ -25,7 +25,7 @@ Listed in the order added.
 * Added note search function (goto measure except it's goto note). One note per VPosition only.
 * Added sort function. Selected notes are sorted based on their VPosition and Value.
 * Added mBMplay as a default player.
-* Added support for #RANDOM. Supports expansion field and main data field only. Not tested thoroughly, nested #RANDOM in "Modify Section" only. Accessible via the "Select Section" button in Expansion Code or via Ctrl+R.
+* Added support for #RANDOM. Supports expansion field and main data field only. Not tested thoroughly, nested #RANDOM in "Modify Section" only. Accessible via the "Select Section" button in Expansion Code or via Ctrl+Alt+R.
 * Added color overriding options where you can specify a range of notes to appear a specific color, such as red notes for drums and green notes for the piano. Accessible via the Options tab or via Shift+F12.
 * Added comment notes. Comment notes will be saved as #ECMD and #ECOM within the same bms/pms file. Not tested thoroughly.
 * The window will now follow notes being moved by arrow keys.
@@ -35,6 +35,7 @@ Listed in the order added.
 * Added "Insert/Remove Space" in Time Selection Tool. Allows inserting space into the measure, either measure only, notes only or both. Also accessible via Ctrl+Insert, Shift+Insert and Ctrl+Shift+Insert respectively.
 * Added ability to copy and paste measure lengths over multiple measures.
 * Added ability to duplicate #WAV's.
+* Added technical error check (Jack notes, impossible chords for PMS, and impossible scratches for DP). Not a toggle because running it live will severely reduce performance. Accessible via the Options tab or via Ctrl+Alt+E.
 
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8:
@@ -57,7 +58,7 @@ Listed in the order added.
   * F12 - Visual Options
 * Added advanced statistics (Ctrl+Shift+T).
 * Added keyboard shortcuts for previewing and replacing keysounds in the Sounds List (Spacebar to preview, enter to replace).
-* Added "Select Section" (Ctrl+R).
+* Added "Select Section" (Ctrl+Alt+R).
 * Added color overriding options (Shift+F12).
 * Revised shortcuts for grid division values:
   * Period now increases the division value, and comma now decreases the division value.
@@ -68,6 +69,7 @@ Listed in the order added.
 * Added shortcut for scrolling through #WAV selection (Shift+Scroll).
 * Added shortcut for defining measures with Time Selection Tool (Insert).
 * Added shortcut for inserting/removing space with Time Selection Tool (Ctrl+Insert for measure only, Shift+Insert for notes only, and Ctrl+Shift+Insert for both)
+* Added shortcut for techincal error check (Ctrl+Alt+E)
 
 ## New dialog/option boxes
 

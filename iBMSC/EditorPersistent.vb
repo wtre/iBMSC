@@ -85,6 +85,8 @@ Partial Public Class MainWindow
             .WriteAttributeString("PreviewOnClick", PreviewOnClick)
             '.WriteAttributeString("PreviewErrorCheck", PreviewErrorCheck)
             .WriteAttributeString("ClickStopPreview", ClickStopPreview)
+            .WriteAttributeString("JackBPM", ErrorJackBPM)
+            .WriteAttributeString("JackTH", ErrorJackTH)
             .WriteEndElement()
 
             .WriteStartElement("Save")
@@ -357,6 +359,9 @@ Partial Public Class MainWindow
                 TBPreviewOnClick_Click(TBPreviewOnClick, New System.EventArgs)
 
                 XMLLoadAttribute(.GetAttribute("ClickStopPreview"), ClickStopPreview)
+
+                XMLLoadAttribute(.GetAttribute("JackBPM"), ErrorJackBPM)
+                XMLLoadAttribute(.GetAttribute("JackTH"), ErrorJackTH)
             End With
         End If
 

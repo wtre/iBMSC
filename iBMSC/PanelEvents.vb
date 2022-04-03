@@ -275,7 +275,13 @@ Partial Public Class MainWindow
                 Case Keys.C : TBCopy_Click(TBCopy, New EventArgs)
                 Case Keys.V : TBPaste_Click(TBPaste, New EventArgs)
                 Case Keys.A : mnSelectAll_Click(mnSelectAll, New EventArgs)
+            End Select
+        End If
+
+        If My.Computer.Keyboard.CtrlKeyDown AndAlso My.Computer.Keyboard.AltKeyDown AndAlso Not My.Computer.Keyboard.ShiftKeyDown Then
+            Select Case e.KeyCode
                 Case Keys.R : Expand_Load(Nothing, Nothing)
+                Case Keys.E : CheckError(Nothing, Nothing)
             End Select
         End If
 
@@ -829,7 +835,7 @@ Partial Public Class MainWindow
                 Next
             ElseIf ModifierMultiselectNoteActive() Then
                 For xI1 = 0 To UBound(Notes)
-                    If IsLabelMatch(Notes(xI1), NoteIndex) AndAlso Iscolumnsound(Notes(xI1).ColumnIndex) Then Notes(xI1).Selected = Not Notes(xI1).Selected
+                    If IsLabelMatch(Notes(xI1), NoteIndex) AndAlso IsColumnSound(Notes(xI1).ColumnIndex) Then Notes(xI1).Selected = Not Notes(xI1).Selected
                 Next
             Else
                 ' az description: If the clicked note is not selected, select only this one.
