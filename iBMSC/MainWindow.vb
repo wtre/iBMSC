@@ -1315,6 +1315,7 @@ Public Class MainWindow
 
         Else
             For i = 0 To UBound(Notes)
+                If Notes(i).ErrorType = 1 Then Continue For
                 Notes(i).HasError = False
                 Notes(i).ErrorType = 0
                 Notes(i).LNPair = 0
@@ -1413,7 +1414,10 @@ EndSearch:
 
     Private Sub CheckTechnicalError(sender As Object, e As EventArgs) Handles mnTechnicalErrorCheck.Click
         For xIN = 1 To UBound(Notes)
-            Notes(xIN).ErrorType = 0
+            If Notes(xIN).ErrorType = 1 Then
+                Notes(xIN).ErrorType = 0
+                Notes(xIN).HasError = False
+            End If
         Next
         If gXKeyMode = "PMS" Then CheckErrorImpossibleChord()
         If gXKeyMode = "DP" Then CheckErrorImpossibleScratch()
