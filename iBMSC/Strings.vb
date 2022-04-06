@@ -5,10 +5,16 @@ Public Class Strings
     Public Shared None As String = "None"
 
     Public Class StatusBar
+        Public Shared Bars As String = "Beats"
         Public Shared Length As String = "Length"
+        Public Shared Note As String = "Note"
         Public Shared LongNote As String = "LongNote"
         Public Shared Hidden As String = "Hidden"
+        Public Shared Landmine As String = "Landmine"
+        Public Shared Comment As String = "Comment"
+        Public Shared Approximate As String = "Approx."
         Public Shared Err As String = "Error"
+        Public Shared ErrTechnical As String = "Technical Error"
     End Class
 
     Public Class Messages
@@ -42,9 +48,9 @@ Public Class Strings
         Public Shared FileAssociationError As String = "Error changing file type association:"
         Public Shared RestoreDefaultSettings As String = "Restore default settings?"
         Public Shared RestoreAutosavedFile As String = "{} autosaved file(s) have been found. Do you want to recover these files?"
-        Public Shared GhostNotesShowMain As String = "Warning: The notes in the current section will be changed to ghost notes. Save current section and continue?"
-        Public Shared GhostNotesModifyExpansion1 As String = "Warning: The current ghost notes will become uneditable. Continue?"
-        Public Shared GhostNotesModifyExpansion2 As String = "Warning: There are unsaved changes in the ghost notes. Save current section and continue?"
+        Public Shared GhostNotesShowMain As String = "The notes in the current section will be changed to ghost notes. Save current section and continue?"
+        Public Shared GhostNotesModifyExpansion1 As String = "The current ghost notes will become uneditable. Continue?"
+        Public Shared GhostNotesModifyExpansion2 As String = "There are unsaved changes in the ghost notes. Save current section and continue?"
     End Class
 
     Public Class FileType

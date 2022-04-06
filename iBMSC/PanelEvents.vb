@@ -1125,7 +1125,7 @@ Partial Public Class MainWindow
         End Select
         Dim col = GetColumnAtEvent(e, xHS)
         Dim vps = GetMouseVPosition(gSnap)
-        If vps <> lastVPos Or col <> lastColumn Then
+        If vps <> lastVPos Or col <> lastColumn Then ' Or MouseMoveStatus <> LastMouseDownLocation
             lastVPos = vps
             lastColumn = col
             POStatusRefresh()

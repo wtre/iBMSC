@@ -2671,7 +2671,6 @@ StartCount:     If Not NTInput Then
                 FSW.Text = ""
                 FSM.Text = Add3Zeros(xMeasure)
                 FST.Text = ""
-                FSH.Text = ""
                 FSE.Text = ""
 
             ElseIf xI1 <= UBound(Notes) Then
@@ -2690,8 +2689,35 @@ StartCount:     If Not NTInput Then
                                Notes(xI1).Value / 10000,
                                C10to36(Notes(xI1).Value \ 10000))
                 FSM.Text = Add3Zeros(xMeasure)
-                FST.Text = IIf(NTInput, Strings.StatusBar.Length & " = " & Notes(xI1).Length, IIf(Notes(xI1).LongNote, Strings.StatusBar.LongNote, ""))
-                FSH.Text = IIf(Notes(xI1).Hidden, Strings.StatusBar.Hidden, "")
+
+                ' TODO: Count stops
+                If Notes(xI1).Length > 0 Then
+                    FST.ForeColor = System.Drawing.Color.Olive
+                    FST.Text = Strings.StatusBar.LongNote & " " &
+                               Notes(xI1).Length / 192.0R * 4 & " " & Strings.StatusBar.Bars & " " &
+                               "(" & GetTimeFromVPosition(Notes(xI1).VPosition + Notes(xI1).Length) - GetTimeFromVPosition(Notes(xI1).VPosition) & "s)"
+                ElseIf Notes(xI1).LNPair <> 0 Then
+                    FST.ForeColor = System.Drawing.Color.Olive
+                    FST.Text = Strings.StatusBar.LongNote & " " &
+                               Math.Abs(Notes(xI1).VPosition - Notes(Notes(xI1).LNPair).VPosition) / 192.0R * 4 & " " & Strings.StatusBar.Bars & " " &
+                               "(" & Math.Abs(GetTimeFromVPosition(Notes(Notes(xI1).LNPair).VPosition) - GetTimeFromVPosition(Notes(xI1).VPosition)) & "s)"
+                ElseIf Notes(xI1).LongNote Then
+                    FST.ForeColor = System.Drawing.Color.Olive
+                    FST.Text = Strings.StatusBar.LongNote
+                ElseIf Notes(xI1).Hidden Then
+                    FST.ForeColor = System.Drawing.Color.Blue
+                    FST.Text = Strings.StatusBar.Hidden
+                ElseIf Notes(xI1).Landmine Then
+                    FST.ForeColor = System.Drawing.Color.Red
+                    FST.Text = Strings.StatusBar.Landmine
+                ElseIf Notes(xI1).Comment Then
+                    FST.ForeColor = System.Drawing.Color.Green
+                    FST.Text = Strings.StatusBar.Comment
+                Else
+                    FST.ForeColor = System.Drawing.Color.Olive
+                    FST.Text = Strings.StatusBar.Note
+                End If
+
                 FSE.Text = IIf(Notes(xI1).HasError, Strings.StatusBar.Err, "")
 
             End If
@@ -2712,8 +2738,21 @@ StartCount:     If Not NTInput Then
             FSC.Text = nTitle(SelectedColumn)
             FSW.Text = C10to36(LWAV.SelectedIndex + 1)
             FSM.Text = Add3Zeros(xMeasure)
-            FST.Text = IIf(NTInput, TempLength, IIf(My.Computer.Keyboard.ShiftKeyDown, Strings.StatusBar.LongNote, ""))
-            FSH.Text = IIf(My.Computer.Keyboard.CtrlKeyDown, Strings.StatusBar.Hidden, "")
+            If TempLength > 0 Then
+                FST.ForeColor = System.Drawing.Color.Olive
+                FST.Text = Strings.StatusBar.LongNote & " " &
+                           TempLength / 192.0R * 4 & " " & Strings.StatusBar.Bars & " " &
+                           "(" & Strings.StatusBar.Approximate & " " & GetTimeFromVPosition(TempVPosition + TempLength) - GetTimeFromVPosition(TempVPosition) & "s)"
+            ElseIf My.Computer.Keyboard.CtrlKeyDown AndAlso My.Computer.Keyboard.ShiftKeyDown Then
+                FST.ForeColor = System.Drawing.Color.Red
+                FST.Text = Strings.StatusBar.Landmine
+            ElseIf My.Computer.Keyboard.ShiftKeyDown AndAlso Not NTInput Then
+                FST.ForeColor = System.Drawing.Color.Olive
+                FST.Text = Strings.StatusBar.LongNote
+            ElseIf My.Computer.Keyboard.CtrlKeyDown Then
+                FST.ForeColor = System.Drawing.Color.Blue
+                FST.Text = Strings.StatusBar.Hidden
+            End If
 
         ElseIf TBTimeSelect.Checked Then
             FSSS.Text = vSelStart
@@ -5423,7 +5462,7 @@ case2:              Dim xI0 As Integer
             Case 1
                 GhostMode = 0
             Case 2
-                Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.GhostNotesShowMain, MsgBoxStyle.YesNo)
+                Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.SaveWarning & Strings.Messages.GhostNotesShowMain, MsgBoxStyle.YesNo)
                 If xResult = MsgBoxResult.No Then Exit Sub
                 If xResult = MsgBoxResult.Yes Then SaveBMS()
                 SwapGhostNotes()
@@ -5530,11 +5569,11 @@ case2:              Dim xI0 As Integer
     Private Sub TExpansion_Click(sender As Object, e As EventArgs) Handles TExpansion.Click
         Select Case GhostMode
             Case 1
-                Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.GhostNotesModifyExpansion1, MsgBoxStyle.YesNo)
+                Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.SaveWarning & Strings.Messages.GhostNotesModifyExpansion1, MsgBoxStyle.YesNo)
                 If xResult = MsgBoxResult.No Then GhostExpansionModify = True : Exit Sub
                 GhostMode = 0
             Case 2
-                Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.GhostNotesModifyExpansion2, MsgBoxStyle.YesNo)
+                Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.SaveWarning & Strings.Messages.GhostNotesModifyExpansion2, MsgBoxStyle.YesNo)
                 If xResult = MsgBoxResult.No Then GhostExpansionModify = True : Exit Sub
                 SaveBMS()
                 Expand_RemoveGhostNotes()
