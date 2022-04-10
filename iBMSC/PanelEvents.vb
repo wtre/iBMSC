@@ -4,13 +4,11 @@ Imports iBMSC.Editor
 Partial Public Class MainWindow
 
     Private Sub PMainInPreviewKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles PMainIn.PreviewKeyDown, PMainInL.PreviewKeyDown, PMainInR.PreviewKeyDown
-        If e.KeyCode = Keys.ShiftKey Or e.KeyCode = Keys.ControlKey Then
+        If e.KeyCode = Keys.ShiftKey Or e.KeyCode = Keys.ControlKey Or e.KeyCode = 18 Then
             RefreshPanelAll()
             POStatusRefresh()
             Exit Sub
         End If
-
-        If e.KeyCode = 18 Then Exit Sub
 
         Dim iI As Integer = sender.Tag
         Dim xI1 As Integer
@@ -217,6 +215,9 @@ Partial Public Class MainWindow
             Case Keys.Subtract
                 DecreaseCurrentWav()
 
+                ' Moved a bunch of keybindings to the bottom, see ExecuteKeybind:
+                ' Might migrate a bunch more from the above?
+
                 ' Case Keys.G
                 '     'az: don't trigger when we use Go To Measure
                 '     If Not My.Computer.Keyboard.CtrlKeyDown Then CGSnap.Checked = Not gSnap
@@ -299,7 +300,7 @@ Partial Public Class MainWindow
         keyComboEvent(UBound(keyComboEvent)) = e.KeyCode.ToString
 
         ' Determine
-        Dim keybindOptionName As String = "Nothing"
+        Dim keybindOptionName As String = ""
 
         ' Check for specific categories first
         For Each P In KeybindingCategory

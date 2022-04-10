@@ -1062,6 +1062,7 @@ Public Class MainWindow
         WaveformLoaded = False
 
         TExpansion.Text = ""
+        LoadColorOverride(FileName)
 
         LBeat.Items.Clear()
         For xI1 As Integer = 0 To 999
@@ -1665,6 +1666,7 @@ EndSearch:
         If ClosingPopSave() Then Exit Sub
 
         ClearUndo()
+        SetFileName("Untitled.bms")
         InitializeNewBMS()
 
         ReDim Notes(0)
@@ -1694,7 +1696,6 @@ EndSearch:
         Next
         LWAV.SelectedIndex = 0
 
-        SetFileName("Untitled.bms")
         SetIsSaved(True)
         'pIsSaved.Visible = Not IsSaved
 
@@ -1759,9 +1760,9 @@ EndSearch:
 
         If xDOpen.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
         InitPath = ExcludeFileName(xDOpen.FileName)
+        SetFileName(xDOpen.FileName)
         OpenBMS(My.Computer.FileSystem.ReadAllText(xDOpen.FileName, TextEncoding))
         ClearUndo()
-        SetFileName(xDOpen.FileName)
         NewRecent(FileName)
         SetIsSaved(True)
         'pIsSaved.Visible = Not IsSaved
@@ -3463,8 +3464,11 @@ RestartSorting: xSorted = False
     End Sub
 
     Private Sub TBVCOptions_Click(sender As Object, e As EventArgs) Handles mnVCOptions.Click, BWAVColorOverride.Click
-        Dim xDiag As New OpVisualOverride(FileName)
-        xDiag.ShowDialog(Me)
+        Dim xDiag As New OpVisualOverride(COverrides)
+        If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            COverrides = xDiag.COverrides
+            If Not IsNothing(COverrides) Then SaveColorOverride(FileName)
+        End If
         UpdateColumnsX()
         RefreshPanelAll()
     End Sub

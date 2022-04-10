@@ -43,36 +43,6 @@ Partial Public Class MainWindow
         Dim xVSR As Integer = -PanelVScroll(xIndex)
         Dim xVSu As Integer = IIf(xVSR + xTHeight / gxHeight > GetMaxVPosition(), GetMaxVPosition(), xVSR + xTHeight / gxHeight)
 
-        ' Color override
-        Dim F As String = "Colors\" + GetFileName(FileName) + ".xml"
-        If My.Computer.FileSystem.FileExists(F) Then
-
-            Dim Doc As New XmlDocument
-            Dim FileStream As New IO.FileStream(F, FileMode.Open, FileAccess.Read)
-            Doc.Load(FileStream)
-
-            Dim Root As XmlElement = Doc.Item("ColorOverride")
-
-            Dim n As Integer = Root.GetAttribute("Count")
-            ReDim COverrides(n)
-            Dim i As Integer
-            For Each eColor As XmlElement In Root.ChildNodes
-                With eColor
-                    XMLLoadAttribute(.GetAttribute("Index"), i)
-                    XMLLoadAttribute(.GetAttribute("Name"), COverrides(i).Name)
-                    XMLLoadAttribute(.GetAttribute("RangeL"), COverrides(i).RangeL)
-                    XMLLoadAttribute(.GetAttribute("RangeU"), COverrides(i).RangeU)
-                    XMLLoadAttribute(.GetAttribute("NoteColor"), COverrides(i).NoteColor)
-                    XMLLoadAttribute(.GetAttribute("TextColor"), COverrides(i).TextColor)
-                    XMLLoadAttribute(.GetAttribute("LongNoteColor"), COverrides(i).LongNoteColor)
-                    XMLLoadAttribute(.GetAttribute("LongTextColor"), COverrides(i).LongTextColor)
-                    XMLLoadAttribute(.GetAttribute("BG"), COverrides(i).BG)
-                End With
-            Next
-            FileStream.Close()
-
-        End If
-
         'e1.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
         Dim xI1 As Integer
 

@@ -275,6 +275,7 @@ SkipUpdateMeasureBottom:
         If ShowWaveform Then WaveformLoaded = True
 
         TExpansion.Text = xExpansion
+
 SkipLWAVAndExpansion:
         SortByVPositionQuick(0, UBound(Notes))
         UpdatePairing()

@@ -1,40 +1,13 @@
 ﻿Imports System.Windows.Forms
 
 Public Class OpVisualOverride
-    Dim COverrides() As MainWindow.ColorOverride
+    Public COverrides() As MainWindow.ColorOverride
     Dim F As String
-    Public Sub New(ByVal FileName As String)
+    Public Sub New(ByVal xColorOverrides() As MainWindow.ColorOverride)
         InitializeComponent()
         LOverrides.Items.Clear()
 
-        If Not System.IO.Directory.Exists("Colors") Then My.Computer.FileSystem.CreateDirectory("Colors")
-
-        F = "Colors\" + GetFileName(FileName) + ".xml"
-        If Not My.Computer.FileSystem.FileExists(F) Then Exit Sub
-
-        Dim Doc As New XmlDocument
-        Dim FileStream As New IO.FileStream(F, FileMode.Open, FileAccess.Read)
-        Doc.Load(FileStream)
-
-        Dim Root As XmlElement = Doc.Item("ColorOverride")
-        Dim n As Integer = Root.GetAttribute("Count")
-        If n = -1 Then FileStream.Close() : IO.File.Delete(F) : Exit Sub
-        ReDim COverrides(n)
-        Dim i As Integer
-        For Each eColor As XmlElement In Root.ChildNodes
-            With eColor
-                XMLLoadAttribute(.GetAttribute("Index"), i)
-                XMLLoadAttribute(.GetAttribute("Name"), COverrides(i).Name)
-                XMLLoadAttribute(.GetAttribute("RangeL"), COverrides(i).RangeL)
-                XMLLoadAttribute(.GetAttribute("RangeU"), COverrides(i).RangeU)
-                XMLLoadAttribute(.GetAttribute("NoteColor"), COverrides(i).NoteColor)
-                XMLLoadAttribute(.GetAttribute("TextColor"), COverrides(i).TextColor)
-                XMLLoadAttribute(.GetAttribute("LongNoteColor"), COverrides(i).LongNoteColor)
-                XMLLoadAttribute(.GetAttribute("LongTextColor"), COverrides(i).LongTextColor)
-                XMLLoadAttribute(.GetAttribute("BG"), COverrides(i).BG)
-            End With
-        Next
-        FileStream.Close()
+        COverrides = xColorOverrides.Clone
 
         ' List expansion code per line
         For Each COverride In COverrides
@@ -48,35 +21,6 @@ Public Class OpVisualOverride
     Private Sub OK_Button_Click(sender As Object, e As EventArgs) Handles OK_Button.Click
         DialogResult = DialogResult.OK
         Me.Close()
-        If IsNothing(COverrides) Then Exit Sub
-
-        Dim w As New XmlTextWriter(F, System.Text.Encoding.Unicode)
-        With w
-            .WriteStartDocument()
-            .Formatting = Formatting.Indented
-            .Indentation = 4
-
-            .WriteStartElement("ColorOverride")
-            .WriteAttributeString("Count", UBound(COverrides))
-
-            For i = 0 To UBound(COverrides)
-                .WriteStartElement("Color")
-                .WriteAttributeString("Index", i)
-                .WriteAttributeString("Name", COverrides(i).Name)
-                .WriteAttributeString("RangeL", COverrides(i).RangeL)
-                .WriteAttributeString("RangeU", COverrides(i).RangeU)
-                .WriteAttributeString("NoteColor", COverrides(i).NoteColor)
-                .WriteAttributeString("TextColor", COverrides(i).TextColor)
-                .WriteAttributeString("LongNoteColor", COverrides(i).LongNoteColor)
-                .WriteAttributeString("LongTextColor", COverrides(i).LongTextColor)
-                .WriteAttributeString("BG", COverrides(i).BG)
-                .WriteEndElement()
-            Next
-
-            .WriteEndElement()
-            .WriteEndDocument()
-            .Close()
-        End With
     End Sub
 
     Private Sub Cancel_Button_Click(sender As Object, e As EventArgs) Handles Cancel_Button.Click

@@ -210,6 +210,37 @@ Partial Public Class MainWindow
         End With
     End Sub
 
+    Private Sub SaveColorOverride(ByVal Path As String)
+        Dim F As String = "Colors\" + GetFileName(FileName) + ".xml"
+        Dim w As New XmlTextWriter(F, System.Text.Encoding.Unicode)
+        With w
+            .WriteStartDocument()
+            .Formatting = Formatting.Indented
+            .Indentation = 4
+
+            .WriteStartElement("ColorOverride")
+            .WriteAttributeString("Count", UBound(COverrides))
+
+            For i = 0 To UBound(COverrides)
+                .WriteStartElement("Color")
+                .WriteAttributeString("Index", i)
+                .WriteAttributeString("Name", COverrides(i).Name)
+                .WriteAttributeString("RangeL", COverrides(i).RangeL)
+                .WriteAttributeString("RangeU", COverrides(i).RangeU)
+                .WriteAttributeString("NoteColor", COverrides(i).NoteColor)
+                .WriteAttributeString("TextColor", COverrides(i).TextColor)
+                .WriteAttributeString("LongNoteColor", COverrides(i).LongNoteColor)
+                .WriteAttributeString("LongTextColor", COverrides(i).LongTextColor)
+                .WriteAttributeString("BG", COverrides(i).BG)
+                .WriteEndElement()
+            Next
+
+            .WriteEndElement()
+            .WriteEndDocument()
+            .Close()
+        End With
+    End Sub
+
     Private Sub XMLLoadElementValue(ByVal n As XmlElement, ByRef v As Integer)
         If n Is Nothing Then Exit Sub
         XMLLoadAttribute(n.GetAttribute("Value"), v)
@@ -1331,5 +1362,36 @@ EndOfSub:
         'LoadCFF(My.Computer.FileSystem.ReadAllText(My.Application.Info.DirectoryPath & "\Theme\" & sender.Text, System.Text.Encoding.Unicode))
         LoadSettings(My.Application.Info.DirectoryPath & "\Data\" & sender.Text)
         RefreshPanelAll()
+    End Sub
+
+    Private Sub LoadColorOverride(ByVal Path As String)
+        Dim F As String = "Colors\" + GetFileName(Path) + ".xml"
+        If My.Computer.FileSystem.FileExists(F) Then
+
+            Dim Doc As New XmlDocument
+            Dim FileStream As New IO.FileStream(F, FileMode.Open, FileAccess.Read)
+            Doc.Load(FileStream)
+
+            Dim Root As XmlElement = Doc.Item("ColorOverride")
+
+            Dim n As Integer = Root.GetAttribute("Count")
+            ReDim COverrides(n)
+            Dim i As Integer
+            For Each eColor As XmlElement In Root.ChildNodes
+                With eColor
+                    XMLLoadAttribute(.GetAttribute("Index"), i)
+                    XMLLoadAttribute(.GetAttribute("Name"), COverrides(i).Name)
+                    XMLLoadAttribute(.GetAttribute("RangeL"), COverrides(i).RangeL)
+                    XMLLoadAttribute(.GetAttribute("RangeU"), COverrides(i).RangeU)
+                    XMLLoadAttribute(.GetAttribute("NoteColor"), COverrides(i).NoteColor)
+                    XMLLoadAttribute(.GetAttribute("TextColor"), COverrides(i).TextColor) ' Unused
+                    XMLLoadAttribute(.GetAttribute("LongNoteColor"), COverrides(i).LongNoteColor) ' Unused
+                    XMLLoadAttribute(.GetAttribute("LongTextColor"), COverrides(i).LongTextColor) ' Unused
+                    XMLLoadAttribute(.GetAttribute("BG"), COverrides(i).BG) ' Unused
+                End With
+            Next
+            FileStream.Close()
+
+        End If
     End Sub
 End Class
