@@ -117,9 +117,10 @@ Public Class OpKeybinding
         TComboInput.Text = ""
     End Sub
 
-    Private Sub LVKeybinding_ColumnWidthChanged(sender As Object, e As ColumnWidthChangedEventArgs) Handles LVKeybinding.ColumnWidthChanged
-        BindingKey.Width = LVKeybinding.Width - BindingName.Width - Description.Width - 25
-    End Sub
+    ' This causes the application to crash on other PCs. what
+    ' Private Sub LVKeybinding_ColumnWidthChanged(sender As Object, e As ColumnWidthChangedEventArgs) Handles LVKeybinding.ColumnWidthChanged
+    '     BindingKey.Width = LVKeybinding.Width - BindingName.Width - Description.Width - 25
+    ' End Sub
 
     Private Sub BDefault_Click(sender As Object, e As EventArgs) Handles BDefault.Click
         Keybinds = MainWindow.KeybindingsInit.Clone
