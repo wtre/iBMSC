@@ -5,7 +5,7 @@ See README.md.iBMSC for the original iBMSC README file and REAME.md.uBMSC for th
 
 ### Discretion
 * Themes from Bluvel's uBMSC fork may not be compatible, please use themes from Zadoru's uBMSC fork.
-* Please install .NET Framework 4.8 for the program to function properly.
+* Having .NET Framework 4.8 installed is recommended.
 
 # Changes
 Listed in the order added.
