@@ -41,6 +41,16 @@ Partial Public Class MainWindow
         w.WriteEndElement()
     End Sub
 
+    Private Sub XMLWriteKeybindings(ByVal w As XmlTextWriter, ByVal I As Integer)
+        w.WriteStartElement("Option")
+        w.WriteAttributeString("Index", I)
+        w.WriteAttributeString("Name", Keybindings(I).OpName)
+        w.WriteAttributeString("Description", Keybindings(I).Description)
+        w.WriteAttributeString("Combos", Join(Keybindings(I).Combo, ", "))
+        w.WriteAttributeString("Category", Keybindings(I).Category)
+        w.WriteEndElement()
+    End Sub
+
     Private Sub SaveSettings(ByVal Path As String, ByVal ThemeOnly As Boolean)
         Dim w As New XmlTextWriter(Path, System.Text.Encoding.Unicode)
         With w
@@ -152,6 +162,12 @@ Partial Public Class MainWindow
                 XMLWritePlayerArguments(w, i) : Next
             .WriteEndElement()
 
+            .WriteStartElement("KeyBindings")
+            .WriteAttributeString("Count", UBound(Keybindings))
+            For i As Integer = 0 To UBound(Keybindings)
+                XMLWriteKeybindings(w, i) : Next
+            .WriteEndElement()
+
 5000:       .WriteStartElement("Columns")
             '.WriteAttributeString("Count", col.Length)
             For i As Integer = 0 To UBound(column)
@@ -228,6 +244,17 @@ Partial Public Class MainWindow
         XMLLoadAttribute(n.GetAttribute("FromBeginning"), pArgs(i).aBegin)
         XMLLoadAttribute(n.GetAttribute("FromHere"), pArgs(i).aHere)
         XMLLoadAttribute(n.GetAttribute("Stop"), pArgs(i).aStop)
+    End Sub
+
+    Private Sub XMLLoadKeybinding(ByVal n As XmlElement)
+        Dim i As Integer = -1
+        XMLLoadAttribute(n.GetAttribute("Index"), i)
+        If i < 0 Or i > UBound(Keybindings) Then Exit Sub
+
+        XMLLoadAttribute(n.GetAttribute("Name"), Keybindings(i).OpName)
+        XMLLoadAttribute(n.GetAttribute("Description"), Keybindings(i).Description)
+        Keybindings(i).Combo = Split(n.GetAttribute("Combos"), ", ")
+        XMLLoadAttribute(n.GetAttribute("Category"), Keybindings(i).Category)
     End Sub
 
     Private Sub XMLLoadColumn(ByVal n As XmlElement)
@@ -482,6 +509,18 @@ Partial Public Class MainWindow
             For Each eePlayer As XmlElement In ePlayer.ChildNodes
                 Me.XMLLoadPlayer(eePlayer)
             Next
+        End If
+
+        Dim eKeybindings As XmlElement = Root.Item("KeyBindings")
+        If eKeybindings IsNot Nothing Then
+            With eKeybindings
+                Dim xBound = .GetAttribute("Count")
+                If xBound > UBound(Keybindings) Then ReDim Preserve Keybindings(xBound)
+
+                For Each eeKeybindings In .ChildNodes
+                    XMLLoadKeybinding(eeKeybindings)
+                Next
+            End With
         End If
 
         'Columns

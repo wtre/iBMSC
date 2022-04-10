@@ -106,10 +106,11 @@ Partial Class MainWindow
         Me.mnShowWaveform = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator20 = New System.Windows.Forms.ToolStripSeparator()
         Me.mnTechnicalErrorCheck = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnPOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnGOptions = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnKOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnVOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnVCOptions = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnPOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnConversion = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmnConversion = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.POBLong = New System.Windows.Forms.ToolStripMenuItem()
@@ -176,8 +177,9 @@ Partial Class MainWindow
         Me.TBStop = New System.Windows.Forms.ToolStripButton()
         Me.TBPOptions = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator()
-        Me.TBVOptions = New System.Windows.Forms.ToolStripButton()
         Me.TBGOptions = New System.Windows.Forms.ToolStripButton()
+        Me.TBKOptions = New System.Windows.Forms.ToolStripButton()
+        Me.TBVOptions = New System.Windows.Forms.ToolStripButton()
         Me.POBStorm = New System.Windows.Forms.ToolStripButton()
         Me.TBTotalValue = New System.Windows.Forms.ToolStripLabel()
         Me.pStatus = New System.Windows.Forms.Panel()
@@ -1051,7 +1053,7 @@ Partial Class MainWindow
         '
         'mnOptions
         '
-        Me.mnOptions.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnNTInput, Me.mnErrorCheck, Me.mnPreviewOnClick, Me.mnShowFileName, Me.mnShowWaveform, Me.ToolStripSeparator20, Me.mnTechnicalErrorCheck, Me.mnGOptions, Me.mnVOptions, Me.mnVCOptions, Me.mnPOptions, Me.mnLanguage, Me.mnTheme})
+        Me.mnOptions.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnNTInput, Me.mnErrorCheck, Me.mnPreviewOnClick, Me.mnShowFileName, Me.mnShowWaveform, Me.ToolStripSeparator20, Me.mnTechnicalErrorCheck, Me.mnPOptions, Me.mnGOptions, Me.mnKOptions, Me.mnVOptions, Me.mnVCOptions, Me.mnLanguage, Me.mnTheme})
         Me.mnOptions.Name = "mnOptions"
         Me.mnOptions.Size = New System.Drawing.Size(61, 19)
         Me.mnOptions.Text = "&Options"
@@ -1115,6 +1117,14 @@ Partial Class MainWindow
         Me.mnTechnicalErrorCheck.Size = New System.Drawing.Size(253, 22)
         Me.mnTechnicalErrorCheck.Text = "Technical &Error Check"
         '
+        'mnPOptions
+        '
+        Me.mnPOptions.Image = Global.iBMSC.My.Resources.Resources.x16PlayerOptions
+        Me.mnPOptions.Name = "mnPOptions"
+        Me.mnPOptions.ShortcutKeys = System.Windows.Forms.Keys.F9
+        Me.mnPOptions.Size = New System.Drawing.Size(253, 22)
+        Me.mnPOptions.Text = "&Player Options"
+        '
         'mnGOptions
         '
         Me.mnGOptions.Image = Global.iBMSC.My.Resources.Resources.x16GeneralOptions
@@ -1122,6 +1132,14 @@ Partial Class MainWindow
         Me.mnGOptions.ShortcutKeys = System.Windows.Forms.Keys.F10
         Me.mnGOptions.Size = New System.Drawing.Size(253, 22)
         Me.mnGOptions.Text = "&General Options"
+        '
+        'mnKOptions
+        '
+        Me.mnKOptions.Image = Global.iBMSC.My.Resources.Resources.x16Key
+        Me.mnKOptions.Name = "mnKOptions"
+        Me.mnKOptions.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.F10), System.Windows.Forms.Keys)
+        Me.mnKOptions.Size = New System.Drawing.Size(253, 22)
+        Me.mnKOptions.Text = "&Keybinding Options"
         '
         'mnVOptions
         '
@@ -1138,14 +1156,6 @@ Partial Class MainWindow
         Me.mnVCOptions.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.F12), System.Windows.Forms.Keys)
         Me.mnVCOptions.Size = New System.Drawing.Size(253, 22)
         Me.mnVCOptions.Text = "C&olor Override Options"
-        '
-        'mnPOptions
-        '
-        Me.mnPOptions.Image = Global.iBMSC.My.Resources.Resources.x16PlayerOptions
-        Me.mnPOptions.Name = "mnPOptions"
-        Me.mnPOptions.ShortcutKeys = System.Windows.Forms.Keys.F9
-        Me.mnPOptions.Size = New System.Drawing.Size(253, 22)
-        Me.mnPOptions.Text = "&Player Options"
         '
         'mnConversion
         '
@@ -1317,10 +1327,10 @@ Partial Class MainWindow
         Me.TBMain.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar
         Me.TBMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.TBMain.Dock = System.Windows.Forms.DockStyle.None
-        Me.TBMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBNew, Me.TBOpen, Me.TBSave, Me.ToolStripSeparator1, Me.TBCut, Me.TBCopy, Me.TBPaste, Me.TBFind, Me.ToolStripSeparator24, Me.TBStatistics, Me.POConvert, Me.TBMyO2, Me.ToolStripSeparator4, Me.TBErrorCheck, Me.TBPreviewOnClick, Me.TBShowFileName, Me.TBShowWaveform, Me.ToolStripSeparator8, Me.TBNTInput, Me.TBWavIncrease, Me.ToolStripSeparator2, Me.TBUndo, Me.TBRedo, Me.ToolStripSeparator5, Me.TBTimeSelect, Me.TBSelect, Me.TBWrite, Me.ToolStripSeparator3, Me.TBPlayB, Me.TBPlay, Me.TBStop, Me.TBPOptions, Me.ToolStripSeparator7, Me.TBVOptions, Me.TBGOptions, Me.TBLanguage, Me.TBTheme, Me.POBStorm, Me.TBTotalValue})
+        Me.TBMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBNew, Me.TBOpen, Me.TBSave, Me.ToolStripSeparator1, Me.TBCut, Me.TBCopy, Me.TBPaste, Me.TBFind, Me.ToolStripSeparator24, Me.TBStatistics, Me.POConvert, Me.TBMyO2, Me.ToolStripSeparator4, Me.TBErrorCheck, Me.TBPreviewOnClick, Me.TBShowFileName, Me.TBShowWaveform, Me.ToolStripSeparator8, Me.TBNTInput, Me.TBWavIncrease, Me.ToolStripSeparator2, Me.TBUndo, Me.TBRedo, Me.ToolStripSeparator5, Me.TBTimeSelect, Me.TBSelect, Me.TBWrite, Me.ToolStripSeparator3, Me.TBPlayB, Me.TBPlay, Me.TBStop, Me.TBPOptions, Me.ToolStripSeparator7, Me.TBGOptions, Me.TBKOptions, Me.TBVOptions, Me.TBLanguage, Me.TBTheme, Me.POBStorm, Me.TBTotalValue})
         Me.TBMain.Location = New System.Drawing.Point(3, 23)
         Me.TBMain.Name = "TBMain"
-        Me.TBMain.Size = New System.Drawing.Size(787, 25)
+        Me.TBMain.Size = New System.Drawing.Size(864, 25)
         Me.TBMain.TabIndex = 64
         Me.TBMain.Text = "Main Toolbar"
         '
@@ -1672,15 +1682,6 @@ Partial Class MainWindow
         Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
         Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 25)
         '
-        'TBVOptions
-        '
-        Me.TBVOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.TBVOptions.Image = Global.iBMSC.My.Resources.Resources.x16VisualOptions
-        Me.TBVOptions.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.TBVOptions.Name = "TBVOptions"
-        Me.TBVOptions.Size = New System.Drawing.Size(23, 22)
-        Me.TBVOptions.Text = "Visual Options (F12)"
-        '
         'TBGOptions
         '
         Me.TBGOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -1689,6 +1690,24 @@ Partial Class MainWindow
         Me.TBGOptions.Name = "TBGOptions"
         Me.TBGOptions.Size = New System.Drawing.Size(23, 22)
         Me.TBGOptions.Text = "General Options (F10)"
+        '
+        'TBKOptions
+        '
+        Me.TBKOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.TBKOptions.Image = Global.iBMSC.My.Resources.Resources.x16Key
+        Me.TBKOptions.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.TBKOptions.Name = "TBKOptions"
+        Me.TBKOptions.Size = New System.Drawing.Size(23, 22)
+        Me.TBKOptions.Text = "Keybinding Options (Shift+F10)"
+        '
+        'TBVOptions
+        '
+        Me.TBVOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.TBVOptions.Image = Global.iBMSC.My.Resources.Resources.x16VisualOptions
+        Me.TBVOptions.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.TBVOptions.Name = "TBVOptions"
+        Me.TBVOptions.Size = New System.Drawing.Size(23, 22)
+        Me.TBVOptions.Text = "Visual Options (F12)"
         '
         'POBStorm
         '
@@ -4693,4 +4712,6 @@ Partial Class MainWindow
     Friend WithEvents BWAVDuplicate As Button
     Friend WithEvents BWAVColorOverride As Button
     Friend WithEvents mnTechnicalErrorCheck As ToolStripMenuItem
+    Friend WithEvents mnKOptions As ToolStripMenuItem
+    Friend WithEvents TBKOptions As ToolStripButton
 End Class

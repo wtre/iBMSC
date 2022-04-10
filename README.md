@@ -3,10 +3,15 @@ pBMSC
 pBMSC is a modified version of uBMSC (which is a modified version of iBMSC) with a primary focus on quality of life functionalities such as keyboard shortcuts.
 See README.md.iBMSC for the original iBMSC README file and REAME.md.uBMSC for the last uBMSC README file.
 
+### Discretion
+* Themes from Bluvel's uBMSC fork may not be compatible, please use themes from Zadoru's uBMSC fork.
+* Please install .NET Framework 4.8 for the program to function properly.
+
 # Changes
 Listed in the order added.
+
 ## Bugfixes
-* Added keybindings for DP and PMS. See **Keyboard Shortcuts** for more information.
+* Added keybindings for DP and PMS by default. Now also added support for rebinding keys. See **Keyboard Shortcuts** for more information.
 * Fixed the search function such that notes on lane A8 and D8 are now searchable.
 * Fixed the mirror function such that notes between A1 and D8 are reflected locally. Supports PMS as well.
 * Fixed the Statistic Label not including notes between D1-D8. Statistic window still not fixed.
@@ -37,6 +42,7 @@ Listed in the order added.
 * Added ability to duplicate #WAV's.
 * Added technical error check (Jack notes, impossible chords for PMS, and impossible scratches for DP). Not a toggle because running it live will severely reduce performance. Accessible via the Options tab or via Ctrl+Alt+E.
 * Added better support for all audio files (supported by CSCore + ogg).
+* Added support for rebinding keys.
 
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8:
@@ -59,7 +65,7 @@ Listed in the order added.
   * F12 - Visual Options
 * Added advanced statistics (Ctrl+Shift+T).
 * Added keyboard shortcuts for previewing and replacing keysounds in the Sounds List (Spacebar to preview, enter to replace).
-* Added "Select Section" (Ctrl+Alt+R).
+* Added "Select Section" (Ctrl+Alt+R by default).
 * Added color overriding options (Shift+F12).
 * Revised shortcuts for grid division values:
   * Period now increases the division value, and comma now decreases the division value.
@@ -70,7 +76,8 @@ Listed in the order added.
 * Added shortcut for scrolling through #WAV selection (Shift+Scroll).
 * Added shortcut for defining measures with Time Selection Tool (Insert).
 * Added shortcut for inserting/removing space with Time Selection Tool (Ctrl+Insert for measure only, Shift+Insert for notes only, and Ctrl+Shift+Insert for both)
-* Added shortcut for techincal error check (Ctrl+Alt+E)
+* Added shortcut for techincal error check (Ctrl+Alt+E by default)
+* Added shortcut for keybinding options (Shift+F10)
 
 ## New dialog/option boxes
 
@@ -87,3 +94,7 @@ Listed in the order added.
 
 ### Visual Override Options
 * Creates a list of note ranges with a specified color and replaces specified notes' display color.
+
+### Keybinding Options
+* Allows for rebinding keys for a lot of functions, such as note lane assignment.
+* Some other functions are also rebindable, such as Snap to Grid, Undo, and Redo.

@@ -284,6 +284,7 @@ Partial Class OpVisualOverride
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "OpVisualOverride"
+        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Visual Override Options"
         Me.TableLayoutPanel1.ResumeLayout(False)

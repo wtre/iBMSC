@@ -437,7 +437,7 @@ Partial Class OpGeneral
         '
         'nJackTH
         '
-        Me.nJackTH.Location = New System.Drawing.Point(105, 3)
+        Me.nJackTH.Location = New System.Drawing.Point(104, 3)
         Me.nJackTH.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.nJackTH.Minimum = New Decimal(New Integer() {8, 0, 0, 0})
         Me.nJackTH.Name = "nJackTH"
@@ -450,7 +450,7 @@ Partial Class OpGeneral
         Me.Label9.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Label9.Location = New System.Drawing.Point(61, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(38, 27)
+        Me.Label9.Size = New System.Drawing.Size(37, 27)
         Me.Label9.TabIndex = 8
         Me.Label9.Text = "BPM"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -458,9 +458,9 @@ Partial Class OpGeneral
         'LabelTH
         '
         Me.LabelTH.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.LabelTH.Location = New System.Drawing.Point(148, 0)
+        Me.LabelTH.Location = New System.Drawing.Point(147, 0)
         Me.LabelTH.Name = "LabelTH"
-        Me.LabelTH.Size = New System.Drawing.Size(29, 27)
+        Me.LabelTH.Size = New System.Drawing.Size(30, 27)
         Me.LabelTH.TabIndex = 8
         Me.LabelTH.Text = "th"
         Me.LabelTH.TextAlign = System.Drawing.ContentAlignment.MiddleCenter

@@ -217,97 +217,210 @@ Partial Public Class MainWindow
             Case Keys.Subtract
                 DecreaseCurrentWav()
 
-            Case Keys.G
-                'az: don't trigger when we use Go To Measure
-                If Not My.Computer.Keyboard.CtrlKeyDown Then CGSnap.Checked = Not gSnap
-
-            Case Keys.L
-                If Not My.Computer.Keyboard.CtrlKeyDown Then POBLong_Click(Nothing, Nothing)
-
-            Case Keys.S
-                If Not My.Computer.Keyboard.CtrlKeyDown Then POBNormal_Click(Nothing, Nothing)
-
-            Case Keys.D
-                CGDisableVertical.Checked = Not CGDisableVertical.Checked
-
-            Case Keys.NumPad0, Keys.D0
-                MoveToBGM(xUndo, xRedo)
-
-            ' Ctrl + Keys → 2P lanes
-            Case Keys.Oem1, Keys.D1
-                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA1, niA2, niD1, xUndo, xRedo) Else MTCFromMode(niA2, niA2, niA2, xUndo, xRedo)
-            Case Keys.Oem2, Keys.D2
-                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA2, niA3, niD2, xUndo, xRedo) Else MTCFromMode(niA3, niA3, niA3, xUndo, xRedo)
-            Case Keys.Oem3, Keys.D3
-                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA3, niA4, niD3, xUndo, xRedo) Else MTCFromMode(niA4, niA4, niA4, xUndo, xRedo)
-            Case Keys.Oem4, Keys.D4
-                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA4, niA5, niD4, xUndo, xRedo) Else MTCFromMode(niA5, niA5, niA5, xUndo, xRedo)
-            Case Keys.Oem5, Keys.D5
-                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA5, niA6, niD5, xUndo, xRedo) Else MTCFromMode(niA6, niA6, niA6, xUndo, xRedo)
-            Case Keys.Oem6, Keys.D6
-                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA6, niD2, niD6, xUndo, xRedo) Else MTCFromMode(niA7, niD2, niA7, xUndo, xRedo)
-            Case Keys.Oem7, Keys.D7
-                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA7, niD3, niD7, xUndo, xRedo) Else MTCFromMode(niA8, niD3, niA8, xUndo, xRedo)
-            Case Keys.Oem8, Keys.D8
-                If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA8, niD4, niD8, xUndo, xRedo) Else MTCFromMode(niA1, niD4, niA1, xUndo, xRedo)
-            Case Keys.D9 ' Oem9 not a thing apparently
-                MTCFromMode(-1, niD5, -1, xUndo, xRedo)
-
-            Case Keys.Q, Keys.NumPad1 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA2, niA2, niD1, xUndo, xRedo)
-            Case Keys.W, Keys.NumPad2 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA3, niA3, niD2, xUndo, xRedo)
-            Case Keys.E, Keys.NumPad3 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA4, niA4, niD3, xUndo, xRedo)
-            Case Keys.R, Keys.NumPad4 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA5, niA5, niD4, xUndo, xRedo)
-            Case Keys.T, Keys.NumPad5 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA6, niA6, niD5, xUndo, xRedo)
-            Case Keys.Y, Keys.NumPad6 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA7, niD2, niD6, xUndo, xRedo)
-            Case Keys.U, Keys.NumPad7 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA8, niD3, niD7, xUndo, xRedo)
-            Case Keys.I, Keys.NumPad8 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA1, niD4, niD8, xUndo, xRedo)
-            Case Keys.O, Keys.NumPad9 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(-1, niD5, -1, xUndo, xRedo)
-
-
-
+                ' Case Keys.G
+                '     'az: don't trigger when we use Go To Measure
+                '     If Not My.Computer.Keyboard.CtrlKeyDown Then CGSnap.Checked = Not gSnap
+                ' 
+                ' Case Keys.L
+                '     If Not My.Computer.Keyboard.CtrlKeyDown Then POBLong_Click(Nothing, Nothing)
+                ' 
+                ' Case Keys.S
+                '     If Not My.Computer.Keyboard.CtrlKeyDown Then POBNormal_Click(Nothing, Nothing)
+                ' 
+                ' Case Keys.D
+                '     CGDisableVertical.Checked = Not CGDisableVertical.Checked
+                ' 
+                ' Case Keys.NumPad0, Keys.D0
+                '     MoveToBGM(xUndo, xRedo)
+                '
+                ' ' Ctrl + Keys → 2P lanes
+                ' Case Keys.Oem1, Keys.D1
+                '     If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA1, niA2, niD1, xUndo, xRedo) Else MTCFromMode(niA2, niA2, niA2, xUndo, xRedo)
+                ' Case Keys.Oem2, Keys.D2
+                '     If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA2, niA3, niD2, xUndo, xRedo) Else MTCFromMode(niA3, niA3, niA3, xUndo, xRedo)
+                ' Case Keys.Oem3, Keys.D3
+                '     If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA3, niA4, niD3, xUndo, xRedo) Else MTCFromMode(niA4, niA4, niA4, xUndo, xRedo)
+                ' Case Keys.Oem4, Keys.D4
+                '     If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA4, niA5, niD4, xUndo, xRedo) Else MTCFromMode(niA5, niA5, niA5, xUndo, xRedo)
+                ' Case Keys.Oem5, Keys.D5
+                '     If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA5, niA6, niD5, xUndo, xRedo) Else MTCFromMode(niA6, niA6, niA6, xUndo, xRedo)
+                ' Case Keys.Oem6, Keys.D6
+                '     If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA6, niD2, niD6, xUndo, xRedo) Else MTCFromMode(niA7, niD2, niA7, xUndo, xRedo)
+                ' Case Keys.Oem7, Keys.D7
+                '     If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA7, niD3, niD7, xUndo, xRedo) Else MTCFromMode(niA8, niD3, niA8, xUndo, xRedo)
+                ' Case Keys.Oem8, Keys.D8
+                '     If My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA8, niD4, niD8, xUndo, xRedo) Else MTCFromMode(niA1, niD4, niA1, xUndo, xRedo)
+                ' Case Keys.D9 ' Oem9 not a thing apparently
+                '     MTCFromMode(-1, niD5, -1, xUndo, xRedo)
+                ' 
+                ' Case Keys.Q, Keys.NumPad1 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA2, niA2, niD1, xUndo, xRedo)
+                ' Case Keys.W, Keys.NumPad2 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA3, niA3, niD2, xUndo, xRedo)
+                ' Case Keys.E, Keys.NumPad3 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA4, niA4, niD3, xUndo, xRedo)
+                ' Case Keys.R, Keys.NumPad4 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA5, niA5, niD4, xUndo, xRedo)
+                ' Case Keys.T, Keys.NumPad5 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA6, niA6, niD5, xUndo, xRedo)
+                ' Case Keys.Y, Keys.NumPad6 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA7, niD2, niD6, xUndo, xRedo)
+                ' Case Keys.U, Keys.NumPad7 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA8, niD3, niD7, xUndo, xRedo)
+                ' Case Keys.I, Keys.NumPad8 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(niA1, niD4, niD8, xUndo, xRedo)
+                ' Case Keys.O, Keys.NumPad9 : If Not My.Computer.Keyboard.CtrlKeyDown Then MTCFromMode(-1, niD5, -1, xUndo, xRedo)
         End Select
 
-        If My.Computer.Keyboard.CtrlKeyDown And (Not My.Computer.Keyboard.AltKeyDown) And (Not My.Computer.Keyboard.ShiftKeyDown) Then
-            Select Case e.KeyCode
-                Case Keys.Z : TBUndo_Click(TBUndo, New EventArgs)
-                Case Keys.Y : TBRedo_Click(TBRedo, New EventArgs)
-                Case Keys.X : TBCut_Click(TBCut, New EventArgs)
-                Case Keys.C : TBCopy_Click(TBCopy, New EventArgs)
-                Case Keys.V : TBPaste_Click(TBPaste, New EventArgs)
-                Case Keys.A : mnSelectAll_Click(mnSelectAll, New EventArgs)
-            End Select
-        End If
+        ' If My.Computer.Keyboard.CtrlKeyDown And (Not My.Computer.Keyboard.AltKeyDown) And (Not My.Computer.Keyboard.ShiftKeyDown) Then
+        '     Select Case e.KeyCode
+        '         Case Keys.Z : TBUndo_Click(TBUndo, New EventArgs)
+        '         Case Keys.Y : TBRedo_Click(TBRedo, New EventArgs)
+        '         Case Keys.X : TBCut_Click(TBCut, New EventArgs)
+        '         Case Keys.C : TBCopy_Click(TBCopy, New EventArgs)
+        '         Case Keys.V : TBPaste_Click(TBPaste, New EventArgs)
+        '         Case Keys.A : mnSelectAll_Click(mnSelectAll, New EventArgs)
+        '     End Select
+        ' End If
+        ' 
+        ' If ModifierMultiselectVisibleActive() Then
+        '     If e.KeyCode = Keys.A And KMouseOver <> -1 Then
+        '         SelectAllWithHoveredNoteLabel()
+        '     End If
+        ' End If
 
-        If My.Computer.Keyboard.CtrlKeyDown AndAlso My.Computer.Keyboard.AltKeyDown AndAlso Not My.Computer.Keyboard.ShiftKeyDown Then
-            Select Case e.KeyCode
-                Case Keys.R : Expand_Load(Nothing, Nothing)
-                Case Keys.E : CheckTechnicalError(Nothing, Nothing)
-            End Select
+        ' Turn keycode into string
+        Dim keyComboEvent(-1) As String
+        If e.Control Then
+            ReDim Preserve keyComboEvent(keyComboEvent.Length)
+            keyComboEvent(UBound(keyComboEvent)) = "Ctrl"
         End If
+        If e.Shift Then
+            ReDim Preserve keyComboEvent(keyComboEvent.Length)
+            keyComboEvent(UBound(keyComboEvent)) = "Shift"
+        End If
+        If e.Alt Then
+            ReDim Preserve keyComboEvent(keyComboEvent.Length)
+            keyComboEvent(UBound(keyComboEvent)) = "Alt"
+        End If
+        ReDim Preserve keyComboEvent(keyComboEvent.Length)
+        keyComboEvent(UBound(keyComboEvent)) = e.KeyCode.ToString
 
-        If ModifierMultiselectVisibleActive() Then
-            If e.KeyCode = Keys.A And KMouseOver <> -1 Then
-                SelectAllWithHoveredNoteLabel()
-            End If
-        End If
+        ' Determine
+        Dim keybindOptionName As String = "Nothing"
+
+        ' Check for specific categories first
+        For Each P In KeybindingCategory
+            If (P = CategoryPMS AndAlso gXKeyMode <> "PMS") Or
+                (P = CategoryDP AndAlso gXKeyMode <> "DP") Then Continue For
+
+            Dim keybindOptions = From k In Keybindings
+                                 Where k.Category = P
+                                 Select k
+
+            For Each keybind In keybindOptions
+                If keybind.Combo.Contains(Join(keyComboEvent, "+")) Then
+                    keybindOptionName = keybind.OpName
+                    GoTo ExecuteKeybind
+                End If
+            Next
+        Next
+
+ExecuteKeybind:
+        Select Case keybindOptionName
+            Case "Move to A2"
+                MoveToColumn(niA2, xUndo, xRedo)
+            Case "Move to A3"
+                MoveToColumn(niA3, xUndo, xRedo)
+            Case "Move to A4"
+                MoveToColumn(niA4, xUndo, xRedo)
+            Case "Move to A5"
+                MoveToColumn(niA5, xUndo, xRedo)
+            Case "Move to A6"
+                MoveToColumn(niA6, xUndo, xRedo)
+            Case "Move to A7"
+                MoveToColumn(niA7, xUndo, xRedo)
+            Case "Move to A8"
+                MoveToColumn(niA8, xUndo, xRedo)
+            Case "Move to A1"
+                MoveToColumn(niA1, xUndo, xRedo)
+
+            Case "Move to D1"
+                MoveToColumn(niD1, xUndo, xRedo)
+            Case "Move to D2"
+                MoveToColumn(niD2, xUndo, xRedo)
+            Case "Move to D3"
+                MoveToColumn(niD3, xUndo, xRedo)
+            Case "Move to D4"
+                MoveToColumn(niD4, xUndo, xRedo)
+            Case "Move to D5"
+                MoveToColumn(niD5, xUndo, xRedo)
+            Case "Move to D6"
+                MoveToColumn(niD6, xUndo, xRedo)
+            Case "Move to D7"
+                MoveToColumn(niD7, xUndo, xRedo)
+            Case "Move to D8"
+                MoveToColumn(niD8, xUndo, xRedo)
+
+            Case "Move to P1"
+                MoveToColumn(niA2, xUndo, xRedo)
+            Case "Move to P2"
+                MoveToColumn(niA3, xUndo, xRedo)
+            Case "Move to P3"
+                MoveToColumn(niA4, xUndo, xRedo)
+            Case "Move to P4"
+                MoveToColumn(niA5, xUndo, xRedo)
+            Case "Move to P5"
+                MoveToColumn(niA6, xUndo, xRedo)
+            Case "Move to P6"
+                MoveToColumn(niD2, xUndo, xRedo)
+            Case "Move to P7"
+                MoveToColumn(niD3, xUndo, xRedo)
+            Case "Move to P8"
+                MoveToColumn(niD4, xUndo, xRedo)
+            Case "Move to P9"
+                MoveToColumn(niD5, xUndo, xRedo)
+
+            Case "Move to BGM"
+                MoveToBGM(xUndo, xRedo)
+            Case "Disable Vertical Moves"
+                CGDisableVertical.Checked = Not CGDisableVertical.Checked
+            Case "Snap to Grid"
+                CGSnap.Checked = Not gSnap
+            Case "Convert to Long Note"
+                POBLong_Click(Nothing, Nothing)
+            Case "Convert to Short Note"
+                POBNormal_Click(Nothing, Nothing)
+            Case "Check Technical Error"
+                CheckTechnicalError(Nothing, Nothing)
+            Case "Select Expansion Section"
+                Expand_Load(Nothing, Nothing)
+
+            Case "Undo"
+                TBUndo_Click(TBUndo, New EventArgs)
+            Case "Redo"
+                TBRedo_Click(TBRedo, New EventArgs)
+            Case "Cut"
+                TBCut_Click(TBCut, New EventArgs)
+            Case "Copy"
+                TBCopy_Click(TBCopy, New EventArgs)
+            Case "Paste"
+                TBPaste_Click(TBPaste, New EventArgs)
+            Case "Select All"
+                mnSelectAll_Click(mnSelectAll, New EventArgs)
+            Case "Select All with Hovered Note Label"
+                If KMouseOver <> -1 Then SelectAllWithHoveredNoteLabel()
+        End Select
 
         PMainInMouseMove(sender)
         POStatusRefresh()
     End Sub
 
-    Private Sub MTCFromMode(ByVal ColSP As Integer, ByVal ColPMS As Integer, ByVal ColDP As Integer, xUndo As UndoRedo.LinkedURCmd, xRedo As UndoRedo.LinkedURCmd)
-        Dim xCol As Integer
-        Select Case gXKeyMode
-            Case "SP"
-                xCol = ColSP
-            Case "PMS"
-                xCol = ColPMS
-            Case "DP"
-                xCol = ColDP
-        End Select
-        If xCol = -1 Then Exit Sub
-        MoveToColumn(xCol, xUndo, xRedo)
-    End Sub
+    ' Private Sub MTCFromMode(ByVal ColSP As Integer, ByVal ColPMS As Integer, ByVal ColDP As Integer, xUndo As UndoRedo.LinkedURCmd, xRedo As UndoRedo.LinkedURCmd)
+    '     Dim xCol As Integer
+    '     Select Case gXKeyMode
+    '         Case "SP"
+    '             xCol = ColSP
+    '         Case "PMS"
+    '             xCol = ColPMS
+    '         Case "DP"
+    '             xCol = ColDP
+    '     End Select
+    '     If xCol = -1 Then Exit Sub
+    '     MoveToColumn(xCol, xUndo, xRedo)
+    ' End Sub
 
     Private Sub SelectAllWithHoveredNoteLabel()
         For xI1 = 0 To UBound(Notes)

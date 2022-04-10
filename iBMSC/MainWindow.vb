@@ -169,6 +169,7 @@ Public Class MainWindow
     Dim gXKeyMode As String = "SP" ' Determines from column width 7key mode, 9key mode or 14key mode
     Dim gXKeyCol() As Integer
     Dim wLWAV(1295) As WavSample
+    Public CustomKeybindingEnabled As Integer = 0
 
     '----AutoSave Options
     Dim PreviousAutoSavedFileName As String = ""
@@ -232,8 +233,6 @@ Public Class MainWindow
             wSampleRate = xSampleRate
         End Sub
     End Structure
-    'Note Waveform Options
-
 
     '----Visual Override Options
     Structure ColorOverride
@@ -267,6 +266,72 @@ Public Class MainWindow
     End Structure
     Dim COverrides() As ColorOverride = Nothing
 
+    '----Keybinding Options
+    Structure Keybinding
+        Public OpName As String
+        Public Description As String
+        Public Combo() As String
+        Public Category As Integer
+
+        Public Sub New(ByVal xOpName As String, Optional xDescription As String = "", Optional xKey() As String = Nothing, Optional xCategory As Integer = -1)
+            OpName = xOpName
+            Description = xDescription
+            Combo = xKey
+            Category = xCategory
+        End Sub
+    End Structure
+
+    Public CategorySP As Integer = 1
+    Public CategoryPMS As Integer = 2
+    Public CategoryDP As Integer = 3
+    Public KeybindingCategory() As Integer = {CategoryPMS, CategoryDP, CategorySP, -1} ' Order matters
+    Public KeybindingsInit() As Keybinding = { ' SP Note Assignments
+                                       New Keybinding("Move to A2", "Move note to 1P Lane 1", {"D1", "NumPad1"}, CategorySP),
+                                       New Keybinding("Move to A3", "Move note to 1P Lane 2", {"D2", "NumPad2"}, CategorySP),
+                                       New Keybinding("Move to A4", "Move note to 1P Lane 3", {"D3", "NumPad3"}, CategorySP),
+                                       New Keybinding("Move to A5", "Move note to 1P Lane 4", {"D4", "NumPad4"}, CategorySP),
+                                       New Keybinding("Move to A6", "Move note to 1P Lane 5", {"D5", "NumPad5"}, CategorySP),
+                                       New Keybinding("Move to A7", "Move note to 1P Lane 6", {"D6", "NumPad6"}, CategorySP),
+                                       New Keybinding("Move to A8", "Move note to 1P Lane 7", {"D7", "NumPad7"}, CategorySP),
+                                       New Keybinding("Move to A1", Strings.fopKeybinding.MDesc1PS, {"D8", "NumPad8"}, CategorySP),
+                                                                                                                                   _ ' DP Note Assignments
+                                       New Keybinding("Move to D1", "Move note to 2P Lane 1", {"Q", "Ctrl+D1", "NumPad1"}, CategoryDP),
+                                       New Keybinding("Move to D2", "Move note to 2P Lane 2", {"W", "Ctrl+D2", "NumPad2"}, CategoryDP),
+                                       New Keybinding("Move to D3", "Move note to 2P Lane 3", {"E", "Ctrl+D3", "NumPad3"}, CategoryDP),
+                                       New Keybinding("Move to D4", "Move note to 2P Lane 4", {"R", "Ctrl+D4", "NumPad4"}, CategoryDP),
+                                       New Keybinding("Move to D5", "Move note to 2P Lane 5", {"T", "Ctrl+D5", "NumPad5"}, CategoryDP),
+                                       New Keybinding("Move to D6", "Move note to 2P Lane 6", {"Y", "Ctrl+D6", "NumPad6"}, CategoryDP),
+                                       New Keybinding("Move to D7", "Move note to 2P Lane 7", {"U", "Ctrl+D7", "NumPad7"}, CategoryDP),
+                                       New Keybinding("Move to D8", Strings.fopKeybinding.MDesc2PS, {"I", "Ctrl+D8", "NumPad8"}, CategoryDP),
+                                                                                                                                             _ ' PMS Note Assignments
+                                       New Keybinding("Move to P1", "Move note to PMS Lane 1", {"D1", "NumPad1"}, CategoryPMS),
+                                       New Keybinding("Move to P2", "Move note to PMS Lane 2", {"D2", "NumPad2"}, CategoryPMS),
+                                       New Keybinding("Move to P3", "Move note to PMS Lane 3", {"D3", "NumPad3"}, CategoryPMS),
+                                       New Keybinding("Move to P4", "Move note to PMS Lane 4", {"D4", "NumPad4"}, CategoryPMS),
+                                       New Keybinding("Move to P5", "Move note to PMS Lane 5", {"D5", "NumPad5"}, CategoryPMS),
+                                       New Keybinding("Move to P6", "Move note to PMS Lane 6", {"D6", "NumPad6"}, CategoryPMS),
+                                       New Keybinding("Move to P7", "Move note to PMS Lane 7", {"D7", "NumPad7"}, CategoryPMS),
+                                       New Keybinding("Move to P8", "Move note to PMS Lane 8", {"D8", "NumPad8"}, CategoryPMS),
+                                       New Keybinding("Move to P9", "Move note to PMS Lane 9", {"D9", "NumPad9"}, CategoryPMS),
+                                                                                                                               _ ' Miscellaneous BMS
+                                       New Keybinding("Move to BGM", "Move to BGM Lane", {"D0", "NumPad0"}),
+                                       New Keybinding("Disable Vertical Moves", "Disable vertical moves", {"D"}),
+                                       New Keybinding("Snap to Grid", "Snap to grid", {"G"}),
+                                       New Keybinding("Convert to Long Note", "Å® Long Note", {"L"}),
+                                       New Keybinding("Convert to Short Note", "Å® Short Note", {"S"}),
+                                       New Keybinding("Check Technical Error", "Check for technical errors such as impossible scratches in DP or impossible chords in PMS", {"Ctrl+Alt+E"}),
+                                       New Keybinding("Select Expansion Section", "Select #IF sections in the Expansion field", {"Ctrl+Alt+R"}),
+                                                                                                                                                _ ' Miscellaneous Editor
+                                       New Keybinding("Undo", "", {"Ctrl+Z"}),
+                                       New Keybinding("Redo", "", {"Ctrl+Y"}),
+                                       New Keybinding("Cut", "", {"Ctrl+X"}),
+                                       New Keybinding("Copy", "", {"Ctrl+C"}),
+                                       New Keybinding("Paste", "", {"Ctrl+V"}),
+                                       New Keybinding("Select All", "Select all notes", {"Ctrl+A"}),
+                                       New Keybinding("Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"})
+                                       }
+    Dim Keybindings() As Keybinding = KeybindingsInit.Clone
+
     '----Preview Options
     Structure PlayerArguments
         Public Path As String
@@ -281,7 +346,7 @@ Public Class MainWindow
         End Sub
     End Structure
 
-    Public pArgs() As PlayerArguments = {New PlayerArguments("<apppath>\mBMplay.exe",
+    Public pArgsInit() As PlayerArguments = {New PlayerArguments("<apppath>\mBMplay.exe",
                                                              """<filename>""",
                                                              "-s <measure> ""<filename>""",
                                                              "-t"),
@@ -293,6 +358,7 @@ Public Class MainWindow
                                                              "-P -N0 ""<filename>""",
                                                              "-P -N<measure> ""<filename>""",
                                                              "-S")}
+    Public pArgs() As PlayerArguments = pArgsInit.Clone
     Public CurrentPlayer As Integer = 0
     Dim PreviewOnClick As Boolean = True
     Dim PreviewErrorCheck As Boolean = False
@@ -3842,6 +3908,42 @@ RestartSorting: xSorted = False
             If AutoSaveInterval Then AutoSaveTimer.Interval = AutoSaveInterval
             AutoSaveTimer.Enabled = AutoSaveInterval
         End If
+    End Sub
+
+    Private Sub TBKOptions_Click(sender As Object, e As EventArgs) Handles TBKOptions.Click, mnKOptions.Click
+        Try
+            Dim xDiag As New OpKeybinding(Keybindings)
+            If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                With xDiag
+                    Keybindings = .Keybinds
+
+                    ' Rename shortcutstrings
+                    For Each keybind In .Keybinds
+                        Select Case keybind.OpName
+                            Case "Undo"
+                                mnUndo.ShortcutKeyDisplayString = keybind.Combo(0)
+                                TBUndo.Text = "Undo (" & Join(keybind.Combo, ", ") & ")"
+                            Case "Redo"
+                                mnRedo.ShortcutKeyDisplayString = keybind.Combo(0)
+                                TBRedo.Text = "Redo (" & Join(keybind.Combo, ", ") & ")"
+                            Case "Cut"
+                                mnCut.ShortcutKeyDisplayString = keybind.Combo(0)
+                                TBCut.Text = "Cut (" & Join(keybind.Combo, ", ") & ")"
+                            Case "Copy"
+                                mnCopy.ShortcutKeyDisplayString = keybind.Combo(0)
+                                TBCopy.Text = "Copy (" & Join(keybind.Combo, ", ") & ")"
+                            Case "Paste"
+                                mnPaste.ShortcutKeyDisplayString = keybind.Combo(0)
+                                TBPaste.Text = "Paste (" & Join(keybind.Combo, ", ") & ")"
+                            Case "Select All"
+                                mnSelectAll.ShortcutKeyDisplayString = keybind.Combo(0)
+                        End Select
+                    Next
+                End With
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub POBLong_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBLong.Click

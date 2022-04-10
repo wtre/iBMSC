@@ -197,7 +197,32 @@ Public Class Strings
         Public Shared AutoSave As String = "AutoSave"
         Public Shared minutes As String = "minutes"
         Public Shared StopPreviewOnClick As String = "Stop preview if clicked on the editing panel"
-        Public Shared ModeDP As String = "DP Mode keybinding"
+    End Class
+
+    Public Class fopKeybinding
+        Public Shared MPre As String = "Move to "
+        Public Shared MPost As String = ""
+
+        Public Shared MDesc1PPre As String = "Move note to 1P Lane "
+        Public Shared MDesc1PPost As String = ""
+        Public Shared MDesc2PPre As String = "Move note to 2P Lane "
+        Public Shared MDesc2PPost As String = ""
+        Public Shared MDesc1PS As String = "Move note to 1P Scratch Lane"
+        Public Shared MDesc2PS As String = "Move note to 2P Scratch Lane"
+
+        Public Shared MDescPMSPre As String = "Move note to PMS Lane "
+        Public Shared MDescPMSPost As String = ""
+
+        Public Shared P1 As String = "P1"
+        Public Shared P2 As String = "P2"
+        Public Shared P3 As String = "P3"
+        Public Shared P4 As String = "P4"
+        Public Shared P5 As String = "P5"
+        Public Shared P6 As String = "P6"
+        Public Shared P7 As String = "P7"
+        Public Shared P8 As String = "P8"
+        Public Shared P9 As String = "P9"
+
     End Class
 
     Public Class fFind

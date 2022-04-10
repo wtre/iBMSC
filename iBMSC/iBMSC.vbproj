@@ -207,6 +207,12 @@
     <Compile Include="MyO2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Option Windows\OpKeybinding.Designer.vb">
+      <DependentUpon>OpKeybinding.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Option Windows\OpKeybinding.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Option Windows\OpVisual.Designer.vb">
       <DependentUpon>OpVisual.vb</DependentUpon>
     </Compile>
@@ -304,6 +310,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Option Windows\OpKeybinding.resx">
+      <DependentUpon>OpKeybinding.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Option Windows\OpExpand.resx">
       <DependentUpon>OpExpand.vb</DependentUpon>

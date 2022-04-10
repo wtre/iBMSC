@@ -98,18 +98,8 @@ Public Class OpPlayer
         'ImplicitChange = True
         If MsgBox(Strings.Messages.RestoreDefaultSettings, MsgBoxStyle.Question + MsgBoxStyle.YesNo) = MsgBoxResult.No Then Exit Sub
 
-        pArg = New MainWindow.PlayerArguments() {New MainWindow.PlayerArguments("<apppath>\mBMplay.exe",
-                                                             """<filename>""",
-                                                             "-s <measure> ""<filename>""",
-                                                             "-t"),
-                                                 New MainWindow.PlayerArguments("<apppath>\uBMplay.exe",
-                                                             "-P -N0 ""<filename>""",
-                                                             "-P -N<measure> ""<filename>""",
-                                                             "-S"),
-                                                 New MainWindow.PlayerArguments("<apppath>\o2play.exe",
-                                                             "-P -N0 ""<filename>""",
-                                                             "-P -N<measure> ""<filename>""",
-                                                             "-S")}
+        pArg = MainWindow.pArgsInit.Clone
+
         CurrPlayer = 0
         ResetLPlayer_ShowInTextbox()
         'ImplicitChange = False
