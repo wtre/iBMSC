@@ -211,6 +211,8 @@ Partial Public Class MainWindow
     End Sub
 
     Private Sub SaveColorOverride(ByVal Path As String)
+        If Not System.IO.Directory.Exists("Colors") Then My.Computer.FileSystem.CreateDirectory("Colors")
+
         Dim F As String = "Colors\" + GetFileName(FileName) + ".xml"
         Dim w As New XmlTextWriter(F, System.Text.Encoding.Unicode)
         With w

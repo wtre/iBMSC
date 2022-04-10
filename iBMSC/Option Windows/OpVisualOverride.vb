@@ -7,15 +7,20 @@ Public Class OpVisualOverride
         InitializeComponent()
         LOverrides.Items.Clear()
 
-        COverrides = xColorOverrides.Clone
+        COverrides = xColorOverrides
 
-        ' List expansion code per line
-        For Each COverride In COverrides
-            LOverrides.Items.Add(COverride.Name)
-        Next
+        If Not IsNothing(COverrides) Then
+            ' List expansion code per line
+            For Each COverride In COverrides
+                LOverrides.Items.Add(COverride.Name)
+            Next
 
-        LOverrides.SelectedIndex = 0
-        ShowInTextbox()
+            If COverrides.Length > 0 Then
+                LOverrides.SelectedIndex = 0
+                ShowInTextbox()
+            End If
+        End If
+
     End Sub
 
     Private Sub OK_Button_Click(sender As Object, e As EventArgs) Handles OK_Button.Click

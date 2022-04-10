@@ -264,7 +264,7 @@ Public Class MainWindow
             BG = xBG
         End Sub
     End Structure
-    Dim COverrides() As ColorOverride = Nothing
+    Dim COverrides(-1) As ColorOverride
 
     '----Keybinding Options
     Structure Keybinding
@@ -3467,7 +3467,7 @@ RestartSorting: xSorted = False
         Dim xDiag As New OpVisualOverride(COverrides)
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
             COverrides = xDiag.COverrides
-            If Not IsNothing(COverrides) Then SaveColorOverride(FileName)
+            If Not IsNothing(COverrides) Then If COverrides.Length > 0 Then SaveColorOverride(FileName)
         End If
         UpdateColumnsX()
         RefreshPanelAll()
