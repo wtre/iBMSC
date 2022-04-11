@@ -207,6 +207,12 @@
     <Compile Include="MyO2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Option Windows\OpTotal.Designer.vb">
+      <DependentUpon>OpTotal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Option Windows\OpTotal.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Option Windows\OpKeybinding.Designer.vb">
       <DependentUpon>OpKeybinding.vb</DependentUpon>
     </Compile>
@@ -322,6 +328,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Option Windows\OpPlayer.resx">
       <DependentUpon>OpPlayer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Option Windows\OpTotal.resx">
+      <DependentUpon>OpTotal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Option Windows\OpVisualOverride.resx">
       <DependentUpon>OpVisualOverride.vb</DependentUpon>

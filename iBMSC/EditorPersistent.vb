@@ -162,6 +162,13 @@ Partial Public Class MainWindow
                 XMLWritePlayerArguments(w, i) : Next
             .WriteEndElement()
 
+            .WriteStartElement("Total")
+            .WriteAttributeString("Option", TotalOption)
+            .WriteAttributeString("Multiplier", TotalMultiplier)
+            .WriteAttributeString("GlobalMultiplier", TotalGlobalMultiplier)
+            .WriteAttributeString("RecommendedTextDisplay", TotalRecommendedTextDisplay)
+            .WriteEndElement()
+
             .WriteStartElement("KeyBindings")
             .WriteAttributeString("Count", UBound(Keybindings))
             For i As Integer = 0 To UBound(Keybindings)
@@ -542,6 +549,16 @@ Partial Public Class MainWindow
             For Each eePlayer As XmlElement In ePlayer.ChildNodes
                 Me.XMLLoadPlayer(eePlayer)
             Next
+        End If
+
+        Dim eTotal As XmlElement = Root.Item("Total")
+        If eTotal IsNot Nothing Then
+            With eTotal
+                XMLLoadAttribute(.GetAttribute("Option"), TotalOption)
+                XMLLoadAttribute(.GetAttribute("Multiplier"), TotalMultiplier)
+                XMLLoadAttribute(.GetAttribute("GlobalMultiplier"), TotalGlobalMultiplier)
+                XMLLoadAttribute(.GetAttribute("RecommendedTextDisplay"), TotalRecommendedTextDisplay)
+            End With
         End If
 
         Dim eKeybindings As XmlElement = Root.Item("KeyBindings")

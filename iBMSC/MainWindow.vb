@@ -380,6 +380,12 @@ Public Class MainWindow
 
     Dim spMain() As Panel = {}
 
+    '----#TOTAL Options
+    Dim TotalOption As Integer = 0
+    Dim TotalMultiplier As Double = 0.25
+    Dim TotalGlobalMultiplier As Double = 1
+    Dim TotalRecommendedTextDisplay As Boolean = True
+
     '----Find Delete Replace Options
     Dim fdriMesL As Integer
     Dim fdriMesU As Integer
@@ -2699,7 +2705,16 @@ StartCount:     If Not NTInput Then
             Next
         End If
 
-        TBTotalValue.Text = Math.Round(xIAll * 7.605 / (0.01 * xIAll + 6.5), 2)
+        Dim TotalValue As Double
+        Select Case TotalOption
+            Case 0
+                TotalValue = Math.Round(xIAll * 7.605 / (0.01 * xIAll + 6.5), 2) * TotalGlobalMultiplier
+            Case 1
+                TotalValue = IIf(xIAll < 400, 200 + xIAll / 5, IIf(xIAll < 600, 280 + (xIAll - 400) / 2.5, 360 + (xIAll - 600) / 5)) * TotalGlobalMultiplier
+            Case 2
+                TotalValue = xIAll * TotalMultiplier * TotalGlobalMultiplier
+        End Select
+        TBTotalValue.Text = IIf(TotalRecommendedTextDisplay, "Recommended #TOTAL: ", "") & Str(TotalValue)
         TBStatistics.Text = xIAll
     End Sub
 
@@ -3826,6 +3841,29 @@ RestartSorting: xSorted = False
         Next
     End Sub
 
+    Private Sub TBTotalValue_Click(sender As Object, e As EventArgs) Handles TBTotalValue.Click
+        Dim xDiag As New OpTotal(TBStatistics.Text, TotalOption, TotalMultiplier, TotalGlobalMultiplier, TotalRecommendedTextDisplay)
+        If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            With xDiag
+                TotalOption = .TotalOption
+                TotalMultiplier = .TMultiplier.Text
+                TotalGlobalMultiplier = .TGlobalMultiplier.Text
+                TotalRecommendedTextDisplay = .CBDisplayText.Checked
+            End With
+
+            Dim N As Integer = TBStatistics.Text
+            Dim TotalValue As Double
+            Select Case TotalOption
+                Case 0
+                    TotalValue = Math.Round(N * 7.605 / (0.01 * N + 6.5), 2) * TotalGlobalMultiplier
+                Case 1
+                    TotalValue = IIf(N < 400, 200 + N / 5, IIf(N < 600, 280 + (N - 400) / 2.5, 360 + (N - 600) / 5)) * TotalGlobalMultiplier
+                Case 2
+                    TotalValue = N * TotalMultiplier * TotalGlobalMultiplier
+            End Select
+            TBTotalValue.Text = IIf(TotalRecommendedTextDisplay, "Recommended #TOTAL: ", "") & Str(TotalValue)
+        End If
+    End Sub
 
     Private Sub UpdateColumnsX()
         column(0).Left = 0
