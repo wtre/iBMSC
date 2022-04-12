@@ -312,7 +312,11 @@ Partial Public Class MainWindow
                                  Select k
 
             For Each keybind In keybindOptions
-                If keybind.Combo.Contains(Join(keyComboEvent, "+")) Then
+                Dim keyComboString = Join(keyComboEvent, "+")
+                ' To account for per-note assignment using shift
+                If P = CategorySP Or P = CategoryPMS Or P = CategoryDP Then keyComboString = keyComboString.Replace("Shift+", "")
+
+                If keybind.Combo.Contains(keyComboString) Then
                     keybindOptionName = keybind.OpName
                     GoTo ExecuteKeybind
                 End If
