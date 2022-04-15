@@ -70,6 +70,8 @@ Partial Public Class MainWindow
         'WaveForm
         DrawWaveform(e1, xTHeight, xPanelHScroll, xVSR)
 
+        If TimerPreviewNote.Enabled Then DrawPlayLines(e1, xTHeight, xTWidth, xPanelHScroll, xPanelDisplacement)
+
         'K
         'If Not K Is Nothing Then
         DrawNotes(e1, xTHeight, xPanelHScroll, xPanelDisplacement)
@@ -486,9 +488,9 @@ Partial Public Class MainWindow
             Dim xnLeft = nLeft(Notes(xINote).ColumnIndex)
             Dim xColumnWidth As Integer = GetColumnWidth(Notes(xINote).ColumnIndex)
 
-            xwWavL = wLWAV(xINoteValue).wWavL
-            xwWavR = wLWAV(xINoteValue).wWavR
-            xwSampleRate = wLWAV(xINoteValue).wSampleRate
+            xwWavL = wLWAV(xINoteValue).WavL
+            xwWavR = wLWAV(xINoteValue).WavR
+            xwSampleRate = wLWAV(xINoteValue).SampleRate
             xwPosition = Notes(xINote).VPosition
             xwLeft = (HorizontalPositiontoDisplay(xnLeft, xHS) + HorizontalPositiontoDisplay(xnLeft + xColumnWidth, xHS)) / 2
         End If
@@ -862,4 +864,23 @@ Partial Public Class MainWindow
         End If
         Return xLabel
     End Function
+
+    Private Sub DrawPlayLines(e1 As BufferedGraphics, xTHeight As Integer, xTHWidth As Integer, xHS As Integer, xVS As Integer)
+        If InternalPlayNotes Is Nothing Then Exit Sub
+
+        Dim VPos As Double = GetVPositionFromTime(GetTimeFromVPosition(InternalPlayNotes(0).VPosition) + InternalPlayTimerCount / 1000)
+        Dim VPosEnd As Double = GetVPositionFromTime(GetTimeFromVPosition(InternalPlayNotes(0).VPosition) + wLWAV(InternalPlayNotes(0).Value / 10000).Duration)
+        ' VPosition to Panel height
+        Dim xTHTime As Integer = NoteRowToPanelHeight(VPos, xVS, xTHeight)
+        Dim xTHTimeEnd As Integer = NoteRowToPanelHeight(VPosEnd, xVS, xTHeight)
+
+        ' Moving play line
+        Dim p = New Pen(Color.Green)
+        e1.Graphics.DrawLine(p, 0, xTHTime, xTHWidth, xTHTime)
+
+        ' End line
+        Dim p2 = New Pen(Color.Red)
+        e1.Graphics.DrawLine(p2, 0, xTHTimeEnd, xTHWidth, xTHTimeEnd)
+
+    End Sub
 End Class

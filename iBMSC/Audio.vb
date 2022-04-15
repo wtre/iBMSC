@@ -70,6 +70,74 @@ Module Audio
     End Sub
 End Module
 
+' P: Probably not the best way to duplicate it into a class
+Public Class AudioC
+    Dim Output As WasapiOut
+    Dim Source As IWaveSource
+    Dim SupportedExt() As String = CodecFactory.Instance.GetSupportedFileExtensions()
+
+    Public Sub Initialize()
+        Output = New WasapiOut()
+        CodecFactory.Instance.Register("ogg", New CodecFactoryEntry(Function(s)
+                                                                        Return New NVorbisSource(s).ToWaveSource()
+                                                                    End Function, ".ogg"))
+        SupportedExt = CodecFactory.Instance.GetSupportedFileExtensions()
+    End Sub
+
+    Public Sub Finalized()
+        Output.Stop()
+        Output.Dispose()
+        Output = Nothing
+    End Sub
+
+    Public Function CheckFilename(ByVal filename As String) As String
+        If File.Exists(filename) Then
+            Return filename
+        End If
+
+        For Each ext In SupportedExt
+            If File.Exists(Path.ChangeExtension(filename, "." & ext)) Then Return Path.ChangeExtension(filename, "." & ext)
+        Next
+        Return filename
+    End Function
+
+    Public Function GetSupportedExtensions(Optional appendStr As String = ".")
+        Dim Ext(UBound(SupportedExt)) As String
+        For i = 0 To UBound(SupportedExt)
+            Ext(i) = appendStr & SupportedExt(i)
+        Next
+        Return Ext
+    End Function
+
+    Public Sub Play(ByVal filename As String)
+        If Source IsNot Nothing Then
+            Output.Stop()
+            Source.Dispose()
+            Source = Nothing
+        End If
+
+        If filename Is "" Then
+            Return
+        End If
+
+        Dim fn = CheckFilename(filename)
+
+        ' P: How to catch without crashing
+        Try
+            Source = CodecFactory.Instance.GetCodec(fn)
+            Output.Initialize(Source)
+            Output.Play()
+        Catch ex As Exception
+            MsgBox("Error: " + ex.Message)
+            Exit Sub
+        End Try
+    End Sub
+
+    Public Sub StopPlaying()
+        Output.Stop()
+    End Sub
+End Class
+
 Class NVorbisSource
     Implements CSCore.ISampleSource
     Dim _stream As Stream

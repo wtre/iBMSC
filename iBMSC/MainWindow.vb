@@ -169,7 +169,6 @@ Public Class MainWindow
     Dim gXKeyMode As String = "SP" ' Determines from column width 7key mode, 9key mode or 14key mode
     Dim gXKeyCol() As Integer
     Dim wLWAV(1295) As WavSample
-    Public CustomKeybindingEnabled As Integer = 0
 
     '----AutoSave Options
     Dim PreviousAutoSavedFileName As String = ""
@@ -221,16 +220,19 @@ Public Class MainWindow
 
     '----Note Waveforms
     Structure WavSample
-        Public wWavL() As Single
-        Public wWavR() As Single
-        Public wSampleRate As Single
+        Public WavL() As Single
+        Public WavR() As Single
+        Public SampleRate As Single
+        Public Duration As Single
 
         Public Sub New(xWavL() As Single,
                        xWavR() As Single,
-                       xSampleRate As Integer)
-            wWavL = xWavL
-            wWavR = xWavR
-            wSampleRate = xSampleRate
+                       xSampleRate As Integer,
+                       xDuration As Single)
+            WavL = xWavL
+            WavR = xWavR
+            SampleRate = xSampleRate
+            Duration = xDuration
         End Sub
     End Structure
 
@@ -329,7 +331,10 @@ Public Class MainWindow
                                        New Keybinding("Paste", "", {"Ctrl+V"}),
                                        New Keybinding("Select All", "Select all notes", {"Ctrl+A"}),
                                        New Keybinding("Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"})
+                                                                                                                                                             _ ' Experimental
                                        }
+    ' New Keybinding("TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"}),
+    ' New Keybinding("GetVPositionFromTime", "*EXPERIMENTAL*", {"Shift+F2"})
     Dim Keybindings() As Keybinding = KeybindingsInit.Clone
 
     '----Preview Options
@@ -364,6 +369,13 @@ Public Class MainWindow
     Dim PreviewErrorCheck As Boolean = False
     Dim ClickStopPreview As Boolean = True
     Dim pTempFileNames() As String = {}
+
+    Dim InternalPlayNotes() As Note
+    Dim InternalPlayNoteIndex As Integer
+    Dim InternalPlayTimerStart As Long = 0
+    Dim InternalPlayTimerEnd As Long = 0
+    Dim InternalPlayTimerCount As Long = 0
+    Dim InternalPlayWav(1295) As AudioC
 
     '----Split Panel Options
     Dim PanelWidth() As Single = {0, 100, 0}
@@ -635,6 +647,7 @@ Public Class MainWindow
     Private Sub PreviewNote(ByVal xFileLocation As String, ByVal bStop As Boolean)
         If bStop Then
             Audio.StopPlaying()
+            TimerPreviewNote.Enabled = False
         End If
         Audio.Play(xFileLocation)
     End Sub
@@ -2241,7 +2254,7 @@ EndSearch:
                 Next
                 For i = 0 To xLWAVIds.Count - 1
                     hWAV(xLWAVIds(i) + 1) = ""
-                    wLWAV(xLWAVIds(i) + 1) = New WavSample({}, {}, 0)
+                    wLWAV(xLWAVIds(i) + 1) = New WavSample({}, {}, 0, 0)
                     LWAV.Items.Item(xLWAVIds(i)) = C10to36(xLWAVIds(i) + 1) & ": "
                 Next
                 If IsSaved Then SetIsSaved(False)
@@ -2398,6 +2411,73 @@ EndSearch:
     '    Return Mid(pArgs(I), 1, InStr(pArgs(I), vbCrLf) - 1)
     'End Function
 
+    Private Sub TBPreviewHighlighted_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        ' Experimental feature. Not optimized, will eat up a lot of RAM if a lot of notes are played.
+        ' Keybinding disabled for this function.
+
+
+        If TimerInternalPlay.Enabled = True Then TimerInternalPlay.Enabled = False : Exit Sub
+
+        ReDim InternalPlayNotes(UBound(Notes))
+        Dim xI1 As Integer = -1
+        For xI2 = 1 To UBound(Notes)
+            With Notes(xI2)
+                If .Selected AndAlso Not .Comment AndAlso IsColumnSound(.ColumnIndex) AndAlso hWAV(.Value / 10000) <> "" Then
+                    xI1 += 1
+                    InternalPlayNotes(xI1) = Notes(xI2)
+                End If
+            End With
+        Next
+        ReDim Preserve InternalPlayNotes(xI1)
+        ' InternalPlayNotes = From Note In Notes Where Note.Selected AndAlso Not Note.Comment AndAlso IsColumnSound(Note.ColumnIndex) AndAlso hWAV(Note.Value / 10000) <> ""
+        '                     Select Note
+
+        If InternalPlayNotes.Count >= 100 Then
+            Dim xResult As MsgBoxResult = MsgBox("Warning: You're about to play a lot of notes." & vbCrLf & "This is not recommended as this function has not been fully developed." & vbCrLf & "Do you wish to continue?", MsgBoxStyle.YesNo)
+            If xResult = MsgBoxResult.No Then Exit Sub
+        End If
+        InternalPlayTimerStart = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds
+        InternalPlayTimerEnd = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds +
+                               GetTimeFromVPosition(InternalPlayNotes(InternalPlayNotes.Count - 1).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition) +
+                               wLWAV(InternalPlayNotes(InternalPlayNotes.Count - 1).Value / 10000).Duration
+        InternalPlayNoteIndex = 0
+        TimerInternalPlay.Enabled = True
+    End Sub
+
+    Private Sub TimerInternalPlay_Tick(sender As Object, e As EventArgs) Handles TimerInternalPlay.Tick
+        InternalPlayTimerCount = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds - InternalPlayTimerStart
+        InternalPlaySub()
+    End Sub
+
+    Private Sub InternalPlaySub()
+        If InternalPlayNoteIndex > InternalPlayNotes.Length - 1 Then
+            Dim xIWL = InternalPlayNoteIndex - 1
+            If InternalPlayTimerCount > GetTimeFromVPosition(InternalPlayNotes(xIWL).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition) +
+                                        wLWAV(InternalPlayNotes(xIWL).Value / 10000).Duration Then
+                TimerInternalPlay.Enabled = False
+                For i = 0 To UBound(InternalPlayWav)
+                    If Not IsNothing(InternalPlayWav(i)) Then InternalPlayWav(i).Finalized()
+                Next
+            End If
+
+            Exit Sub
+        End If
+
+        Dim NoteTime = GetTimeFromVPosition(InternalPlayNotes(InternalPlayNoteIndex).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition)
+        If InternalPlayTimerCount / 1000 >= NoteTime Then
+            Dim xIW As Integer = InternalPlayNotes(InternalPlayNoteIndex).Value / 10000
+            If xIW <= 0 Then xIW = 1
+            If xIW >= 1296 Then xIW = 1295
+
+            Dim xFileLocation As String = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName)) & "\" & hWAV(xIW)
+            InternalPlayWav(xIW) = New AudioC
+            InternalPlayWav(xIW).Initialize()
+            InternalPlayWav(xIW).Play(xFileLocation)
+
+            InternalPlayNoteIndex += 1
+        End If
+    End Sub
+
     Private Function GetFileName(ByVal s As String) As String
         Dim fslash As Integer = InStrRev(s, "/")
         Dim bslash As Integer = InStrRev(s, "\")
@@ -2431,6 +2511,7 @@ EndSearch:
         pArgs(CurrentPlayer).Path = Replace(xDOpen.FileName, My.Application.Info.DirectoryPath, "<apppath>")
         xArg = pArgs(CurrentPlayer)
     End Sub
+
 
     Private Sub TBPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBPlay.Click, mnPlay.Click
         'Dim xStr() As String = Split(pArgs(CurrentPlayer), vbCrLf)
@@ -2893,6 +2974,94 @@ StartCount:     If Not NTInput Then
         Next
 
         Return stop_contrib + bpm_contrib
+    End Function
+
+    Private Function GetVPositionFromTime(ByVal Time As Double) As Double
+        Dim timing_notes = (From note In Notes
+                            Where note.ColumnIndex = niBPM Or note.ColumnIndex = niSTOP
+                            Group By Column = note.ColumnIndex
+        Into NoteGroups = Group).ToDictionary(Function(x) x.Column, Function(x) x.NoteGroups)
+
+        Dim bpm_notes = timing_notes.Item(niBPM)
+
+        Dim stop_notes As IEnumerable(Of Note) = Nothing
+
+        If timing_notes.ContainsKey(niSTOP) Then
+            stop_notes = timing_notes.Item(niSTOP)
+        End If
+
+        Dim stop_subtract_time As Double
+        Dim bpm_contrib_time As Double
+        Dim DurationVPos As Double
+        Dim remaining_time As Double = Time
+
+        Dim VPos As Double = 0
+
+        For i = 0 To bpm_notes.Count() - 1
+            If remaining_time = 0 Then Exit For
+
+            Dim current_note = bpm_notes.ElementAt(i)
+            Dim notevpos = Math.Max(0, current_note.VPosition)
+
+            ' Beats per second
+            Dim current_bps = 60 / (current_note.Value / 10000)
+
+            ' Get duration from BPM notes first
+            If i + 1 <> bpm_notes.Count() Then
+                ' Get duration in seconds between this and next bpm notes
+                Dim next_note = bpm_notes.ElementAt(i + 1)
+                DurationVPos = next_note.VPosition - notevpos
+                bpm_contrib_time = current_bps * DurationVPos / 48
+
+                ' If remaining_time is out of range between current and next bpm_note
+                If bpm_contrib_time >= remaining_time Then
+                    VPos += 48 * remaining_time / current_bps
+                    remaining_time = 0
+                Else
+                    VPos += DurationVPos
+                    remaining_time -= bpm_contrib_time
+                End If
+            Else
+                bpm_contrib_time = remaining_time
+                VPos += 48 * remaining_time / current_bps
+                remaining_time = 0
+            End If
+
+            If stop_notes Is Nothing Then Continue For
+
+            Dim stops = From stp In stop_notes
+                        Where stp.VPosition >= notevpos And
+                            stp.VPosition < VPos
+
+            Dim stop_contrib As Double = 0
+
+            For j = 0 To stops.Count() - 1
+                ' Calculate time to subtract due to stop note
+                Dim current_stop_note = stops.ElementAt(j)
+                If current_stop_note.VPosition >= VPos Then Exit For
+
+                stop_subtract_time = current_bps * current_stop_note.Value / 10000.0 / 48
+
+                ' If the stop note duration exceeds excess time from current calculation
+                If stop_subtract_time > remaining_time Then
+                    ' Recalculate VPos from stop note VPos
+                    Dim remaining_time_stop As Double = remaining_time + bpm_contrib_time - current_bps * (current_stop_note.VPosition - notevpos) / 48 - stop_contrib
+                    remaining_time = 0
+                    VPos = current_stop_note.VPosition
+                    ' If the stop note duration exceeds duration between stop note and specified time
+                    If stop_subtract_time >= remaining_time_stop Then
+                        Exit For
+                    Else
+                        remaining_time_stop -= stop_subtract_time
+                        VPos += 48 * remaining_time_stop / current_bps
+                    End If
+                Else
+                    remaining_time -= stop_subtract_time
+                End If
+                stop_contrib += stop_subtract_time
+            Next
+        Next
+        Return VPos
     End Function
 
     Private Sub POBMirror_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBMirror.Click
@@ -5741,5 +5910,12 @@ case2:              Dim xI0 As Integer
             xI += 1
         Loop
         hCOMNum = xI - 1
+    End Sub
+
+    Private Sub TimerPreviewNote_Tick(sender As Object, e As EventArgs) Handles TimerPreviewNote.Tick
+        Dim TimeNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds
+        If TimeNow > InternalPlayTimerEnd Then TimerPreviewNote.Enabled = False
+        InternalPlayTimerCount = TimeNow - InternalPlayTimerStart
+        RefreshPanelAll()
     End Sub
 End Class

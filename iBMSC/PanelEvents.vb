@@ -407,6 +407,10 @@ ExecuteKeybind:
                 mnSelectAll_Click(mnSelectAll, New EventArgs)
             Case "Select All with Hovered Note Label"
                 If KMouseOver <> -1 Then SelectAllWithHoveredNoteLabel()
+            Case "TBPreviewHighlighted_Click"
+                TBPreviewHighlighted_Click(sender, New EventArgs)
+            Case "GetVPositionFromTime"
+                MsgBox("VPosition: " & GetVPositionFromTime(InputBox("Enter time")))
         End Select
 
         PMainInMouseMove(sender)
@@ -695,14 +699,20 @@ ExecuteKeybind:
         If ClickStopPreview Then PreviewNote("", True)
         'My.Computer.Audio.Stop()
         If NoteIndex > 0 AndAlso PreviewOnClick AndAlso IsColumnSound(Notes(NoteIndex).ColumnIndex) AndAlso Not Notes(NoteIndex).Comment Then
-            Dim xI2 As Integer = Notes(NoteIndex).Value \ 10000
-            If xI2 <= 0 Then xI2 = 1
-            If xI2 >= 1296 Then xI2 = 1295
+            Dim xIW As Integer = Notes(NoteIndex).Value \ 10000
+            If xIW <= 0 Then xIW = 1
+            If xIW >= 1296 Then xIW = 1295
 
-            If Not hWAV(xI2) = "" Then ' AndAlso Path.GetExtension(hWAV(xI2)).ToLower = ".wav" Then
-                Dim xFileLocation As String = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName)) & "\" & hWAV(xI2)
+            If Not hWAV(xIW) = "" Then ' AndAlso Path.GetExtension(hWAV(xI2)).ToLower = ".wav" Then
+                Dim xFileLocation As String = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName)) & "\" & hWAV(xIW)
                 If Not ClickStopPreview Then PreviewNote("", True)
                 PreviewNote(xFileLocation, False)
+
+                If wLWAV(xIW).Duration = 0 Then wLWAV(xIW) = LoadWaveForm(ExcludeFileName(FileName) & "\" & hWAV(xIW))
+                TimerPreviewNote.Enabled = True
+                InternalPlayNotes = New Note() {Notes(NoteIndex)}
+                InternalPlayTimerStart = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds
+                InternalPlayTimerEnd = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds + CLng(wLWAV(xIW).Duration * 1000)
             End If
         End If
     End Sub
