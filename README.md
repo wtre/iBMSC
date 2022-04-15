@@ -22,7 +22,6 @@ Listed in the order added.
 
 ## Functionalities
 * Added Random, R-Random, S-Random and H-Random. Supports PMS as well.
-* Added a display for recommended #TOTAL.
 * The application now saves the option "Disable Vertical Moves".
 * Changed the temporary bms file extension from .bms to .bmsc.
 * Added advanced statistics (Ctrl+Shift+T).
@@ -43,6 +42,8 @@ Listed in the order added.
 * Added technical error check (Jack notes, impossible chords for PMS, and impossible scratches for DP). Not a toggle because running it live will severely reduce performance. Accessible via the Options tab or via Ctrl+Alt+E.
 * Added better support for all audio files (supported by CSCore + ogg).
 * Added support for rebinding keys.
+* Added #TOTAL Options window to set a recommended #TOTAL value based on the selected calculation formula.
+* Added lines to scroll along the panel while previewing a keysound and to indicate the keysound's end point.
 
 ## Keyboard shortcuts
 * Changed keybinding to allow note placement between D1 and D8:
@@ -78,6 +79,7 @@ Listed in the order added.
 * Added shortcut for inserting/removing space with Time Selection Tool (Ctrl+Insert for measure only, Shift+Insert for notes only, and Ctrl+Shift+Insert for both)
 * Added shortcut for techincal error check (Ctrl+Alt+E by default)
 * Added shortcut for keybinding options (Shift+F10)
+* Added experimental feature shortcuts (Preview highlighted notes - Shift+F4, Get VPosition from Time - Shift+F2)
 
 ## New dialog/option boxes
 
@@ -98,3 +100,6 @@ Listed in the order added.
 ### Keybinding Options
 * Allows for rebinding keys for a lot of functions, such as note lane assignment.
 * Some other functions are also rebindable, such as Snap to Grid, Undo, and Redo.
+
+### #TOTAL Options
+* Allows you to set a recommended #TOTAL value based on either IIDX supposition 1, IIDX supposition 2, or a multiplier.
