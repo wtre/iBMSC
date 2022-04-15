@@ -83,7 +83,16 @@ Partial Public Class MainWindow
                 Exit For
             End If
         Next
-        Return New WavSample(wWavL, wWavR, src.WaveFormat.SampleRate, src.GetMilliseconds(src.Length) / 1000)
+        Return New WavSample(wWavL, wWavR, src.WaveFormat.SampleRate, CSng(src.GetMilliseconds(src.Length) / 1000))
 
+    End Function
+
+    Private Function LoadDuration(ByVal filepath As String)
+        filepath = Audio.CheckFilename(filepath)
+        If Not System.IO.File.Exists(filepath) Then Return 0
+
+        Dim src = CSCore.Codecs.CodecFactory.Instance.GetCodec(filepath)
+
+        Return New WavSample(Nothing, Nothing, 0, CSng(src.GetMilliseconds(src.Length) / 1000))
     End Function
 End Class

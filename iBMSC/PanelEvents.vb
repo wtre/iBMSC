@@ -708,7 +708,7 @@ ExecuteKeybind:
                 If Not ClickStopPreview Then PreviewNote("", True)
                 PreviewNote(xFileLocation, False)
 
-                If wLWAV(xIW).Duration = 0 Then wLWAV(xIW) = LoadWaveForm(ExcludeFileName(FileName) & "\" & hWAV(xIW))
+                If wLWAV(xIW).Duration = 0 Then wLWAV(xIW) = LoadDuration(ExcludeFileName(FileName) & "\" & hWAV(xIW))
                 TimerPreviewNote.Enabled = True
                 InternalPlayNotes = New Note() {Notes(NoteIndex)}
                 InternalPlayTimerStart = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds

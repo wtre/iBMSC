@@ -875,7 +875,7 @@ Partial Public Class MainWindow
         Dim xTHTimeEnd As Integer = NoteRowToPanelHeight(VPosEnd, xVS, xTHeight)
 
         ' Moving play line
-        Dim p = New Pen(Color.Green)
+        Dim p = New Pen(Color.SpringGreen)
         e1.Graphics.DrawLine(p, 0, xTHTime, xTHWidth, xTHTime)
 
         ' End line

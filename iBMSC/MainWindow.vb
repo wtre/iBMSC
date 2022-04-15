@@ -2447,8 +2447,7 @@ EndSearch:
         End If
         InternalPlayTimerStart = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds
         InternalPlayTimerEnd = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds +
-                               CLng((GetTimeFromVPosition(InternalPlayNotes(InternalPlayNotes.Count - 1).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition) +
-                               wLWAV(InternalPlayNotes(InternalPlayNotes.Count - 1).Value / 10000).Duration) * 1000)
+                               CLng((GetTimeFromVPosition(InternalPlayNotes(InternalPlayNotes.Count - 1).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition)) * 1000)
         InternalPlayNoteIndex = 0
         TimerInternalPlay.Enabled = True
     End Sub
@@ -2461,8 +2460,7 @@ EndSearch:
     Private Sub InternalPlaySub()
         If InternalPlayNoteIndex > InternalPlayNotes.Length - 1 Then
             Dim xIWL = InternalPlayNoteIndex - 1
-            If InternalPlayTimerCount > GetTimeFromVPosition(InternalPlayNotes(xIWL).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition) +
-                                        wLWAV(InternalPlayNotes(xIWL).Value / 10000).Duration Then
+            If InternalPlayTimerCount > CLng((GetTimeFromVPosition(InternalPlayNotes(xIWL).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition)) * 1000) Then
                 TimerInternalPlay.Enabled = False
                 For i = 1 To UBound(InternalPlayWav)
                     InternalPlayWav(i).Finalized()
@@ -2473,7 +2471,7 @@ EndSearch:
         End If
 
         Dim NoteTime = GetTimeFromVPosition(InternalPlayNotes(InternalPlayNoteIndex).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition)
-        If InternalPlayTimerCount / 1000 >= NoteTime Then
+        If InternalPlayTimerCount >= CLng(NoteTime * 1000) Then
             Dim xIW As Integer = InternalPlayNotes(InternalPlayNoteIndex).Value / 10000
             If xIW <= 0 Then xIW = 1
             If xIW >= 1296 Then xIW = 1295
