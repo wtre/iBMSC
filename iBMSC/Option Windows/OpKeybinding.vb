@@ -162,7 +162,7 @@ Public Class OpKeybinding
     End Sub
 
     Private Sub CheckConflictWithOtherKeybindings()
-        Dim CategoryToIgnore() As Integer = Nothing
+        Dim CategoryToIgnore() As Integer = {}
         ' TODO
         Select Case Keybinds(LVKeybinding.FocusedItem.Index).Category
             ' If note assignment option, check with each other in the same category
