@@ -330,11 +330,11 @@ Public Class MainWindow
                                        New Keybinding("Copy", "", {"Ctrl+C"}),
                                        New Keybinding("Paste", "", {"Ctrl+V"}),
                                        New Keybinding("Select All", "Select all notes", {"Ctrl+A"}),
-                                       New Keybinding("Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"})
-                                                                                                                                                             _ ' Experimental
+                                       New Keybinding("Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"}),
+                                                                                                                                                              _ ' Experimental
+                                       New Keybinding("TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"}),
+                                       New Keybinding("GetVPositionFromTime", "*EXPERIMENTAL*", {"Shift+F2"})
                                        }
-    ' New Keybinding("TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"}),
-    ' New Keybinding("GetVPositionFromTime", "*EXPERIMENTAL*", {"Shift+F2"})
     Dim Keybindings() As Keybinding = KeybindingsInit.Clone
 
     '----Preview Options
@@ -2413,10 +2413,19 @@ EndSearch:
 
     Private Sub TBPreviewHighlighted_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ' Experimental feature. Not optimized, will eat up a lot of RAM if a lot of notes are played.
-        ' Keybinding disabled for this function.
 
+        If TimerInternalPlay.Enabled = True Then
+            TimerInternalPlay.Enabled = False
+            For i = 1 To UBound(InternalPlayWav)
+                InternalPlayWav(i).Finalized()
+            Next
+            Exit Sub
+        End If
 
-        If TimerInternalPlay.Enabled = True Then TimerInternalPlay.Enabled = False : Exit Sub
+        For i = 1 To UBound(InternalPlayWav)
+            InternalPlayWav(i) = New AudioC
+            InternalPlayWav(i).Initialize()
+        Next
 
         ReDim InternalPlayNotes(UBound(Notes))
         Dim xI1 As Integer = -1
@@ -2438,8 +2447,8 @@ EndSearch:
         End If
         InternalPlayTimerStart = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds
         InternalPlayTimerEnd = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds +
-                               GetTimeFromVPosition(InternalPlayNotes(InternalPlayNotes.Count - 1).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition) +
-                               wLWAV(InternalPlayNotes(InternalPlayNotes.Count - 1).Value / 10000).Duration
+                               CLng((GetTimeFromVPosition(InternalPlayNotes(InternalPlayNotes.Count - 1).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition) +
+                               wLWAV(InternalPlayNotes(InternalPlayNotes.Count - 1).Value / 10000).Duration) * 1000)
         InternalPlayNoteIndex = 0
         TimerInternalPlay.Enabled = True
     End Sub
@@ -2455,8 +2464,8 @@ EndSearch:
             If InternalPlayTimerCount > GetTimeFromVPosition(InternalPlayNotes(xIWL).VPosition) - GetTimeFromVPosition(InternalPlayNotes(0).VPosition) +
                                         wLWAV(InternalPlayNotes(xIWL).Value / 10000).Duration Then
                 TimerInternalPlay.Enabled = False
-                For i = 0 To UBound(InternalPlayWav)
-                    If Not IsNothing(InternalPlayWav(i)) Then InternalPlayWav(i).Finalized()
+                For i = 1 To UBound(InternalPlayWav)
+                    InternalPlayWav(i).Finalized()
                 Next
             End If
 
@@ -2470,8 +2479,6 @@ EndSearch:
             If xIW >= 1296 Then xIW = 1295
 
             Dim xFileLocation As String = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName)) & "\" & hWAV(xIW)
-            InternalPlayWav(xIW) = New AudioC
-            InternalPlayWav(xIW).Initialize()
             InternalPlayWav(xIW).Play(xFileLocation)
 
             InternalPlayNoteIndex += 1
