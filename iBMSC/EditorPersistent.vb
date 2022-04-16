@@ -295,6 +295,8 @@ Partial Public Class MainWindow
         XMLLoadAttribute(n.GetAttribute("Description"), Keybindings(i).Description)
         Keybindings(i).Combo = Split(n.GetAttribute("Combos"), ", ")
         XMLLoadAttribute(n.GetAttribute("Category"), Keybindings(i).Category)
+
+        RenameShortcuts(Keybindings(i))
     End Sub
 
     Private Sub XMLLoadColumn(ByVal n As XmlElement)

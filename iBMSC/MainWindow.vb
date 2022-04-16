@@ -2794,13 +2794,13 @@ StartCount:     If Not NTInput Then
         Dim TotalValue As Double
         Select Case TotalOption
             Case 0
-                TotalValue = Math.Round(xIAll * 7.605 / (0.01 * xIAll + 6.5), 2) * TotalGlobalMultiplier
+                TotalValue = xIAll * 7.605 / (0.01 * xIAll + 6.5) * TotalGlobalMultiplier
             Case 1
                 TotalValue = IIf(xIAll < 400, 200 + xIAll / 5, IIf(xIAll < 600, 280 + (xIAll - 400) / 2.5, 360 + (xIAll - 600) / 5)) * TotalGlobalMultiplier
             Case 2
                 TotalValue = xIAll * TotalMultiplier * TotalGlobalMultiplier
         End Select
-        TBTotalValue.Text = IIf(TotalRecommendedTextDisplay, "Recommended #TOTAL: ", "") & Str(TotalValue)
+        TBTotalValue.Text = IIf(TotalRecommendedTextDisplay, "Recommended #TOTAL: ", "") & Str(Math.Round(TotalValue, 3))
         TBStatistics.Text = xIAll
     End Sub
 
@@ -4135,31 +4135,39 @@ RestartSorting: xSorted = False
 
                     ' Rename shortcutstrings
                     For Each keybind In .Keybinds
-                        Select Case keybind.OpName
-                            Case "Undo"
-                                mnUndo.ShortcutKeyDisplayString = keybind.Combo(0)
-                                TBUndo.Text = "Undo (" & Join(keybind.Combo, ", ") & ")"
-                            Case "Redo"
-                                mnRedo.ShortcutKeyDisplayString = keybind.Combo(0)
-                                TBRedo.Text = "Redo (" & Join(keybind.Combo, ", ") & ")"
-                            Case "Cut"
-                                mnCut.ShortcutKeyDisplayString = keybind.Combo(0)
-                                TBCut.Text = "Cut (" & Join(keybind.Combo, ", ") & ")"
-                            Case "Copy"
-                                mnCopy.ShortcutKeyDisplayString = keybind.Combo(0)
-                                TBCopy.Text = "Copy (" & Join(keybind.Combo, ", ") & ")"
-                            Case "Paste"
-                                mnPaste.ShortcutKeyDisplayString = keybind.Combo(0)
-                                TBPaste.Text = "Paste (" & Join(keybind.Combo, ", ") & ")"
-                            Case "Select All"
-                                mnSelectAll.ShortcutKeyDisplayString = keybind.Combo(0)
-                        End Select
+                        RenameShortcuts(keybind)
                     Next
                 End With
             End If
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
+    End Sub
+
+    Private Sub RenameShortcuts(ByVal keybind As Keybinding)
+        Select Case keybind.OpName
+            Case "Snap to Grid"
+                CGSnap.Text = "Snap to grid (" & keybind.Combo(0) & ")"
+            Case "Disable Vertical Moves"
+                CGDisableVertical.Text = "Disable vertical moves (" & keybind.Combo(0) & ")"
+            Case "Undo"
+                mnUndo.ShortcutKeyDisplayString = keybind.Combo(0)
+                TBUndo.Text = "Undo (" & Join(keybind.Combo, ", ") & ")"
+            Case "Redo"
+                mnRedo.ShortcutKeyDisplayString = keybind.Combo(0)
+                TBRedo.Text = "Redo (" & Join(keybind.Combo, ", ") & ")"
+            Case "Cut"
+                mnCut.ShortcutKeyDisplayString = keybind.Combo(0)
+                TBCut.Text = "Cut (" & Join(keybind.Combo, ", ") & ")"
+            Case "Copy"
+                mnCopy.ShortcutKeyDisplayString = keybind.Combo(0)
+                TBCopy.Text = "Copy (" & Join(keybind.Combo, ", ") & ")"
+            Case "Paste"
+                mnPaste.ShortcutKeyDisplayString = keybind.Combo(0)
+                TBPaste.Text = "Paste (" & Join(keybind.Combo, ", ") & ")"
+            Case "Select All"
+                mnSelectAll.ShortcutKeyDisplayString = keybind.Combo(0)
+        End Select
     End Sub
 
     Private Sub POBLong_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBLong.Click
