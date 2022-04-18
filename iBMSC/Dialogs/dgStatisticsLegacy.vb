@@ -41,7 +41,7 @@ Public Class dgStatisticsLegacy
                 xLabel.TextAlign = ContentAlignment.MiddleCenter
                 xLabel.Margin = New Padding(0)
                 xLabel.Font = New Font(Me.Font, FontStyle.Bold)
-                If data(row, col) <> 0 Then xLabel.Text = data(row, col)
+                If data(row, col) <> 0 Then xLabel.Text = CStr(data(row, col))
                 If row Mod 2 = 0 Then xLabel.BackColor = Color.FromArgb(&H10000000)
                 TableLayoutPanel1.Controls.Add(xLabel, col + 1, row + 1)
             Next

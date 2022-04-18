@@ -134,10 +134,10 @@ Partial Public Class MainWindow
         If iCol < niB Then Return column(iCol) Else Return column(niB)
     End Function
 
-    Private Function BMSEChannelToColumnIndex(ByVal I As String)
+    Private Function BMSEChannelToColumnIndex(ByVal I As String) As Integer
         Dim Ivalue = Val(I)
         If Ivalue > 100 Then
-            Return niB + Ivalue - 101
+            Return CInt(niB + Ivalue - 101)
         ElseIf Ivalue < 100 And Ivalue > 0 Then
             Return BMSChannelToColumn(Mid(I, 2, 2))
         End If

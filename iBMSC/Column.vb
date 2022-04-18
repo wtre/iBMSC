@@ -89,15 +89,15 @@
             cNote = c
             'cCacheB = (c And &HFF000000) Or &H808080 Or ((c And &HFFFFFF) >> 1)
             'cCacheD = (c And &HFF000000) Or ((c And &HFEFEFE) >> 1)
-            cCacheB = AdjustBrightness(Color.FromArgb(c), 50, ((c >> 24) And &HFF) / 255).ToArgb
-            cCacheD = AdjustBrightness(Color.FromArgb(c), -25, ((c >> 24) And &HFF) / 255).ToArgb
+            cCacheB = AdjustBrightness(Color.FromArgb(c), 50, CSng(((c >> 24) And &HFF) / 255)).ToArgb
+            cCacheD = AdjustBrightness(Color.FromArgb(c), -25, CSng(((c >> 24) And &HFF) / 255)).ToArgb
         End Sub
         Public Sub setLNoteColor(ByVal c As Integer)
             cLNote = c
             'cCacheLB = (c And &HFF000000) Or &H808080 Or ((c And &HFFFFFF) >> 1)
             'cCacheLD = (c And &HFF000000) Or ((c And &HFEFEFE) >> 1)
-            cCacheLB = AdjustBrightness(Color.FromArgb(c), 50, ((c >> 24) And &HFF) / 255).ToArgb
-            cCacheLD = AdjustBrightness(Color.FromArgb(c), -25, ((c >> 24) And &HFF) / 255).ToArgb
+            cCacheLB = AdjustBrightness(Color.FromArgb(c), 50, CSng(((c >> 24) And &HFF) / 255)).ToArgb
+            cCacheLD = AdjustBrightness(Color.FromArgb(c), -25, CSng(((c >> 24) And &HFF) / 255)).ToArgb
         End Sub
 
         Public Sub New(ByVal xLeft As Integer, ByVal xWidth As Integer, ByVal xTitle As String,

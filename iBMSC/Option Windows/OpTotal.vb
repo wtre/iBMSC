@@ -11,8 +11,8 @@
         CTotalList = {CTotalIIDX1, CTotalIIDX2, CTotalMultiplier}
         NoteCount = xNoteCount
         TotalOption = xTotalOption
-        TMultiplier.Text = xMultiplier
-        TGlobalMultiplier.Text = xGlobalMultiplier
+        TMultiplier.Text = xMultiplier.ToString()
+        TGlobalMultiplier.Text = xGlobalMultiplier.ToString()
         CBDisplayText.Checked = xRecommendedTextDisplay
         CTotalList(TotalOption).Checked = True
 
@@ -30,7 +30,8 @@
     End Sub
 
     Private Sub CTotalIIDX1_Click(sender As Object, e As EventArgs) Handles CTotalIIDX1.Click, CTotalIIDX2.Click, CTotalMultiplier.Click
-        TotalOption = Array.IndexOf(Of RadioButton)(CTotalList, sender)
+        Dim RadioS As RadioButton = CType(sender, RadioButton)
+        TotalOption = Array.IndexOf(Of RadioButton)(CTotalList, RadioS)
     End Sub
 
     Private Sub TMultiplier_TextChanged(sender As Object, e As EventArgs) Handles TMultiplier.TextChanged, TGlobalMultiplier.TextChanged
@@ -38,8 +39,8 @@
     End Sub
 
     Private Sub CalculateTotal()
-        LTotalIIDX1.Text = Math.Round(NoteCount * 7.605 / (0.01 * NoteCount + 6.5) * Val(TGlobalMultiplier.Text), 3)
-        LTotalIIDX2.Text = Math.Round(IIf(NoteCount < 400, 200 + NoteCount / 5, IIf(NoteCount < 600, 280 + (NoteCount - 400) / 2.5, 360 + (NoteCount - 600) / 5)) * Val(TGlobalMultiplier.Text), 3)
-        LTotalMultiplier.Text = Math.Round(NoteCount * Val(TMultiplier.Text) * Val(TGlobalMultiplier.Text), 3)
+        LTotalIIDX1.Text = Math.Round(NoteCount * 7.605 / (0.01 * NoteCount + 6.5) * Val(TGlobalMultiplier.Text), 3).ToString()
+        LTotalIIDX2.Text = Math.Round(CDbl(IIf(NoteCount < 400, 200 + NoteCount / 5, IIf(NoteCount < 600, 280 + (NoteCount - 400) / 2.5, 360 + (NoteCount - 600) / 5))) * Val(TGlobalMultiplier.Text), 3).ToString()
+        LTotalMultiplier.Text = Math.Round(NoteCount * Val(TMultiplier.Text) * Val(TGlobalMultiplier.Text), 3).ToString()
     End Sub
 End Class

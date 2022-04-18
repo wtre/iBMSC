@@ -53,8 +53,28 @@
             VPosition = nVposition
             ColumnIndex = nColumnIndex
             Value = nValue
-            LongNote = nLongNote
+            LongNote = CBool(IIf(nLongNote > 0, True, False))
             Length = nLongNote
+            Hidden = nHidden
+            Landmine = nLandmine
+            Ghost = nGhost
+            Comment = nComment
+        End Sub
+
+        Public Sub New(nColumnIndex As Integer,
+                       nVposition As Double,
+                       nValue As Long,
+                       Optional nLongNote As Boolean = False,
+                       Optional nHidden As Boolean = False,
+                       Optional nSelected As Boolean = False,
+                       Optional nLandmine As Boolean = False,
+                       Optional nGhost As Boolean = False,
+                       Optional nComment As Boolean = False)
+            VPosition = nVposition
+            ColumnIndex = nColumnIndex
+            Value = nValue
+            LongNote = nLongNote
+            Length = 0
             Hidden = nHidden
             Landmine = nLandmine
             Ghost = nGhost

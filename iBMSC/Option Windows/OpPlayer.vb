@@ -9,7 +9,7 @@ Public Class OpPlayer
         DialogResult = DialogResult.OK
         Close()
 
-        MainWindow.pArgs = pArg.Clone
+        MainWindow.pArgs = CType(pArg.Clone(), MainWindow.PlayerArguments())
         MainWindow.CurrentPlayer = CurrPlayer
 
         Dispose()
@@ -78,7 +78,7 @@ Public Class OpPlayer
         LPlayer.Items.RemoveAt(CurrPlayer)
         'AddHandler LPlayer.SelectedIndexChanged, AddressOf LPlayer_SelectedIndexChanged
 
-        LPlayer.SelectedIndex = IIf(CurrPlayer > UBound(pArg), CurrPlayer - 1, CurrPlayer)
+        LPlayer.SelectedIndex = CInt(IIf(CurrPlayer > UBound(pArg), CurrPlayer - 1, CurrPlayer))
         CurrPlayer = Math.Min(CurrPlayer, UBound(pArg))
         ShowInTextbox()
     End Sub
@@ -87,7 +87,7 @@ Public Class OpPlayer
         Dim xDOpen As New OpenFileDialog
         xDOpen.InitialDirectory = IIf(Path.GetDirectoryName(Replace(TPath.Text, "<apppath>", My.Application.Info.DirectoryPath)) = "",
                                       My.Application.Info.DirectoryPath,
-                                      Path.GetDirectoryName(Replace(TPath.Text, "<apppath>", My.Application.Info.DirectoryPath)))
+                                      Path.GetDirectoryName(Replace(TPath.Text, "<apppath>", My.Application.Info.DirectoryPath))).ToString()
         xDOpen.Filter = Strings.FileType.EXE & "|*.exe"
         xDOpen.DefaultExt = "exe"
         If xDOpen.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
@@ -96,9 +96,9 @@ Public Class OpPlayer
 
     Private Sub BPrevDefault_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BDefault.Click
         'ImplicitChange = True
-        If MsgBox(Strings.Messages.RestoreDefaultSettings, MsgBoxStyle.Question + MsgBoxStyle.YesNo) = MsgBoxResult.No Then Exit Sub
+        If MsgBox(Strings.Messages.RestoreDefaultSettings, CType(MsgBoxStyle.Question + MsgBoxStyle.YesNo, Global.Microsoft.VisualBasic.MsgBoxStyle)) = MsgBoxResult.No Then Exit Sub
 
-        pArg = MainWindow.pArgsInit.Clone
+        pArg = CType(MainWindow.pArgsInit.Clone(), MainWindow.PlayerArguments())
 
         CurrPlayer = 0
         ResetLPlayer_ShowInTextbox()
@@ -174,7 +174,7 @@ Public Class OpPlayer
     Public Sub New(ByVal xCurrPlayer As Integer)
         InitializeComponent()
 
-        pArg = MainWindow.pArgs.Clone
+        pArg = CType(MainWindow.pArgs.Clone(), MainWindow.PlayerArguments())
         CurrPlayer = xCurrPlayer
         ResetLPlayer_ShowInTextbox()
     End Sub
@@ -199,6 +199,6 @@ Public Class OpPlayer
     Private Function GetFileName(ByVal s As String) As String
         Dim fslash As Integer = InStrRev(s, "/")
         Dim bslash As Integer = InStrRev(s, "\")
-        Return Mid(s, IIf(fslash > bslash, fslash, bslash) + 1)
+        Return Mid(s, CInt(IIf(fslash > bslash, fslash, bslash)) + 1)
     End Function
 End Class

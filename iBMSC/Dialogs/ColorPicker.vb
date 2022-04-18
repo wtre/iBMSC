@@ -34,25 +34,25 @@ Public Class ColorPicker
     Private Sub SetCursor()
         Select Case DrawingIndex
             Case 0
-                mMain = New Point(inS.Value / 1000 * 255, (1000 - inL.Value) / 1000 * 255)
-                m1 = (360 - inH.Value) * 255 / 360
+                mMain = New Point(CInt(inS.Value / 1000 * 255), CInt((1000 - inL.Value) / 1000 * 255))
+                m1 = CInt((360 - inH.Value) * 255 / 360)
             Case 1
-                mMain = New Point(inH.Value * 255 / 360, (1000 - inL.Value) / 1000 * 255)
-                m1 = (1000 - inS.Value) * 255 / 1000
+                mMain = New Point(CInt(inH.Value * 255 / 360), CInt((1000 - inL.Value) / 1000 * 255))
+                m1 = CInt((1000 - inS.Value) * 255 / 1000)
             Case 2
-                mMain = New Point(inH.Value * 255 / 360, (1000 - inS.Value) * 255 / 1000)
-                m1 = (1000 - inL.Value) * 255 / 1000
+                mMain = New Point(CInt(inH.Value * 255 / 360), CInt((1000 - inS.Value) * 255 / 1000))
+                m1 = CInt((1000 - inL.Value) * 255 / 1000)
             Case 3
-                mMain = New Point(inB.Value, 255 - inG.Value)
-                m1 = 255 - inR.Value
+                mMain = New Point(CInt(inB.Value), CInt(255 - inG.Value))
+                m1 = CInt(255 - inR.Value)
             Case 4
-                mMain = New Point(inB.Value, 255 - inR.Value)
-                m1 = 255 - inG.Value
+                mMain = New Point(CInt(inB.Value), CInt(255 - inR.Value))
+                m1 = CInt(255 - inG.Value)
             Case 5
-                mMain = New Point(inG.Value, 255 - inR.Value)
-                m1 = 255 - inB.Value
+                mMain = New Point(CInt(inG.Value), CInt(255 - inR.Value))
+                m1 = CInt(255 - inB.Value)
         End Select
-        mAlpha = inA.Value
+        mAlpha = CInt(inA.Value)
 
     End Sub
 
@@ -88,7 +88,7 @@ Public Class ColorPicker
         xG = (xG * xxS * (1 - Math.Abs(xxB)) + xxB + 1) * 255 / 2
         xB = (xB * xxS * (1 - Math.Abs(xxB)) + xxB + 1) * 255 / 2
 
-        Return Color.FromArgb(xA, xR, xG, xB)
+        Return Color.FromArgb(xA, CInt(xR), CInt(xG), CInt(xB))
     End Function
 
     Private Sub PCMain_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles PCMain.MouseDown
@@ -105,14 +105,14 @@ Public Class ColorPicker
 
         Select Case DrawingIndex
             Case 0
-                inL.Value = 1000 - mMain.Y / 255 * 1000
-                inS.Value = mMain.X / 255 * 1000
+                inL.Value = CDec(1000 - mMain.Y / 255 * 1000)
+                inS.Value = CDec(mMain.X / 255 * 1000)
             Case 1
-                inL.Value = 1000 - mMain.Y / 255 * 1000
-                inH.Value = mMain.X / 255 * 360
+                inL.Value = CDec(1000 - mMain.Y / 255 * 1000)
+                inH.Value = CDec(mMain.X / 255 * 360)
             Case 2
-                inS.Value = 1000 - mMain.Y / 255 * 1000
-                inH.Value = mMain.X / 255 * 360
+                inS.Value = CDec(1000 - mMain.Y / 255 * 1000)
+                inH.Value = CDec(mMain.X / 255 * 360)
             Case 3
                 inG.Value = 255 - mMain.Y
                 inB.Value = mMain.X
@@ -138,13 +138,13 @@ Public Class ColorPicker
 
         Select Case DrawingIndex
             Case 0
-                Dim xHue As Integer = inH.Value
+                Dim xHue As Integer = CInt(inH.Value)
                 For xI1 = 0 To 255 Step xPrecision
                     e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                     New Point(0, 0),
                                                     New Point(0, 128),
                                                     Color.White,
-                                                    HSL2RGB(xHue, xI1 / 255 * 1000, 500)),
+                                                    HSL2RGB(xHue, CInt(xI1 / 255 * 1000), 500)),
                                               xI1,
                                               0,
                                               xPrecision,
@@ -152,7 +152,7 @@ Public Class ColorPicker
                     e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                     New Point(0, 128),
                                                     New Point(0, 256),
-                                                    HSL2RGB(xHue, xI1 / 255 * 1000, 500),
+                                                    HSL2RGB(xHue, CInt(xI1 / 255 * 1000), 500),
                                                     Color.Black),
                                               xI1,
                                               128,
@@ -160,13 +160,13 @@ Public Class ColorPicker
                                               128)
                 Next
             Case 1
-                Dim xSaturation As Integer = inS.Value
+                Dim xSaturation As Integer = CInt(inS.Value)
                 For xI1 = 0 To 255 Step xPrecision
                     e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                     New Point(0, 0),
                                                     New Point(0, 128),
                                                     Color.White,
-                                                    HSL2RGB(xI1 / 255 * 360, xSaturation, 500)),
+                                                    HSL2RGB(CInt(xI1 / 255 * 360), xSaturation, 500)),
                                               xI1,
                                               0,
                                               xPrecision,
@@ -174,7 +174,7 @@ Public Class ColorPicker
                     e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                     New Point(0, 128),
                                                     New Point(0, 256),
-                                                    HSL2RGB(xI1 / 255 * 360, xSaturation, 500),
+                                                    HSL2RGB(CInt(xI1 / 255 * 360), xSaturation, 500),
                                                     Color.Black),
                                               xI1,
                                               128,
@@ -182,20 +182,20 @@ Public Class ColorPicker
                                               128)
                 Next
             Case 2
-                Dim xLightness As Integer = inL.Value
+                Dim xLightness As Integer = CInt(inL.Value)
                 For xI1 = 0 To 255 Step xPrecision
                     e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                     New Point(0, 0),
                                                     New Point(0, 256),
-                                                    HSL2RGB(xI1 / 255 * 360, 1000, xLightness),
-                                                    HSL2RGB(xI1 / 255 * 360, 0, xLightness)),
+                                                    HSL2RGB(CInt(xI1 / 255 * 360), 1000, xLightness),
+                                                    HSL2RGB(CInt(xI1 / 255 * 360), 0, xLightness)),
                                               xI1,
                                               0,
                                               xPrecision,
                                               256)
                 Next
             Case 3
-                Dim xRed As Integer = inR.Value
+                Dim xRed As Integer = CInt(inR.Value)
                 For xI1 = 0 To 255 Step xPrecision
                     e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                     New Point(0, 0),
@@ -208,7 +208,7 @@ Public Class ColorPicker
                                               256)
                 Next
             Case 4
-                Dim xGreen As Integer = inG.Value
+                Dim xGreen As Integer = CInt(inG.Value)
                 For xI1 = 0 To 255 Step xPrecision
                     e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                     New Point(0, 0),
@@ -221,7 +221,7 @@ Public Class ColorPicker
                                               256)
                 Next
             Case 5
-                Dim xBlue As Integer = inB.Value
+                Dim xBlue As Integer = CInt(inB.Value)
                 For xI1 = 0 To 255 Step xPrecision
                     e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                     New Point(0, 0),
@@ -236,34 +236,34 @@ Public Class ColorPicker
         End Select
 
         e1.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-        e1.Graphics.DrawEllipse(IIf(inL.Value > 500, Pens.Black, Pens.White), mMain.X - 4, mMain.Y - 4, 8, 8)
+        e1.Graphics.DrawEllipse(CType(IIf(inL.Value > 500, Pens.Black, Pens.White), Pen), mMain.X - 4, mMain.Y - 4, 8, 8)
 
         e1.Render(PCMain.CreateGraphics)
         e1.Dispose()
     End Sub
 
     Private Sub rbH_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbH.CheckedChanged
-        If sender.Checked Then DrawingIndex = 0 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
+        If rbH.Checked Then DrawingIndex = 0 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
     End Sub
 
     Private Sub rbS_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbS.CheckedChanged
-        If sender.Checked Then DrawingIndex = 1 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
+        If rbS.Checked Then DrawingIndex = 1 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
     End Sub
 
     Private Sub rbL_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbL.CheckedChanged
-        If sender.Checked Then DrawingIndex = 2 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
+        If rbL.Checked Then DrawingIndex = 2 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
     End Sub
 
     Private Sub rbR_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbR.CheckedChanged
-        If sender.Checked Then DrawingIndex = 3 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
+        If rbR.Checked Then DrawingIndex = 3 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
     End Sub
 
     Private Sub rbG_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbG.CheckedChanged
-        If sender.Checked Then DrawingIndex = 4 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
+        If rbG.Checked Then DrawingIndex = 4 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
     End Sub
 
     Private Sub rbB_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbB.CheckedChanged
-        If sender.Checked Then DrawingIndex = 5 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
+        If rbB.Checked Then DrawingIndex = 5 : SetCursor() : RefreshMain(PCMain.DisplayRectangle) : Refresh1(PC1.DisplayRectangle) : RefreshA(PCA.DisplayRectangle)
     End Sub
 
     Private Sub inH_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles inH.ValueChanged
@@ -271,7 +271,7 @@ Public Class ColorPicker
 
         If PassiveValueChange Then Exit Sub
         PassiveValueChange = True
-        SetNewColor(HSL2RGB(inH.Value, inS.Value, inL.Value, inA.Value))
+        SetNewColor(HSL2RGB(CInt(inH.Value), CInt(inS.Value), CInt(inL.Value), CInt(inA.Value)))
         inR.Value = NewColor.R
         inG.Value = NewColor.G
         inB.Value = NewColor.B
@@ -285,7 +285,7 @@ Public Class ColorPicker
     Private Sub inS_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles inS.ValueChanged
         If PassiveValueChange Then Exit Sub
         PassiveValueChange = True
-        SetNewColor(HSL2RGB(inH.Value, inS.Value, inL.Value, inA.Value))
+        SetNewColor(HSL2RGB(CInt(inH.Value), CInt(inS.Value), CInt(inL.Value), CInt(inA.Value)))
         inR.Value = NewColor.R
         inG.Value = NewColor.G
         inB.Value = NewColor.B
@@ -299,7 +299,7 @@ Public Class ColorPicker
     Private Sub inL_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles inL.ValueChanged
         If PassiveValueChange Then Exit Sub
         PassiveValueChange = True
-        SetNewColor(HSL2RGB(inH.Value, inS.Value, inL.Value, inA.Value))
+        SetNewColor(HSL2RGB(CInt(inH.Value), CInt(inS.Value), CInt(inL.Value), CInt(inA.Value)))
         inR.Value = NewColor.R
         inG.Value = NewColor.G
         inB.Value = NewColor.B
@@ -313,10 +313,10 @@ Public Class ColorPicker
     Private Sub inR_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles inR.ValueChanged
         If PassiveValueChange Then Exit Sub
         PassiveValueChange = True
-        SetNewColor(Color.FromArgb(inA.Value, inR.Value, inG.Value, inB.Value))
-        inH.Value = NewColor.GetHue
-        inS.Value = NewColor.GetSaturation * 1000
-        inL.Value = NewColor.GetBrightness * 1000
+        SetNewColor(Color.FromArgb(CInt(inA.Value), CInt(inR.Value), CInt(inG.Value), CInt(inB.Value)))
+        inH.Value = CDec(NewColor.GetHue)
+        inS.Value = CDec(NewColor.GetSaturation * 1000)
+        inL.Value = CDec(NewColor.GetBrightness * 1000)
 
         RefreshMain(PCMain.DisplayRectangle)
         Refresh1(PC1.DisplayRectangle)
@@ -327,10 +327,10 @@ Public Class ColorPicker
     Private Sub inG_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles inG.ValueChanged
         If PassiveValueChange Then Exit Sub
         PassiveValueChange = True
-        SetNewColor(Color.FromArgb(inA.Value, inR.Value, inG.Value, inB.Value))
-        inH.Value = NewColor.GetHue
-        inS.Value = NewColor.GetSaturation * 1000
-        inL.Value = NewColor.GetBrightness * 1000
+        SetNewColor(Color.FromArgb(CInt(inA.Value), CInt(inR.Value), CInt(inG.Value), CInt(inB.Value)))
+        inH.Value = CDec(NewColor.GetHue)
+        inS.Value = CDec(NewColor.GetSaturation * 1000)
+        inL.Value = CDec(NewColor.GetBrightness * 1000)
 
         RefreshMain(PCMain.DisplayRectangle)
         Refresh1(PC1.DisplayRectangle)
@@ -341,10 +341,10 @@ Public Class ColorPicker
     Private Sub inB_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles inB.ValueChanged
         If PassiveValueChange Then Exit Sub
         PassiveValueChange = True
-        SetNewColor(Color.FromArgb(inA.Value, inR.Value, inG.Value, inB.Value))
-        inH.Value = NewColor.GetHue
-        inS.Value = NewColor.GetSaturation * 1000
-        inL.Value = NewColor.GetBrightness * 1000
+        SetNewColor(Color.FromArgb(CInt(inA.Value), CInt(inR.Value), CInt(inG.Value), CInt(inB.Value)))
+        inH.Value = CDec(NewColor.GetHue)
+        inS.Value = CDec(NewColor.GetSaturation * 1000)
+        inL.Value = CDec(NewColor.GetBrightness * 1000)
 
         RefreshMain(PCMain.DisplayRectangle)
         Refresh1(PC1.DisplayRectangle)
@@ -355,7 +355,7 @@ Public Class ColorPicker
     Private Sub inA_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles inA.ValueChanged
         If PassiveValueChange Then Exit Sub
         PassiveValueChange = True
-        SetNewColor(Color.FromArgb(inA.Value, inR.Value, inG.Value, inB.Value))
+        SetNewColor(Color.FromArgb(CInt(inA.Value), CInt(inR.Value), CInt(inG.Value), CInt(inB.Value)))
 
         'RefreshMain(PCMain.DisplayRectangle)
         'Refresh1(PC1.DisplayRectangle)
@@ -375,11 +375,11 @@ Public Class ColorPicker
 
         Select Case DrawingIndex
             Case 0
-                inH.Value = 360 - m1 / 255 * 360
+                inH.Value = CDec(360 - m1 / 255 * 360)
             Case 1
-                inS.Value = 1000 - m1 / 255 * 1000
+                inS.Value = CDec(1000 - m1 / 255 * 1000)
             Case 2
-                inL.Value = 1000 - m1 / 255 * 1000
+                inL.Value = CDec(1000 - m1 / 255 * 1000)
             Case 3
                 inR.Value = 255 - m1
             Case 4
@@ -401,14 +401,14 @@ Public Class ColorPicker
 
         Select Case DrawingIndex
             Case 0
-                Dim xxS As Integer = inS.Value
-                Dim xxL As Integer = inL.Value
+                Dim xxS As Integer = CInt(inS.Value)
+                Dim xxL As Integer = CInt(inL.Value)
                 For xI1 = 0 To 255 Step xPrecision
-                    e1.Graphics.FillRectangle(New Drawing.SolidBrush(HSL2RGB((255 - xI1) / 255 * 360, xxS, xxL)), 0, xI1, xWidth, xPrecision)
+                    e1.Graphics.FillRectangle(New Drawing.SolidBrush(HSL2RGB(CInt((255 - xI1) / 255 * 360), xxS, xxL)), 0, xI1, xWidth, xPrecision)
                 Next
             Case 1
-                Dim xxH As Integer = inH.Value
-                Dim xxL As Integer = inL.Value
+                Dim xxH As Integer = CInt(inH.Value)
+                Dim xxL As Integer = CInt(inL.Value)
                 e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                 New Point(0, 0),
                                                 New Point(0, 256),
@@ -416,8 +416,8 @@ Public Class ColorPicker
                                                 HSL2RGB(xxH, 0, xxL)),
                                             0, 0, xWidth, 256)
             Case 2
-                Dim xxH As Integer = inH.Value
-                Dim xxS As Integer = inS.Value
+                Dim xxH As Integer = CInt(inH.Value)
+                Dim xxS As Integer = CInt(inS.Value)
                 e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                      New Point(0, 0),
                                                      New Point(0, 128),
@@ -431,8 +431,8 @@ Public Class ColorPicker
                                                      HSL2RGB(xxH, xxS, 0)),
                                                  0, 128, xWidth, 128)
             Case 3
-                Dim xxG As Integer = inG.Value
-                Dim xxB As Integer = inB.Value
+                Dim xxG As Integer = CInt(inG.Value)
+                Dim xxB As Integer = CInt(inB.Value)
                 e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                 New Point(0, 0),
                                                 New Point(0, 256),
@@ -440,8 +440,8 @@ Public Class ColorPicker
                                                 Color.FromArgb(0, xxG, xxB)),
                                             0, 0, xWidth, 256)
             Case 4
-                Dim xxR As Integer = inR.Value
-                Dim xxB As Integer = inB.Value
+                Dim xxR As Integer = CInt(inR.Value)
+                Dim xxB As Integer = CInt(inB.Value)
                 e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                 New Point(0, 0),
                                                 New Point(0, 256),
@@ -449,8 +449,8 @@ Public Class ColorPicker
                                                 Color.FromArgb(xxR, 0, xxB)),
                                             0, 0, xWidth, 256)
             Case 5
-                Dim xxR As Integer = inR.Value
-                Dim xxG As Integer = inG.Value
+                Dim xxR As Integer = CInt(inR.Value)
+                Dim xxG As Integer = CInt(inG.Value)
                 e1.Graphics.FillRectangle(New Drawing2D.LinearGradientBrush(
                                                 New Point(0, 0),
                                                 New Point(0, 256),
@@ -463,8 +463,8 @@ Public Class ColorPicker
         Dim xTri2() As Point = {New Point(xWidth - 5, m1), New Point(xWidth, m1 - 2), New Point(xWidth, m1 + 2)}
 
         e1.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-        e1.Graphics.FillPolygon(IIf(inL.Value > 500, Brushes.Black, Brushes.White), xTri1)
-        e1.Graphics.FillPolygon(IIf(inL.Value > 500, Brushes.Black, Brushes.White), xTri2)
+        e1.Graphics.FillPolygon(CType(IIf(inL.Value > 500, Brushes.Black, Brushes.White), Brush), xTri1)
+        e1.Graphics.FillPolygon(CType(IIf(inL.Value > 500, Brushes.Black, Brushes.White), Brush), xTri2)
 
         e1.Render(PC1.CreateGraphics)
         e1.Dispose()
@@ -492,7 +492,7 @@ Public Class ColorPicker
         Dim xI1 As Integer
         Dim xHeight As Integer = PCA.DisplayRectangle.Height
         Dim xPrecision As Integer = tbPrecision.Value
-        Dim xColor As Color = Color.FromArgb(inR.Value, inG.Value, inB.Value)
+        Dim xColor As Color = Color.FromArgb(CInt(inR.Value), CInt(inG.Value), CInt(inB.Value))
         'Dim xAlphaRect(314) As Rectangle
 
         'e1.Graphics.FillRectangle(Brushes.White, PCA.DisplayRectangle)
@@ -512,11 +512,11 @@ Public Class ColorPicker
 
         Dim xTri1() As Point = {New Point(mAlpha, 4), New Point(mAlpha - 2, -1), New Point(mAlpha + 2, -1)}
         Dim xTri2() As Point = {New Point(mAlpha, xHeight - 5), New Point(mAlpha - 2, xHeight), New Point(mAlpha + 2, xHeight)}
-        xI1 = inL.Value + (255 - inA.Value) * 1000 / 255
+        xI1 = CInt(inL.Value + (255 - inA.Value) * 1000 / 255)
 
         e1.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-        e1.Graphics.FillPolygon(IIf(xI1 > 500, Brushes.Black, Brushes.White), xTri1)
-        e1.Graphics.FillPolygon(IIf(xI1 > 500, Brushes.Black, Brushes.White), xTri2)
+        e1.Graphics.FillPolygon(CType(IIf(xI1 > 500, Brushes.Black, Brushes.White), Brush), xTri1)
+        e1.Graphics.FillPolygon(CType(IIf(xI1 > 500, Brushes.Black, Brushes.White), Brush), xTri2)
 
         e1.Render(PCA.CreateGraphics)
         e1.Dispose()
@@ -540,13 +540,13 @@ Public Class ColorPicker
         If xRegion.X < 62 Then
             e1.Graphics.FillRectangle(New Drawing.SolidBrush(OrigColor), 0, 0, 61, 28)
             e1.Graphics.DrawLine(New Pen(Color.FromKnownColor(KnownColor.WindowFrame)), 61, 0, 61, 28)
-            e1.Graphics.DrawString("Orig", xFont, IIf(OrigColor.GetBrightness + (255 - OrigColor.A) / 255 > 0.5, Brushes.Black, Brushes.White),
+            e1.Graphics.DrawString("Orig", xFont, CType(IIf(OrigColor.GetBrightness + (255 - OrigColor.A) / 255 > 0.5, Brushes.Black, Brushes.White), Brush),
                                       31 - e1.Graphics.MeasureString("Orig", xFont).Width / 2,
                                       14 - e1.Graphics.MeasureString("Orig", xFont).Height / 2)
         End If
 
         e1.Graphics.FillRectangle(New Drawing.SolidBrush(NewColor), 62, 0, 61, 28)
-        e1.Graphics.DrawString("New", xFont, IIf(NewColor.GetBrightness + (255 - NewColor.A) / 255 > 0.5, Brushes.Black, Brushes.White),
+        e1.Graphics.DrawString("New", xFont, CType(IIf(NewColor.GetBrightness + (255 - NewColor.A) / 255 > 0.5, Brushes.Black, Brushes.White), Brush),
                                93 - e1.Graphics.MeasureString("New", xFont).Width / 2,
                                14 - e1.Graphics.MeasureString("New", xFont).Height / 2)
 
@@ -569,9 +569,9 @@ Public Class ColorPicker
             inR.Value = NewColor.R
             inG.Value = NewColor.G
             inB.Value = NewColor.B
-            inH.Value = NewColor.GetHue
-            inS.Value = NewColor.GetSaturation * 1000
-            inL.Value = NewColor.GetBrightness * 1000
+            inH.Value = CDec(NewColor.GetHue)
+            inS.Value = CDec(NewColor.GetSaturation * 1000)
+            inL.Value = CDec(NewColor.GetBrightness * 1000)
             inA.Value = NewColor.A
             SetCursor()
 
@@ -600,9 +600,9 @@ Public Class ColorPicker
             inR.Value = NewColor.R
             inG.Value = NewColor.G
             inB.Value = NewColor.B
-            inH.Value = NewColor.GetHue
-            inS.Value = NewColor.GetSaturation * 1000
-            inL.Value = NewColor.GetBrightness * 1000
+            inH.Value = CDec(NewColor.GetHue)
+            inS.Value = CDec(NewColor.GetSaturation * 1000)
+            inL.Value = CDec(NewColor.GetBrightness * 1000)
             inA.Value = NewColor.A
             SetCursor()
 

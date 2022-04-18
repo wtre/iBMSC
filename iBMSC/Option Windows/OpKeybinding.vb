@@ -12,7 +12,7 @@ Public Class OpKeybinding
             OK_Button.Text = Strings.OK
             Cancel_Button.Text = Strings.Cancel
             BDefault.Text = Strings.fopPlayer.RestoreDefault
-            Keybinds = xKeybindings.Clone
+            Keybinds = CType(xKeybindings.Clone(), MainWindow.Keybinding())
             InitializeKeybindings()
         Catch ex As Exception
             MsgBox("New OpKeybinding Error" & vbCrLf & ex.Message)
@@ -104,7 +104,7 @@ Public Class OpKeybinding
             For i = 0 To UBound(Keybinds(LVKeybinding.FocusedItem.Index).Combo)
                 If Not xIndices.Contains(i) Then
                     ReDim Preserve TempCombos(TempCombos.Length)
-                    TempCombos(UBound(TempCombos)) = LCombos.Items(i)
+                    TempCombos(UBound(TempCombos)) = LCombos.Items(i).ToString()
                 End If
             Next
 
@@ -123,7 +123,7 @@ Public Class OpKeybinding
     ' End Sub
 
     Private Sub BDefault_Click(sender As Object, e As EventArgs) Handles BDefault.Click
-        Keybinds = MainWindow.KeybindingsInit.Clone
+        Keybinds = CType(MainWindow.KeybindingsInit.Clone(), MainWindow.Keybinding())
         InitializeKeybindings()
     End Sub
 

@@ -33,7 +33,7 @@ Module Audio
         Return filename
     End Function
 
-    Public Function GetSupportedExtensions(Optional appendStr As String = ".")
+    Public Function GetSupportedExtensions(Optional appendStr As String = ".") As String()
         Dim Ext(UBound(SupportedExt)) As String
         For i = 0 To UBound(SupportedExt)
             Ext(i) = appendStr & SupportedExt(i)
@@ -101,7 +101,7 @@ Public Class AudioC
         Return filename
     End Function
 
-    Public Function GetSupportedExtensions(Optional appendStr As String = ".")
+    Public Function GetSupportedExtensions(Optional appendStr As String = ".") As String()
         Dim Ext(UBound(SupportedExt)) As String
         For i = 0 To UBound(SupportedExt)
             Ext(i) = appendStr & SupportedExt(i)
@@ -168,13 +168,13 @@ Class NVorbisSource
 
     Public ReadOnly Property Length As Long Implements IAudioSource.Length
         Get
-            Return IIf(CanSeek, _vorbisReader.TotalTime.TotalSeconds * _waveFormat.SampleRate * _waveFormat.Channels, 0)
+            Return CInt(IIf(CanSeek, _vorbisReader.TotalTime.TotalSeconds * _waveFormat.SampleRate * _waveFormat.Channels, 0))
         End Get
     End Property
 
     Public Property Position As Long Implements IAudioSource.Position
         Get
-            Return IIf(CanSeek, _vorbisReader.TimePosition.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels, 0)
+            Return CInt(IIf(CanSeek, _vorbisReader.TimePosition.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels, 0))
         End Get
         Set(value As Long)
             If Not CanSeek Then

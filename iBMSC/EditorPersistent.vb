@@ -4,21 +4,21 @@ Partial Public Class MainWindow
 
     Private Sub XMLWriteColumn(ByVal w As XmlTextWriter, ByVal I As Integer)
         w.WriteStartElement("Column")
-        w.WriteAttributeString("Index", I)
+        w.WriteAttributeString("Index", I.ToString())
         With column(I)
             'w.WriteAttributeString("Left", .Left)
-            w.WriteAttributeString("Width", .Width)
+            w.WriteAttributeString("Width", .Width.ToString())
             w.WriteAttributeString("Title", .Title)
             'w.WriteAttributeString("Text", .Text)
             'w.WriteAttributeString("Enabled", .Enabled)
             'w.WriteAttributeString("isNumeric", .isNumeric)
             'w.WriteAttributeString("Visible", .Visible)
             'w.WriteAttributeString("Identifier", .Identifier)
-            w.WriteAttributeString("NoteColor", .cNote)
-            w.WriteAttributeString("TextColor", .cText.ToArgb)
-            w.WriteAttributeString("LongNoteColor", .cLNote)
-            w.WriteAttributeString("LongTextColor", .cLText.ToArgb)
-            w.WriteAttributeString("BG", .cBG.ToArgb)
+            w.WriteAttributeString("NoteColor", .cNote.ToString())
+            w.WriteAttributeString("TextColor", .cText.ToArgb.ToString())
+            w.WriteAttributeString("LongNoteColor", .cLNote.ToString())
+            w.WriteAttributeString("LongTextColor", .cLText.ToArgb.ToString())
+            w.WriteAttributeString("BG", .cBG.ToArgb.ToString())
         End With
         w.WriteEndElement()
     End Sub
@@ -26,14 +26,14 @@ Partial Public Class MainWindow
     Private Sub XMLWriteFont(ByVal w As XmlTextWriter, ByVal local As String, ByVal f As Font)
         w.WriteStartElement(local)
         w.WriteAttributeString("Name", f.FontFamily.Name)
-        w.WriteAttributeString("Size", f.SizeInPoints)
-        w.WriteAttributeString("Style", f.Style)
+        w.WriteAttributeString("Size", f.SizeInPoints.ToString())
+        w.WriteAttributeString("Style", CInt(f.Style).ToString())
         w.WriteEndElement()
     End Sub
 
     Private Sub XMLWritePlayerArguments(ByVal w As XmlTextWriter, ByVal I As Integer)
         w.WriteStartElement("Player")
-        w.WriteAttributeString("Index", I)
+        w.WriteAttributeString("Index", I.ToString())
         w.WriteAttributeString("Path", pArgs(I).Path)
         w.WriteAttributeString("FromBeginning", pArgs(I).aBegin)
         w.WriteAttributeString("FromHere", pArgs(I).aHere)
@@ -43,11 +43,11 @@ Partial Public Class MainWindow
 
     Private Sub XMLWriteKeybindings(ByVal w As XmlTextWriter, ByVal I As Integer)
         w.WriteStartElement("Option")
-        w.WriteAttributeString("Index", I)
+        w.WriteAttributeString("Index", I.ToString())
         w.WriteAttributeString("Name", Keybindings(I).OpName)
         w.WriteAttributeString("Description", Keybindings(I).Description)
         w.WriteAttributeString("Combos", Join(Keybindings(I).Combo, ", "))
-        w.WriteAttributeString("Category", Keybindings(I).Category)
+        w.WriteAttributeString("Category", Keybindings(I).Category.ToString())
         w.WriteEndElement()
     End Sub
 
@@ -59,18 +59,18 @@ Partial Public Class MainWindow
             .Indentation = 4
 
             .WriteStartElement("iBMSC")
-            .WriteAttributeString("Major", My.Application.Info.Version.Major)
-            .WriteAttributeString("Minor", My.Application.Info.Version.Minor)
-            .WriteAttributeString("Build", My.Application.Info.Version.Build)
+            .WriteAttributeString("Major", My.Application.Info.Version.Major.ToString())
+            .WriteAttributeString("Minor", My.Application.Info.Version.Minor.ToString())
+            .WriteAttributeString("Build", My.Application.Info.Version.Build.ToString())
 
             If ThemeOnly Then GoTo 5000
 
             .WriteStartElement("Form")
-            .WriteAttributeString("WindowState", IIf(isFullScreen, previousWindowState, Me.WindowState))
-            .WriteAttributeString("Width", IIf(isFullScreen, previousWindowPosition.Width, Me.Width))
-            .WriteAttributeString("Height", IIf(isFullScreen, previousWindowPosition.Height, Me.Height))
-            .WriteAttributeString("Top", IIf(isFullScreen, previousWindowPosition.Top, Me.Top))
-            .WriteAttributeString("Left", IIf(isFullScreen, previousWindowPosition.Left, Me.Left))
+            .WriteAttributeString("WindowState", IIf(isFullScreen, previousWindowState, Me.WindowState).ToString())
+            .WriteAttributeString("Width", IIf(isFullScreen, previousWindowPosition.Width, Me.Width).ToString())
+            .WriteAttributeString("Height", IIf(isFullScreen, previousWindowPosition.Height, Me.Height).ToString())
+            .WriteAttributeString("Top", IIf(isFullScreen, previousWindowPosition.Top, Me.Top).ToString())
+            .WriteAttributeString("Left", IIf(isFullScreen, previousWindowPosition.Left, Me.Left).ToString())
             .WriteEndElement()
 
             .WriteStartElement("Recent")
@@ -82,95 +82,95 @@ Partial Public Class MainWindow
             .WriteEndElement()
 
             .WriteStartElement("Edit")
-            .WriteAttributeString("NTInput", NTInput)
+            .WriteAttributeString("NTInput", NTInput.ToString())
             .WriteAttributeString("Language", DispLang)
             '.WriteAttributeString("SortingMethod", SortingMethod)
-            .WriteAttributeString("ErrorCheck", ErrorCheck)
-            .WriteAttributeString("AutoFocusMouseEnter", AutoFocusMouseEnter)
-            .WriteAttributeString("FirstClickDisabled", FirstClickDisabled)
-            .WriteAttributeString("ShowFileName", ShowFileName)
-            .WriteAttributeString("ShowWaveform", ShowWaveform)
-            .WriteAttributeString("MiddleButtonMoveMethod", MiddleButtonMoveMethod)
-            .WriteAttributeString("AutoSaveInterval", AutoSaveInterval)
-            .WriteAttributeString("PreviewOnClick", PreviewOnClick)
+            .WriteAttributeString("ErrorCheck", ErrorCheck.ToString())
+            .WriteAttributeString("AutoFocusMouseEnter", AutoFocusMouseEnter.ToString())
+            .WriteAttributeString("FirstClickDisabled", FirstClickDisabled.ToString())
+            .WriteAttributeString("ShowFileName", ShowFileName.ToString())
+            .WriteAttributeString("ShowWaveform", ShowWaveform.ToString())
+            .WriteAttributeString("MiddleButtonMoveMethod", MiddleButtonMoveMethod.ToString())
+            .WriteAttributeString("AutoSaveInterval", AutoSaveInterval.ToString())
+            .WriteAttributeString("PreviewOnClick", PreviewOnClick.ToString())
             '.WriteAttributeString("PreviewErrorCheck", PreviewErrorCheck)
-            .WriteAttributeString("ClickStopPreview", ClickStopPreview)
-            .WriteAttributeString("JackBPM", ErrorJackBPM)
-            .WriteAttributeString("JackTH", ErrorJackTH)
+            .WriteAttributeString("ClickStopPreview", ClickStopPreview.ToString())
+            .WriteAttributeString("JackBPM", ErrorJackBPM.ToString())
+            .WriteAttributeString("JackTH", ErrorJackTH.ToString())
             .WriteEndElement()
 
             .WriteStartElement("Save")
             .WriteAttributeString("TextEncoding", EncodingToString(TextEncoding))
-            .WriteAttributeString("BMSGridLimit", BMSGridLimit)
-            .WriteAttributeString("BeepWhileSaved", BeepWhileSaved)
-            .WriteAttributeString("BPMx1296", BPMx1296)
-            .WriteAttributeString("STOPx1296", STOPx1296)
+            .WriteAttributeString("BMSGridLimit", BMSGridLimit.ToString())
+            .WriteAttributeString("BeepWhileSaved", BeepWhileSaved.ToString())
+            .WriteAttributeString("BPMx1296", BPMx1296.ToString())
+            .WriteAttributeString("STOPx1296", STOPx1296.ToString())
             .WriteEndElement()
 
             .WriteStartElement("WAV")
-            .WriteAttributeString("WAVMultiSelect", WAVMultiSelect)
-            .WriteAttributeString("WAVChangeLabel", WAVChangeLabel)
-            .WriteAttributeString("BeatChangeMode", BeatChangeMode)
+            .WriteAttributeString("WAVMultiSelect", WAVMultiSelect.ToString())
+            .WriteAttributeString("WAVChangeLabel", WAVChangeLabel.ToString())
+            .WriteAttributeString("BeatChangeMode", BeatChangeMode.ToString())
             .WriteEndElement()
 
             .WriteStartElement("ShowHide")
-            .WriteAttributeString("showMenu", mnSMenu.Checked)
-            .WriteAttributeString("showTB", mnSTB.Checked)
-            .WriteAttributeString("showOpPanel", mnSOP.Checked)
-            .WriteAttributeString("showStatus", mnSStatus.Checked)
-            .WriteAttributeString("showLSplit", mnSLSplitter.Checked)
-            .WriteAttributeString("showRSplit", mnSRSplitter.Checked)
+            .WriteAttributeString("showMenu", mnSMenu.Checked.ToString())
+            .WriteAttributeString("showTB", mnSTB.Checked.ToString())
+            .WriteAttributeString("showOpPanel", mnSOP.Checked.ToString())
+            .WriteAttributeString("showStatus", mnSStatus.Checked.ToString())
+            .WriteAttributeString("showLSplit", mnSLSplitter.Checked.ToString())
+            .WriteAttributeString("showRSplit", mnSRSplitter.Checked.ToString())
             .WriteEndElement()
 
             .WriteStartElement("Grid")
-            .WriteAttributeString("gSnap", gSnap)
-            .WriteAttributeString("xmlDisableVertical", DisableVerticalMove)
-            .WriteAttributeString("gWheel", gWheel)
-            .WriteAttributeString("gPgUpDn", gPgUpDn)
-            .WriteAttributeString("gShow", gShowGrid)
-            .WriteAttributeString("gShowS", gShowSubGrid)
-            .WriteAttributeString("gShowBG", gShowBG)
-            .WriteAttributeString("gShowM", gShowMeasureNumber)
-            .WriteAttributeString("gShowV", gShowVerticalLine)
-            .WriteAttributeString("gShowMB", gShowMeasureBar)
-            .WriteAttributeString("gShowC", gShowC)
-            .WriteAttributeString("gBPM", gBPM)
-            .WriteAttributeString("gSTOP", gSTOP)
-            .WriteAttributeString("gSCROLL", gSCROLL)
-            .WriteAttributeString("gBLP", gDisplayBGAColumn)
-            .WriteAttributeString("gP2", CHPlayer.SelectedIndex)
-            .WriteAttributeString("gCol", CGB.Value)
-            .WriteAttributeString("gDivide", gDivide)
-            .WriteAttributeString("gSub", gSub)
-            .WriteAttributeString("gSlash", gSlash)
-            .WriteAttributeString("gxHeight", gxHeight)
-            .WriteAttributeString("gxWidth", gxWidth)
+            .WriteAttributeString("gSnap", gSnap.ToString())
+            .WriteAttributeString("xmlDisableVertical", DisableVerticalMove.ToString())
+            .WriteAttributeString("gWheel", gWheel.ToString())
+            .WriteAttributeString("gPgUpDn", gPgUpDn.ToString())
+            .WriteAttributeString("gShow", gShowGrid.ToString())
+            .WriteAttributeString("gShowS", gShowSubGrid.ToString())
+            .WriteAttributeString("gShowBG", gShowBG.ToString())
+            .WriteAttributeString("gShowM", gShowMeasureNumber.ToString())
+            .WriteAttributeString("gShowV", gShowVerticalLine.ToString())
+            .WriteAttributeString("gShowMB", gShowMeasureBar.ToString())
+            .WriteAttributeString("gShowC", gShowC.ToString())
+            .WriteAttributeString("gBPM", gBPM.ToString())
+            .WriteAttributeString("gSTOP", gSTOP.ToString())
+            .WriteAttributeString("gSCROLL", gSCROLL.ToString())
+            .WriteAttributeString("gBLP", gDisplayBGAColumn.ToString())
+            .WriteAttributeString("gP2", CHPlayer.SelectedIndex.ToString())
+            .WriteAttributeString("gCol", CGB.Value.ToString())
+            .WriteAttributeString("gDivide", gDivide.ToString())
+            .WriteAttributeString("gSub", gSub.ToString())
+            .WriteAttributeString("gSlash", gSlash.ToString())
+            .WriteAttributeString("gxHeight", gxHeight.ToString())
+            .WriteAttributeString("gxWidth", gxWidth.ToString())
             .WriteEndElement()
 
             .WriteStartElement("WaveForm")
-            .WriteAttributeString("wLock", wLock)
-            .WriteAttributeString("wPosition", wPosition)
-            .WriteAttributeString("wLeft", wLeft)
-            .WriteAttributeString("wWidth", wWidth)
-            .WriteAttributeString("wPrecision", wPrecision)
+            .WriteAttributeString("wLock", wLock.ToString())
+            .WriteAttributeString("wPosition", wPosition.ToString())
+            .WriteAttributeString("wLeft", wLeft.ToString())
+            .WriteAttributeString("wWidth", wWidth.ToString())
+            .WriteAttributeString("wPrecision", wPrecision.ToString())
             .WriteEndElement()
 
             .WriteStartElement("Player")
-            .WriteAttributeString("Count", pArgs.Length)
-            .WriteAttributeString("CurrentPlayer", CurrentPlayer)
+            .WriteAttributeString("Count", pArgs.Length.ToString())
+            .WriteAttributeString("CurrentPlayer", CurrentPlayer.ToString())
             For i As Integer = 0 To UBound(pArgs)
                 XMLWritePlayerArguments(w, i) : Next
             .WriteEndElement()
 
             .WriteStartElement("Total")
-            .WriteAttributeString("Option", TotalOption)
-            .WriteAttributeString("Multiplier", TotalMultiplier)
-            .WriteAttributeString("GlobalMultiplier", TotalGlobalMultiplier)
-            .WriteAttributeString("RecommendedTextDisplay", TotalRecommendedTextDisplay)
+            .WriteAttributeString("Option", TotalOption.ToString())
+            .WriteAttributeString("Multiplier", TotalMultiplier.ToString())
+            .WriteAttributeString("GlobalMultiplier", TotalGlobalMultiplier.ToString())
+            .WriteAttributeString("RecommendedTextDisplay", TotalRecommendedTextDisplay.ToString())
             .WriteEndElement()
 
             .WriteStartElement("KeyBindings")
-            .WriteAttributeString("Count", UBound(Keybindings))
+            .WriteAttributeString("Count", UBound(Keybindings).ToString())
             For i As Integer = 0 To UBound(Keybindings)
                 XMLWriteKeybindings(w, i) : Next
             .WriteEndElement()
@@ -182,33 +182,33 @@ Partial Public Class MainWindow
             .WriteEndElement()
 
             .WriteStartElement("VisualSettings")
-            XMLWriteValue(w, "ColumnTitle", vo.ColumnTitle.Color.ToArgb)
+            XMLWriteValue(w, "ColumnTitle", vo.ColumnTitle.Color.ToArgb.ToString())
             XMLWriteFont(w, "ColumnTitleFont", vo.ColumnTitleFont)
-            XMLWriteValue(w, "Bg", vo.Bg.Color.ToArgb)
-            XMLWriteValue(w, "Grid", vo.pGrid.Color.ToArgb)
-            XMLWriteValue(w, "Sub", vo.pSub.Color.ToArgb)
-            XMLWriteValue(w, "VLine", vo.pVLine.Color.ToArgb)
-            XMLWriteValue(w, "MLine", vo.pMLine.Color.ToArgb)
-            XMLWriteValue(w, "BGMWav", vo.pBGMWav.Color.ToArgb)
-            XMLWriteValue(w, "SelBox", vo.SelBox.Color.ToArgb)
-            XMLWriteValue(w, "TSCursor", vo.PECursor.Color.ToArgb)
-            XMLWriteValue(w, "TSHalf", vo.PEHalf.Color.ToArgb)
-            XMLWriteValue(w, "TSDeltaMouseOver", vo.PEDeltaMouseOver)
-            XMLWriteValue(w, "TSMouseOver", vo.PEMouseOver.Color.ToArgb)
-            XMLWriteValue(w, "TSSel", vo.PESel.Color.ToArgb)
-            XMLWriteValue(w, "TSBPM", vo.PEBPM.Color.ToArgb)
+            XMLWriteValue(w, "Bg", vo.Bg.Color.ToArgb.ToString())
+            XMLWriteValue(w, "Grid", vo.pGrid.Color.ToArgb.ToString())
+            XMLWriteValue(w, "Sub", vo.pSub.Color.ToArgb.ToString())
+            XMLWriteValue(w, "VLine", vo.pVLine.Color.ToArgb.ToString())
+            XMLWriteValue(w, "MLine", vo.pMLine.Color.ToArgb.ToString())
+            XMLWriteValue(w, "BGMWav", vo.pBGMWav.Color.ToArgb.ToString())
+            XMLWriteValue(w, "SelBox", vo.SelBox.Color.ToArgb.ToString())
+            XMLWriteValue(w, "TSCursor", vo.PECursor.Color.ToArgb.ToString())
+            XMLWriteValue(w, "TSHalf", vo.PEHalf.Color.ToArgb.ToString())
+            XMLWriteValue(w, "TSDeltaMouseOver", vo.PEDeltaMouseOver.ToString())
+            XMLWriteValue(w, "TSMouseOver", vo.PEMouseOver.Color.ToArgb.ToString())
+            XMLWriteValue(w, "TSSel", vo.PESel.Color.ToArgb.ToString())
+            XMLWriteValue(w, "TSBPM", vo.PEBPM.Color.ToArgb.ToString())
             XMLWriteFont(w, "TSBPMFont", vo.PEBPMFont)
-            XMLWriteValue(w, "MiddleDeltaRelease", vo.MiddleDeltaRelease)
-            XMLWriteValue(w, "kHeight", vo.kHeight)
+            XMLWriteValue(w, "MiddleDeltaRelease", vo.MiddleDeltaRelease.ToString())
+            XMLWriteValue(w, "kHeight", vo.kHeight.ToString())
             XMLWriteFont(w, "kFont", vo.kFont)
             XMLWriteFont(w, "kMFont", vo.kMFont)
-            XMLWriteValue(w, "kLabelVShift", vo.kLabelVShift)
-            XMLWriteValue(w, "kLabelHShift", vo.kLabelHShift)
-            XMLWriteValue(w, "kLabelHShiftL", vo.kLabelHShiftL)
-            XMLWriteValue(w, "kMouseOver", vo.kMouseOver.Color.ToArgb)
-            XMLWriteValue(w, "kMouseOverE", vo.kMouseOverE.Color.ToArgb)
-            XMLWriteValue(w, "kSelected", vo.kSelected.Color.ToArgb)
-            XMLWriteValue(w, "kOpacity", vo.kOpacity)
+            XMLWriteValue(w, "kLabelVShift", vo.kLabelVShift.ToString())
+            XMLWriteValue(w, "kLabelHShift", vo.kLabelHShift.ToString())
+            XMLWriteValue(w, "kLabelHShiftL", vo.kLabelHShiftL.ToString())
+            XMLWriteValue(w, "kMouseOver", vo.kMouseOver.Color.ToArgb.ToString())
+            XMLWriteValue(w, "kMouseOverE", vo.kMouseOverE.Color.ToArgb.ToString())
+            XMLWriteValue(w, "kSelected", vo.kSelected.Color.ToArgb.ToString())
+            XMLWriteValue(w, "kOpacity", vo.kOpacity.ToString())
             .WriteEndElement()
 
             .WriteEndElement()
@@ -228,19 +228,19 @@ Partial Public Class MainWindow
             .Indentation = 4
 
             .WriteStartElement("ColorOverride")
-            .WriteAttributeString("Count", UBound(COverrides))
+            .WriteAttributeString("Count", UBound(COverrides).ToString())
 
             For i = 0 To UBound(COverrides)
                 .WriteStartElement("Color")
-                .WriteAttributeString("Index", i)
-                .WriteAttributeString("Name", COverrides(i).Name)
-                .WriteAttributeString("RangeL", COverrides(i).RangeL)
-                .WriteAttributeString("RangeU", COverrides(i).RangeU)
-                .WriteAttributeString("NoteColor", COverrides(i).NoteColor)
-                .WriteAttributeString("TextColor", COverrides(i).TextColor)
-                .WriteAttributeString("LongNoteColor", COverrides(i).LongNoteColor)
-                .WriteAttributeString("LongTextColor", COverrides(i).LongTextColor)
-                .WriteAttributeString("BG", COverrides(i).BG)
+                .WriteAttributeString("Index", i.ToString())
+                .WriteAttributeString("Name", COverrides(i).Name.ToString())
+                .WriteAttributeString("RangeL", COverrides(i).RangeL.ToString())
+                .WriteAttributeString("RangeU", COverrides(i).RangeU.ToString())
+                .WriteAttributeString("NoteColor", COverrides(i).NoteColor.ToString())
+                .WriteAttributeString("TextColor", COverrides(i).TextColor.ToString())
+                .WriteAttributeString("LongNoteColor", COverrides(i).LongNoteColor.ToString())
+                .WriteAttributeString("LongTextColor", COverrides(i).LongTextColor.ToString())
+                .WriteAttributeString("BG", COverrides(i).BG.ToString())
                 .WriteEndElement()
             Next
 
@@ -267,7 +267,7 @@ Partial Public Class MainWindow
         If n Is Nothing Then Exit Sub
 
         Dim xName As String = Me.Font.FontFamily.Name
-        Dim xSize As Integer = Me.Font.Size
+        Dim xSize As Integer = CInt(Me.Font.Size)
         Dim xStyle As Integer = Me.Font.Style
         XMLLoadAttribute(n.GetAttribute("Name"), xName)
         XMLLoadAttribute(n.GetAttribute("Size"), xSize)
@@ -312,7 +312,7 @@ Partial Public Class MainWindow
             Dim Display As Boolean
             Dim attr = n.GetAttribute("Display")
             XMLLoadAttribute(attr, Display)
-            .isVisible = IIf(String.IsNullOrEmpty(attr), .isVisible, Display)
+            .isVisible = CBool(IIf(String.IsNullOrEmpty(attr), .isVisible, Display))
 
             'XMLLoadAttribute(n.GetAttribute("isNumeric"), .isNumeric)
             'XMLLoadAttribute(n.GetAttribute("Visible"), .Visible)
@@ -352,9 +352,9 @@ Partial Public Class MainWindow
         Dim Minor As Integer = My.Application.Info.Version.Minor
         Dim Build As Integer = My.Application.Info.Version.Build
         Try
-            Dim xMajor As Integer = Val(Root.Attributes("Major").Value)
-            Dim xMinor As Integer = Val(Root.Attributes("Minor").Value)
-            Dim xBuild As Integer = Val(Root.Attributes("Build").Value)
+            Dim xMajor As Integer = CInt(Root.Attributes("Major").Value)
+            Dim xMinor As Integer = CInt(Root.Attributes("Minor").Value)
+            Dim xBuild As Integer = CInt(Root.Attributes("Build").Value)
             Major = xMajor
             Minor = xMinor
             Build = xBuild
@@ -421,7 +421,7 @@ Partial Public Class MainWindow
                 XMLLoadAttribute(.GetAttribute("FirstClickDisabled"), FirstClickDisabled)
 
                 XMLLoadAttribute(.GetAttribute("AutoSaveInterval"), AutoSaveInterval)
-                If AutoSaveInterval Then AutoSaveTimer.Interval = AutoSaveInterval Else AutoSaveTimer.Enabled = False
+                If AutoSaveInterval > 0 Then AutoSaveTimer.Interval = AutoSaveInterval Else AutoSaveTimer.Enabled = False
 
                 XMLLoadAttribute(.GetAttribute("PreviewOnClick"), PreviewOnClick)
                 TBPreviewOnClick.Checked = PreviewOnClick
@@ -544,7 +544,7 @@ Partial Public Class MainWindow
             With ePlayer
                 XMLLoadAttribute(.GetAttribute("CurrentPlayer"), CurrentPlayer)
 
-                Dim xCount As Integer = .GetAttribute("Count")
+                Dim xCount As Integer = CInt(.GetAttribute("Count"))
                 If xCount > 0 Then ReDim Preserve pArgs(xCount - 1)
             End With
 
@@ -566,10 +566,10 @@ Partial Public Class MainWindow
         Dim eKeybindings As XmlElement = Root.Item("KeyBindings")
         If eKeybindings IsNot Nothing Then
             With eKeybindings
-                Dim xBound = .GetAttribute("Count")
+                Dim xBound = CInt(.GetAttribute("Count"))
                 If xBound > UBound(Keybindings) Then ReDim Preserve Keybindings(xBound)
 
-                For Each eeKeybindings In .ChildNodes
+                For Each eeKeybindings As XmlElement In .ChildNodes
                     XMLLoadKeybinding(eeKeybindings)
                 Next
             End With
@@ -598,8 +598,8 @@ Partial Public Class MainWindow
                 XMLLoadElementValue(.Item("BGMWav"), vo.pBGMWav.Color)
                 TWTransparency.Value = vo.pBGMWav.Color.A
                 TWTransparency2.Value = vo.pBGMWav.Color.A
-                TWSaturation.Value = vo.pBGMWav.Color.GetSaturation * 1000
-                TWSaturation2.Value = vo.pBGMWav.Color.GetSaturation * 1000
+                TWSaturation.Value = CDec(vo.pBGMWav.Color.GetSaturation * 1000)
+                TWSaturation2.Value = CInt(vo.pBGMWav.Color.GetSaturation * 1000)
 
                 XMLLoadElementValue(.Item("SelBox"), vo.SelBox.Color)
                 XMLLoadElementValue(.Item("TSCursor"), vo.PECursor.Color)
@@ -675,7 +675,7 @@ EndOfSub:
             Dim eFont As XmlElement = Root.Item("Font")
             If eFont IsNot Nothing Then
                 Dim xSize As Integer = 9
-                If eFont.HasAttribute("Size") Then xSize = Val(eFont.GetAttribute("Size"))
+                If eFont.HasAttribute("Size") Then xSize = CInt(eFont.GetAttribute("Size"))
 
                 Dim fRegular As New Font(Me.Font.FontFamily, xSize, FontStyle.Regular)
                 Dim xChildNode As XmlNode = eFont.LastChild
@@ -687,8 +687,38 @@ EndOfSub:
                     xChildNode = xChildNode.PreviousSibling
                 Loop
 
-                Dim rList() As Object = {Me, mnSys, Menu1, mnMain, cmnLanguage, cmnTheme, cmnConversion, TBMain, FStatus, FStatus2}
-                For Each c As Object In rList
+                Font = fRegular
+                Dim TMIList() As ToolStripMenuItem = {mnSys}
+                Dim CMSList() As ContextMenuStrip = {Menu1, cmnLanguage, cmnTheme, cmnConversion}
+                Dim MSList() As MenuStrip = {mnMain}
+                Dim TSList() As ToolStrip = {TBMain}
+                Dim SSList() As StatusStrip = {FStatus, FStatus2}
+                ' Not sure if a function would work using object type as a variable
+                For Each c In TMIList
+                    Try
+                        c.Font = fRegular
+                    Catch ex As Exception
+                    End Try
+                Next
+                For Each c In CMSList
+                    Try
+                        c.Font = fRegular
+                    Catch ex As Exception
+                    End Try
+                Next
+                For Each c In MSList
+                    Try
+                        c.Font = fRegular
+                    Catch ex As Exception
+                    End Try
+                Next
+                For Each c In TSList
+                    Try
+                        c.Font = fRegular
+                    Catch ex As Exception
+                    End Try
+                Next
+                For Each c In SSList
                     Try
                         c.Font = fRegular
                     Catch ex As Exception
@@ -697,8 +727,23 @@ EndOfSub:
 
                 Dim fBold As New Font(fRegular, FontStyle.Bold)
 
-                Dim bList() As Object = {TBStatistics, FSSS, FSSL, FSSH, TVCM, TVCD, TVCBPM, FSP1, FSP3, FSP2, PMain, PMainIn, PMainR, PMainInR, PMainL, PMainInL}
-                For Each c As Object In bList
+                Dim TSBList() As ToolStripButton = {TBStatistics, FSSS, FSSL, FSSH}
+                Dim TSTBList() As ToolStripTextBox = {TVCM, TVCD, TVCBPM}
+                Dim TSSLList() As ToolStripStatusLabel = {FSP1, FSP3, FSP2}
+                Dim PList() As Panel = {PMain, PMainIn, PMainR, PMainInR, PMainL, PMainInL}
+                For Each c In TSBList
+                    Try
+                        c.Font = fBold
+                    Catch ex As Exception
+                    End Try
+                Next
+                For Each c In TSTBList
+                    Try
+                        c.Font = fBold
+                    Catch ex As Exception
+                    End Try
+                Next
+                For Each c In TSSLList
                     Try
                         c.Font = fBold
                     Catch ex As Exception
@@ -709,7 +754,7 @@ EndOfSub:
             Dim eMonoFont As XmlElement = Root.Item("MonoFont")
             If eMonoFont IsNot Nothing Then
                 Dim xSize As Integer = 9
-                If eMonoFont.HasAttribute("Size") Then xSize = Val(eMonoFont.GetAttribute("Size"))
+                If eMonoFont.HasAttribute("Size") Then xSize = CInt(eMonoFont.GetAttribute("Size"))
 
                 Dim fMono As New Font(POWAVInner.Font.FontFamily, xSize)
                 Dim xChildNode As XmlNode = eMonoFont.LastChild
@@ -721,10 +766,17 @@ EndOfSub:
                     xChildNode = xChildNode.PreviousSibling
                 Loop
 
-                Dim mList() As Object = {LWAV, LBeat, TExpansion}
-                For Each c As Object In mList
+                Dim LBList() As ListBox = {LWAV, LBeat}
+                Dim TBList() As TextBox = {TExpansion}
+                For Each c In LBList
                     Try
-                        c.font = fMono
+                        c.Font = fMono
+                    Catch ex As Exception
+                    End Try
+                Next
+                For Each c In TBList
+                    Try
+                        c.Font = fMono
                     Catch ex As Exception
                     End Try
                 Next
@@ -973,26 +1025,26 @@ EndOfSub:
                     XMLLoadLocale(eHeader.Item("LnObj"), Label24.Text)
 
                     RemoveHandler CHPlayer.SelectedIndexChanged, AddressOf CHPlayer_SelectedIndexChanged
-                    XMLLoadLocale(eHeader.Item("Player1"), CHPlayer.Items.Item(0))
-                    XMLLoadLocale(eHeader.Item("Player2"), CHPlayer.Items.Item(1))
-                    XMLLoadLocale(eHeader.Item("Player3"), CHPlayer.Items.Item(2))
+                    XMLLoadLocale(eHeader.Item("Player1"), CHPlayer.Items.Item(0).ToString())
+                    XMLLoadLocale(eHeader.Item("Player2"), CHPlayer.Items.Item(1).ToString())
+                    XMLLoadLocale(eHeader.Item("Player3"), CHPlayer.Items.Item(2).ToString())
                     AddHandler CHPlayer.SelectedIndexChanged, AddressOf CHPlayer_SelectedIndexChanged
 
                     RemoveHandler CHRank.SelectedIndexChanged, AddressOf THGenre_TextChanged
-                    XMLLoadLocale(eHeader.Item("Rank0"), CHRank.Items.Item(0))
-                    XMLLoadLocale(eHeader.Item("Rank1"), CHRank.Items.Item(1))
-                    XMLLoadLocale(eHeader.Item("Rank2"), CHRank.Items.Item(2))
-                    XMLLoadLocale(eHeader.Item("Rank3"), CHRank.Items.Item(3))
-                    XMLLoadLocale(eHeader.Item("Rank4"), CHRank.Items.Item(4))
+                    XMLLoadLocale(eHeader.Item("Rank0"), CHRank.Items.Item(0).ToString())
+                    XMLLoadLocale(eHeader.Item("Rank1"), CHRank.Items.Item(1).ToString())
+                    XMLLoadLocale(eHeader.Item("Rank2"), CHRank.Items.Item(2).ToString())
+                    XMLLoadLocale(eHeader.Item("Rank3"), CHRank.Items.Item(3).ToString())
+                    XMLLoadLocale(eHeader.Item("Rank4"), CHRank.Items.Item(4).ToString())
                     AddHandler CHRank.SelectedIndexChanged, AddressOf THGenre_TextChanged
 
                     RemoveHandler CHDifficulty.SelectedIndexChanged, AddressOf THGenre_TextChanged
-                    XMLLoadLocale(eHeader.Item("Difficulty0"), CHDifficulty.Items.Item(0))
-                    XMLLoadLocale(eHeader.Item("Difficulty1"), CHDifficulty.Items.Item(1))
-                    XMLLoadLocale(eHeader.Item("Difficulty2"), CHDifficulty.Items.Item(2))
-                    XMLLoadLocale(eHeader.Item("Difficulty3"), CHDifficulty.Items.Item(3))
-                    XMLLoadLocale(eHeader.Item("Difficulty4"), CHDifficulty.Items.Item(4))
-                    XMLLoadLocale(eHeader.Item("Difficulty5"), CHDifficulty.Items.Item(5))
+                    XMLLoadLocale(eHeader.Item("Difficulty0"), CHDifficulty.Items.Item(0).ToString())
+                    XMLLoadLocale(eHeader.Item("Difficulty1"), CHDifficulty.Items.Item(1).ToString())
+                    XMLLoadLocale(eHeader.Item("Difficulty2"), CHDifficulty.Items.Item(2).ToString())
+                    XMLLoadLocale(eHeader.Item("Difficulty3"), CHDifficulty.Items.Item(3).ToString())
+                    XMLLoadLocale(eHeader.Item("Difficulty4"), CHDifficulty.Items.Item(4).ToString())
+                    XMLLoadLocale(eHeader.Item("Difficulty5"), CHDifficulty.Items.Item(5).ToString())
                     AddHandler CHDifficulty.SelectedIndexChanged, AddressOf THGenre_TextChanged
                 End If
 
@@ -1257,43 +1309,45 @@ EndOfSub:
                 xW1 = UCase(Mid(xLine, 1, InStr(xLine, "=") - 1))
                 xW2 = Mid(xLine, InStr(xLine, "=") + 1)
 
+                Dim xW2Int As Integer = CInt(xW2)
+
                 Select Case xW1
-                    Case "VOTITLE" : vo.ColumnTitle.Color = Color.FromArgb(Val(xW2))
+                    Case "VOTITLE" : vo.ColumnTitle.Color = Color.FromArgb(xW2Int)
                     Case "VOTITLEFONT" : vo.ColumnTitleFont = StringToFont(xW2, Me.Font)
-                    Case "VOBG" : vo.Bg.Color = Color.FromArgb(Val(xW2))
-                    Case "VOGRID" : vo.pGrid.Color = Color.FromArgb(Val(xW2))
-                    Case "VOSUB" : vo.pSub.Color = Color.FromArgb(Val(xW2))
-                    Case "VOVLINE" : vo.pVLine.Color = Color.FromArgb(Val(xW2))
-                    Case "VOMLINE" : vo.pMLine.Color = Color.FromArgb(Val(xW2))
+                    Case "VOBG" : vo.Bg.Color = Color.FromArgb(xW2Int)
+                    Case "VOGRID" : vo.pGrid.Color = Color.FromArgb(xW2Int)
+                    Case "VOSUB" : vo.pSub.Color = Color.FromArgb(xW2Int)
+                    Case "VOVLINE" : vo.pVLine.Color = Color.FromArgb(xW2Int)
+                    Case "VOMLINE" : vo.pMLine.Color = Color.FromArgb(xW2Int)
                     Case "VOBGMWAV"
-                        vo.pBGMWav.Color = Color.FromArgb(Val(xW2))
+                        vo.pBGMWav.Color = Color.FromArgb(xW2Int)
                         TWTransparency.Value = vo.pBGMWav.Color.A
                         TWTransparency2.Value = vo.pBGMWav.Color.A
-                        TWSaturation.Value = vo.pBGMWav.Color.GetSaturation * 1000
-                        TWSaturation2.Value = vo.pBGMWav.Color.GetSaturation * 1000
-                    Case "VOSELBOX" : vo.SelBox.Color = Color.FromArgb(Val(xW2))
-                    Case "VOPECURSOR" : vo.PECursor.Color = Color.FromArgb(Val(xW2))
-                    Case "VOPEHALF" : vo.PEHalf.Color = Color.FromArgb(Val(xW2))
-                    Case "VOPEDELTAMOUSEOVER" : vo.PEDeltaMouseOver = Val(xW2)
-                    Case "VOPEMOUSEOVER" : vo.PEMouseOver.Color = Color.FromArgb(Val(xW2))
-                    Case "VOPESEL" : vo.PESel.Color = Color.FromArgb(Val(xW2))
-                    Case "VOPEBPM" : vo.PEBPM.Color = Color.FromArgb(Val(xW2))
+                        TWSaturation.Value = CDec(vo.pBGMWav.Color.GetSaturation * 1000)
+                        TWSaturation2.Value = CInt(vo.pBGMWav.Color.GetSaturation * 1000)
+                    Case "VOSELBOX" : vo.SelBox.Color = Color.FromArgb(xW2Int)
+                    Case "VOPECURSOR" : vo.PECursor.Color = Color.FromArgb(xW2Int)
+                    Case "VOPEHALF" : vo.PEHalf.Color = Color.FromArgb(xW2Int)
+                    Case "VOPEDELTAMOUSEOVER" : vo.PEDeltaMouseOver = xW2Int
+                    Case "VOPEMOUSEOVER" : vo.PEMouseOver.Color = Color.FromArgb(xW2Int)
+                    Case "VOPESEL" : vo.PESel.Color = Color.FromArgb(xW2Int)
+                    Case "VOPEBPM" : vo.PEBPM.Color = Color.FromArgb(xW2Int)
                     Case "VOPEBPMFONT" : vo.PEBPMFont = StringToFont(xW2, Me.Font)
-                    Case "VKHEIGHT" : vo.kHeight = Val(xW2)
+                    Case "VKHEIGHT" : vo.kHeight = xW2Int
                     Case "VKFONT" : vo.kFont = StringToFont(xW2, Me.Font)
                     Case "VKMFONT" : vo.kMFont = StringToFont(xW2, Me.Font)
-                    Case "VKLABELVSHIFT" : vo.kLabelVShift = Val(xW2)
-                    Case "VKLABELHSHIFT" : vo.kLabelHShift = Val(xW2)
-                    Case "VKLABELHSHIFTL" : vo.kLabelHShiftL = Val(xW2)
-                    Case "VKMOUSEOVER" : vo.kMouseOver.Color = Color.FromArgb(Val(xW2))
-                    Case "VKMOUSEOVERE " : vo.kMouseOverE.Color = Color.FromArgb(Val(xW2))
-                    Case "VKSELECTED" : vo.kSelected.Color = Color.FromArgb(Val(xW2))
-                        'Case "VKHIDTRANSPARENCY" : vo.kOpacity = Val(xW2)
+                    Case "VKLABELVSHIFT" : vo.kLabelVShift = xW2Int
+                    Case "VKLABELHSHIFT" : vo.kLabelHShift = xW2Int
+                    Case "VKLABELHSHIFTL" : vo.kLabelHShiftL = xW2Int
+                    Case "VKMOUSEOVER" : vo.kMouseOver.Color = Color.FromArgb(xW2Int)
+                    Case "VKMOUSEOVERE " : vo.kMouseOverE.Color = Color.FromArgb(xW2Int)
+                    Case "VKSELECTED" : vo.kSelected.Color = Color.FromArgb(xW2Int)
+                        'Case "VKHIDTRANSPARENCY" : vo.kOpacity = xW2Int
 
                     Case "KLENGTH"
                         Dim xE() As String = LoadThemeComptability_SplitStringInto26Parts(xW2)
                         For i As Integer = 0 To 26
-                            column(i).Width = Val(xE(i))
+                            column(i).Width = CInt(xE(i))
                         Next
 
                     Case "KTITLE"
@@ -1305,31 +1359,31 @@ EndOfSub:
                     Case "KCOLOR"
                         Dim xE() As String = LoadThemeComptability_SplitStringInto26Parts(xW2)
                         For i As Integer = 0 To 26
-                            column(i).setNoteColor(Val(xE(i)))
+                            column(i).setNoteColor(CInt(xE(i)))
                         Next
 
                     Case "KCOLORL"
                         Dim xE() As String = LoadThemeComptability_SplitStringInto26Parts(xW2)
                         For i As Integer = 0 To 26
-                            column(i).setLNoteColor(Val(xE(i)))
+                            column(i).setLNoteColor(CInt(xE(i)))
                         Next
 
                     Case "KFORECOLOR"
                         Dim xE() As String = LoadThemeComptability_SplitStringInto26Parts(xW2)
                         For i As Integer = 0 To 26
-                            column(i).cText = Color.FromArgb(Val(xE(i)))
+                            column(i).cText = Color.FromArgb(CInt(xE(i)))
                         Next
 
                     Case "KFORECOLORL"
                         Dim xE() As String = LoadThemeComptability_SplitStringInto26Parts(xW2)
                         For i As Integer = 0 To 26
-                            column(i).cLText = Color.FromArgb(Val(xE(i)))
+                            column(i).cLText = Color.FromArgb(CInt(xE(i)))
                         Next
 
                     Case "KBGCOLOR"
                         Dim xE() As String = LoadThemeComptability_SplitStringInto26Parts(xW2)
                         For i As Integer = 0 To 26
-                            column(i).cBG = Color.FromArgb(Val(xE(i)))
+                            column(i).cBG = Color.FromArgb(CInt(xE(i)))
                         Next
 
                 End Select
@@ -1352,7 +1406,8 @@ EndOfSub:
     End Function
 
     Private Sub LoadLang(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim xFN2 As String = sender.ToolTipText
+        Dim LangS As ToolStripItem = CType(sender, ToolStripItem)
+        Dim xFN2 As String = LangS.ToolTipText
         'ReadLanguagePack(xFN2)
         LoadLocale(xFN2)
     End Sub
@@ -1381,7 +1436,8 @@ EndOfSub:
         'If Not File.Exists(My.Application.Info.DirectoryPath & "\Data\" & sender.Text) Then Exit Sub
         'SaveTheme = True
         'LoadCFF(My.Computer.FileSystem.ReadAllText(My.Application.Info.DirectoryPath & "\Theme\" & sender.Text, System.Text.Encoding.Unicode))
-        LoadSettings(My.Application.Info.DirectoryPath & "\Data\" & sender.Text)
+        Dim ThemeS As ToolStripItem = CType(sender, ToolStripItem)
+        LoadSettings(My.Application.Info.DirectoryPath & "\Data\" & ThemeS.Text)
         RefreshPanelAll()
     End Sub
 
@@ -1395,7 +1451,7 @@ EndOfSub:
 
             Dim Root As XmlElement = Doc.Item("ColorOverride")
 
-            Dim n As Integer = Root.GetAttribute("Count")
+            Dim n As Integer = CInt(Root.GetAttribute("Count"))
             ReDim COverrides(n)
             Dim i As Integer
             For Each eColor As XmlElement In Root.ChildNodes

@@ -22,14 +22,14 @@
         'Adjust note
         Dim xcTime As Double = 0
         Dim xcVPos As Double = 0
-        Dim xcBPM As Integer = Notes(0).Value
+        Dim xcBPM As Integer = CInt(Notes(0).Value)
 
         If Not NTInput Then
             For xI1 = 1 To UBound(Notes)
                 If Notes(xI1).ColumnIndex = niBPM Then
                     xcTime += (Notes(xI1).VPosition - xcVPos) / xcBPM
                     xcVPos = Notes(xI1).VPosition
-                    xcBPM = Notes(xI1).Value
+                    xcBPM = CInt(Notes(xI1).Value)
                 Else
                     Notes(xI1).VPosition = vBPM * (xcTime + (Notes(xI1).VPosition - xcVPos) / xcBPM)
                 End If
@@ -40,7 +40,7 @@
                 If Notes(xI1).ColumnIndex = niBPM Then
                     xcTime += (Notes(xI1).VPosition - xcVPos) / xcBPM
                     xcVPos = Notes(xI1).VPosition
-                    xcBPM = Notes(xI1).Value
+                    xcBPM = CInt(Notes(xI1).Value)
                 ElseIf Notes(xI1).Length = 0 Then
                     Notes(xI1).VPosition = vBPM * (xcTime + (Notes(xI1).VPosition - xcVPos) / xcBPM)
                 Else
@@ -55,7 +55,7 @@
                         If Notes(xI2).ColumnIndex = niBPM Then
                             xcTime2 += (Notes(xI2).VPosition - xcVPos2) / xcBPM2
                             xcVPos2 = Notes(xI2).VPosition
-                            xcBPM2 = Notes(xI2).Value
+                            xcBPM2 = CInt(Notes(xI2).Value)
                         End If
                     Next
                     Dim xNewTimeU As Double = (xcTime2 + (Notes(xI1).VPosition + Notes(xI1).Length - xcVPos2) / xcBPM2)
@@ -94,7 +94,7 @@
         SortByVPositionInsertion()
         UpdatePairing()
         Notes(0).Value = vBPM
-        THBPM.Value = vBPM / 10000
+        THBPM.Value = CDec(vBPM / 10000)
         CalculateTotalPlayableNotes()
         CalculateGreatestVPosition()
         RefreshPanelAll()
@@ -151,8 +151,8 @@
                         Dim xD48 As Integer = 0
                         Dim xD64 As Integer = 0
                         For xI2 As Integer = 0 To UBound(xVPos)
-                            xD48 += Math.Abs(xVPos(xI2) - CInt(xVPos(xI2) / 4) * 4)
-                            xD64 += Math.Abs(xVPos(xI2) - CInt(xVPos(xI2) / 3) * 3)
+                            xD48 += CInt(Math.Abs(xVPos(xI2) - CInt(xVPos(xI2) / 4) * 4))
+                            xD64 += CInt(Math.Abs(xVPos(xI2) - CInt(xVPos(xI2) / 3) * 3))
                         Next
                         xAdj64 = xD48 > xD64
 
@@ -212,8 +212,8 @@
                         Dim xD48 As Integer = 0
                         Dim xD64 As Integer = 0
                         For xI2 As Integer = 0 To UBound(xVPos)
-                            xD48 += Math.Abs(xVPos(xI2) - CInt(xVPos(xI2) / 4) * 4)
-                            xD64 += Math.Abs(xVPos(xI2) - CInt(xVPos(xI2) / 3) * 3)
+                            xD48 += CInt(Math.Abs(xVPos(xI2) - CInt(xVPos(xI2) / 4) * 4))
+                            xD64 += CInt(Math.Abs(xVPos(xI2) - CInt(xVPos(xI2) / 3) * 3))
                         Next
                         xAdj64 = xD48 > xD64
 
@@ -259,7 +259,7 @@
                        Notes(xI1).ColumnIndex = xadj.ColumnIndex And
                        Notes(xI1).LongNote = xadj.LongNote And
                        Notes(xI1).Hidden = xadj.Hidden Then
-                        Notes(xI1).VPosition = CLng(Notes(xI1).VPosition / IIf(xadj.AdjTo64, 3, 4)) * IIf(xadj.AdjTo64, 3, 4)
+                        Notes(xI1).VPosition = CLng(Notes(xI1).VPosition / CDbl(IIf(xadj.AdjTo64, 3, 4))) * CDbl(IIf(xadj.AdjTo64, 3, 4))
                     End If
                 Next
             Next
@@ -274,13 +274,13 @@
                     If MeasureAtDisplacement(Notes(xI1).VPosition) = xadj.Measure And
                        Notes(xI1).ColumnIndex = xadj.ColumnIndex And
                        Notes(xI1).Hidden = xadj.Hidden Then _
-                        xStart = CLng(Notes(xI1).VPosition / IIf(xadj.AdjTo64, 3, 4)) * IIf(xadj.AdjTo64, 3, 4)
+                        xStart = CLng(Notes(xI1).VPosition / CDbl(IIf(xadj.AdjTo64, 3, 4))) * CDbl(IIf(xadj.AdjTo64, 3, 4))
 
                     If Notes(xI1).Length > 0 AndAlso
                        MeasureAtDisplacement(Notes(xI1).VPosition + Notes(xI1).Length) = xadj.Measure And
                        Notes(xI1).ColumnIndex = xadj.ColumnIndex And
                        Notes(xI1).Hidden = xadj.Hidden Then _
-                        xEnd = CLng((Notes(xI1).VPosition + Notes(xI1).Length) / IIf(xadj.AdjTo64, 3, 4)) * IIf(xadj.AdjTo64, 3, 4)
+                        xEnd = CLng((Notes(xI1).VPosition + Notes(xI1).Length) / CDbl(IIf(xadj.AdjTo64, 3, 4))) * CDbl(IIf(xadj.AdjTo64, 3, 4))
 
                     Notes(xI1).VPosition = xStart
                     If Notes(xI1).Length > 0 Then Notes(xI1).Length = xEnd - Notes(xI1).VPosition

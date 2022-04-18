@@ -33,7 +33,7 @@ Public Class OpExpand
 
     Private Sub BDisplayGhostAll_Click(sender As Object, e As EventArgs) Handles BDisplayGhostAll.Click
         MainWindow.ExpansionSplit(1) = ""
-        For Each xStrLine In MainWindow.TExpansion.Text.Split(vbCrLf)
+        For Each xStrLine As String In MainWindow.TExpansion.Text.Split(CChar(vbCrLf))
             If xStrLine <> "" AndAlso Not SWIC(xStrLine, "#RANDOM") AndAlso Not SWIC(xStrLine, "#IF") Then MainWindow.ExpansionSplit(1) &= xStrLine & vbCrLf
         Next
         Me.Close()
@@ -71,7 +71,7 @@ Public Class OpExpand
         Dim fslash As Integer = InStrRev(s, "/")
         Dim bslash As Integer = InStrRev(s, "\")
         If (bslash Or fslash) = 0 Then Return ""
-        Return Mid(s, 1, IIf(fslash > bslash, fslash, bslash) - 1)
+        Return Mid(s, 1, CInt(IIf(fslash > bslash, fslash, bslash)) - 1)
     End Function
 
     Private Sub BRemoveGhostNotes_Click(sender As Object, e As EventArgs) Handles BRemoveGhostNotes.Click
@@ -89,11 +89,11 @@ Public Class OpExpand
 
         ' Find the first line of the currect #if section, right after #if
         For L = CurrSelection To 0 Step -1
-            If SWIC(LExpansionCode.Items(L), "#ENDIF") AndAlso L <> CurrSelection Then
+            If SWIC(LExpansionCode.Items(L).ToString(), "#ENDIF") AndAlso L <> CurrSelection Then
                 xStack += 1
             End If
 
-            If SWIC(LExpansionCode.Items(L), "#IF") Then
+            If SWIC(LExpansionCode.Items(L).ToString(), "#IF") Then
                 If xStack > 0 Then
                     xStack -= 1
                 Else
@@ -105,11 +105,11 @@ Public Class OpExpand
         Next
         ' Find the last line of the currect #if section, right before #endif
         For U = CurrSelection To TExpansionTextSplit.Length - 1
-            If SWIC(LExpansionCode.Items(U), "#IF") AndAlso U <> CurrSelection Then
+            If SWIC(LExpansionCode.Items(U).ToString(), "#IF") AndAlso U <> CurrSelection Then
                 xStack += 1
             End If
 
-            If SWIC(LExpansionCode.Items(U), "#ENDIF") Then
+            If SWIC(LExpansionCode.Items(U).ToString(), "#ENDIF") Then
                 If xStack > 0 Then
                     xStack -= 1
                 Else

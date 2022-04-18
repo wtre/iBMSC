@@ -411,7 +411,7 @@ Public Class UndoRedo
                                   xSta(0), xSta(1), xSta(2), xSta(3), xSta(4), xSta(5), xSta(6), xSta(7),
                                   xLen(0), xLen(1), xLen(2), xLen(3), xLen(4), xLen(5), xLen(6), xLen(7),
                                   xHalf(0), xHalf(1), xHalf(2), xHalf(3), xHalf(4), xHalf(5), xHalf(6), xHalf(7),
-                                  IIf(Selected, trueByte, falseByte)}
+                                  CType(IIf(Selected, trueByte, falseByte), Byte)}
         End Function
 
         Public Sub New(ByVal b() As Byte)
@@ -442,8 +442,8 @@ Public Class UndoRedo
 
         Public Overrides Function toBytes() As Byte()
             toBytes = New Byte() {opNT,
-                                  IIf(BecomeNT, trueByte, falseByte),
-                                  IIf(AutoConvert, trueByte, falseByte)}
+                                  CType(IIf(BecomeNT, trueByte, falseByte), Byte),
+                                  CType(IIf(AutoConvert, trueByte, falseByte), Byte)}
         End Function
 
         Public Sub New(ByVal b() As Byte)
@@ -469,7 +469,7 @@ Public Class UndoRedo
         End Sub
         Public Overrides Function toBytes() As Byte()
             toBytes = New Byte() {opWavAutoincFlag,
-                                  IIf(Checked, trueByte, falseByte)}
+                                  CType(IIf(Checked, trueByte, falseByte), Byte)}
         End Function
 
         Public Sub New(ByVal b() As Byte)

@@ -20,7 +20,7 @@ Partial Public Class MainWindow
         Dim xDWAV As New OpenFileDialog
         xDWAV.Filter = "Wave files (*.wav, *.ogg)" & "|*.wav;*.ogg"
         xDWAV.DefaultExt = "wav"
-        xDWAV.InitialDirectory = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName))
+        xDWAV.InitialDirectory = CStr(IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName)))
 
         If xDWAV.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
         InitPath = ExcludeFileName(xDWAV.FileName)
@@ -49,22 +49,22 @@ Partial Public Class MainWindow
         RefreshPanelAll()
     End Sub
 
-    Private Function LoadWaveForm(ByVal filepath As String)
+    Private Function LoadWaveForm(ByVal filepath As String) As WavSample
         filepath = Audio.CheckFilename(filepath)
         If Not System.IO.File.Exists(filepath) Then Return New WavSample({}, {}, 0, 0)
 
         Dim src = CSCore.Codecs.CodecFactory.Instance.GetCodec(filepath)
 
         src.ToStereo()
-        Dim samples(src.Length) As Single
-        src.ToSampleSource().Read(samples, 0, src.Length)
+        Dim samples(CInt(src.Length)) As Single
+        src.ToSampleSource().Read(samples, 0, CInt(src.Length))
 
         Dim flen = (src.Length - 1) / src.WaveFormat.Channels
 
         ' Copy interleaved data
-        ReDim wWavL(flen + 1)
-        ReDim wWavR(flen + 1)
-        For i As Integer = 0 To flen
+        ReDim wWavL(CInt(flen) + 1)
+        ReDim wWavR(CInt(flen) + 1)
+        For i As Integer = 0 To CInt(flen)
             If 2 * i < src.Length Then
                 wWavL(i) = samples(2 * i)
             End If
@@ -87,9 +87,9 @@ Partial Public Class MainWindow
 
     End Function
 
-    Private Function LoadDuration(ByVal filepath As String)
+    Private Function LoadDuration(ByVal filepath As String) As WavSample
         filepath = Audio.CheckFilename(filepath)
-        If Not System.IO.File.Exists(filepath) Then Return 0
+        If Not System.IO.File.Exists(filepath) Then Return New WavSample({}, {}, 0, 0)
 
         Dim src = CSCore.Codecs.CodecFactory.Instance.GetCodec(filepath)
 
