@@ -33,11 +33,15 @@ Namespace Editor
         Public Function C10to36(ByVal xStart As Long) As String
             If xStart < 1 Then xStart = 1
             If xStart > 1295 Then xStart = 1295
-            Return C10to36S(xStart \ 36) & C10to36S(xStart Mod 36)
+            Return C10to36S(CInt(xStart \ 36)) & C10to36S(CInt(xStart Mod 36))
         End Function
         Public Function C36to10(ByVal xStart As String) As Integer
             xStart = Mid("00" & xStart, Len(xStart) + 1)
             Return C36to10S(xStart.Chars(0)) * 36 + C36to10S(xStart.Chars(1))
+        End Function
+
+        Public Function C36to10(ByVal xStart As Integer) As Integer
+            Return C36to10(xStart.ToString())
         End Function
 
         Public Function EncodingToString(TextEncoding As System.Text.Encoding) As String
@@ -64,10 +68,10 @@ Namespace Editor
                 Return Color.FromArgb(0)
             Else
                 Return Color.FromArgb(
-                    cStart.A * iTransparency,
-                    cStart.R * (100 - Math.Abs(iPercent)) * 0.01 + Math.Abs(CInt(iPercent >= 0) * iPercent) * 2.55,
-                    cStart.G * (100 - Math.Abs(iPercent)) * 0.01 + Math.Abs(CInt(iPercent >= 0) * iPercent) * 2.55,
-                    cStart.B * (100 - Math.Abs(iPercent)) * 0.01 + Math.Abs(CInt(iPercent >= 0) * iPercent) * 2.55)
+                    CInt(cStart.A * iTransparency),
+                    CInt(cStart.R * (100 - Math.Abs(iPercent)) * 0.01 + Math.Abs(CInt(iPercent >= 0) * iPercent) * 2.55),
+                    CInt(cStart.G * (100 - Math.Abs(iPercent)) * 0.01 + Math.Abs(CInt(iPercent >= 0) * iPercent) * 2.55),
+                    CInt(cStart.B * (100 - Math.Abs(iPercent)) * 0.01 + Math.Abs(CInt(iPercent >= 0) * iPercent) * 2.55))
             End If
         End Function
 
@@ -84,7 +88,7 @@ Namespace Editor
         Public Function RandomFileName(ByVal extWithDot As String) As String
             Do
                 Randomize()
-                RandomFileName = Now.Ticks & Mid(Rnd(), 3) & extWithDot
+                RandomFileName = Now.Ticks & Mid(Rnd().ToString(), 3) & extWithDot
             Loop While File.Exists(RandomFileName) Or Directory.Exists(RandomFileName)
         End Function
 
@@ -120,7 +124,7 @@ Namespace Editor
             xG = (xG * xxS * (1 - Math.Abs(xxB)) + xxB + 1) * 255 / 2
             xB = (xB * xxS * (1 - Math.Abs(xxB)) + xxB + 1) * 255 / 2
 
-            Return Color.FromArgb(xA, xR, xG, xB)
+            Return Color.FromArgb(xA, CInt(xR), CInt(xG), CInt(xB))
         End Function
 
         Public Function FontToString(ByVal xFont As Font) As String
@@ -139,7 +143,7 @@ Namespace Editor
         Public Function StringToFont(ByVal xStr As String, ByVal xDefault As Font) As Font
             Dim xLine() As String = Split(xStr, ",")
             If UBound(xLine) = 2 Then
-                Dim xFontStyle As System.Drawing.FontStyle = Val(xLine(2))
+                Dim xFontStyle As System.Drawing.FontStyle = CType(xLine(2), FontStyle)
                 Return New Font(xLine(0), CSng(Val(xLine(1))), xFontStyle, GraphicsUnit.Pixel)
             Else
                 Return xDefault
@@ -149,7 +153,7 @@ Namespace Editor
         Public Function ArrayToString(ByVal xInt() As Integer) As String
             Dim xStr As String = ""
             For xI1 As Integer = 0 To UBound(xInt)
-                xStr &= xInt(xI1).ToString & IIf(xI1 = UBound(xInt), "", ",")
+                xStr &= xInt(xI1).ToString() & IIf(xI1 = UBound(xInt), "", ",").ToString()
             Next
             Return xStr
         End Function
@@ -157,7 +161,7 @@ Namespace Editor
         Public Function ArrayToString(ByVal xBool() As Boolean) As String
             Dim xStr As String = ""
             For xI1 As Integer = 0 To UBound(xBool)
-                xStr &= CInt(xBool(xI1)).ToString & IIf(xI1 = UBound(xBool), "", ",")
+                xStr &= CInt(xBool(xI1)).ToString() & IIf(xI1 = UBound(xBool), "", ",").ToString()
             Next
             Return xStr
         End Function
@@ -165,7 +169,7 @@ Namespace Editor
         Public Function ArrayToString(ByVal xColor() As Color) As String
             Dim xStr As String = ""
             For xI1 As Integer = 0 To UBound(xColor)
-                xStr &= xColor(xI1).ToArgb.ToString & IIf(xI1 = UBound(xColor), "", ",")
+                xStr &= xColor(xI1).ToArgb.ToString() & IIf(xI1 = UBound(xColor), "", ",").ToString()
             Next
             Return xStr
         End Function
@@ -174,7 +178,7 @@ Namespace Editor
             Dim xL() As String = Split(xStr, ",")
             Dim xInt(UBound(xL)) As Integer
             For xI1 As Integer = 0 To UBound(xInt)
-                xInt(xI1) = Val(xL(xI1))
+                xInt(xI1) = CInt(xL(xI1))
             Next
             Return xInt
         End Function
@@ -194,7 +198,7 @@ Namespace Editor
             Dim m10 As Long = 0
             Dim m11 As Long = 1
             Dim x As Double = a
-            Dim ai As Long = Int(x)
+            Dim ai As Long = CLng(Int(x))
 
             Do While m10 * ai + m11 <= maxDenom
                 Dim t As Long
@@ -209,7 +213,7 @@ Namespace Editor
                 x = 1 / (x - ai)
 
                 If x > CDbl(&H7FFFFFFFFFFFFFFF) Then Exit Do
-                ai = Int(x)
+                ai = CLng(Int(x))
             Loop
 
             Return m10

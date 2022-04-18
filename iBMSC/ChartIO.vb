@@ -59,11 +59,11 @@ SkipInitialization:
             If xGhost Then GoTo SkipLoadingHeader
 
             If sLineTrim.StartsWith("#") And Mid(sLineTrim, 5, 3) = "02:" Then
-                Dim xIndex As Integer = Val(Mid(sLineTrim, 2, 3))
+                Dim xIndex As Integer = CInt(Mid(sLineTrim, 2, 3))
                 Dim xRatio As Double = Val(Mid(sLineTrim, 8))
                 Dim xxD As Long = GetDenominator(xRatio)
                 MeasureLength(xIndex) = xRatio * 192.0R
-                LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ")
+                LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ").ToString()
                 GoTo AddToxStrLine2
 
             ElseIf SWIC(sLineTrim, "#WAV") Then
@@ -72,16 +72,16 @@ SkipInitialization:
 
             ElseIf SWIC(sLineTrim, "#BPM") And Not Mid(sLineTrim, Len("#BPM") + 1, 1).Trim = "" Then  'If BPM##
                 ' zdr: No limits on BPM editing.. they don't make much sense.
-                hBPM(C36to10(Mid(sLineTrim, Len("#BPM") + 1, 2))) = Val(Mid(sLineTrim, Len("#BPM") + 4)) * 10000
+                hBPM(C36to10(Mid(sLineTrim, Len("#BPM") + 1, 2))) = CLng(Mid(sLineTrim, Len("#BPM") + 4)) * 10000
                 GoTo AddToxStrLine2
 
                 'No limits on STOPs either.
             ElseIf SWIC(sLineTrim, "#STOP") Then
-                hSTOP(C36to10(Mid(sLineTrim, Len("#STOP") + 1, 2))) = Val(Mid(sLineTrim, Len("#STOP") + 4)) * 10000
+                hSTOP(C36to10(Mid(sLineTrim, Len("#STOP") + 1, 2))) = CLng(Mid(sLineTrim, Len("#STOP") + 4)) * 10000
                 GoTo AddToxStrLine2
 
             ElseIf SWIC(sLineTrim, "#SCROLL") Then
-                hBMSCROLL(C36to10(Mid(sLineTrim, Len("#SCROLL") + 1, 2))) = Val(Mid(sLineTrim, Len("#SCROLL") + 4)) * 10000
+                hBMSCROLL(C36to10(Mid(sLineTrim, Len("#SCROLL") + 1, 2))) = CLng(Mid(sLineTrim, Len("#SCROLL") + 4)) * 10000
                 GoTo AddToxStrLine2
 
             ElseIf SWIC(sLineTrim, "#TITLE") Then
@@ -97,18 +97,18 @@ SkipInitialization:
                 GoTo AddToxStrLine2
 
             ElseIf SWIC(sLineTrim, "#BPM") Then  'If BPM ####
-                Notes(0).Value = Val(Mid(sLineTrim, Len("#BPM") + 1).Trim) * 10000
-                THBPM.Value = Notes(0).Value / 10000
+                Notes(0).Value = CLng(Mid(sLineTrim, Len("#BPM") + 1).Trim) * 10000
+                THBPM.Value = CDec(Notes(0).Value / 10000)
                 GoTo AddToxStrLine2
 
             ElseIf SWIC(sLineTrim, "#PLAYER") Then
-                Dim xInt As Integer = Val(Mid(sLineTrim, Len("#PLAYER") + 1).Trim)
+                Dim xInt As Integer = CInt(Mid(sLineTrim, Len("#PLAYER") + 1).Trim)
                 If xInt >= 1 And xInt <= 4 Then _
                     CHPlayer.SelectedIndex = xInt - 1
                 GoTo AddToxStrLine2
 
             ElseIf SWIC(sLineTrim, "#RANK") Then
-                Dim xInt As Integer = Val(Mid(sLineTrim, Len("#RANK") + 1).Trim)
+                Dim xInt As Integer = CInt(Mid(sLineTrim, Len("#RANK") + 1).Trim)
                 If xInt >= 0 And xInt <= 4 Then _
                     CHRank.SelectedIndex = xInt
                 GoTo AddToxStrLine2
@@ -176,7 +176,7 @@ SkipInitialization:
                 Continue For
 
             ElseIf SWIC(sLineTrim, "#ECOM") Then ' Comment notes
-                Dim xComVal = C36to10(Val(Mid(sLineTrim, Len("#ECOM") + 1, 2)))
+                Dim xComVal As Integer = C36to10(Mid(sLineTrim, Len("#ECOM") + 1, 2).ToString())
                 hCOM(C36to10(xComVal)) = Mid(sLineTrim, Len("#ECOM") + 4)
                 If xComVal > hCOMNum Then hCOMNum = xComVal
                 Continue For
@@ -222,7 +222,7 @@ SkipUpdateMeasureBottom:
             ' >> Measure =           Mid(sLine, 2, 3)
             ' >> Column Identifier = Mid(sLine, 5, 2)
             ' >> K =                 Mid(sLine, xI1, 2)
-            Dim xMeasure As Integer = Val(Mid(sLineTrim, 2, 3))
+            Dim xMeasure As Integer = CInt(Mid(sLineTrim, 2, 3))
             Dim Channel As String = Mid(sLineTrim, 5, 2)
             If BMSChannelToColumn(Channel) = 0 Then Continue For
 
@@ -234,7 +234,7 @@ SkipUpdateMeasureBottom:
 
                 With Notes(UBound(Notes))
                     .ColumnIndex = BMSChannelToColumn(Channel) +
-                                        IIf(Channel = "01", 1, 0) * (mColumn(xMeasure) - 1)
+                                        CInt(IIf(Channel = "01", 1, 0)) * (mColumn(xMeasure) - 1)
                     .LongNote = IsChannelLongNote(Channel)
                     .Hidden = IsChannelHidden(Channel)
                     .Landmine = IsChannelLandmine(Channel)
@@ -319,7 +319,7 @@ SkipLWAVAndExpansion:
 
         Dim xNTInput As Boolean = NTInput
         If GhostMode = 2 Then SwapGhostNotes() ' Revert main notes back to non-ghost notes
-        Dim xKBackUp() As Note = Notes.Clone 'All notes
+        Dim xKBackUp() As Note = CType(Notes.Clone(), Note()) 'All notes
         If xNTInput Then
             NTInput = False
             ConvertNT2BMSE()
@@ -377,11 +377,11 @@ SkipLWAVAndExpansion:
         If hasOverlapping Then MsgBox(Strings.Messages.SaveWarning & vbCrLf &
                                                           Strings.Messages.NoteOverlapError & vbCrLf &
                                                 Strings.Messages.SavedFileWillContainErrors, MsgBoxStyle.Exclamation)
-        If UBound(hBPM) > IIf(BPMx1296, 1295, 255) Then MsgBox(Strings.Messages.SaveWarning & vbCrLf &
-                                                          Strings.Messages.BPMOverflowError & UBound(hBPM) & " > " & IIf(BPMx1296, 1295, 255) & vbCrLf &
+        If UBound(hBPM) > CInt(IIf(BPMx1296, 1295, 255)) Then MsgBox(Strings.Messages.SaveWarning & vbCrLf &
+                                                          Strings.Messages.BPMOverflowError & UBound(hBPM) & " > " & IIf(BPMx1296, 1295, 255).ToString() & vbCrLf &
                                                 Strings.Messages.SavedFileWillContainErrors, MsgBoxStyle.Exclamation)
-        If UBound(hSTOP) > IIf(STOPx1296, 1295, 255) Then MsgBox(Strings.Messages.SaveWarning & vbCrLf &
-                                                           Strings.Messages.STOPOverflowError & UBound(hSTOP) & " > " & IIf(STOPx1296, 1295, 255) & vbCrLf &
+        If UBound(hSTOP) > CInt(IIf(STOPx1296, 1295, 255)) Then MsgBox(Strings.Messages.SaveWarning & vbCrLf &
+                                                           Strings.Messages.STOPOverflowError & UBound(hSTOP) & " > " & IIf(STOPx1296, 1295, 255).ToString() & vbCrLf &
                                                   Strings.Messages.SavedFileWillContainErrors, MsgBoxStyle.Exclamation)
         If UBound(hBMSCROLL) > 1295 Then MsgBox(Strings.Messages.SaveWarning & vbCrLf &
                                            Strings.Messages.SCROLLOverflowError & UBound(hBMSCROLL) & " > " & 1295 & vbCrLf &
@@ -400,11 +400,11 @@ SkipLWAVAndExpansion:
             GhostModeTemp = GhostMode
             GhostMode = 0
             TExpansion.Text = ""
-            Dim xKBackUpG() As Note = xKBackUp.Clone
+            Dim xKBackUpG() As Note = CType(xKBackUp.Clone(), Note())
             Dim xStrCompare() As String = Split(Replace(Replace(Replace(SaveBMS(), vbLf, vbCr), vbCr & vbCr, vbCr), vbCr, vbCrLf), vbCrLf,, CompareMethod.Text)
 
             ' Save ghost notes
-            Notes = xKBackUpG.Clone
+            Notes = CType(xKBackUpG.Clone(), Note())
             If xNTInput Then ConvertNT2BMSE()
             SwapGhostNotes()
             RemoveGhostNotes() ' Remove Main Notes from Notes()
@@ -421,7 +421,7 @@ SkipLWAVAndExpansion:
                 End If
             Next
             TExpansion.Text = Join(ExpansionSplit, vbCrLf)
-            xKBackUp = xKBackUpG.Clone
+            xKBackUp = CType(xKBackUpG.Clone(), Note())
         End If
         ' Combine all expansion texts
         Dim xStrExp As String = vbCrLf & "*---------------------- EXPANSION FIELD" & vbCrLf & TExpansion.Text & vbCrLf & vbCrLf
@@ -429,7 +429,7 @@ SkipLWAVAndExpansion:
 
         ' Add comment notes
         Dim xStrEditorCommentNotes As String = ""
-        Notes = xKBackUp.Clone
+        Notes = CType(xKBackUp.Clone(), Note())
         If xNTInput Then ConvertNT2BMSE()
         ' Swap comment notes. Not a sub/function since expected to use only once.
         For xI1 = 1 To UBound(Notes)
@@ -454,7 +454,7 @@ SkipLWAVAndExpansion:
         Dim xStrMain As String = "*---------------------- MAIN DATA FIELD" & vbCrLf & vbCrLf & Join(xStrMeasure, "") & vbCrLf
 
         ' Restore notes
-        Notes = xKBackUp.Clone
+        Notes = CType(xKBackUp.Clone(), Note())
         If xNTInput Then
             NTInput = True
         End If
@@ -514,7 +514,7 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
         If THBanner.Text <> "" Then xStrHeader &= "#BANNER " & THBanner.Text & vbCrLf
         If THBackBMP.Text <> "" Then xStrHeader &= "#BACKBMP " & THBackBMP.Text & vbCrLf
         xStrHeader &= vbCrLf
-        If CHDifficulty.SelectedIndex Then xStrHeader &= "#DIFFICULTY " & CHDifficulty.SelectedIndex & vbCrLf
+        If CHDifficulty.SelectedIndex > 0 Then xStrHeader &= "#DIFFICULTY " & CHDifficulty.SelectedIndex & vbCrLf
         If THExRank.Text <> "" Then xStrHeader &= "#DEFEXRANK " & THExRank.Text & vbCrLf
         If THTotal.Text <> "" Then xStrHeader &= "#TOTAL " & THTotal.Text & vbCrLf
         If THComment.Text <> "" Then xStrHeader &= "#COMMENT """ & THComment.Text & """" & vbCrLf
@@ -534,12 +534,12 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
         Next
         For i = 1 To UBound(hBPM)
             xStrHeader &= "#BPM" &
-                IIf(BPMx1296, C10to36(i), Mid("0" & Hex(i), Len(Hex(i)))) &
+                IIf(BPMx1296, C10to36(i), Mid("0" & Hex(i), Len(Hex(i)))).ToString() &
                 " " & WriteDecimalWithDot(hBPM(i) / 10000) & vbCrLf
         Next
         For i = 1 To UBound(hSTOP)
             xStrHeader &= "#STOP" &
-                IIf(STOPx1296, C10to36(i), Mid("0" & Hex(i), Len(Hex(i)))) &
+                IIf(STOPx1296, C10to36(i), Mid("0" & Hex(i), Len(Hex(i)))).ToString() &
                 " " & WriteDecimalWithDot(hSTOP(i) / 10000) & vbCrLf
         Next
         For i = 1 To UBound(hBMSCROLL)
@@ -578,8 +578,8 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
         Dim Ret As String = ""
 
         For Each CurrentBMSChannel In BMSChannelList 'Start rendering other notes
-            Dim relativeMeasurePos(-1) 'Ks in the same column
-            Dim NoteStrings(-1)      'Ks in the same column
+            Dim relativeMeasurePos(-1) As Double 'Ks in the same column
+            Dim NoteStrings(-1) As String        'Ks in the same column
 
             ' Background tracks take care of this.
             If CurrentBMSChannel = "01" Then Continue For
@@ -598,7 +598,7 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
                     If CurrentBMSChannel = "03" Then 'If integer bpm
                         NoteStrings(UBound(NoteStrings)) = Mid("0" & Hex(currentNote.Value \ 10000), Len(Hex(currentNote.Value \ 10000)))
                     ElseIf CurrentBMSChannel = "08" Then 'If bpm requires declaration
-                        Dim BpmIndex
+                        Dim BpmIndex As Integer
                         For BpmIndex = 1 To UBound(hBPM) ' find BPM value in existing array
                             If currentNote.Value = hBPM(BpmIndex) Then Exit For
                         Next
@@ -606,9 +606,9 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
                             ReDim Preserve hBPM(UBound(hBPM) + 1)
                             hBPM(UBound(hBPM)) = currentNote.Value
                         End If
-                        NoteStrings(UBound(NoteStrings)) = IIf(BPMx1296, C10to36(BpmIndex), Mid("0" & Hex(BpmIndex), Len(Hex(BpmIndex))))
+                        NoteStrings(UBound(NoteStrings)) = IIf(BPMx1296, C10to36(BpmIndex), Mid("0" & Hex(BpmIndex), Len(Hex(BpmIndex)))).ToString()
                     ElseIf CurrentBMSChannel = "09" Then 'If STOP
-                        Dim StopIndex
+                        Dim StopIndex As Integer
                         For StopIndex = 1 To UBound(hSTOP) ' find STOP value in existing array
                             If currentNote.Value = hSTOP(StopIndex) Then Exit For
                         Next
@@ -617,9 +617,9 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
                             ReDim Preserve hSTOP(UBound(hSTOP) + 1)
                             hSTOP(UBound(hSTOP)) = currentNote.Value
                         End If
-                        NoteStrings(UBound(NoteStrings)) = IIf(STOPx1296, C10to36(StopIndex), Mid("0" & Hex(StopIndex), Len(Hex(StopIndex))))
+                        NoteStrings(UBound(NoteStrings)) = IIf(STOPx1296, C10to36(StopIndex), Mid("0" & Hex(StopIndex), Len(Hex(StopIndex)))).ToString()
                     ElseIf CurrentBMSChannel = "SC" Then 'If SCROLL
-                        Dim ScrollIndex
+                        Dim ScrollIndex As Integer
                         For ScrollIndex = 1 To UBound(hBMSCROLL) ' find SCROLL value in existing array
                             If currentNote.Value = hBMSCROLL(ScrollIndex) Then Exit For
                         Next
@@ -649,20 +649,21 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
             Next
 
             For i = 0 To UBound(relativeMeasurePos)        'assign K texts
+                Dim CBMSCI As Integer = CInt(CurrentBMSChannel)
                 If CInt(relativeMeasurePos(i) / xGCD) > UBound(xStrKey) Then
                     ReDim Preserve xprevNotes(UBound(xprevNotes) + 1)
                     With xprevNotes(UBound(xprevNotes))
-                        .ColumnIndex = BMSChannelToColumn(BMSChannelList(CurrentBMSChannel))
-                        .LongNote = IsChannelLongNote(BMSChannelList(CurrentBMSChannel))
-                        .Hidden = IsChannelHidden(BMSChannelList(CurrentBMSChannel))
+                        .ColumnIndex = BMSChannelToColumn(BMSChannelList(CBMSCI))
+                        .LongNote = IsChannelLongNote(BMSChannelList(CBMSCI))
+                        .Hidden = IsChannelHidden(BMSChannelList(CBMSCI))
                         .VPosition = MeasureBottom(MeasureIndex)
                         .Value = C36to10(NoteStrings(i))
                     End With
-                    If BMSChannelList(CurrentBMSChannel) = "08" Then _
-                        xprevNotes(UBound(xprevNotes)).Value = IIf(BPMx1296, hBPM(C36to10(NoteStrings(i))), hBPM(Convert.ToInt32(NoteStrings(i), 16)))
-                    If BMSChannelList(CurrentBMSChannel) = "09" Then _
-                        xprevNotes(UBound(xprevNotes)).Value = IIf(STOPx1296, hSTOP(C36to10(NoteStrings(i))), hSTOP(Convert.ToInt32(NoteStrings(i), 16)))
-                    If BMSChannelList(CurrentBMSChannel) = "SC" Then _
+                    If BMSChannelList(CBMSCI) = "08" Then _
+                        xprevNotes(UBound(xprevNotes)).Value = CLng(IIf(BPMx1296, hBPM(C36to10(NoteStrings(i))), hBPM(Convert.ToInt32(NoteStrings(i), 16))))
+                    If BMSChannelList(CBMSCI) = "09" Then _
+                        xprevNotes(UBound(xprevNotes)).Value = CLng(IIf(STOPx1296, hSTOP(C36to10(NoteStrings(i))), hSTOP(Convert.ToInt32(NoteStrings(i), 16))))
+                    If BMSChannelList(CBMSCI) = "SC" Then _
                         xprevNotes(UBound(xprevNotes)).Value = hBMSCROLL(C36to10(NoteStrings(i)))
                     Continue For
                 End If
@@ -800,11 +801,11 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
                 Dim xItem() As String = Split(xLine, ",")
 
                 Dim xVal1 As Double
-                Dim xVal2 As Double
+                Dim xVal2 As Long
 
                 For xI1 As Integer = 0 To UBound(xItem)
-                    xVal1 = Mid(xItem(xI1), 1, InStr(xItem(xI1), "=") - 1)
-                    xVal2 = Mid(xItem(xI1), InStr(xItem(xI1), "=") + 1)
+                    xVal1 = CDbl(Mid(xItem(xI1), 1, InStr(xItem(xI1), "=") - 1))
+                    xVal2 = CLng(Mid(xItem(xI1), InStr(xItem(xI1), "=") + 1))
 
                     If xVal1 <> 0 Then
                         ReDim Preserve Notes(Notes.Length)
@@ -902,7 +903,7 @@ Jump1:
         LWAV.SelectedIndex = 0
         LWAV.Visible = True
 
-        THBPM.Value = Notes(0).Value / 10000
+        THBPM.Value = CDec(Notes(0).Value / 10000)
         SortByVPositionQuick(0, UBound(Notes))
         UpdatePairing()
         CalculateTotalPlayableNotes()
@@ -947,54 +948,54 @@ Jump1:
                 Case &H66657250     'Preferences
                     Dim xPref As Integer = br.ReadInt32
 
-                    NTInput = xPref And &H1
+                    NTInput = CBool(xPref And &H1)
                     TBNTInput.Checked = NTInput
                     mnNTInput.Checked = NTInput
                     POBLong.Enabled = Not NTInput
                     POBLongShort.Enabled = Not NTInput
 
-                    ErrorCheck = xPref And &H2
+                    ErrorCheck = CBool(xPref And &H2)
                     TBErrorCheck.Checked = ErrorCheck
                     TBErrorCheck_Click(TBErrorCheck, New System.EventArgs)
 
-                    PreviewOnClick = xPref And &H4
+                    PreviewOnClick = CBool(xPref And &H4)
                     TBPreviewOnClick.Checked = PreviewOnClick
                     TBPreviewOnClick_Click(TBPreviewOnClick, New System.EventArgs)
 
-                    ShowFileName = xPref And &H8
+                    ShowFileName = CBool(xPref And &H8)
                     TBShowFileName.Checked = ShowFileName
                     TBShowFileName_Click(TBShowFileName, New System.EventArgs)
 
-                    mnSMenu.Checked = xPref And &H100
-                    mnSTB.Checked = xPref And &H200
-                    mnSOP.Checked = xPref And &H400
-                    mnSStatus.Checked = xPref And &H800
-                    mnSLSplitter.Checked = xPref And &H1000
-                    mnSRSplitter.Checked = xPref And &H2000
+                    mnSMenu.Checked = CBool(xPref And &H100)
+                    mnSTB.Checked = CBool(xPref And &H200)
+                    mnSOP.Checked = CBool(xPref And &H400)
+                    mnSStatus.Checked = CBool(xPref And &H800)
+                    mnSLSplitter.Checked = CBool(xPref And &H1000)
+                    mnSRSplitter.Checked = CBool(xPref And &H2000)
 
-                    CGShow.Checked = xPref And &H4000
-                    CGShowS.Checked = xPref And &H8000
-                    CGShowBG.Checked = xPref And &H10000
-                    CGShowM.Checked = xPref And &H20000
-                    CGShowMB.Checked = xPref And &H40000
-                    CGShowV.Checked = xPref And &H80000
-                    CGShowC.Checked = xPref And &H100000
-                    CGBLP.Checked = xPref And &H200000
-                    CGSTOP.Checked = xPref And &H400000
-                    CGSCROLL.Checked = xPref And &H20000000
-                    CGBPM.Checked = xPref And &H800000
+                    CGShow.Checked = CBool(xPref And &H4000)
+                    CGShowS.Checked = CBool(xPref And &H8000)
+                    CGShowBG.Checked = CBool(xPref And &H10000)
+                    CGShowM.Checked = CBool(xPref And &H20000)
+                    CGShowMB.Checked = CBool(xPref And &H40000)
+                    CGShowV.Checked = CBool(xPref And &H80000)
+                    CGShowC.Checked = CBool(xPref And &H100000)
+                    CGBLP.Checked = CBool(xPref And &H200000)
+                    CGSTOP.Checked = CBool(xPref And &H400000)
+                    CGSCROLL.Checked = CBool(xPref And &H20000000)
+                    CGBPM.Checked = CBool(xPref And &H800000)
 
-                    CGSnap.Checked = xPref And &H1000000
-                    CGDisableVertical.Checked = xPref And &H2000000
-                    cVSLockL.Checked = xPref And &H4000000
-                    cVSLock.Checked = xPref And &H8000000
-                    cVSLockR.Checked = xPref And &H10000000
+                    CGSnap.Checked = CBool(xPref And &H1000000)
+                    CGDisableVertical.Checked = CBool(xPref And &H2000000)
+                    cVSLockL.Checked = CBool(xPref And &H4000000)
+                    cVSLock.Checked = CBool(xPref And &H8000000)
+                    cVSLockR.Checked = CBool(xPref And &H10000000)
 
                     CGDivide.Value = br.ReadInt32
                     CGSub.Value = br.ReadInt32
                     gSlash = br.ReadInt32
-                    CGHeight.Value = br.ReadSingle
-                    CGWidth.Value = br.ReadSingle
+                    CGHeight.Value = CDec(br.ReadSingle)
+                    CGWidth.Value = CDec(br.ReadSingle)
                     CGB.Value = br.ReadInt32
 
                 Case &H64616548     'Header
@@ -1025,10 +1026,10 @@ Jump1:
 
                 Case &H564157       'WAV List
                     Dim xWAVOptions As Integer = br.ReadByte
-                    WAVMultiSelect = xWAVOptions And &H1
+                    WAVMultiSelect = CBool(xWAVOptions And &H1)
                     CWAVMultiSelect.Checked = WAVMultiSelect
                     CWAVMultiSelect_CheckedChanged(CWAVMultiSelect, New EventArgs)
-                    WAVChangeLabel = xWAVOptions And &H2
+                    WAVChangeLabel = CBool(xWAVOptions And &H2)
                     CWAVChangeLabel.Checked = WAVChangeLabel
                     CWAVChangeLabel_CheckedChanged(CWAVChangeLabel, New EventArgs)
 
@@ -1054,7 +1055,7 @@ Jump1:
                         MeasureLength(xIndex) = br.ReadDouble
                         Dim xRatio As Double = MeasureLength(xIndex) / 192.0R
                         Dim xxD As Long = GetDenominator(xRatio)
-                        LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ")
+                        LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ").ToString()
                     Next
 
                 Case &H6E707845     'Expansion Code
@@ -1116,7 +1117,7 @@ EndOfSub:
         LWAV.SelectedIndex = 0
         LWAV.Visible = True
 
-        THBPM.Value = Notes(0).Value / 10000
+        THBPM.Value = CDec(Notes(0).Value / 10000)
         SortByVPositionQuick(0, UBound(Notes))
         UpdatePairing()
         UpdateMeasureBottom()

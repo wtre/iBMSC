@@ -44,9 +44,9 @@ Public Class OpGeneral
             Case 8 : zEncoding = System.Text.Encoding.GetEncoding(51949)
         End Select
         'zSort = CSortingMethod.SelectedIndex
-        zMiddle = IIf(rMiddleDrag.Checked, 1, 0)
-        zAutoSave = IIf(cAutoSave.Checked, 1, 0) * NAutoSave.Value * 60000
-        zGridPartition = nGridPartition.Value
+        zMiddle = CInt(IIf(rMiddleDrag.Checked, 1, 0))
+        zAutoSave = CInt(IIf(cAutoSave.Checked, NAutoSave.Value * 60000, 0))
+        zGridPartition = CInt(nGridPartition.Value)
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
@@ -82,8 +82,8 @@ Public Class OpGeneral
         CTextEncoding.SelectedIndex = xTextEncoding
         'CSortingMethod.SelectedIndex = xSort
         nGridPartition.Value = xGridPartition
-        nJackBPM.Value = xJackBPM
-        nJackTH.Value = xJackTH
+        nJackBPM.Value = CDec(xJackBPM)
+        nJackTH.Value = CDec(xJackTH)
 
         If xMiddleButton = 0 Then rMiddleAuto.Checked = True _
                              Else rMiddleDrag.Checked = True
@@ -91,7 +91,7 @@ Public Class OpGeneral
         If xAutoSave / 60000 > NAutoSave.Maximum Or xAutoSave / 60000 < NAutoSave.Minimum Then
             cAutoSave.Checked = False
         Else
-            NAutoSave.Value = xAutoSave / 60000
+            NAutoSave.Value = CDec(xAutoSave / 60000)
         End If
 
         cBeep.Checked = xBeep

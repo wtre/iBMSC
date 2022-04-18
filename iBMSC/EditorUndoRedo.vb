@@ -12,7 +12,7 @@ Partial Public Class MainWindow
 
             Select Case xType
                 Case UndoRedo.opAddNote
-                    Dim xCmd As UndoRedo.AddNote = sCmd
+                    Dim xCmd As UndoRedo.AddNote = CType(sCmd, UndoRedo.AddNote)
 
                     ReDim Preserve Notes(UBound(Notes) + 1)
                     Notes(UBound(Notes)) = xCmd.note
@@ -21,7 +21,7 @@ Partial Public Class MainWindow
                         IncreaseCurrentWav()
                     End If
                 Case UndoRedo.opRemoveNote
-                    Dim xCmd As UndoRedo.RemoveNote = sCmd
+                    Dim xCmd As UndoRedo.RemoveNote = CType(sCmd, UndoRedo.RemoveNote)
                     Dim xI2 As Integer = FindNoteIndex(xCmd.note)
 
                     If xI2 < Notes.Length Then
@@ -36,7 +36,7 @@ Partial Public Class MainWindow
                     End If
 
                 Case UndoRedo.opChangeNote
-                    Dim xCmd As UndoRedo.ChangeNote = sCmd
+                    Dim xCmd As UndoRedo.ChangeNote = CType(sCmd, UndoRedo.ChangeNote)
                     Dim xI2 As Integer = FindNoteIndex(xCmd.note)
 
                     If xI2 < Notes.Length Then
@@ -44,7 +44,7 @@ Partial Public Class MainWindow
                     End If
 
                 Case UndoRedo.opMoveNote
-                    Dim xCmd As UndoRedo.MoveNote = sCmd
+                    Dim xCmd As UndoRedo.MoveNote = CType(sCmd, UndoRedo.MoveNote)
                     Dim xI2 As Integer = FindNoteIndex(xCmd.note)
 
                     If xI2 < Notes.Length Then
@@ -56,7 +56,7 @@ Partial Public Class MainWindow
                     End If
 
                 Case UndoRedo.opLongNoteModify
-                    Dim xCmd As UndoRedo.LongNoteModify = sCmd
+                    Dim xCmd As UndoRedo.LongNoteModify = CType(sCmd, UndoRedo.LongNoteModify)
                     Dim xI2 As Integer = FindNoteIndex(xCmd.note)
 
                     If xI2 < Notes.Length Then
@@ -65,14 +65,14 @@ Partial Public Class MainWindow
                                 .VPosition = xCmd.NVPosition
                                 .Length = xCmd.NLongNote
                             Else
-                                .LongNote = xCmd.NLongNote
+                                .LongNote = CBool(xCmd.NLongNote)
                             End If
                             .Selected = xCmd.note.Selected And nEnabled(.ColumnIndex)
                         End With
                     End If
 
                 Case UndoRedo.opHiddenNoteModify
-                    Dim xCmd As UndoRedo.HiddenNoteModify = sCmd
+                    Dim xCmd As UndoRedo.HiddenNoteModify = CType(sCmd, UndoRedo.HiddenNoteModify)
                     Dim xI2 As Integer = FindNoteIndex(xCmd.note)
 
                     If xI2 < Notes.Length Then
@@ -81,7 +81,7 @@ Partial Public Class MainWindow
                     End If
 
                 Case UndoRedo.opRelabelNote
-                    Dim xCmd As UndoRedo.RelabelNote = sCmd
+                    Dim xCmd As UndoRedo.RelabelNote = CType(sCmd, UndoRedo.RelabelNote)
                     Dim xI2 As Integer = FindNoteIndex(xCmd.note)
 
                     If xI2 < Notes.Length Then
@@ -93,35 +93,35 @@ Partial Public Class MainWindow
                     ReDim Preserve Notes(0)
 
                 Case UndoRedo.opChangeMeasureLength
-                    Dim xCmd As UndoRedo.ChangeMeasureLength = sCmd
+                    Dim xCmd As UndoRedo.ChangeMeasureLength = CType(sCmd, UndoRedo.ChangeMeasureLength)
                     Dim xxD As Long = GetDenominator(xCmd.Value / 192)
                     'Dim xDenom As Integer = 192 / GCD(xCmd.Value, 192.0R)
                     'If xDenom < 4 Then xDenom = 4
                     For Each xM As Integer In xCmd.Indices
                         MeasureLength(xM) = xCmd.Value
-                        LBeat.Items(xM) = Add3Zeros(xM) & ": " & (xCmd.Value / 192) & IIf(xxD > 10000, "", " ( " & CLng(xCmd.Value / 192 * xxD) & " / " & xxD & " ) ")
+                        LBeat.Items(xM) = Add3Zeros(xM) & ": " & (xCmd.Value / 192) & IIf(xxD > 10000, "", " ( " & CLng(xCmd.Value / 192 * xxD) & " / " & xxD & " ) ").ToString()
                         LBeat.SelectedIndices.Add(xM)
                     Next
                     UpdateMeasureBottom()
 
                 Case UndoRedo.opChangeMeasure
-                    Dim xCmd As UndoRedo.ChangeMeasure = sCmd
+                    Dim xCmd As UndoRedo.ChangeMeasure = CType(sCmd, UndoRedo.ChangeMeasure)
                     For xIM = 0 To UBound(xCmd.MeasureLength)
                         MeasureLength(xIM) = xCmd.MeasureLength(xIM)
                         Dim a As Double = MeasureLength(xIM) / 192.0R
                         Dim xxD = GetDenominator(a)
-                        LBeat.Items(xIM) = Add3Zeros(xIM) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ")
+                        LBeat.Items(xIM) = Add3Zeros(xIM) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ").ToString()
                     Next
                     UpdateMeasureBottom()
 
                 Case UndoRedo.opChangeTimeSelection
-                    Dim xCmd As UndoRedo.ChangeTimeSelection = sCmd
+                    Dim xCmd As UndoRedo.ChangeTimeSelection = CType(sCmd, UndoRedo.ChangeTimeSelection)
                     vSelStart = xCmd.SelStart
                     vSelLength = xCmd.SelLength
                     vSelHalf = xCmd.SelHalf
                     If xCmd.Selected Then
-                        Dim xSelLo As Double = vSelStart + IIf(vSelLength < 0, vSelLength, 0)
-                        Dim xSelHi As Double = vSelStart + IIf(vSelLength > 0, vSelLength, 0)
+                        Dim xSelLo As Double = vSelStart + CDbl(IIf(vSelLength < 0, vSelLength, 0))
+                        Dim xSelHi As Double = vSelStart + CDbl(IIf(vSelLength > 0, vSelLength, 0))
                         For xI2 As Integer = 1 To UBound(Notes)
                             Notes(xI2).Selected = Notes(xI2).VPosition >= xSelLo AndAlso
                                               Notes(xI2).VPosition < xSelHi AndAlso
@@ -130,7 +130,7 @@ Partial Public Class MainWindow
                     End If
 
                 Case UndoRedo.opNT
-                    Dim xCmd As UndoRedo.NT = sCmd
+                    Dim xCmd As UndoRedo.NT = CType(sCmd, UndoRedo.NT)
                     NTInput = xCmd.BecomeNT
                     TBNTInput.Checked = NTInput
                     mnNTInput.Checked = NTInput
@@ -144,7 +144,7 @@ Partial Public Class MainWindow
                         If NTInput Then ConvertBMSE2NT() Else ConvertNT2BMSE()
                     End If
                 Case UndoRedo.opWavAutoincFlag
-                    Dim xcmd As UndoRedo.WavAutoincFlag = sCmd
+                    Dim xcmd As UndoRedo.WavAutoincFlag = CType(sCmd, UndoRedo.WavAutoincFlag)
                     TBWavIncrease.Checked = xcmd.Checked
 
                 Case UndoRedo.opVoid
@@ -157,7 +157,7 @@ Partial Public Class MainWindow
             sCmd = sCmd.Next
         Loop
 
-        THBPM.Value = Notes(0).Value / 10000
+        THBPM.Value = CDec(Notes(0).Value / 10000)
         If IsSaved Then SetIsSaved(False)
 
         SortByVPositionInsertion()
@@ -236,9 +236,9 @@ Partial Public Class MainWindow
             Dim xUndo As New UndoRedo.RemoveNote(Notes(xI1))
             Dim xRedo As New UndoRedo.AddNote(Notes(xI1))
             xUndo.Next = BaseUndo
-                BaseUndo = xUndo
-                If BaseRedo IsNot Nothing Then BaseRedo.Next = xRedo
-                BaseRedo = xRedo
+            BaseUndo = xUndo
+            If BaseRedo IsNot Nothing Then BaseRedo.Next = xRedo
+            BaseRedo = xRedo
 
         Next
     End Sub
@@ -248,7 +248,7 @@ Partial Public Class MainWindow
 
             Dim xRedo As New UndoRedo.AddNote(Notes(xI1))
             If BaseRedo IsNot Nothing Then BaseRedo.Next = xRedo
-                BaseRedo = xRedo
+            BaseRedo = xRedo
 
         Next
         Dim xUndo As New UndoRedo.RemoveAllNotes
@@ -338,6 +338,19 @@ Partial Public Class MainWindow
         BaseRedo = xRedo
     End Sub
 
+    Private Sub RedoLongNoteModify(note As Note, nVPos As Double, nLongB As Boolean, ByRef BaseUndo As UndoRedo.LinkedURCmd, ByRef BaseRedo As UndoRedo.LinkedURCmd)
+        Dim n = note
+        n.VPosition = nVPos
+        n.LongNote = nLongB
+
+        Dim xUndo As New UndoRedo.LongNoteModify(n, note.VPosition, note.Length)
+        Dim xRedo As New UndoRedo.LongNoteModify(note, nVPos, n.Length)
+        xUndo.Next = BaseUndo
+        BaseUndo = xUndo
+        If BaseRedo IsNot Nothing Then BaseRedo.Next = xRedo
+        BaseRedo = xRedo
+    End Sub
+
     Private Sub RedoHiddenNoteModify(xN As Note, nHide As Boolean, xSel As Boolean, ByRef BaseUndo As UndoRedo.LinkedURCmd, ByRef BaseRedo As UndoRedo.LinkedURCmd)
         Dim noteAfterModification = xN
         noteAfterModification.Hidden = nHide
@@ -388,7 +401,7 @@ Partial Public Class MainWindow
         xUndo(UBound(xUndo)).Next = BaseUndo
         BaseUndo = xUndo(0)
 
-        Dim xRedo As New UndoRedo.ChangeMeasureLength(nVal, xIndices.Clone)
+        Dim xRedo As New UndoRedo.ChangeMeasureLength(nVal, CType(xIndices.Clone(), Integer()))
         If BaseRedo IsNot Nothing Then BaseRedo.Next = xRedo
         BaseRedo = xRedo
     End Sub

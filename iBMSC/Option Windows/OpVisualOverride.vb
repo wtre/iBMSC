@@ -41,12 +41,12 @@ Public Class OpVisualOverride
         End If
         With COverrides(UBound(COverrides))
             .Name = "New Item"
-            .RangeL = "01"
-            .RangeU = "02"
-            .NoteColor = "0"
-            .LongNoteColor = "0"
-            .LongTextColor = "0"
-            .BG = "0"
+            .RangeL = 1
+            .RangeU = 2
+            .NoteColor = 0
+            .LongNoteColor = 0
+            .LongTextColor = 0
+            .BG = 0
         End With
 
         LOverrides.Items.Insert(LOverrides.Items.Count, "New Item")
@@ -70,7 +70,7 @@ Public Class OpVisualOverride
             TName.Text = .Name
             TRangeL.Text = C10to36(.RangeL)
             TRangeU.Text = C10to36(.RangeU)
-            BColor.Text = .NoteColor
+            BColor.Text = .NoteColor.ToString()
             cButtonChange(BColor, Color.FromArgb(.NoteColor))
         End With
 
@@ -79,7 +79,7 @@ Public Class OpVisualOverride
     Private Function GetFileName(ByVal s As String) As String ' Copied from MainWindow
         Dim fslash As Integer = InStrRev(s, "/")
         Dim bslash As Integer = InStrRev(s, "\")
-        Return Mid(s, IIf(fslash > bslash, fslash, bslash) + 1)
+        Return Mid(s, CInt(IIf(fslash > bslash, fslash, bslash)) + 1)
     End Function
 
     Private Sub SaveCOverride(sender As Object, e As KeyEventArgs) Handles TName.KeyUp, TRangeL.KeyUp, TRangeU.KeyUp
@@ -103,7 +103,7 @@ Public Class OpVisualOverride
     Private Sub cButtonChange(ByVal xbutton As Button, ByVal c As Color) ' Copied from OpPlayer
         xbutton.Text = Hex(c.ToArgb)
         xbutton.BackColor = c
-        xbutton.ForeColor = IIf(CInt(c.GetBrightness * 255) + 255 - c.A >= 128, Color.Black, Color.White)
+        xbutton.ForeColor = CType(IIf(CInt(c.GetBrightness * 255) + 255 - c.A >= 128, Color.Black, Color.White), Color)
     End Sub
 
     ' Below are copied from Utilities
@@ -122,7 +122,7 @@ Public Class OpVisualOverride
     Public Function C10to36(ByVal xStart As Long) As String
         If xStart < 1 Then xStart = 1
         If xStart > 1295 Then xStart = 1295
-        Return C10to36S(xStart \ 36) & C10to36S(xStart Mod 36)
+        Return C10to36S(CInt(xStart \ 36)) & C10to36S(CInt(xStart Mod 36))
     End Function
     Public Function C36to10(ByVal xStart As String) As Integer
         xStart = Mid("00" & xStart, Len(xStart) + 1)

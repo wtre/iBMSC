@@ -11,11 +11,11 @@ Namespace My
         End Sub
 
         Private Sub MyApplication_UnhandledException(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.UnhandledExceptionEventArgs) Handles Me.UnhandledException
-            Dim xRes As MsgBoxResult = MsgBox("An unhandled exception has occurred in the application: " & vbCrLf & _
-                                       e.Exception.Message & vbCrLf & _
-                                       vbCrLf & _
-                                       "Click Yes to save a back-up, click No otherwise, or click Cancel to ignore this exception and continue.", _
-                                       MsgBoxStyle.YesNoCancel + MsgBoxStyle.Critical, _
+            Dim xRes As MsgBoxResult = MsgBox("An unhandled exception has occurred in the application: " & vbCrLf &
+                                       e.Exception.Message & vbCrLf &
+                                       vbCrLf &
+                                       "Click Yes to save a back-up, click No otherwise, or click Cancel to ignore this exception and continue.",
+                                       CType(MsgBoxStyle.YesNoCancel + MsgBoxStyle.Critical, MsgBoxStyle),
                                        "Unhandled Exception")
             If xRes = MsgBoxResult.Cancel Then e.ExitApplication = False
             If xRes = MsgBoxResult.Yes Then

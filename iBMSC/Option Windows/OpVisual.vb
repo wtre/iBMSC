@@ -83,7 +83,7 @@ Public Class OpVisual
         Me.iLabelVerticalShift.SetValClamped(vo.kLabelVShift)
         Me.iLabelHorizShift.SetValClamped(vo.kLabelHShift)
         Me.iLongLabelHorizShift.SetValClamped(vo.kLabelHShiftL)
-        Me.iHiddenNoteOpacity.SetValClamped(vo.kOpacity)
+        Me.iHiddenNoteOpacity.SetValClamped(CDec(vo.kOpacity))
         Me.iTSSensitivity.SetValClamped(vo.PEDeltaMouseOver)
         Me.iMiddleSensitivity.SetValClamped(vo.MiddleDeltaRelease)
 
@@ -95,7 +95,7 @@ Public Class OpVisual
         'lForeColorL = xlForeColorL
         'lBg = xlBg
 
-        col = xcol.Clone
+        col = CType(xcol.Clone(), Column())
         ReDim co(UBound(col))
 
         For xI1 As Integer = 0 To UBound(col)
@@ -173,7 +173,7 @@ Public Class OpVisual
                 .Location = New Point(lLeft(xI1), 323)
                 .Size = New Size(33, 66)
                 .BackColor = col(xI1).cBG
-                .ForeColor = IIf(CInt(col(xI1).cBG.GetBrightness * 255) + 255 - col(xI1).cBG.A >= 128, Color.Black, Color.White)
+                .ForeColor = CType(IIf(CInt(col(xI1).cBG.GetBrightness * 255) + 255 - col(xI1).cBG.A >= 128, Color.Black, Color.White), Color)
                 .Text = To4Hex(col(xI1).cBG.ToArgb)
                 .Name = "cBG"
                 .Tag = Nothing
@@ -206,7 +206,7 @@ Public Class OpVisual
     Private Sub cButtonChange(ByVal xbutton As Button, ByVal c As Color)
         xbutton.Text = Hex(c.ToArgb)
         xbutton.BackColor = c
-        xbutton.ForeColor = IIf(CInt(c.GetBrightness * 255) + 255 - c.A >= 128, Color.Black, Color.White)
+        xbutton.ForeColor = CType(IIf(CInt(c.GetBrightness * 255) + 255 - c.A >= 128, Color.Black, Color.White), Color)
     End Sub
 
     Private Sub fButtonChange(ByVal xbutton As Button, ByVal f As Font)
@@ -299,7 +299,7 @@ Public Class OpVisual
 
         For xI1 As Integer = 0 To UBound(co)
             col(xI1).Title = co(xI1).Title.Text
-            col(xI1).Width = co(xI1).Width.Value
+            col(xI1).Width = CInt(co(xI1).Width.Value)
             col(xI1).setNoteColor(co(xI1).SNote.BackColor.ToArgb)
             col(xI1).cText = co(xI1).SText.ForeColor
             col(xI1).setLNoteColor(co(xI1).LNote.BackColor.ToArgb)
@@ -753,7 +753,7 @@ Public Class OpVisual
                 CType(s.Tag, Button).ForeColor = xColorPicker.NewColor
             Case "cBG"
                 s.BackColor = xColorPicker.NewColor
-                s.ForeColor = IIf(CInt(xColorPicker.NewColor.GetBrightness * 255) + 255 - xColorPicker.NewColor.A >= 128, Color.Black, Color.White)
+                s.ForeColor = CType(IIf(CInt(xColorPicker.NewColor.GetBrightness * 255) + 255 - xColorPicker.NewColor.A >= 128, Color.Black, Color.White), Color)
         End Select
         'lColor(xI) = xColorPicker.NewColor
         'sender.Text = To4Hex(lColor(xI).ToArgb)

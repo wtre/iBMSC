@@ -11,7 +11,7 @@ Partial Public Class MainWindow
 
     Dim bufferlist As Dictionary(Of Integer, BufferedGraphics) = New Dictionary(Of Integer, BufferedGraphics)
     Dim rectList As Dictionary(Of Integer, Rectangle) = New Dictionary(Of Integer, Rectangle)
-    Private Function GetBuffer(xIndex As Integer, DisplayRect As Rectangle)
+    Private Function GetBuffer(xIndex As Integer, DisplayRect As Rectangle) As BufferedGraphics
         If bufferlist.ContainsKey(xIndex) AndAlso rectList.Item(xIndex) = DisplayRect Then
             Return bufferlist.Item(xIndex)
         Else
@@ -39,9 +39,9 @@ Partial Public Class MainWindow
         Dim xTHeight As Integer = spMain(xIndex).Height
         Dim xTWidth As Integer = spMain(xIndex).Width
         Dim xPanelHScroll As Integer = PanelHScroll(xIndex)
-        Dim xPanelDisplacement As Integer = PanelVScroll(xIndex)
-        Dim xVSR As Integer = -PanelVScroll(xIndex)
-        Dim xVSu As Integer = IIf(xVSR + xTHeight / gxHeight > GetMaxVPosition(), GetMaxVPosition(), xVSR + xTHeight / gxHeight)
+        Dim xPanelDisplacement As Integer = CInt(PanelVScroll(xIndex))
+        Dim xVSR As Integer = CInt(-PanelVScroll(xIndex))
+        Dim xVSu As Integer = CInt(IIf(xVSR + xTHeight / gxHeight > GetMaxVPosition(), GetMaxVPosition(), xVSR + xTHeight / gxHeight))
 
         'e1.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
         Dim xI1 As Integer
@@ -54,12 +54,15 @@ Partial Public Class MainWindow
             gXKeyMode = "PMS"
             gXKeyCol = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
             If CHPlayer.SelectedIndex = 0 Then CHPlayer.SelectedIndex = 2
+            POBFlip.Visible = False
         ElseIf CHPlayer.SelectedIndex <> 0 Then
             gXKeyMode = "DP"
             gXKeyCol = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
+            POBFlip.Visible = True
         Else
             gXKeyMode = "SP"
             gXKeyCol = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
+            POBFlip.Visible = False
         End If
 
         xI1 = DrawPanelLines(e1, xTHeight, xTWidth, xPanelHScroll, xPanelDisplacement, xVSu)
@@ -174,8 +177,8 @@ Partial Public Class MainWindow
         If UBound(DDFileName) > -1 Then
             'Dim xFont As New Font("Cambria", 12)
             Dim xBrush As New SolidBrush(Color.FromArgb(&HC0FFFFFF))
-            Dim xCenterX As Single = spMain(xIndex).DisplayRectangle.Width / 2
-            Dim xCenterY As Single = spMain(xIndex).DisplayRectangle.Height / 2
+            Dim xCenterX As Single = CSng(spMain(xIndex).DisplayRectangle.Width / 2)
+            Dim xCenterY As Single = CSng(spMain(xIndex).DisplayRectangle.Height / 2)
             Dim xFormat As New System.Drawing.StringFormat
             xFormat.Alignment = StringAlignment.Center
             xFormat.LineAlignment = StringAlignment.Center
@@ -185,14 +188,14 @@ Partial Public Class MainWindow
 
     Private Sub DrawSelectionBox(xIndex As Integer, e1 As BufferedGraphics)
         If TBSelect.Checked AndAlso xIndex = PanelFocus AndAlso Not (pMouseMove = New Point(-1, -1) Or LastMouseDownLocation = New Point(-1, -1)) Then
-            e1.Graphics.DrawRectangle(vo.SelBox, IIf(pMouseMove.X > LastMouseDownLocation.X, LastMouseDownLocation.X, pMouseMove.X),
-                                                IIf(pMouseMove.Y > LastMouseDownLocation.Y, LastMouseDownLocation.Y, pMouseMove.Y),
+            e1.Graphics.DrawRectangle(vo.SelBox, CSng(IIf(pMouseMove.X > LastMouseDownLocation.X, LastMouseDownLocation.X, pMouseMove.X)),
+                                                CSng(IIf(pMouseMove.Y > LastMouseDownLocation.Y, LastMouseDownLocation.Y, pMouseMove.Y)),
                                                 Math.Abs(pMouseMove.X - LastMouseDownLocation.X), Math.Abs(pMouseMove.Y - LastMouseDownLocation.Y))
         End If
     End Sub
 
-    Function GetColumnHighlightColor(col As Color, Optional factor As Double = 2.0)
-        Dim clamp = Function(x) IIf(x > 255, 255, x)
+    Function GetColumnHighlightColor(col As Color, Optional factor As Double = 2.0) As Color
+        Dim clamp = Function(x As Double) CInt(IIf(x > 255, 255, x))
         Return Color.FromArgb(
                 clamp(col.A * factor),
                 clamp(col.R * factor),
@@ -252,7 +255,7 @@ Partial Public Class MainWindow
         End If
 
         'Grid, Sub, Measure
-        Dim Measure
+        Dim Measure As Integer
         For Measure = MeasureAtDisplacement(-xVS) To MeasureAtDisplacement(xVSu)
             'grid
             If gShowGrid Then DrawGridLines(e1,
@@ -302,7 +305,7 @@ Partial Public Class MainWindow
         Loop
     End Sub
 
-    Private Function IsNoteVisible(note As Note, xTHeight As Integer, xVS As Integer) As Boolean
+    Private Function IsNoteVisible(note As Note, xTHeight As Integer, xVS As Long) As Boolean
         Dim xUpperBorder As Single = Math.Abs(xVS) + xTHeight / gxHeight
         Dim xLowerBorder As Single = Math.Abs(xVS) - vo.kHeight / gxHeight
 
@@ -318,7 +321,7 @@ Partial Public Class MainWindow
         Return NoteInside OrElse IntersectsNT OrElse IntersectsNT
     End Function
 
-    Private Function IsNoteVisible(noteindex As Integer, xTHeight As Integer, xVS As Integer) As Boolean
+    Private Function IsNoteVisible(noteindex As Integer, xTHeight As Integer, xVS As Long) As Boolean
         Return IsNoteVisible(Notes(noteindex), xTHeight, xVS)
     End Function
 
@@ -341,16 +344,16 @@ Partial Public Class MainWindow
     Private Function GetNoteRectangle(note As Note, xTHeight As Integer, xHS As Integer, xVS As Integer) As Rectangle
         Dim xDispX As Integer = HorizontalPositiontoDisplay(nLeft(note.ColumnIndex), xHS)
 
-        Dim xDispY As Integer = IIf(Not NTInput Or (bAdjustLength And Not bAdjustUpper),
+        Dim xDispY As Integer = CInt(IIf(Not NTInput Or (bAdjustLength And Not bAdjustUpper),
                                     NoteRowToPanelHeight(note.VPosition, xVS, xTHeight) - vo.kHeight - 1,
                                     NoteRowToPanelHeight(note.VPosition +
                                     note.Length, xVS, xTHeight) -
-                                    vo.kHeight - 1)
+                                    vo.kHeight - 1))
 
-        Dim xDispW As Integer = GetColumnWidth(note.ColumnIndex) * gxWidth + 1
-        Dim xDispH As Integer = IIf(Not NTInput Or bAdjustLength,
-                                    vo.kHeight + 3,
-                                    note.Length * gxHeight + vo.kHeight + 3)
+        Dim xDispW As Integer = CInt(GetColumnWidth(note.ColumnIndex) * gxWidth + 1)
+        Dim xDispH As Integer = CInt(IIf(Not NTInput Or bAdjustLength,
+                                         vo.kHeight + 3,
+                                         note.Length * gxHeight + vo.kHeight + 3))
 
         Return New Rectangle(xDispX, xDispY, xDispW, xDispH)
     End Function
@@ -368,7 +371,7 @@ Partial Public Class MainWindow
         End If
 
         Dim rect = GetNoteRectangle(KMouseOver, xTHeight, xHS, xVS)
-        Dim pen = IIf(bAdjustLength, vo.kMouseOverE, vo.kMouseOver)
+        Dim pen = CType(IIf(bAdjustLength, vo.kMouseOverE, vo.kMouseOver), Pen)
         e1.Graphics.DrawRectangle(pen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1)
 
         If ModifierMultiselectVisibleActive() Or ModifierMultiselectNoteActive() Then
@@ -400,7 +403,7 @@ Partial Public Class MainWindow
         'Selection area
         e1.Graphics.FillRectangle(vo.PESel,
                                   0,
-                                  NoteRowToPanelHeight(vSelStart + IIf(vSelLength > 0, vSelLength, 0), xVS, xTHeight) + Math.Abs(CInt(vSelLength <> 0)),
+                                  NoteRowToPanelHeight(vSelStart + CDbl(IIf(vSelLength > 0, vSelLength, 0)), xVS, xTHeight) + Math.Abs(CInt(vSelLength <> 0)),
                                   xTWidth,
                                   CInt(Math.Abs(vSelLength) * gxHeight))
         'End Cursor
@@ -416,17 +419,17 @@ Partial Public Class MainWindow
                              xTWidth,
                              NoteRowToPanelHeight(vSelStart + vSelHalf, xVS, xTHeight))
         'Start BPM
-        e1.Graphics.DrawString(xBPMStart / 10000,
+        e1.Graphics.DrawString((xBPMStart / 10000).ToString(),
                                vo.PEBPMFont, vo.PEBPM,
                                (-xHS + nLeft(niBPM)) * gxWidth,
                                NoteRowToPanelHeight(vSelStart, xVS, xTHeight) - vo.PEBPMFont.Height + 3)
         'Half BPM
-        e1.Graphics.DrawString(xBPMHalf / 10000,
+        e1.Graphics.DrawString((xBPMHalf / 10000).ToString(),
                                vo.PEBPMFont, vo.PEBPM,
                                (-xHS + nLeft(niBPM)) * gxWidth,
                                NoteRowToPanelHeight(vSelStart + vSelHalf, xVS, xTHeight) - vo.PEBPMFont.Height + 3)
         'End BPM
-        e1.Graphics.DrawString(xBPMEnd / 10000,
+        e1.Graphics.DrawString((xBPMEnd / 10000).ToString(),
                                vo.PEBPMFont, vo.PEBPM,
                                (-xHS + nLeft(niBPM)) * gxWidth,
                                NoteRowToPanelHeight(vSelStart + vSelLength, xVS, xTHeight) - vo.PEBPMFont.Height + 3)
@@ -459,9 +462,9 @@ Partial Public Class MainWindow
 
         If Not (xInitX = xCurrX And xInitY = xCurrY) Then
             Dim xPointx() As PointF = {New PointF(xCurrX, xCurrY),
-                                       New PointF(Math.Cos(xAngle + Math.PI / 2) * 10 + xInitX, Math.Sin(xAngle + Math.PI / 2) * 10 + xInitY),
-                                       New PointF(Math.Cos(xAngle - Math.PI / 2) * 10 + xInitX, Math.Sin(xAngle - Math.PI / 2) * 10 + xInitY)}
-            e1.Graphics.FillPolygon(New Drawing2D.LinearGradientBrush(New Point(xInitX, xInitY), New Point(xCurrX, xCurrY), Color.FromArgb(0), Color.FromArgb(-1)), xPointx)
+                                       New PointF(CSng(Math.Cos(xAngle + Math.PI / 2) * 10 + xInitX), CSng(Math.Sin(xAngle + Math.PI / 2) * 10 + xInitY)),
+                                       New PointF(CSng(Math.Cos(xAngle - Math.PI / 2) * 10 + xInitX), CSng(Math.Sin(xAngle - Math.PI / 2) * 10 + xInitY))}
+            e1.Graphics.FillPolygon(New Drawing2D.LinearGradientBrush(New PointF(xInitX, xInitY), New PointF(xCurrX, xCurrY), Color.FromArgb(0), Color.FromArgb(-1)), xPointx)
         End If
 
         e1.Graphics.FillEllipse(Brushes.LightGray, xInitX - 10, xInitY - 10, 20, 20)
@@ -484,15 +487,15 @@ Partial Public Class MainWindow
             xwPosition = wPosition
             xwLeft = wLeft
         Else
-            Dim xINoteValue = Notes(xINote).Value / 10000
-            Dim xnLeft = nLeft(Notes(xINote).ColumnIndex)
+            Dim xINoteValue As Integer = CInt(Notes(xINote).Value / 10000)
+            Dim xnLeft As Integer = nLeft(Notes(xINote).ColumnIndex)
             Dim xColumnWidth As Integer = GetColumnWidth(Notes(xINote).ColumnIndex)
 
             xwWavL = wLWAV(xINoteValue).WavL
             xwWavR = wLWAV(xINoteValue).WavR
             xwSampleRate = wLWAV(xINoteValue).SampleRate
             xwPosition = Notes(xINote).VPosition
-            xwLeft = (HorizontalPositiontoDisplay(xnLeft, xHS) + HorizontalPositiontoDisplay(xnLeft + xColumnWidth, xHS)) / 2
+            xwLeft = CInt((HorizontalPositiontoDisplay(xnLeft, xHS) + HorizontalPositiontoDisplay(xnLeft + xColumnWidth, xHS)) / 2)
         End If
 
         If xwWavL IsNot Nothing And xwWavR IsNot Nothing And wPrecision > 0 Then
@@ -508,7 +511,7 @@ Partial Public Class MainWindow
             Dim xD1 As Double
 
             Dim bVPosition() As Double = {xwPosition}
-            Dim bBPM() As Decimal = {Notes(0).Value / 10000}
+            Dim bBPM() As Decimal = {CDec(Notes(0).Value / 10000)}
             Dim bWavDataIndex() As Decimal = {0}
 
             For xI1 = 1 To UBound(Notes)
@@ -518,10 +521,10 @@ Partial Public Class MainWindow
                         ReDim Preserve bBPM(UBound(bBPM) + 1)
                         ReDim Preserve bWavDataIndex(UBound(bWavDataIndex) + 1)
                         bVPosition(UBound(bVPosition)) = Notes(xI1).VPosition
-                        bBPM(UBound(bBPM)) = Notes(xI1).Value / 10000
-                        bWavDataIndex(UBound(bWavDataIndex)) = (Notes(xI1).VPosition - bVPosition(UBound(bVPosition) - 1)) * 1.25 * xwSampleRate / bBPM(UBound(bBPM) - 1) + bWavDataIndex(UBound(bWavDataIndex) - 1)
+                        bBPM(UBound(bBPM)) = CDec(Notes(xI1).Value / 10000)
+                        bWavDataIndex(UBound(bWavDataIndex)) = CDec((Notes(xI1).VPosition - bVPosition(UBound(bVPosition) - 1)) * 1.25 * xwSampleRate / bBPM(UBound(bBPM) - 1) + bWavDataIndex(UBound(bWavDataIndex) - 1))
                     Else
-                        bBPM(0) = Notes(xI1).Value / 10000
+                        bBPM(0) = CDec(Notes(xI1).Value / 10000)
                     End If
                 End If
             Next
@@ -540,8 +543,8 @@ Partial Public Class MainWindow
 
                 If xD1 <= UBound(xwWavL) And xD1 >= 0 Then
                     xIPts += 1
-                    xPtsL(xIPts) = New PointF(xwWavL(Int(xD1)) * wWidth + xwLeft, xI1 / wPrecision)
-                    xPtsR(xIPts) = New PointF(xwWavR(Int(xD1)) * wWidth + xwLeft, xI1 / wPrecision)
+                    xPtsL(xIPts) = New PointF(xwWavL(CInt(xD1)) * wWidth + xwLeft, CSng(xI1 / wPrecision))
+                    xPtsR(xIPts) = New PointF(xwWavR(CInt(xD1)) * wWidth + xwLeft, CSng(xI1 / wPrecision))
                 End If
             Next
             ReDim Preserve xPtsL(xIPts)
@@ -574,7 +577,7 @@ Partial Public Class MainWindow
         If Not nEnabled(sNote.ColumnIndex) Then Exit Sub
         Dim xAlpha As Single = 1.0F
         If sNote.Hidden Then xAlpha = vo.kOpacity
-        If sNote.Ghost Then xAlpha *= 0.1
+        If sNote.Ghost Then xAlpha *= 0.1F
 
         Dim xLabel As String = GetNoteLabel(sNote)
 
@@ -613,8 +616,8 @@ Partial Public Class MainWindow
 
                     ' bright = Color.FromArgb(CONoteColor * xAlpha)
 
-                    bright = Color.FromArgb(CONoteColor * xAlpha)
-                    dark = Color.FromArgb(CONoteColor * xAlpha)
+                    bright = Color.FromArgb(CInt(CONoteColor * xAlpha))
+                    dark = Color.FromArgb(CInt(CONoteColor * xAlpha))
                     Exit For
                 End If
 
@@ -653,7 +656,7 @@ Partial Public Class MainWindow
         e.Graphics.DrawString(xLabel,
                               vo.kFont, xBrush2,
                               HorizontalPositiontoDisplay(xnLeft, xHS) + vo.kLabelHShift,
-                              NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + vo.kLabelVShift - IIf(sNote.Comment, CInt(sNote.Length * gxHeight), 0))
+                              NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + vo.kLabelVShift - CInt(IIf(sNote.Comment, CInt(sNote.Length * gxHeight), 0)))
 
         If sNote.ColumnIndex < niB Then
             If sNote.LNPair <> 0 Then
@@ -673,7 +676,7 @@ Partial Public Class MainWindow
                 ErrorGraphics = My.Resources.ImageError
         End Select
         If ErrorCheck AndAlso sNote.HasError Then e.Graphics.DrawImage(ErrorGraphics,
-                                                            CInt(HorizontalPositiontoDisplay(xnLeft + xColumnWidth / 2, xHS) - 12),
+                                                            CInt(HorizontalPositiontoDisplay(CInt(xnLeft + xColumnWidth / 2), xHS) - 12),
                                                             CInt(NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight / 2 - 12),
                                                             24, 24)
 
@@ -686,9 +689,9 @@ Partial Public Class MainWindow
         Dim xColumnWidth = GetColumnWidth(sNote.ColumnIndex)
         Dim xPen2 As New Pen(GetColumn(sNote.ColumnIndex).getLongBright(xAlpha))
         Dim xBrush3 As New Drawing2D.LinearGradientBrush(
-                    New Point(HorizontalPositiontoDisplay(xnLeft - 0.5 * xColumnWidth, xHS),
+                    New Point(HorizontalPositiontoDisplay(CInt(xnLeft - 0.5 * xColumnWidth), xHS),
                             NoteRowToPanelHeight(Notes(sNote.LNPair).VPosition, xVS, xHeight)),
-                    New Point(HorizontalPositiontoDisplay(xnLeft + 1.5 * xColumnWidth, xHS),
+                    New Point(HorizontalPositiontoDisplay(CInt(xnLeft + 1.5 * xColumnWidth), xHS),
                             NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) + vo.kHeight),
                     GetColumn(sNote.ColumnIndex).getLongBright(xAlpha),
                     GetColumn(sNote.ColumnIndex).getLongDark(xAlpha))
@@ -719,7 +722,7 @@ Partial Public Class MainWindow
         If Not nEnabled(sNote.ColumnIndex) Then Exit Sub
         Dim xAlpha As Single = 1.0F
         If sNote.Hidden Then xAlpha = vo.kOpacity
-        If sNote.Ghost Then xAlpha *= 0.1
+        If sNote.Ghost Then xAlpha *= 0.1F
 
         Dim xLabel As String = GetNoteLabel(sNote)
 
@@ -756,8 +759,8 @@ Partial Public Class MainWindow
 
                     ' bright = Color.FromArgb(CONoteColor * xAlpha)
 
-                    bright = Color.FromArgb(CONoteColor * xAlpha)
-                    dark = Color.FromArgb(CONoteColor * xAlpha)
+                    bright = Color.FromArgb(CInt(CONoteColor * xAlpha))
+                    dark = Color.FromArgb(CInt(CONoteColor * xAlpha))
                     Exit For
                 End If
 
@@ -776,9 +779,9 @@ Partial Public Class MainWindow
             End If
             xBrush2 = New SolidBrush(GetColumn(sNote.ColumnIndex).cText)
         Else
-            p1 = New Point(HorizontalPositiontoDisplay(xnLeft - 0.5 * xColumnWidth, xHS),
+            p1 = New Point(HorizontalPositiontoDisplay(CInt(xnLeft - 0.5 * xColumnWidth), xHS),
                            NoteRowToPanelHeight(sNote.VPosition + sNote.Length, xVS, xHeight) - vo.kHeight)
-            p2 = New Point(HorizontalPositiontoDisplay(xnLeft + 1.5 * xColumnWidth, xHS),
+            p2 = New Point(HorizontalPositiontoDisplay(CInt(xnLeft + 1.5 * xColumnWidth), xHS),
                                       NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight))
 
             xBrush2 = New SolidBrush(GetColumn(sNote.ColumnIndex).cLText)
@@ -803,7 +806,7 @@ Partial Public Class MainWindow
         e.Graphics.DrawString(xLabel,
                               vo.kFont, xBrush2,
                               HorizontalPositiontoDisplay(xnLeft, xHS) + vo.kLabelHShiftL - 2,
-                              NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + vo.kLabelVShift - IIf(sNote.Comment, CInt(sNote.Length * gxHeight), 0))
+                              NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight + vo.kLabelVShift - CInt(IIf(sNote.Comment, CInt(sNote.Length * gxHeight), 0)))
 
         ' Draw paired body
         If sNote.ColumnIndex < niB Then
@@ -832,7 +835,7 @@ Partial Public Class MainWindow
         End Select
         If ErrorCheck AndAlso sNote.HasError Then
             e.Graphics.DrawImage(ErrorGraphics,
-                                 CInt(HorizontalPositiontoDisplay(xnLeft + xColumnWidth / 2, xHS) - 12),
+                                 CInt(HorizontalPositiontoDisplay(CInt(xnLeft + xColumnWidth / 2), xHS) - 12),
                                  CInt(NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight / 2 - 12),
                                  24, 24)
         End If
@@ -842,12 +845,12 @@ Partial Public Class MainWindow
 
     End Sub
 
-    Private Function WordWrapConvert(ByVal s As String)
+    Private Function WordWrapConvert(ByVal s As String) As String
         If s = "" Then Return ""
         Return s.Replace("\n", vbCrLf)
     End Function
 
-    Private Function GetNoteLabel(ByVal sNote As Note)
+    Private Function GetNoteLabel(ByVal sNote As Note) As String
         Dim xLabel As String = C10to36(sNote.Value \ 10000)
         ' If note is a comment note
         If sNote.Comment Then
@@ -858,7 +861,7 @@ Partial Public Class MainWindow
                 xLabel = WordWrapConvert(hCOM(C36to10(xLabel)))
             End If
         ElseIf IsColumnNumeric(sNote.ColumnIndex) Then ' IIf(IsColumnNumeric(sNote.ColumnIndex) AndAlso Not sNote.Comment, sNote.Value / 10000, xLabel)
-            xLabel = sNote.Value / 10000
+            xLabel = (sNote.Value / 10000).ToString()
         ElseIf ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then
             xLabel = Path.GetFileNameWithoutExtension(hWAV(C36to10(xLabel)))
         End If
@@ -869,7 +872,7 @@ Partial Public Class MainWindow
         If InternalPlayNotes Is Nothing Then Exit Sub
 
         Dim VPos As Double = GetVPositionFromTime(GetTimeFromVPosition(InternalPlayNotes(0).VPosition) + InternalPlayTimerCount / 1000)
-        Dim VPosEnd As Double = GetVPositionFromTime(GetTimeFromVPosition(InternalPlayNotes(0).VPosition) + wLWAV(InternalPlayNotes(0).Value / 10000).Duration)
+        Dim VPosEnd As Double = GetVPositionFromTime(GetTimeFromVPosition(InternalPlayNotes(0).VPosition) + wLWAV(CInt(InternalPlayNotes(0).Value / 10000)).Duration)
         ' VPosition to Panel height
         Dim xTHTime As Integer = NoteRowToPanelHeight(VPos, xVS, xTHeight)
         Dim xTHTimeEnd As Integer = NoteRowToPanelHeight(VPosEnd, xVS, xTHeight)

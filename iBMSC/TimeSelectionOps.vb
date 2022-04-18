@@ -7,7 +7,7 @@ Partial Public Class MainWindow
         If Not TBTimeSelect.Checked Then Exit Sub
 
         SortByVPositionInsertion()
-        BPMChangeByValue(Val(TVCBPM.Text) * 10000)
+        BPMChangeByValue(CInt(Val(TVCBPM.Text) * 10000))
 
         SortByVPositionInsertion()
         UpdatePairing()
@@ -121,12 +121,12 @@ Partial Public Class MainWindow
         If vSelLength = 0 Then GoTo EndofSub
         If xRatio = 1 Or xRatio <= 0 Then GoTo EndofSub
 
-        Dim xVLower As Double = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
-        Dim xVUpper As Double = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+        Dim xVLower As Double = CDbl(IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength))
+        Dim xVUpper As Double = CDbl(IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength))
         If xVLower < 0 Then xVLower = 0
         If xVUpper >= GetMaxVPosition() Then xVUpper = GetMaxVPosition() - 1
 
-        Dim xBPM As Integer = Notes(0).Value
+        Dim xBPM As Integer = CInt(Notes(0).Value)
         Dim xI1 As Integer
         Dim xI2 As Integer
         Dim xI3 As Integer
@@ -149,7 +149,7 @@ Partial Public Class MainWindow
             'Below Selection
             For xI1 = 1 To UBound(Notes)
                 If Notes(xI1).VPosition > xVLower Then Exit For
-                If Notes(xI1).ColumnIndex = niBPM Then xBPM = Notes(xI1).Value
+                If Notes(xI1).ColumnIndex = niBPM Then xBPM = CInt(Notes(xI1).Value)
             Next
             xValueL = xBPM
             xI2 = xI1
@@ -158,8 +158,8 @@ Partial Public Class MainWindow
             For xI1 = xI2 To UBound(Notes)
                 If Notes(xI1).VPosition > xVUpper Then Exit For
                 If Notes(xI1).ColumnIndex = niBPM Then
-                    xBPM = Notes(xI1).Value
-                    Notes(xI1).Value = Notes(xI1).Value * xRatio
+                    xBPM = CInt(Notes(xI1).Value)
+                    Notes(xI1).Value = CLng(Notes(xI1).Value * xRatio)
                 End If
                 Notes(xI1).VPosition = (Notes(xI1).VPosition - xVLower) * xRatio + xVLower
             Next
@@ -172,8 +172,8 @@ Partial Public Class MainWindow
             Next
 
             'Add BPMs
-            AddNote(New Note(niBPM, xVLower, xValueL * xRatio), False, True, False)
-            AddNote(New Note(niBPM, xVUpper + (xRatio - 1) * (xVUpper - xVLower), xValueU), False, True, False)
+            AddNote(New Note(niBPM, xVLower, CLng(xValueL * xRatio), False), False, True, False)
+            AddNote(New Note(niBPM, xVUpper + (xRatio - 1) * (xVUpper - xVLower), xValueU, False), False, True, False)
 
         Else
             Dim xAddBPML As Boolean = True
@@ -184,25 +184,25 @@ Partial Public Class MainWindow
                 If Notes(xI1).VPosition <= xVLower Then
                     'check BPM
                     If Notes(xI1).ColumnIndex = niBPM Then
-                        xValueL = Notes(xI1).Value
-                        xValueU = Notes(xI1).Value
-                        If Notes(xI1).VPosition = xVLower Then xAddBPML = False : Notes(xI1).Value = IIf(Notes(xI1).Value * xRatio <= 655359999, Notes(xI1).Value * xRatio, 655359999)
+                        xValueL = CInt(Notes(xI1).Value)
+                        xValueU = CInt(Notes(xI1).Value)
+                        If Notes(xI1).VPosition = xVLower Then xAddBPML = False : Notes(xI1).Value = CLng(IIf(Notes(xI1).Value * xRatio <= 655359999, Notes(xI1).Value * xRatio, 655359999))
                     End If
 
                     'If longnote then adjust length
                     If Notes(xI1).VPosition + Notes(xI1).Length > xVLower Then
-                        Notes(xI1).Length += (IIf(xVUpper < Notes(xI1).VPosition + Notes(xI1).Length, xVUpper, Notes(xI1).VPosition + Notes(xI1).Length) - xVLower) * (xRatio - 1)
+                        Notes(xI1).Length += (CDbl(IIf(xVUpper < Notes(xI1).VPosition + Notes(xI1).Length, xVUpper, Notes(xI1).VPosition + Notes(xI1).Length)) - xVLower) * (xRatio - 1)
                     End If
 
                 ElseIf Notes(xI1).VPosition <= xVUpper Then
                     'check BPM
                     If Notes(xI1).ColumnIndex = niBPM Then
-                        xValueU = Notes(xI1).Value
-                        If Notes(xI1).VPosition = xVUpper Then xAddBPMU = False Else Notes(xI1).Value = IIf(Notes(xI1).Value * xRatio <= 655359999, Notes(xI1).Value * xRatio, 655359999)
+                        xValueU = CInt(Notes(xI1).Value)
+                        If Notes(xI1).VPosition = xVUpper Then xAddBPMU = False Else Notes(xI1).Value = CLng(IIf(Notes(xI1).Value * xRatio <= 655359999, Notes(xI1).Value * xRatio, 655359999))
                     End If
 
                     'Adjust Length
-                    Notes(xI1).Length += (IIf(xVUpper < Notes(xI1).Length + Notes(xI1).VPosition, xVUpper, Notes(xI1).Length + Notes(xI1).VPosition) - Notes(xI1).VPosition) * (xRatio - 1)
+                    Notes(xI1).Length += (CLng(IIf(xVUpper < Notes(xI1).Length + Notes(xI1).VPosition, xVUpper, Notes(xI1).Length + Notes(xI1).VPosition)) - Notes(xI1).VPosition) * (xRatio - 1)
 
                     'Adjust VPosition
                     Notes(xI1).VPosition = (Notes(xI1).VPosition - xVLower) * xRatio + xVLower
@@ -213,8 +213,8 @@ Partial Public Class MainWindow
             Next
 
             'Add BPMs
-            If xAddBPML Then AddNote(New Note(niBPM, xVLower, xValueL * xRatio), False, True, False)
-            If xAddBPMU Then AddNote(New Note(niBPM, (xVUpper - xVLower) * xRatio + xVLower, xValueU), False, True, False)
+            If xAddBPML Then AddNote(New Note(niBPM, xVLower, CLng(xValueL * xRatio), False), False, True, False)
+            If xAddBPMU Then AddNote(New Note(niBPM, (xVUpper - xVLower) * xRatio + xVLower, xValueU, False), False, True, False)
         End If
 
         'Check BPM Overflow
@@ -243,8 +243,8 @@ Partial Public Class MainWindow
         '                      "SA_" & vSelStart & "_" & vSelLength & "_" & vSelHalf & "_1"
 
         'Restore note selection
-        xVLower = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
-        xVUpper = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+        xVLower = CDbl(IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength))
+        xVUpper = CDbl(IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength))
         If Not NTInput Then
             For xI3 = 1 To UBound(Notes)
                 Notes(xI3).Selected = Notes(xI3).VPosition >= xVLower And Notes(xI3).VPosition < xVUpper And nEnabled(Notes(xI3).ColumnIndex)
@@ -269,9 +269,9 @@ EndofSub:
         If vSelLength = 0 Then GoTo EndofSub
         If dVPosition = 0 Then GoTo EndofSub
 
-        Dim xVLower As Double = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
+        Dim xVLower As Double = CDbl(IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength))
         Dim xVHalf As Double = vSelStart + vSelHalf
-        Dim xVUpper As Double = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+        Dim xVUpper As Double = CDbl(IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength))
         If dVPosition + xVHalf <= xVLower Or dVPosition + xVHalf >= xVUpper Then GoTo EndofSub
 
         If xVLower < 0 Then xVLower = 0
@@ -279,7 +279,7 @@ EndofSub:
         If xVHalf > xVUpper Then xVHalf = xVUpper
         If xVHalf < xVLower Then xVHalf = xVLower
 
-        Dim xBPM As Integer = Notes(0).Value
+        Dim xBPM As Integer = CInt(Notes(0).Value)
         Dim xI1 As Integer
         Dim xI2 As Integer
         Dim xI3 As Integer
@@ -305,7 +305,7 @@ EndofSub:
             'Below Selection
             For xI1 = 1 To UBound(Notes)
                 If Notes(xI1).VPosition > xVLower Then Exit For
-                If Notes(xI1).ColumnIndex = niBPM Then xBPM = Notes(xI1).Value
+                If Notes(xI1).ColumnIndex = niBPM Then xBPM = CInt(Notes(xI1).Value)
             Next
             xValueL = xBPM
             xI2 = xI1
@@ -314,8 +314,8 @@ EndofSub:
             For xI1 = xI2 To UBound(Notes)
                 If Notes(xI1).VPosition > xVHalf Then Exit For
                 If Notes(xI1).ColumnIndex = niBPM Then
-                    xBPM = Notes(xI1).Value
-                    Notes(xI1).Value = Notes(xI1).Value * xRatio1
+                    xBPM = CInt(Notes(xI1).Value)
+                    Notes(xI1).Value = CLng(Notes(xI1).Value * xRatio1)
                 End If
                 Notes(xI1).VPosition = (Notes(xI1).VPosition - xVLower) * xRatio1 + xVLower
             Next
@@ -326,8 +326,8 @@ EndofSub:
             For xI1 = xI2 To UBound(Notes)
                 If Notes(xI1).VPosition > xVUpper Then Exit For
                 If Notes(xI1).ColumnIndex = niBPM Then
-                    xBPM = Notes(xI1).Value
-                    Notes(xI1).Value = IIf(Notes(xI1).Value * xRatio2 <= 655359999, Notes(xI1).Value * xRatio2, 655359999)
+                    xBPM = CInt(Notes(xI1).Value)
+                    Notes(xI1).Value = CLng(IIf(Notes(xI1).Value * xRatio2 <= 655359999, Notes(xI1).Value * xRatio2, 655359999))
                 End If
                 Notes(xI1).VPosition = (Notes(xI1).VPosition - xVHalf) * xRatio2 + xVHalf + dVPosition
             Next
@@ -342,11 +342,11 @@ EndofSub:
             'Add BPMs
             ' az: cond. removed; 
             ' IIf(xVHalf <> xVLower AndAlso xValueL * xRatio1 <= 655359999, xValueL * xRatio1, 655359999)
-            AddNote(New Note(niBPM, xVLower, xValueL * xRatio1), False, True, False)
+            AddNote(New Note(niBPM, xVLower, CLng(xValueL * xRatio1), False), False, True, False)
             ' az: cond removed;
             ' IIf(xVHalf <> xVUpper AndAlso xValueM * xRatio2 <= 655359999, xValueM * xRatio2, 655359999)
-            AddNote(New Note(niBPM, xVHalf + dVPosition, xValueM * xRatio2), False, True, False)
-            AddNote(New Note(niBPM, xVUpper, xValueU), False, True, False)
+            AddNote(New Note(niBPM, xVHalf + dVPosition, CLng(xValueM * xRatio2), False), False, True, False)
+            AddNote(New Note(niBPM, xVUpper, xValueU, False), False, True, False)
 
         Else
             Dim xAddBPML As Boolean = True
@@ -358,15 +358,15 @@ EndofSub:
                 If Notes(xI1).VPosition <= xVLower Then
                     'check BPM
                     If Notes(xI1).ColumnIndex = niBPM Then
-                        xValueL = Notes(xI1).Value
-                        xValueM = Notes(xI1).Value
-                        xValueU = Notes(xI1).Value
+                        xValueL = CInt(Notes(xI1).Value)
+                        xValueM = CInt(Notes(xI1).Value)
+                        xValueU = CInt(Notes(xI1).Value)
                         If Notes(xI1).VPosition = xVLower Then
                             xAddBPML = False
 
                             ' az: condition removed;
                             ' IIf(xVHalf <> xVLower AndAlso Notes(xI1).Value * xRatio1 <= 655359999, Notes(xI1).Value * xRatio1, 655359999)
-                            Notes(xI1).Value = Notes(xI1).Value * xRatio1
+                            Notes(xI1).Value = CLng(Notes(xI1).Value * xRatio1)
                         End If
                     End If
 
@@ -382,17 +382,17 @@ EndofSub:
                 ElseIf Notes(xI1).VPosition <= xVHalf Then
                     'check BPM
                     If Notes(xI1).ColumnIndex = niBPM Then
-                        xValueM = Notes(xI1).Value
-                        xValueU = Notes(xI1).Value
+                        xValueM = CInt(Notes(xI1).Value)
+                        xValueU = CInt(Notes(xI1).Value)
                         If Notes(xI1).VPosition = xVHalf Then
                             xAddBPMM = False
                             ' az: cond. remove
                             ' IIf(xVHalf <> xVUpper AndAlso Notes(xI1).Value * xRatio2 <= 655359999, Notes(xI1).Value * xRatio2, 655359999)
-                            Notes(xI1).Value = Notes(xI1).Value * xRatio2
+                            Notes(xI1).Value *= CLng(xRatio2)
                         Else
                             ' az: cond. remove
                             ' IIf(Notes(xI1).Value * xRatio1 <= 655359999, Notes(xI1).Value * xRatio1, 655359999)
-                            Notes(xI1).Value = Notes(xI1).Value * xRatio1
+                            Notes(xI1).Value *= CLng(xRatio1)
                         End If
                     End If
 
@@ -412,8 +412,8 @@ EndofSub:
                 ElseIf Notes(xI1).VPosition <= xVUpper Then
                     'check BPM
                     If Notes(xI1).ColumnIndex = niBPM Then
-                        xValueU = Notes(xI1).Value
-                        If Notes(xI1).VPosition = xVUpper Then xAddBPMU = False Else Notes(xI1).Value = IIf(Notes(xI1).Value * xRatio2 <= 655359999, Notes(xI1).Value * xRatio2, 655359999)
+                        xValueU = CInt(Notes(xI1).Value)
+                        If Notes(xI1).VPosition = xVUpper Then xAddBPMU = False Else Notes(xI1).Value = CLng(IIf(Notes(xI1).Value * xRatio2 <= 655359999, Notes(xI1).Value * xRatio2, 655359999))
                     End If
 
                     'Adjust Length
@@ -434,10 +434,10 @@ EndofSub:
 
             'Add BPMs
             ' IIf(xVHalf <> xVLower AndAlso xValueL * xRatio1 <= 655359999, xValueL * xRatio1, 655359999)
-            If xAddBPML Then AddNote(New Note(niBPM, xVLower, xValueL * xRatio1), False, True, False)
+            If xAddBPML Then AddNote(New Note(niBPM, xVLower, CLng(xValueL * xRatio1), False), False, True, False)
             ' IIf(xVHalf <> xVUpper AndAlso xValueM * xRatio2 <= 655359999, xValueM * xRatio2, 655359999)
-            If xAddBPMM Then AddNote(New Note(niBPM, xVHalf + dVPosition, xValueM * xRatio2), False, True, False)
-            If xAddBPMU Then AddNote(New Note(niBPM, xVUpper, xValueU), False, True, False)
+            If xAddBPMM Then AddNote(New Note(niBPM, xVHalf + dVPosition, CLng(xValueM * xRatio2), False), False, True, False)
+            If xAddBPMU Then AddNote(New Note(niBPM, xVUpper, xValueU, False), False, True, False)
         End If
 
         'Check BPM Overflow
@@ -460,8 +460,8 @@ EndofSub:
 
 
         'Restore note selection
-        xVLower = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
-        xVUpper = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+        xVLower = CDbl(IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength))
+        xVUpper = CDbl(IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength))
         If Not NTInput Then
             For xI3 = 1 To UBound(Notes)
                 Notes(xI3).Selected = Notes(xI3).VPosition >= xVLower And Notes(xI3).VPosition < xVUpper And nEnabled(Notes(xI3).ColumnIndex)
@@ -485,9 +485,9 @@ EndofSub:
 
         If vSelLength = 0 Then Return
 
-        Dim xVLower As Double = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
+        Dim xVLower As Double = CDbl(IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength))
         Dim xVHalf As Double = vSelStart + vSelHalf
-        Dim xVUpper As Double = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+        Dim xVUpper As Double = CDbl(IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength))
         If xVHalf = xVUpper Then xVHalf = xVLower
         'If dVPosition + xVHalf <= xVLower Or dVPosition + xVHalf >= xVUpper Then GoTo EndofSub
 
@@ -588,7 +588,7 @@ EndofSub:
             Dim xTempEnd As Double
 
             For xI1 = 1 To UBound(Notes)
-                If Notes(xI1).Length Then xTempEnd = Notes(xI1).VPosition + Notes(xI1).Length
+                If Notes(xI1).Length > 0 Then xTempEnd = Notes(xI1).VPosition + Notes(xI1).Length
 
                 If Notes(xI1).VPosition > xVLower And Notes(xI1).VPosition < xVUpper Then
                     xTempTime = 0
@@ -607,7 +607,7 @@ EndofSub:
                     End If
                 End If
 
-                If Notes(xI1).Length Then
+                If Notes(xI1).Length > 0 Then
                     If xTempEnd > xVLower And xTempEnd < xVUpper Then
                         xTempTime = 0
 
@@ -652,7 +652,7 @@ EndOfAdjustment:
         With Notes(UBound(Notes) - 1)
             .ColumnIndex = niBPM
             .VPosition = xVHalf
-            .Value = xResult
+            .Value = CLng(xResult)
         End With
         With Notes(UBound(Notes))
             .ColumnIndex = niBPM
@@ -678,8 +678,8 @@ EndOfAdjustment:
         Me.RedoAddNoteAll(False, xUndo, xRedo)
 
         'Restore note selection
-        xVLower = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
-        xVUpper = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+        xVLower = CDbl(IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength))
+        xVUpper = CDbl(IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength))
         If Not NTInput Then
             For xI3 = 1 To UBound(Notes)
                 Notes(xI3).Selected = Notes(xI3).VPosition >= xVLower And Notes(xI3).VPosition < xVUpper And nEnabled(Notes(xI3).ColumnIndex)
@@ -701,8 +701,8 @@ EndOfAdjustment:
 
         If vSelLength = 0 Then Return
 
-        Dim xVLower As Double = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
-        Dim xVUpper As Double = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+        Dim xVLower As Double = CDbl(IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength))
+        Dim xVUpper As Double = CDbl(IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength))
 
         Dim notesInRange = From note In Notes
                            Where note.VPosition > xVLower And note.VPosition <= xVUpper
@@ -727,7 +727,7 @@ EndOfAdjustment:
         With Notes(UBound(Notes))
             .ColumnIndex = niSTOP
             .VPosition = xVLower
-            .Value = vSelLength * 10000
+            .Value = CLng(vSelLength * 10000)
         End With
 
         Me.RedoAddNoteAll(False, xUndo, xRedo)
@@ -741,7 +741,7 @@ EndOfAdjustment:
         Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
-        Dim xMeasureLengthBefore = MeasureLength.Clone
+        Dim xMeasureLengthBefore() As Double = CType(MeasureLength.Clone(), Double())
         ' TODO: Incorporate MeasureAtDisplacement
 
         If vSelLength = 0 Then
@@ -755,8 +755,8 @@ EndOfAdjustment:
                 End If
             Next
         Else
-            Dim xVLower As Double = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
-            Dim xVUpper As Double = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+            Dim xVLower As Double = CDbl(IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength))
+            Dim xVUpper As Double = CDbl(IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength))
             Dim xIML As Integer = -1
             Dim xIMU As Integer = -1
 
@@ -784,11 +784,11 @@ EndOfAdjustment:
         End If
 
 EndOfSub:
-        RedoChangeMeasure(xMeasureLengthBefore, MeasureLength.Clone, xUndo, xRedo)
+        RedoChangeMeasure(xMeasureLengthBefore, CType(MeasureLength.Clone(), Double()), xUndo, xRedo)
         AddUndo(xUndo, xBaseRedo.Next)
     End Sub
 
-    Private Sub AddMeasureLine(ByVal vPos As Integer)
+    Private Sub AddMeasureLine(ByVal vPos As Double)
         For xIM = 1 To UBound(MeasureLength)
             If vPos < MeasureBottom(xIM) Then
                 For xIM2 = UBound(MeasureLength) To xIM + 1 Step -1
@@ -803,7 +803,7 @@ EndOfSub:
         For xILB = 0 To 999
             Dim a As Double = MeasureLength(xILB) / 192.0R
             Dim xxD = GetDenominator(a)
-            LBeat.Items(xILB) = Add3Zeros(xILB) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ")
+            LBeat.Items(xILB) = Add3Zeros(xILB) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ").ToString()
         Next
 
         UpdateMeasureBottom()
@@ -819,31 +819,31 @@ EndOfSub:
         For xILB = 0 To 999
             Dim a As Double = MeasureLength(xILB) / 192.0R
             Dim xxD = GetDenominator(a)
-            LBeat.Items(xILB) = Add3Zeros(xILB) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ")
+            LBeat.Items(xILB) = Add3Zeros(xILB) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ").ToString()
         Next
 
         UpdateMeasureBottom()
     End Sub
 
     Private Sub InsertOrRemoveSpaceMeasure(ByRef xUndo As UndoRedo.LinkedURCmd, ByRef xRedo As UndoRedo.LinkedURCmd)
-        Dim xMeasureLengthBefore = MeasureLength.Clone()
+        Dim xMeasureLengthBefore() As Double = CType(MeasureLength.Clone(), Double())
 
-        Dim xVLower As Double = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
+        Dim xVLower As Double = CDbl(IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength))
         Dim xIM As Integer = MeasureAtDisplacement(xVLower)
 
         MeasureLength(xIM) = Math.Max((MeasureLength(xIM) + vSelLength), 1)
         Dim a As Double = MeasureLength(xIM) / 192.0R
         Dim xxD As Long = GetDenominator(a)
-        LBeat.Items(xIM) = Add3Zeros(xIM) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ")
+        LBeat.Items(xIM) = Add3Zeros(xIM) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ").ToString()
 
-        RedoChangeMeasure(xMeasureLengthBefore, MeasureLength.Clone, xUndo, xRedo)
+        RedoChangeMeasure(xMeasureLengthBefore, CType(MeasureLength.Clone(), Double()), xUndo, xRedo)
 
         UpdateMeasureBottom()
     End Sub
 
     Private Sub InsertOrRemoveSpaceNote(ByRef xUndo As UndoRedo.LinkedURCmd, ByRef xRedo As UndoRedo.LinkedURCmd)
-        Dim xVLower As Double = IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength)
-        Dim xVUpper As Double = IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength)
+        Dim xVLower As Double = CDbl(IIf(vSelLength > 0, vSelStart, vSelStart + vSelLength))
+        Dim xVUpper As Double = CDbl(IIf(vSelLength < 0, vSelStart, vSelStart + vSelLength))
 
         ' Change to NTInput because easier to code
         If Not NTInput Then

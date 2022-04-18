@@ -38,8 +38,10 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>
+    </NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,8 +52,10 @@
     <OutputPath>bin\pBMSC\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>
+    </NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -60,7 +64,7 @@
     <OptionCompare>Binary</OptionCompare>
   </PropertyGroup>
   <PropertyGroup>
-    <OptionStrict>Off</OptionStrict>
+    <OptionStrict>On</OptionStrict>
   </PropertyGroup>
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
@@ -77,9 +81,11 @@
     <DocumentationFile>
     </DocumentationFile>
     <Optimize>true</Optimize>
-    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <NoWarn>
+    </NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
@@ -167,10 +173,10 @@
     <Compile Include="Dialogs\dgStatistics.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\diagFind.designer.vb">
-      <DependentUpon>diagFind.vb</DependentUpon>
+    <Compile Include="Dialogs\dgFind.designer.vb">
+      <DependentUpon>dgFind.vb</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\diagFind.vb">
+    <Compile Include="Dialogs\dgFind.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialogs\fLoadFileProgress.designer.vb">
@@ -299,8 +305,8 @@
     <EmbeddedResource Include="Dialogs\dgStatistics.resx">
       <DependentUpon>dgStatistics.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\diagFind.resx">
-      <DependentUpon>diagFind.vb</DependentUpon>
+    <EmbeddedResource Include="Dialogs\dgFind.resx">
+      <DependentUpon>dgFind.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\fLoadFileProgress.resx">
       <DependentUpon>fLoadFileProgress.vb</DependentUpon>

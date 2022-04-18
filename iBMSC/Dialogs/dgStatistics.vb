@@ -80,7 +80,7 @@ Public Class dgStatistics
                 xLabel.TextAlign = ContentAlignment.MiddleCenter
                 xLabel.Margin = New Padding(0)
                 xLabel.Font = New Font(Me.Font, FontStyle.Bold)
-                If data(row - 1, col - 1) <> 0 Then xLabel.Text = data(row - 1, col - 1)
+                If data(row - 1, col - 1) <> 0 Then xLabel.Text = CStr(data(row - 1, col - 1))
                 If row Mod 2 = 1 Then xLabel.BackColor = Color.FromArgb(&H10000000)
                 TableLayoutPanel1.Controls.Add(xLabel, col, row)
             Next
@@ -100,7 +100,7 @@ Public Class dgStatistics
     Private Function C10to36(ByVal xStart As Long) As String ' Copied from Utilities
         If xStart < 1 Then xStart = 1
         If xStart > 1295 Then xStart = 1295
-        Return C10to36S(xStart \ 36) & C10to36S(xStart Mod 36)
+        Return C10to36S(CInt(xStart \ 36)) & C10to36S(CInt(xStart Mod 36))
     End Function
     Private Function C10to36S(ByVal xStart As Integer) As Char ' Copied from Utilities
         If xStart < 10 Then Return CChar(CStr(xStart)) Else Return Chr(xStart + 55)
