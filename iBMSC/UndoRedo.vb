@@ -376,7 +376,7 @@ Public Class UndoRedo
                     xToBytes(xI1 + xIb) = xId(xIb)
                 Next
             Next
-                Return xToBytes
+            Return xToBytes
         End Function
 
         Public Sub New(ByVal b() As Byte)

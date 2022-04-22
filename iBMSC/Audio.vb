@@ -1,7 +1,7 @@
-﻿Imports NVorbis
-Imports CSCore
+﻿Imports CSCore
 Imports CSCore.Codecs
 Imports CSCore.SoundOut
+Imports NVorbis
 
 Module Audio
     Dim Output As WasapiOut

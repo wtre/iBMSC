@@ -170,11 +170,11 @@ Partial Public Class MainWindow
                 With My.Computer.Keyboard
                     Dim Modif As Integer = CInt(IIf(.ShiftKeyDown, 3, 2))
                     If Not .CtrlKeyDown And Not .AltKeyDown Then ' Divide CGDivide
-                        If CLng(CGDivide.Value) / Modif >= CGDivide.Minimum Then CGDivide.Value = CGDivide.Value / Modif
+                        If CInt(CGDivide.Value) / Modif >= CGDivide.Minimum Then CGDivide.Value = CGDivide.Value / Modif
                     ElseIf .CtrlKeyDown And Not .AltKeyDown Then ' Decrease CGDivide by 1
                         If CGDivide.Value - 1 >= CGDivide.Minimum Then CGDivide.Value -= 1
                     ElseIf Not .CtrlKeyDown And .AltKeyDown Then ' Divide CGSub
-                        If CLng(CGSub.Value) / Modif >= CGSub.Minimum Then CGSub.Value = CGSub.Value / Modif
+                        If CInt(CGSub.Value) / Modif >= CGSub.Minimum Then CGSub.Value = CGSub.Value / Modif
                     Else ' Decrease CGSub by 1
                         If CGSub.Value - 1 >= CGSub.Minimum Then CGSub.Value -= 1
                     End If
@@ -533,8 +533,8 @@ ExecuteKeybind:
 
         If MiddleButtonClicked Then MiddleButtonClicked = False : Exit Sub
 
-        Dim xHS As Long = PanelHScroll(PanelFocus)
-        Dim xVS As Long = CLng(PanelVScroll(PanelFocus))
+        Dim xHS As Integer = PanelHScroll(PanelFocus)
+        Dim xVS As Integer = CInt(PanelVScroll(PanelFocus))
         Dim xHeight As Integer = spMain(PanelFocus).Height
 
         Select Case e.Button
@@ -574,7 +574,7 @@ ExecuteKeybind:
         End Select
     End Sub
 
-    Private Sub DeselectOrRemove(e As MouseEventArgs, xHS As Long, xVS As Long, xHeight As Integer)
+    Private Sub DeselectOrRemove(e As MouseEventArgs, xHS As Integer, xVS As Integer, xHeight As Integer)
         KMouseOver = -1
         'KMouseDown = -1
         ReDim SelectedNotes(-1)
@@ -611,7 +611,7 @@ ExecuteKeybind:
         End If
     End Sub
 
-    Private Function GetClickedNote(e As MouseEventArgs, xHS As Long, xVS As Long, xHeight As Integer) As Integer
+    Private Function GetClickedNote(e As MouseEventArgs, xHS As Integer, xVS As Integer, xHeight As Integer) As Integer
         Dim NoteIndex As Integer = -1
         For xI1 = UBound(Notes) To 0 Step -1
             'If mouse is clicking on a K
@@ -656,7 +656,7 @@ ExecuteKeybind:
         End If
     End Sub
 
-    Private Sub HandleCurrentModeOnClick(e As MouseEventArgs, xHS As Long, xVS As Long, xHeight As Integer, ByRef NoteIndex As Integer)
+    Private Sub HandleCurrentModeOnClick(e As MouseEventArgs, xHS As Integer, xVS As Integer, xHeight As Integer, ByRef NoteIndex As Integer)
         If TBSelect.Checked Then
             OnSelectModeLeftClick(e, NoteIndex, xHeight, xVS)
         ElseIf NTInput And TBWrite.Checked Then
@@ -882,7 +882,7 @@ ExecuteKeybind:
         End If
     End Sub
 
-    Private Sub OnSelectModeLeftClick(e As MouseEventArgs, NoteIndex As Integer, xTHeight As Integer, xVS As Long)
+    Private Sub OnSelectModeLeftClick(e As MouseEventArgs, NoteIndex As Integer, xTHeight As Integer, xVS As Integer)
         If NoteIndex >= 0 And e.Clicks = 2 Then
             DoubleClickNoteIndex(NoteIndex)
         ElseIf NoteIndex > 0 Then
@@ -1026,7 +1026,7 @@ ExecuteKeybind:
         End If
     End Sub
 
-    Private Function MouseInNote(e As MouseEventArgs, xHS As Long, xVS As Long, xHeight As Integer, note As Note) As Boolean
+    Private Function MouseInNote(e As MouseEventArgs, xHS As Integer, xVS As Integer, xHeight As Integer, note As Note) As Boolean
         Return e.X >= HorizontalPositiontoDisplay(nLeft(note.ColumnIndex), xHS) + 1 And
                e.X <= HorizontalPositiontoDisplay(nLeft(note.ColumnIndex) + GetColumnWidth(note.ColumnIndex), xHS) - 1 And
                e.Y >= NoteRowToPanelHeight(note.VPosition + CDbl(IIf(NTInput, note.Length, 0)), xVS, xHeight) - vo.kHeight And
@@ -1060,8 +1060,8 @@ ExecuteKeybind:
         Dim PanelS As Panel = CType(sender, Panel)
         Dim iI As Integer = CInt(PanelS.Tag)
 
-        Dim xHS As Long = PanelHScroll(iI)
-        Dim xVS As Long = CLng(PanelVScroll(iI))
+        Dim xHS As Integer = PanelHScroll(iI)
+        Dim xVS As Integer = CInt(PanelVScroll(iI))
         Dim xHeight As Integer = spMain(iI).Height
         Dim xWidth As Integer = spMain(iI).Width
 
@@ -1205,7 +1205,7 @@ ExecuteKeybind:
     Dim lastVPos As Double = -1
     Dim lastColumn As Integer = -1
 
-    Private Sub UpdateSelectedNotes(xHeight As Integer, xVS As Long, xHS As Long, e As MouseEventArgs)
+    Private Sub UpdateSelectedNotes(xHeight As Integer, xVS As Integer, xHS As Integer, e As MouseEventArgs)
         Dim mouseVPosition As Double
 
         Dim xITemp As Integer
@@ -1294,7 +1294,7 @@ ExecuteKeybind:
         End If
     End Sub
 
-    Private Sub OnTimeSelectClick(xHeight As Integer, xHS As Long, xVS As Long, e As MouseEventArgs)
+    Private Sub OnTimeSelectClick(xHeight As Integer, xHS As Integer, xVS As Integer, e As MouseEventArgs)
         Dim xI1 As Integer
         Dim xITemp As Integer = -1
         If Notes IsNot Nothing Then
@@ -1470,7 +1470,7 @@ ExecuteKeybind:
         End If
     End Sub
 
-    Private Sub OnDuplicateSelectedNotes(xHeight As Integer, xVS As Long, xHS As Long, e As MouseEventArgs)
+    Private Sub OnDuplicateSelectedNotes(xHeight As Integer, xVS As Integer, xHS As Integer, e As MouseEventArgs)
         Dim tempNoteIndex As Integer
         For tempNoteIndex = 1 To UBound(Notes)
             If Notes(tempNoteIndex).TempMouseDown Then Exit For
@@ -1535,7 +1535,7 @@ ExecuteKeybind:
     End Sub
 
 
-    Private Sub OnWriteModeMouseMove(xHeight As Integer, xVS As Long, e As MouseEventArgs)
+    Private Sub OnWriteModeMouseMove(xHeight As Integer, xVS As Integer, e As MouseEventArgs)
         'If Not KMouseDown = -1 Then
         If SelectedNotes.Length <> 0 Then
 
@@ -1594,7 +1594,7 @@ ExecuteKeybind:
         End If
     End Sub
 
-    Private Sub OnSelectModeMoveNotes(e As MouseEventArgs, xHS As Long, xITemp As Integer)
+    Private Sub OnSelectModeMoveNotes(e As MouseEventArgs, xHS As Integer, xITemp As Integer)
         If Notes(xITemp).Ghost Then Exit Sub
         Dim mouseVPosition = GetMouseVPosition(gSnap)
         If DisableVerticalMove Then mouseVPosition = SelectedNotes(0).VPosition
@@ -1658,7 +1658,7 @@ ExecuteKeybind:
         'End If
     End Sub
 
-    Private Sub UpdateSelectionBox(xHS As Long, xVS As Long, xHeight As Integer)
+    Private Sub UpdateSelectionBox(xHS As Integer, xVS As Integer, xHeight As Integer)
         Dim SelectionBox As New Rectangle(CInt(IIf(pMouseMove.X > LastMouseDownLocation.X, LastMouseDownLocation.X, pMouseMove.X)),
                                                            CInt(IIf(pMouseMove.Y > LastMouseDownLocation.Y, LastMouseDownLocation.Y, pMouseMove.Y)),
                                                            CInt(Math.Abs(pMouseMove.X - LastMouseDownLocation.X)),
@@ -1721,7 +1721,7 @@ ExecuteKeybind:
         AddUndo(xUndo, xBaseRedo.Next)
     End Sub
 
-    Private Sub DrawNoteHoverHighlight(iI As Integer, xHS As Long, xVS As Long, xHeight As Integer, foundNoteIndex As Integer)
+    Private Sub DrawNoteHoverHighlight(iI As Integer, xHS As Integer, xVS As Integer, xHeight As Integer, foundNoteIndex As Integer)
         Dim xDispX As Integer = HorizontalPositiontoDisplay(nLeft(Notes(foundNoteIndex).ColumnIndex), xHS)
         Dim xDispY As Integer = CInt(IIf(Not NTInput Or (bAdjustLength And Not bAdjustUpper),
                                     NoteRowToPanelHeight(Notes(foundNoteIndex).VPosition, xVS, xHeight) - vo.kHeight - 1,
@@ -1750,7 +1750,7 @@ ExecuteKeybind:
         End If
     End Sub
 
-    Private Function GetColumnAtX(x As Integer, xHS As Long) As Integer
+    Private Function GetColumnAtX(x As Integer, xHS As Integer) As Integer
         Dim xI1 As Integer = 0
         Dim mLeft As Integer = CInt(x / gxWidth + xHS) 'horizontal position of the mouse
         Dim xColumn = 0
@@ -1764,7 +1764,7 @@ ExecuteKeybind:
         Return EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(xColumn))  'get the enabled column where mouse is 
     End Function
 
-    Private Function GetColumnAtEvent(e As MouseEventArgs, xHS As Long) As Integer
+    Private Function GetColumnAtEvent(e As MouseEventArgs, xHS As Integer) As Integer
         Return GetColumnAtX(e.X, xHS)
     End Function
 

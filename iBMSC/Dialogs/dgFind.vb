@@ -1,5 +1,3 @@
-Imports System.Windows.Forms
-
 Public Class dgFind
     Dim bCol As Integer = 46
     Dim msg1 As String = "Error"

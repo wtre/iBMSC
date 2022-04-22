@@ -414,7 +414,7 @@ Public Class MainWindow
     ''' <param name="xHSVal">HS.Value</param>
 
 
-    Private Function HorizontalPositiontoDisplay(ByVal xHPosition As Integer, ByVal xHSVal As Long) As Integer
+    Private Function HorizontalPositiontoDisplay(ByVal xHPosition As Integer, ByVal xHSVal As Integer) As Integer
         Return CInt(xHPosition * gxWidth - xHSVal * gxWidth)
     End Function
 
@@ -426,7 +426,7 @@ Public Class MainWindow
     ''' <param name="xTHeight">Height of the panel. (DisplayRectangle, but not ClipRectangle)</param>
 
 
-    Private Function NoteRowToPanelHeight(ByVal xVPosition As Double, ByVal xVSVal As Long, ByVal xTHeight As Integer) As Integer
+    Private Function NoteRowToPanelHeight(ByVal xVPosition As Double, ByVal xVSVal As Integer, ByVal xTHeight As Integer) As Integer
         Return xTHeight - CInt((xVPosition + xVSVal) * gxHeight) - 1
     End Function
 
@@ -706,7 +706,7 @@ Public Class MainWindow
             Notes(xI1).Selected = False
         Next
 
-        Dim xVS As Long = CLng(PanelVScroll(PanelFocus))
+        Dim xVS As Integer = CInt(PanelVScroll(PanelFocus))
         Dim xTempVP As Double
         Dim xKbu() As Note = Notes
 
@@ -1346,17 +1346,6 @@ Public Class MainWindow
 
     Private Sub UpdatePairing()
         Dim i As Integer, j As Integer
-        Dim xniArray0() As Integer
-        Select Case gXKeyMode
-            Case "SP"
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
-            Case "PMS"
-                xniArray0 = {niA2, niA3, niA4, niA5, niA6, niD2, niD3, niD4, niD5}
-            Case "DP"
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
-            Case Else
-                xniArray0 = {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8}
-        End Select
 
         If NTInput Then
             For i = 0 To UBound(Notes)

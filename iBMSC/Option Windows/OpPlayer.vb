@@ -1,5 +1,3 @@
-Imports System.Windows.Forms
-
 Public Class OpPlayer
     Dim pArg() As MainWindow.PlayerArguments
     'Dim ImplicitChange As Boolean = False

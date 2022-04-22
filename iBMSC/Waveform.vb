@@ -1,7 +1,4 @@
-﻿Imports CSCore.Streams
-Imports CSCore.Streams.Effects
-Imports CSCore
-Imports CSCore.Codecs
+﻿Imports CSCore
 
 
 Partial Public Class MainWindow

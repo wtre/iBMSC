@@ -1,5 +1,3 @@
-Imports System.Windows.Forms
-
 Public Class fLoadFileProgress
     Dim xPath(-1) As String
     Dim CancelPressed As Boolean = False

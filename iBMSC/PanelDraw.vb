@@ -38,8 +38,8 @@ Partial Public Class MainWindow
 
         Dim xTHeight As Integer = spMain(xIndex).Height
         Dim xTWidth As Integer = spMain(xIndex).Width
-        Dim xPanelHScroll As Integer = PanelHScroll(xIndex)
-        Dim xPanelDisplacement As Integer = CInt(PanelVScroll(xIndex))
+        Dim xPanelHScroll As Integer = PanelHScroll(xIndex) ' Stick with integer instead of long since you will never scroll there
+        Dim xPanelDisplacement As Integer = CInt(PanelVScroll(xIndex)) ' Stick with integer instead of long since you will never scroll there
         Dim xVSR As Integer = CInt(-PanelVScroll(xIndex))
         Dim xVSu As Integer = CInt(IIf(xVSR + xTHeight / gxHeight > GetMaxVPosition(), GetMaxVPosition(), xVSR + xTHeight / gxHeight))
 
@@ -305,7 +305,7 @@ Partial Public Class MainWindow
         Loop
     End Sub
 
-    Private Function IsNoteVisible(note As Note, xTHeight As Integer, xVS As Long) As Boolean
+    Private Function IsNoteVisible(note As Note, xTHeight As Integer, xVS As Integer) As Boolean
         Dim xUpperBorder As Single = Math.Abs(xVS) + xTHeight / gxHeight
         Dim xLowerBorder As Single = Math.Abs(xVS) - vo.kHeight / gxHeight
 
@@ -321,7 +321,7 @@ Partial Public Class MainWindow
         Return NoteInside OrElse IntersectsNT OrElse IntersectsNT
     End Function
 
-    Private Function IsNoteVisible(noteindex As Integer, xTHeight As Integer, xVS As Long) As Boolean
+    Private Function IsNoteVisible(noteindex As Integer, xTHeight As Integer, xVS As Integer) As Boolean
         Return IsNoteVisible(Notes(noteindex), xTHeight, xVS)
     End Function
 
@@ -573,7 +573,7 @@ Partial Public Class MainWindow
     ''' <param name="xVS">VS.Value.</param>
     ''' <param name="xHeight">Display height of the panel. (not ClipRectangle.Height)</param>
 
-    Private Sub DrawNote(ByVal sNote As Note, ByVal e As BufferedGraphics, ByVal xHS As Long, ByVal xVS As Long, ByVal xHeight As Integer, Optional CO() As ColorOverride = Nothing) ', Optional ByVal CheckError As Boolean = True) ', Optional ByVal ConnectToIndex As Long = 0)
+    Private Sub DrawNote(ByVal sNote As Note, ByVal e As BufferedGraphics, ByVal xHS As Integer, ByVal xVS As Integer, ByVal xHeight As Integer, Optional CO() As ColorOverride = Nothing) ', Optional ByVal CheckError As Boolean = True) ', Optional ByVal ConnectToIndex As Long = 0)
         If Not nEnabled(sNote.ColumnIndex) Then Exit Sub
         Dim xAlpha As Single = 1.0F
         If sNote.Hidden Then xAlpha = vo.kOpacity
@@ -684,7 +684,7 @@ Partial Public Class MainWindow
 
     End Sub
 
-    Private Sub DrawPairedLNBody(sNote As Note, e As BufferedGraphics, xHS As Long, xVS As Long, xHeight As Integer, xAlpha As Single)
+    Private Sub DrawPairedLNBody(sNote As Note, e As BufferedGraphics, xHS As Integer, xVS As Integer, xHeight As Integer, xAlpha As Single)
         Dim xnLeft = nLeft(sNote.ColumnIndex)
         Dim xColumnWidth = GetColumnWidth(sNote.ColumnIndex)
         Dim xPen2 As New Pen(GetColumn(sNote.ColumnIndex).getLongBright(xAlpha))
@@ -718,7 +718,7 @@ Partial Public Class MainWindow
     ''' <param name="xVS">VS.Value.</param>
     ''' <param name="xHeight">Display height of the panel. (not ClipRectangle.Height)</param>
 
-    Private Sub DrawNoteNT(ByVal sNote As Note, ByVal e As BufferedGraphics, ByVal xHS As Long, ByVal xVS As Long, ByVal xHeight As Integer, Optional CO() As ColorOverride = Nothing) ', Optional ByVal CheckError As Boolean = True)
+    Private Sub DrawNoteNT(ByVal sNote As Note, ByVal e As BufferedGraphics, ByVal xHS As Integer, ByVal xVS As Integer, ByVal xHeight As Integer, Optional CO() As ColorOverride = Nothing) ', Optional ByVal CheckError As Boolean = True)
         If Not nEnabled(sNote.ColumnIndex) Then Exit Sub
         Dim xAlpha As Single = 1.0F
         If sNote.Hidden Then xAlpha = vo.kOpacity

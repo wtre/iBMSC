@@ -1,6 +1,4 @@
-﻿Imports System.Windows.Forms
-
-Public Class OpExpand
+﻿Public Class OpExpand
 
     Dim TExpansionTextSplit() As String = Split(MainWindow.TExpansion.Text, vbCrLf, , CompareMethod.Text)
     Dim CurrSelection As Integer = -1

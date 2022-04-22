@@ -1,5 +1,4 @@
 ﻿Imports System.Linq
-Imports System.Windows.Forms
 
 Public Class OpKeybinding
     Public Keybinds() As MainWindow.Keybinding

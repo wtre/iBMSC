@@ -1,5 +1,3 @@
-Imports System.Runtime.CompilerServices
-Imports System.Windows.Forms
 Imports iBMSC.Editor
 
 Public Class OpVisual

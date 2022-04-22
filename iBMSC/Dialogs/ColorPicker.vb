@@ -1,5 +1,3 @@
-Imports System.Windows.Forms
-
 Public Class ColorPicker
     Public OrigColor As Color = Color.Black
     Public NewColor As Color = Color.Black
