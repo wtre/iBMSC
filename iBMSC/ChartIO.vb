@@ -17,25 +17,29 @@ Partial Public Class MainWindow
         Dim nNotes As Integer = 1
 
         ' Assume ghost note strings contain only notes in the section. Expansion field to be saved separately
-        If xGhost Then nNotes = Notes.Length : GoTo SkipInitialization
-        If xComment Then xStrLine2 = xStrLine : nNotes = Notes.Length : GoTo SkipInitialization
+        If xGhost Then
+            nNotes = Notes.Length
+        ElseIf xComment Then
+            xStrLine2 = xStrLine
+            nNotes = Notes.Length
+        Else ' Initialization
+            ReDim Notes(0)
+            ReDim mColumn(999)
+            ReDim hWAV(1295)
+            ReDim hBPM(1295)    'x10000
+            ReDim hSTOP(1295)
+            ReDim hBMSCROLL(1295)
+            Me.InitializeNewBMS()
+            Me.InitializeOpenBMS()
 
-        ReDim Notes(0)
-        ReDim mColumn(999)
-        ReDim hWAV(1295)
-        ReDim hBPM(1295)    'x10000
-        ReDim hSTOP(1295)
-        ReDim hBMSCROLL(1295)
-        Me.InitializeNewBMS()
-        Me.InitializeOpenBMS()
-
-        With Notes(0)
-            .ColumnIndex = niBPM
-            .VPosition = -1
-            '.LongNote = False
-            '.Selected = False
-            .Value = 1200000
-        End With
+            With Notes(0)
+                .ColumnIndex = niBPM
+                .VPosition = -1
+                '.LongNote = False
+                '.Selected = False
+                .Value = 1200000
+            End With
+        End If
 
         'old list below, not sure what this means
         'random, setRandom      0
@@ -47,7 +51,7 @@ Partial Public Class MainWindow
         'case, skip, def        0
         'endSw                  -1
         'P: I'm gonna do what's called a pro gamer move
-SkipInitialization:
+
         Dim xStack As Integer = 0
         Dim nLine As Integer = -1
 
@@ -55,165 +59,156 @@ SkipInitialization:
             Dim sLineTrim As String = sLine.Trim
             If sLineTrim = "" Then Continue For
 
-            If xStack > 0 Then GoTo Expansion
-            If xGhost Then GoTo SkipLoadingHeader
+            If xStack > 0 Then AddToExpansion(xExpansion, xStack, sLine) : Continue For
+            If Not xGhost AndAlso Not xComment Then ' Load header if not ghost notes and not comment notes
 
-            If sLineTrim.StartsWith("#") And Mid(sLineTrim, 5, 3) = "02:" Then
-                Dim xIndex As Integer = CInt(Mid(sLineTrim, 2, 3))
-                Dim xRatio As Double = Val(Mid(sLineTrim, 8))
-                Dim xxD As Long = GetDenominator(xRatio)
-                MeasureLength(xIndex) = xRatio * 192.0R
-                LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ").ToString()
-                GoTo AddToxStrLine2
+                If sLineTrim.StartsWith("#") And Mid(sLineTrim, 5, 3) = "02:" Then
+                    Dim xIndex As Integer = CInt(Mid(sLineTrim, 2, 3))
+                    Dim xRatio As Double = Val(Mid(sLineTrim, 8))
+                    Dim xxD As Long = GetDenominator(xRatio)
+                    MeasureLength(xIndex) = xRatio * 192.0R
+                    LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ").ToString()
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#WAV") Then
-                hWAV(C36to10(Mid(sLineTrim, Len("#WAV") + 1, 2))) = Mid(sLineTrim, Len("#WAV") + 4)
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#WAV") Then
+                    hWAV(C36to10(Mid(sLineTrim, Len("#WAV") + 1, 2))) = Mid(sLineTrim, Len("#WAV") + 4)
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#BPM") And Not Mid(sLineTrim, Len("#BPM") + 1, 1).Trim = "" Then  'If BPM##
-                ' zdr: No limits on BPM editing.. they don't make much sense.
-                hBPM(C36to10(Mid(sLineTrim, Len("#BPM") + 1, 2))) = CLng(Mid(sLineTrim, Len("#BPM") + 4)) * 10000
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#BPM") And Not Mid(sLineTrim, Len("#BPM") + 1, 1).Trim = "" Then  'If BPM##
+                    ' zdr: No limits on BPM editing.. they don't make much sense.
+                    hBPM(C36to10(Mid(sLineTrim, Len("#BPM") + 1, 2))) = CLng(CDbl(Mid(sLineTrim, Len("#BPM") + 4)) * 10000)
+                    Continue For
 
-                'No limits on STOPs either.
-            ElseIf SWIC(sLineTrim, "#STOP") Then
-                hSTOP(C36to10(Mid(sLineTrim, Len("#STOP") + 1, 2))) = CLng(Mid(sLineTrim, Len("#STOP") + 4)) * 10000
-                GoTo AddToxStrLine2
+                    'No limits on STOPs either.
+                ElseIf SWIC(sLineTrim, "#STOP") Then
+                    hSTOP(C36to10(Mid(sLineTrim, Len("#STOP") + 1, 2))) = CLng(CDbl(Mid(sLineTrim, Len("#STOP") + 4)) * 10000)
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#SCROLL") Then
-                hBMSCROLL(C36to10(Mid(sLineTrim, Len("#SCROLL") + 1, 2))) = CLng(Mid(sLineTrim, Len("#SCROLL") + 4)) * 10000
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#SCROLL") Then
+                    hBMSCROLL(C36to10(Mid(sLineTrim, Len("#SCROLL") + 1, 2))) = CLng(CDbl(Mid(sLineTrim, Len("#SCROLL") + 4)) * 10000)
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#TITLE") Then
-                THTitle.Text = Mid(sLineTrim, Len("#TITLE") + 1).Trim
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#TITLE") Then
+                    THTitle.Text = Mid(sLineTrim, Len("#TITLE") + 1).Trim
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#ARTIST") Then
-                THArtist.Text = Mid(sLineTrim, Len("#ARTIST") + 1).Trim
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#ARTIST") Then
+                    THArtist.Text = Mid(sLineTrim, Len("#ARTIST") + 1).Trim
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#GENRE") Then
-                THGenre.Text = Mid(sLineTrim, Len("#GENRE") + 1).Trim
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#GENRE") Then
+                    THGenre.Text = Mid(sLineTrim, Len("#GENRE") + 1).Trim
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#BPM") Then  'If BPM ####
-                Notes(0).Value = CLng(Mid(sLineTrim, Len("#BPM") + 1).Trim) * 10000
-                THBPM.Value = CDec(Notes(0).Value / 10000)
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#BPM") Then  'If BPM ####
+                    Notes(0).Value = CLng(CDbl(Mid(sLineTrim, Len("#BPM") + 1).Trim)) * 10000
+                    THBPM.Value = CDec(Notes(0).Value / 10000)
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#PLAYER") Then
-                Dim xInt As Integer = CInt(Mid(sLineTrim, Len("#PLAYER") + 1).Trim)
-                If xInt >= 1 And xInt <= 4 Then _
-                    CHPlayer.SelectedIndex = xInt - 1
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#PLAYER") Then
+                    Dim xInt As Integer = CInt(Mid(sLineTrim, Len("#PLAYER") + 1).Trim)
+                    If xInt >= 1 And xInt <= 4 Then _
+                        CHPlayer.SelectedIndex = xInt - 1
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#RANK") Then
-                Dim xInt As Integer = CInt(Mid(sLineTrim, Len("#RANK") + 1).Trim)
-                If xInt >= 0 And xInt <= 4 Then _
-                    CHRank.SelectedIndex = xInt
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#RANK") Then
+                    Dim xInt As Integer = CInt(Mid(sLineTrim, Len("#RANK") + 1).Trim)
+                    If xInt >= 0 And xInt <= 4 Then _
+                        CHRank.SelectedIndex = xInt
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#PLAYLEVEL") Then
-                THPlayLevel.Text = Mid(sLineTrim, Len("#PLAYLEVEL") + 1).Trim
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#PLAYLEVEL") Then
+                    THPlayLevel.Text = Mid(sLineTrim, Len("#PLAYLEVEL") + 1).Trim
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#SUBTITLE") Then
-                THSubTitle.Text = Mid(sLineTrim, Len("#SUBTITLE") + 1).Trim
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#SUBTITLE") Then
+                    THSubTitle.Text = Mid(sLineTrim, Len("#SUBTITLE") + 1).Trim
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#SUBARTIST") Then
-                THSubArtist.Text = Mid(sLineTrim, Len("#SUBARTIST") + 1).Trim
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#SUBARTIST") Then
+                    THSubArtist.Text = Mid(sLineTrim, Len("#SUBARTIST") + 1).Trim
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#STAGEFILE") Then
-                THStageFile.Text = Mid(sLineTrim, Len("#STAGEFILE") + 1).Trim
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#STAGEFILE") Then
+                    THStageFile.Text = Mid(sLineTrim, Len("#STAGEFILE") + 1).Trim
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#BANNER") Then
-                THBanner.Text = Mid(sLineTrim, Len("#BANNER") + 1).Trim
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#BANNER") Then
+                    THBanner.Text = Mid(sLineTrim, Len("#BANNER") + 1).Trim
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#BACKBMP") Then
-                THBackBMP.Text = Mid(sLineTrim, Len("#BACKBMP") + 1).Trim
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#BACKBMP") Then
+                    THBackBMP.Text = Mid(sLineTrim, Len("#BACKBMP") + 1).Trim
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#DIFFICULTY") Then
-                Try
-                    CHDifficulty.SelectedIndex = Integer.Parse(Mid(sLineTrim, Len("#DIFFICULTY") + 1).Trim)
-                Catch ex As Exception
-                End Try
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#DIFFICULTY") Then
+                    Try
+                        CHDifficulty.SelectedIndex = Integer.Parse(Mid(sLineTrim, Len("#DIFFICULTY") + 1).Trim)
+                    Catch ex As Exception
+                    End Try
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#DEFEXRANK") Then
-                THExRank.Text = Mid(sLineTrim, Len("#DEFEXRANK") + 1).Trim
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#DEFEXRANK") Then
+                    THExRank.Text = Mid(sLineTrim, Len("#DEFEXRANK") + 1).Trim
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#TOTAL") Then
-                Dim xStr As String = Mid(sLineTrim, Len("#TOTAL") + 1).Trim
-                'If xStr.EndsWith("%") Then xStr = Mid(xStr, 1, Len(xStr) - 1)
-                THTotal.Text = xStr
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#TOTAL") Then
+                    Dim xStr As String = Mid(sLineTrim, Len("#TOTAL") + 1).Trim
+                    'If xStr.EndsWith("%") Then xStr = Mid(xStr, 1, Len(xStr) - 1)
+                    THTotal.Text = xStr
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#COMMENT") Then
-                Dim xStr As String = Mid(sLineTrim, Len("#COMMENT") + 1).Trim
-                If xStr.StartsWith("""") Then xStr = Mid(xStr, 2)
-                If xStr.EndsWith("""") Then xStr = Mid(xStr, 1, Len(xStr) - 1)
-                THComment.Text = xStr
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#COMMENT") Then
+                    Dim xStr As String = Mid(sLineTrim, Len("#COMMENT") + 1).Trim
+                    If xStr.StartsWith("""") Then xStr = Mid(xStr, 2)
+                    If xStr.EndsWith("""") Then xStr = Mid(xStr, 1, Len(xStr) - 1)
+                    THComment.Text = xStr
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#LNTYPE") Then
-                'THLnType.Text = Mid(sLineTrim, Len("#LNTYPE") + 1).Trim
-                If Val(Mid(sLineTrim, Len("#LNTYPE") + 1).Trim) = 1 Then CHLnObj.SelectedIndex = 0
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#LNTYPE") Then
+                    'THLnType.Text = Mid(sLineTrim, Len("#LNTYPE") + 1).Trim
+                    If Val(Mid(sLineTrim, Len("#LNTYPE") + 1).Trim) = 1 Then CHLnObj.SelectedIndex = 0
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#LNOBJ") Then
-                Dim xValue As Integer = C36to10(Mid(sLineTrim, Len("#LNOBJ") + 1).Trim)
-                CHLnObj.SelectedIndex = xValue
-                GoTo AddToxStrLine2
+                ElseIf SWIC(sLineTrim, "#LNOBJ") Then
+                    Dim xValue As Integer = C36to10(Mid(sLineTrim, Len("#LNOBJ") + 1).Trim)
+                    CHLnObj.SelectedIndex = xValue
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#ECMD") Then
-                xEditorExpansion &= sLineTrim.Replace("#ECMD", "#") & vbCrLf
-                Continue For
+                ElseIf SWIC(sLineTrim, "#ECMD") Then
+                    xEditorExpansion &= sLineTrim.Replace("#ECMD", "#") & vbCrLf
+                    Continue For
 
-            ElseIf SWIC(sLineTrim, "#ECOM") Then ' Comment notes
-                Dim xComVal As Integer = C36to10(Mid(sLineTrim, Len("#ECOM") + 1, 2).ToString())
-                hCOM(C36to10(xComVal)) = Mid(sLineTrim, Len("#ECOM") + 4)
-                If xComVal > hCOMNum Then hCOMNum = xComVal
-                Continue For
+                ElseIf SWIC(sLineTrim, "#ECOM") Then ' Comment notes
+                    Dim xComVal As Integer = C36to10(Mid(sLineTrim, Len("#ECOM") + 1, 2).ToString())
+                    hCOM(C36to10(xComVal)) = Mid(sLineTrim, Len("#ECOM") + 4)
+                    If xComVal > hCOMNum Then hCOMNum = xComVal
+                    Continue For
 
+                End If
+                'TODO: LNOBJ value validation
+
+                'ElseIf SWIC(sLineTrim,"#LNTYPE") Then
+                '    CAdLNTYPE.Checked = True
+                '    If Mid(sLineTrim, 9) = "" Or Mid(sLineTrim, 9) = "1" Or Mid(sLineTrim, 9) = "01" Then CAdLNTYPEb.Text = "1"
+                '    CAdLNTYPEb.Text = Mid(sLineTrim, 9)
             End If
-            'TODO: LNOBJ value validation
 
-            'ElseIf SWIC(sLineTrim,"#LNTYPE") Then
-            '    CAdLNTYPE.Checked = True
-            '    If Mid(sLineTrim, 9) = "" Or Mid(sLineTrim, 9) = "1" Or Mid(sLineTrim, 9) = "01" Then CAdLNTYPEb.Text = "1"
-            '    CAdLNTYPEb.Text = Mid(sLineTrim, 9)
-SkipLoadingHeader:
             If sLineTrim.StartsWith("#") And Mid(sLineTrim, 7, 1) = ":" Then   'If the line contains Ks
                 Dim xIdentifier As String = Mid(sLineTrim, 5, 2)
-                If BMSChannelToColumn(xIdentifier) = 0 Then GoTo AddExpansion
+                If BMSChannelToColumn(xIdentifier) = 0 Then xExpansion &= sLine & vbCrLf : Continue For
 
-                ' If does not belong to expansion code, execute below
-AddToxStrLine2: nLine += 1
+                nLine += 1
                 xStrLine2(nLine) = sLineTrim
 
             Else
-Expansion:      If SWIC(sLineTrim, "#IF") Or SWIC(sLineTrim, "#SWITCH") Or SWIC(sLineTrim, "#SETSWITCH") Then
-                    xStack += 1 : GoTo AddExpansion
-                ElseIf SWIC(sLineTrim, "#ENDIF") Or SWIC(sLineTrim, "#ENDSW") Then
-                    xStack -= 1 : GoTo AddExpansion
-
-                ElseIf sLineTrim.StartsWith("#") Then
-AddExpansion:       xExpansion &= sLine & vbCrLf
-
-                End If
-
+                AddToExpansion(xExpansion, xStack, sLine)
             End If
         Next
         UpdateMeasureBottom()
 
-SkipUpdateMeasureBottom:
         ' BPM must be updated before loading notes, do not combine loops
+        ' xStrLine2 should contain only # lines for notes
         ReDim Preserve xStrLine2(nLine)
         For Each sLineTrim In xStrLine2
 
@@ -255,34 +250,44 @@ SkipUpdateMeasureBottom:
 
         If xEditorExpansion <> "" Then OpenBMS(xEditorExpansion,, True)
 
-        If xGhost Then
-            If NTInput Then ConvertBMSE2NT(nNotes)
-            GoTo SkipLWAVAndExpansion
-        ElseIf xComment Then
-            GoTo SkipLWAVAndExpansion
+        If xGhost Or xComment Then
+            If xGhost AndAlso NTInput Then ConvertBMSE2NT(nNotes)
+        Else
+            If NTInput Then ConvertBMSE2NT()
+
+            LWAV.Visible = False
+            LWAV.Items.Clear()
+            For xI1 = 1 To 1295
+                LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
+                ' Add waveforms to wLWAV
+                If hWAV(xI1) <> "" AndAlso ShowWaveform Then wLWAV(xI1) = LoadWaveForm(ExcludeFileName(FileName) & "\" & hWAV(xI1))
+            Next
+            LWAV.SelectedIndex = 0
+            LWAV.Visible = True
+            If ShowWaveform Then WaveformLoaded = True
+
+            TExpansion.Text = xExpansion
         End If
-        If NTInput Then ConvertBMSE2NT()
 
-        LWAV.Visible = False
-        LWAV.Items.Clear()
-        For xI1 = 1 To 1295
-            LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
-            ' Add waveforms to wLWAV
-            If hWAV(xI1) <> "" AndAlso ShowWaveform Then wLWAV(xI1) = LoadWaveForm(ExcludeFileName(FileName) & "\" & hWAV(xI1))
-        Next
-        LWAV.SelectedIndex = 0
-        LWAV.Visible = True
-        If ShowWaveform Then WaveformLoaded = True
-
-        TExpansion.Text = xExpansion
-
-SkipLWAVAndExpansion:
         SortByVPositionQuick(0, UBound(Notes))
         UpdatePairing()
         CalculateTotalPlayableNotes()
         CalculateGreatestVPosition()
         RefreshPanelAll()
         POStatusRefresh()
+    End Sub
+
+    Private Sub AddToExpansion(ByRef xExpansion As String, ByRef xStack As Integer, ByVal sLine As String)
+        Dim sLineTrim As String = sLine.Trim
+        If SWIC(sLineTrim, "#IF") Or SWIC(sLineTrim, "#SWITCH") Or SWIC(sLineTrim, "#SETSWITCH") Then
+            xStack += 1
+            xExpansion &= sLine & vbCrLf
+        ElseIf SWIC(sLineTrim, "#ENDIF") Or SWIC(sLineTrim, "#ENDSW") Then
+            xStack -= 1
+            xExpansion &= sLine & vbCrLf
+        ElseIf sLineTrim.StartsWith("#") Then
+            xExpansion &= sLine & vbCrLf
+        End If
     End Sub
 
     ReadOnly BMSChannelList() As String = {"01", "03", "04", "06", "07", "08", "09",
@@ -313,16 +318,21 @@ SkipLWAVAndExpansion:
         Dim xStrMeasure(MeasureAtDisplacement(GreatestVPosition) + 1) As String
 
         ' We regenerate these when traversing the bms event list.
-        ReDim hBPM(0)
-        ReDim hSTOP(0)
-        ReDim hBMSCROLL(0)
 
         Dim xNTInput As Boolean = NTInput
         If GhostMode = 2 Then SwapGhostNotes() ' Revert main notes back to non-ghost notes
-        Dim xKBackUp() As Note = CType(Notes.Clone(), Note()) 'All notes
+        ' TODO: Fix Ghost mode 1 and 2 not saving BPMs, STOPs and SCROLLs
+        Dim xNotesBackup() As Note = CType(Notes.Clone(), Note()) 'All notes
+
         If xNTInput Then
             NTInput = False
             ConvertNT2BMSE()
+        End If
+
+        If Not xRandom Then
+            ReDim hBPM(0)
+            ReDim hSTOP(0)
+            ReDim hBMSCROLL(0)
         End If
 
         Dim tempNote As Note                    'Temp K
@@ -400,7 +410,7 @@ SkipLWAVAndExpansion:
             GhostModeTemp = GhostMode
             GhostMode = 0
             TExpansion.Text = ""
-            Dim xKBackUpG() As Note = CType(xKBackUp.Clone(), Note())
+            Dim xKBackUpG() As Note = CType(xNotesBackup.Clone(), Note())
             Dim xStrCompare() As String = Split(Replace(Replace(Replace(SaveBMS(), vbLf, vbCr), vbCr & vbCr, vbCr), vbCr, vbCrLf), vbCrLf,, CompareMethod.Text)
 
             ' Save ghost notes
@@ -421,7 +431,7 @@ SkipLWAVAndExpansion:
                 End If
             Next
             TExpansion.Text = Join(ExpansionSplit, vbCrLf)
-            xKBackUp = CType(xKBackUpG.Clone(), Note())
+            xNotesBackup = CType(xKBackUpG.Clone(), Note())
         End If
         ' Combine all expansion texts
         Dim xStrExp As String = vbCrLf & "*---------------------- EXPANSION FIELD" & vbCrLf & TExpansion.Text & vbCrLf & vbCrLf
@@ -429,7 +439,7 @@ SkipLWAVAndExpansion:
 
         ' Add comment notes
         Dim xStrEditorCommentNotes As String = ""
-        Notes = CType(xKBackUp.Clone(), Note())
+        Notes = CType(xNotesBackup.Clone(), Note())
         If xNTInput Then ConvertNT2BMSE()
         ' Swap comment notes. Not a sub/function since expected to use only once.
         For xI1 = 1 To UBound(Notes)
@@ -454,7 +464,7 @@ SkipLWAVAndExpansion:
         Dim xStrMain As String = "*---------------------- MAIN DATA FIELD" & vbCrLf & vbCrLf & Join(xStrMeasure, "") & vbCrLf
 
         ' Restore notes
-        Notes = CType(xKBackUp.Clone(), Note())
+        Notes = CType(xNotesBackup.Clone(), Note())
         If xNTInput Then
             NTInput = True
         End If
@@ -478,20 +488,16 @@ SkipLWAVAndExpansion:
         For Each sLine In xStrLine
             Dim sLineTrim As String = sLine.Trim
             If xStack > 0 Then
-                GoTo ExtractExpansion
+                AddToExpansion(xExpansion, xStack, sLine)
+                Continue For
+
             ElseIf sLineTrim.StartsWith("#") And Mid(sLineTrim, 7, 1) = ":" Then   'If the line contains Ks
                 Dim xIdentifier As String = Mid(sLineTrim, 5, 2)
-                If BMSChannelToColumn(xIdentifier) = 0 Then GoTo ExtractAddExpansion
+                If BMSChannelToColumn(xIdentifier) = 0 Then xExpansion &= sLine & vbCrLf
+
             Else
-ExtractExpansion: If SWIC(sLineTrim, "#IF") Or SWIC(sLineTrim, "#SWITCH") Or SWIC(sLineTrim, "#SETSWITCH") Then
-                    xStack += 1 : GoTo ExtractAddExpansion
-                ElseIf SWIC(sLineTrim, "#ENDIF") Or SWIC(sLineTrim, "#ENDSW") Then
-                    xStack -= 1 : GoTo ExtractAddExpansion
+                AddToExpansion(xExpansion, xStack, sLine)
 
-                ElseIf sLineTrim.StartsWith("#") Then
-ExtractAddExpansion: xExpansion &= sLine & vbCrLf
-
-                End If
             End If
         Next
 
@@ -823,7 +829,7 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
                 Next
 
             ElseIf UCase(sL).StartsWith("#NOTES:") Then
-                If iCurrentDiff <> iDiff Then iCurrentDiff += 1 : GoTo Jump1
+                If iCurrentDiff <> iDiff Then iCurrentDiff += 1 : Continue For
 
                 iCurrentDiff += 1
                 Dim xLine As String = Mid(sL, Len("#NOTES:") + 1)
@@ -832,7 +838,7 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
                     xItem(xI1) = xItem(xI1).Trim
                 Next
 
-                If xItem.Length <> 6 Then GoTo Jump1
+                If xItem.Length <> 6 Then Continue For
 
                 THPlayLevel.Text = xItem(3)
 
@@ -889,7 +895,6 @@ ExtractAddExpansion: xExpansion &= sLine & vbCrLf
                         End If
                     Next
                 Next
-Jump1:
             End If
         Next
 
@@ -919,189 +924,190 @@ Jump1:
 
         Dim br As New BinaryReader(New FileStream(Path, FileMode.Open, FileAccess.Read), System.Text.Encoding.Unicode)
 
-        If br.ReadInt32 <> &H534D4269 Then GoTo EndOfSub
-        If br.ReadByte <> CByte(&H43) Then GoTo EndOfSub
-        Dim xMajor As Integer = br.ReadByte
-        Dim xMinor As Integer = br.ReadByte
-        Dim xBuild As Integer = br.ReadByte
+        If br.ReadInt32 = &H534D4269 Then
+            If br.ReadByte = CByte(&H43) Then
+                Dim xMajor As Integer = br.ReadByte
+                Dim xMinor As Integer = br.ReadByte
+                Dim xBuild As Integer = br.ReadByte
 
-        ClearUndo()
-        ReDim Notes(0)
-        ReDim mColumn(999)
-        ReDim hWAV(1295)
-        Me.InitializeNewBMS()
-        Me.InitializeOpenBMS()
+                ClearUndo()
+                ReDim Notes(0)
+                ReDim mColumn(999)
+                ReDim hWAV(1295)
+                Me.InitializeNewBMS()
+                Me.InitializeOpenBMS()
 
-        With Notes(0)
-            .ColumnIndex = niBPM
-            .VPosition = -1
-            '.LongNote = False
-            '.Selected = False
-            .Value = 1200000
-        End With
+                With Notes(0)
+                    .ColumnIndex = niBPM
+                    .VPosition = -1
+                    '.LongNote = False
+                    '.Selected = False
+                    .Value = 1200000
+                End With
 
-        Do Until br.BaseStream.Position >= br.BaseStream.Length
-            Dim BlockID As Integer = br.ReadInt32()
+                Do Until br.BaseStream.Position >= br.BaseStream.Length
+                    Dim BlockID As Integer = br.ReadInt32()
 
-            Select Case BlockID
+                    Select Case BlockID
 
-                Case &H66657250     'Preferences
-                    Dim xPref As Integer = br.ReadInt32
+                        Case &H66657250     'Preferences
+                            Dim xPref As Integer = br.ReadInt32
 
-                    NTInput = CBool(xPref And &H1)
-                    TBNTInput.Checked = NTInput
-                    mnNTInput.Checked = NTInput
-                    POBLong.Enabled = Not NTInput
-                    POBLongShort.Enabled = Not NTInput
+                            NTInput = CBool(xPref And &H1)
+                            TBNTInput.Checked = NTInput
+                            mnNTInput.Checked = NTInput
+                            POBLong.Enabled = Not NTInput
+                            POBLongShort.Enabled = Not NTInput
 
-                    ErrorCheck = CBool(xPref And &H2)
-                    TBErrorCheck.Checked = ErrorCheck
-                    TBErrorCheck_Click(TBErrorCheck, New System.EventArgs)
+                            ErrorCheck = CBool(xPref And &H2)
+                            TBErrorCheck.Checked = ErrorCheck
+                            TBErrorCheck_Click(TBErrorCheck, New System.EventArgs)
 
-                    PreviewOnClick = CBool(xPref And &H4)
-                    TBPreviewOnClick.Checked = PreviewOnClick
-                    TBPreviewOnClick_Click(TBPreviewOnClick, New System.EventArgs)
+                            PreviewOnClick = CBool(xPref And &H4)
+                            TBPreviewOnClick.Checked = PreviewOnClick
+                            TBPreviewOnClick_Click(TBPreviewOnClick, New System.EventArgs)
 
-                    ShowFileName = CBool(xPref And &H8)
-                    TBShowFileName.Checked = ShowFileName
-                    TBShowFileName_Click(TBShowFileName, New System.EventArgs)
+                            ShowFileName = CBool(xPref And &H8)
+                            TBShowFileName.Checked = ShowFileName
+                            TBShowFileName_Click(TBShowFileName, New System.EventArgs)
 
-                    mnSMenu.Checked = CBool(xPref And &H100)
-                    mnSTB.Checked = CBool(xPref And &H200)
-                    mnSOP.Checked = CBool(xPref And &H400)
-                    mnSStatus.Checked = CBool(xPref And &H800)
-                    mnSLSplitter.Checked = CBool(xPref And &H1000)
-                    mnSRSplitter.Checked = CBool(xPref And &H2000)
+                            mnSMenu.Checked = CBool(xPref And &H100)
+                            mnSTB.Checked = CBool(xPref And &H200)
+                            mnSOP.Checked = CBool(xPref And &H400)
+                            mnSStatus.Checked = CBool(xPref And &H800)
+                            mnSLSplitter.Checked = CBool(xPref And &H1000)
+                            mnSRSplitter.Checked = CBool(xPref And &H2000)
 
-                    CGShow.Checked = CBool(xPref And &H4000)
-                    CGShowS.Checked = CBool(xPref And &H8000)
-                    CGShowBG.Checked = CBool(xPref And &H10000)
-                    CGShowM.Checked = CBool(xPref And &H20000)
-                    CGShowMB.Checked = CBool(xPref And &H40000)
-                    CGShowV.Checked = CBool(xPref And &H80000)
-                    CGShowC.Checked = CBool(xPref And &H100000)
-                    CGBLP.Checked = CBool(xPref And &H200000)
-                    CGSTOP.Checked = CBool(xPref And &H400000)
-                    CGSCROLL.Checked = CBool(xPref And &H20000000)
-                    CGBPM.Checked = CBool(xPref And &H800000)
+                            CGShow.Checked = CBool(xPref And &H4000)
+                            CGShowS.Checked = CBool(xPref And &H8000)
+                            CGShowBG.Checked = CBool(xPref And &H10000)
+                            CGShowM.Checked = CBool(xPref And &H20000)
+                            CGShowMB.Checked = CBool(xPref And &H40000)
+                            CGShowV.Checked = CBool(xPref And &H80000)
+                            CGShowC.Checked = CBool(xPref And &H100000)
+                            CGBLP.Checked = CBool(xPref And &H200000)
+                            CGSTOP.Checked = CBool(xPref And &H400000)
+                            CGSCROLL.Checked = CBool(xPref And &H20000000)
+                            CGBPM.Checked = CBool(xPref And &H800000)
 
-                    CGSnap.Checked = CBool(xPref And &H1000000)
-                    CGDisableVertical.Checked = CBool(xPref And &H2000000)
-                    cVSLockL.Checked = CBool(xPref And &H4000000)
-                    cVSLock.Checked = CBool(xPref And &H8000000)
-                    cVSLockR.Checked = CBool(xPref And &H10000000)
+                            CGSnap.Checked = CBool(xPref And &H1000000)
+                            CGDisableVertical.Checked = CBool(xPref And &H2000000)
+                            cVSLockL.Checked = CBool(xPref And &H4000000)
+                            cVSLock.Checked = CBool(xPref And &H8000000)
+                            cVSLockR.Checked = CBool(xPref And &H10000000)
 
-                    CGDivide.Value = br.ReadInt32
-                    CGSub.Value = br.ReadInt32
-                    gSlash = br.ReadInt32
-                    CGHeight.Value = CDec(br.ReadSingle)
-                    CGWidth.Value = CDec(br.ReadSingle)
-                    CGB.Value = br.ReadInt32
+                            CGDivide.Value = br.ReadInt32
+                            CGSub.Value = br.ReadInt32
+                            gSlash = br.ReadInt32
+                            CGHeight.Value = CDec(br.ReadSingle)
+                            CGWidth.Value = CDec(br.ReadSingle)
+                            CGB.Value = br.ReadInt32
 
-                Case &H64616548     'Header
-                    THTitle.Text = br.ReadString
-                    THArtist.Text = br.ReadString
-                    THGenre.Text = br.ReadString
-                    Notes(0).Value = br.ReadInt64
-                    Dim xPlayerRank As Integer = br.ReadByte
-                    THPlayLevel.Text = br.ReadString
+                        Case &H64616548     'Header
+                            THTitle.Text = br.ReadString
+                            THArtist.Text = br.ReadString
+                            THGenre.Text = br.ReadString
+                            Notes(0).Value = br.ReadInt64
+                            Dim xPlayerRank As Integer = br.ReadByte
+                            THPlayLevel.Text = br.ReadString
 
-                    CHPlayer.SelectedIndex = xPlayerRank And &HF
-                    CHRank.SelectedIndex = xPlayerRank >> 4
+                            CHPlayer.SelectedIndex = xPlayerRank And &HF
+                            CHRank.SelectedIndex = xPlayerRank >> 4
 
-                    THSubTitle.Text = br.ReadString
-                    THSubArtist.Text = br.ReadString
-                    'THMaker.Text = br.ReadString
-                    THStageFile.Text = br.ReadString
-                    THBanner.Text = br.ReadString
-                    THBackBMP.Text = br.ReadString
-                    'THMidiFile.Text = br.ReadString
-                    CHDifficulty.SelectedIndex = br.ReadByte
-                    THExRank.Text = br.ReadString
-                    THTotal.Text = br.ReadString
-                    'THVolWAV.Text = br.ReadString
-                    THComment.Text = br.ReadString
-                    'THLnType.Text = br.ReadString
-                    CHLnObj.SelectedIndex = br.ReadInt16
+                            THSubTitle.Text = br.ReadString
+                            THSubArtist.Text = br.ReadString
+                            'THMaker.Text = br.ReadString
+                            THStageFile.Text = br.ReadString
+                            THBanner.Text = br.ReadString
+                            THBackBMP.Text = br.ReadString
+                            'THMidiFile.Text = br.ReadString
+                            CHDifficulty.SelectedIndex = br.ReadByte
+                            THExRank.Text = br.ReadString
+                            THTotal.Text = br.ReadString
+                            'THVolWAV.Text = br.ReadString
+                            THComment.Text = br.ReadString
+                            'THLnType.Text = br.ReadString
+                            CHLnObj.SelectedIndex = br.ReadInt16
 
-                Case &H564157       'WAV List
-                    Dim xWAVOptions As Integer = br.ReadByte
-                    WAVMultiSelect = CBool(xWAVOptions And &H1)
-                    CWAVMultiSelect.Checked = WAVMultiSelect
-                    CWAVMultiSelect_CheckedChanged(CWAVMultiSelect, New EventArgs)
-                    WAVChangeLabel = CBool(xWAVOptions And &H2)
-                    CWAVChangeLabel.Checked = WAVChangeLabel
-                    CWAVChangeLabel_CheckedChanged(CWAVChangeLabel, New EventArgs)
+                        Case &H564157       'WAV List
+                            Dim xWAVOptions As Integer = br.ReadByte
+                            WAVMultiSelect = CBool(xWAVOptions And &H1)
+                            CWAVMultiSelect.Checked = WAVMultiSelect
+                            CWAVMultiSelect_CheckedChanged(CWAVMultiSelect, New EventArgs)
+                            WAVChangeLabel = CBool(xWAVOptions And &H2)
+                            CWAVChangeLabel.Checked = WAVChangeLabel
+                            CWAVChangeLabel_CheckedChanged(CWAVChangeLabel, New EventArgs)
 
-                    Dim xWAVCount As Integer = br.ReadInt32
-                    For xxi As Integer = 1 To xWAVCount
-                        Dim xI As Integer = br.ReadInt16
-                        hWAV(xI) = br.ReadString
-                    Next
+                            Dim xWAVCount As Integer = br.ReadInt32
+                            For xxi As Integer = 1 To xWAVCount
+                                Dim xI As Integer = br.ReadInt16
+                                hWAV(xI) = br.ReadString
+                            Next
 
-                Case &H74616542     'Beat
-                    nBeatN.Value = br.ReadInt16
-                    nBeatD.Value = br.ReadInt16
-                    'nBeatD.SelectedIndex = br.ReadByte
+                        Case &H74616542     'Beat
+                            nBeatN.Value = br.ReadInt16
+                            nBeatD.Value = br.ReadInt16
+                            'nBeatD.SelectedIndex = br.ReadByte
 
-                    Dim xBeatChangeMode As Integer = br.ReadByte
-                    Dim xBeatChangeList As RadioButton() = {CBeatPreserve, CBeatMeasure, CBeatCut, CBeatScale}
-                    xBeatChangeList(xBeatChangeMode).Checked = True
-                    CBeatPreserve_Click(xBeatChangeList(xBeatChangeMode), New System.EventArgs)
+                            Dim xBeatChangeMode As Integer = br.ReadByte
+                            Dim xBeatChangeList As RadioButton() = {CBeatPreserve, CBeatMeasure, CBeatCut, CBeatScale}
+                            xBeatChangeList(xBeatChangeMode).Checked = True
+                            CBeatPreserve_Click(xBeatChangeList(xBeatChangeMode), New System.EventArgs)
 
-                    Dim xBeatCount As Integer = br.ReadInt32
-                    For xxi As Integer = 1 To xBeatCount
-                        Dim xIndex As Integer = br.ReadInt16
-                        MeasureLength(xIndex) = br.ReadDouble
-                        Dim xRatio As Double = MeasureLength(xIndex) / 192.0R
-                        Dim xxD As Long = GetDenominator(xRatio)
-                        LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ").ToString()
-                    Next
+                            Dim xBeatCount As Integer = br.ReadInt32
+                            For xxi As Integer = 1 To xBeatCount
+                                Dim xIndex As Integer = br.ReadInt16
+                                MeasureLength(xIndex) = br.ReadDouble
+                                Dim xRatio As Double = MeasureLength(xIndex) / 192.0R
+                                Dim xxD As Long = GetDenominator(xRatio)
+                                LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ").ToString()
+                            Next
 
-                Case &H6E707845     'Expansion Code
-                    TExpansion.Text = br.ReadString
+                        Case &H6E707845     'Expansion Code
+                            TExpansion.Text = br.ReadString
 
-                Case &H65746F4E     'Note
-                    Dim xNoteUbound As Integer = br.ReadInt32
-                    ReDim Preserve Notes(xNoteUbound)
-                    For i As Integer = 1 To UBound(Notes)
-                        Notes(i).FromBinReader(br)
-                    Next
+                        Case &H65746F4E     'Note
+                            Dim xNoteUbound As Integer = br.ReadInt32
+                            ReDim Preserve Notes(xNoteUbound)
+                            For i As Integer = 1 To UBound(Notes)
+                                Notes(i).FromBinReader(br)
+                            Next
 
-                Case &H6F646E55     'Undo / Redo Commands
-                    Dim URCount As Integer = br.ReadInt32   'Should be 100
-                    sI = br.ReadInt32
+                        Case &H6F646E55     'Undo / Redo Commands
+                            Dim URCount As Integer = br.ReadInt32   'Should be 100
+                            sI = br.ReadInt32
 
-                    For xI As Integer = 0 To 99
-                        Dim xUndoCount As Integer = br.ReadInt32
-                        Dim xBaseUndo As New UndoRedo.Void
-                        Dim xIteratorUndo As UndoRedo.LinkedURCmd = xBaseUndo
+                            For xI As Integer = 0 To 99
+                                Dim xUndoCount As Integer = br.ReadInt32
+                                Dim xBaseUndo As New UndoRedo.Void
+                                Dim xIteratorUndo As UndoRedo.LinkedURCmd = xBaseUndo
 
-                        For xxj As Integer = 1 To xUndoCount
-                            Dim xByteLen As Integer = br.ReadInt32
-                            Dim xByte() As Byte = br.ReadBytes(xByteLen)
-                            xIteratorUndo.Next = UndoRedo.fromBytes(xByte)
-                            xIteratorUndo = xIteratorUndo.Next
-                        Next
+                                For xxj As Integer = 1 To xUndoCount
+                                    Dim xByteLen As Integer = br.ReadInt32
+                                    Dim xByte() As Byte = br.ReadBytes(xByteLen)
+                                    xIteratorUndo.Next = UndoRedo.fromBytes(xByte)
+                                    xIteratorUndo = xIteratorUndo.Next
+                                Next
 
-                        sUndo(xI) = xBaseUndo.Next
+                                sUndo(xI) = xBaseUndo.Next
 
-                        Dim xRedoCount As Integer = br.ReadInt32
-                        Dim xBaseRedo As New UndoRedo.Void
-                        Dim xIteratorRedo As UndoRedo.LinkedURCmd = xBaseRedo
-                        For xxj As Integer = 1 To xRedoCount
-                            Dim xByteLen As Integer = br.ReadInt32
-                            Dim xByte() As Byte = br.ReadBytes(xByteLen)
-                            xIteratorRedo.Next = UndoRedo.fromBytes(xByte)
-                            xIteratorRedo = xIteratorRedo.Next
-                        Next
-                        sRedo(xI) = xBaseRedo.Next
-                    Next
+                                Dim xRedoCount As Integer = br.ReadInt32
+                                Dim xBaseRedo As New UndoRedo.Void
+                                Dim xIteratorRedo As UndoRedo.LinkedURCmd = xBaseRedo
+                                For xxj As Integer = 1 To xRedoCount
+                                    Dim xByteLen As Integer = br.ReadInt32
+                                    Dim xByte() As Byte = br.ReadBytes(xByteLen)
+                                    xIteratorRedo.Next = UndoRedo.fromBytes(xByte)
+                                    xIteratorRedo = xIteratorRedo.Next
+                                Next
+                                sRedo(xI) = xBaseRedo.Next
+                            Next
 
-            End Select
-        Loop
+                    End Select
+                Loop
 
-EndOfSub:
+            End If
+        End If
         br.Close()
 
         TBUndo.Enabled = sUndo(sI).ofType <> UndoRedo.opNoOperation

@@ -87,6 +87,9 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

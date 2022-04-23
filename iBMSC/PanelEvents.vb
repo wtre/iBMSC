@@ -254,12 +254,12 @@ Partial Public Class MainWindow
 
                 If keybind.Combo.Contains(keyComboString) Then
                     keybindOptionName = keybind.OpName
-                    GoTo ExecuteKeybind
+                    Exit For
                 End If
             Next
+            If keybindOptionName <> "" Then Exit For
         Next
 
-ExecuteKeybind:
         Select Case keybindOptionName
             Case "Move to A2"
                 MoveToColumn(niA2, xUndo, xRedo)
@@ -711,7 +711,7 @@ ExecuteKeybind:
                 Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
                 Dim valstr As String = InputBox(xMessage, Text)
-                Dim value As Long = CLng(valstr) * 10000
+                Dim value As Long = CLng(CDbl(valstr) * 10000)
                 If valstr.StartsWith("-c ") Then ' Input comment notes
                     If valstr = "-c " Then valstr &= " "
                     For xI1 = 1 To UBound(Notes)
@@ -993,7 +993,7 @@ ExecuteKeybind:
 
 
             Dim valstr As String = InputBox(xMessage, Me.Text)
-            Dim PromptValue As Long = CLng(valstr) * 10000
+            Dim PromptValue As Long = CLng(CDbl(valstr) * 10000)
             If (NoteColumn = niSCROLL And valstr = "0") Or PromptValue <> 0 Then
 
                 Dim xUndo As UndoRedo.LinkedURCmd = Nothing
@@ -1840,7 +1840,7 @@ ExecuteKeybind:
                         If xColumn = niSCROLL Then xMessage = Strings.Messages.PromptEnterSCROLL
 
                         Dim valstr As String = InputBox(xMessage, Me.Text)
-                        Dim value As Long = CLng(valstr) * 10000
+                        Dim value As Long = CLng(CDbl(valstr) * 10000)
                         If valstr.StartsWith("-c ") Then ' Input comment notes
                             If valstr = "-c " Then valstr &= " "
                             For xI1 = 1 To UBound(Notes)

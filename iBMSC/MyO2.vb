@@ -170,8 +170,8 @@
                     End If
                 Next
 
-980:            xLowerIndex = xUpperIndex
-990:        Next
+                xLowerIndex = xUpperIndex
+            Next
 
         Else
             For xMeasure As Integer = 0 To MeasureAtDisplacement(GreatestVPosition)
@@ -183,21 +183,21 @@
                     For xI2 As Integer = 1 To UBound(Notes)
                         If MeasureAtDisplacement(Notes(xI2).VPosition) > xMeasure Then Exit For
 
-                        If GetBMSChannelBy(Notes(xI2)) <> xId Then GoTo 1330
-                        If IsChannelLongNote(xId) Xor CBool(Notes(xI2).Length) Then GoTo 1330
+                        If GetBMSChannelBy(Notes(xI2)) <> xId Then Exit For
+                        If IsChannelLongNote(xId) Xor CBool(Notes(xI2).Length) Then Exit For
 
                         If MeasureAtDisplacement(Notes(xI2).VPosition) = xMeasure AndAlso Math.Abs(Notes(xI2).VPosition - MeasureAtDisplacement(Notes(xI2).VPosition) * 192) > 0 Then
                             ReDim Preserve xVPos(UBound(xVPos) + 1)
                             xVPos(UBound(xVPos)) = Notes(xI2).VPosition - xMeasure * 192 : If xVPos(UBound(xVPos)) < 0 Then xVPos(UBound(xVPos)) = 0
                         End If
 
-                        If Not CBool(Notes(xI2).Length) Then GoTo 1330
+                        If Not CBool(Notes(xI2).Length) Then Exit For
 
                         If MeasureAtDisplacement(Notes(xI2).VPosition + Notes(xI2).Length) = xMeasure AndAlso Not Notes(xI2).VPosition + Notes(xI2).Length - xMeasure * 192 = 0 Then
                             ReDim Preserve xVPos(UBound(xVPos) + 1)
                             xVPos(UBound(xVPos)) = Notes(xI2).VPosition + Notes(xI2).Length - xMeasure * 192 : If xVPos(UBound(xVPos)) < 0 Then xVPos(UBound(xVPos)) = 0
                         End If
-1330:               Next
+                    Next
 
                     'find gcd
                     Dim xGCD As Double = 192
@@ -231,7 +231,7 @@
                     End If
                 Next
 
-1990:       Next
+            Next
         End If
 
         Return xResult
@@ -267,7 +267,7 @@
         Else
             For Each xadj As dgMyO2.Adj In xaj
                 For xI1 As Integer = 1 To UBound(Notes)
-                    If CBool(Notes(xI1).Length) Xor xadj.LongNote Then GoTo 1100
+                    If CBool(Notes(xI1).Length) Xor xadj.LongNote Then Continue For
 
                     Dim xStart As Double = Notes(xI1).VPosition
                     Dim xEnd As Double = Notes(xI1).VPosition + Notes(xI1).Length
@@ -284,7 +284,7 @@
 
                     Notes(xI1).VPosition = xStart
                     If Notes(xI1).Length > 0 Then Notes(xI1).Length = xEnd - Notes(xI1).VPosition
-1100:           Next
+                Next
             Next
         End If
 

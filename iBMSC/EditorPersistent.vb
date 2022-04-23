@@ -63,119 +63,120 @@ Partial Public Class MainWindow
             .WriteAttributeString("Minor", My.Application.Info.Version.Minor.ToString())
             .WriteAttributeString("Build", My.Application.Info.Version.Build.ToString())
 
-            If ThemeOnly Then GoTo 5000
+            If Not ThemeOnly Then
 
-            .WriteStartElement("Form")
-            .WriteAttributeString("WindowState", IIf(isFullScreen, previousWindowState, Me.WindowState).ToString())
-            .WriteAttributeString("Width", IIf(isFullScreen, previousWindowPosition.Width, Me.Width).ToString())
-            .WriteAttributeString("Height", IIf(isFullScreen, previousWindowPosition.Height, Me.Height).ToString())
-            .WriteAttributeString("Top", IIf(isFullScreen, previousWindowPosition.Top, Me.Top).ToString())
-            .WriteAttributeString("Left", IIf(isFullScreen, previousWindowPosition.Left, Me.Left).ToString())
-            .WriteEndElement()
+                .WriteStartElement("Form")
+                .WriteAttributeString("WindowState", IIf(isFullScreen, previousWindowState, Me.WindowState).ToString())
+                .WriteAttributeString("Width", IIf(isFullScreen, previousWindowPosition.Width, Me.Width).ToString())
+                .WriteAttributeString("Height", IIf(isFullScreen, previousWindowPosition.Height, Me.Height).ToString())
+                .WriteAttributeString("Top", IIf(isFullScreen, previousWindowPosition.Top, Me.Top).ToString())
+                .WriteAttributeString("Left", IIf(isFullScreen, previousWindowPosition.Left, Me.Left).ToString())
+                .WriteEndElement()
 
-            .WriteStartElement("Recent")
-            .WriteAttributeString("Recent0", Recent(0))
-            .WriteAttributeString("Recent1", Recent(1))
-            .WriteAttributeString("Recent2", Recent(2))
-            .WriteAttributeString("Recent3", Recent(3))
-            .WriteAttributeString("Recent4", Recent(4))
-            .WriteEndElement()
+                .WriteStartElement("Recent")
+                .WriteAttributeString("Recent0", Recent(0))
+                .WriteAttributeString("Recent1", Recent(1))
+                .WriteAttributeString("Recent2", Recent(2))
+                .WriteAttributeString("Recent3", Recent(3))
+                .WriteAttributeString("Recent4", Recent(4))
+                .WriteEndElement()
 
-            .WriteStartElement("Edit")
-            .WriteAttributeString("NTInput", NTInput.ToString())
-            .WriteAttributeString("Language", DispLang)
-            '.WriteAttributeString("SortingMethod", SortingMethod)
-            .WriteAttributeString("ErrorCheck", ErrorCheck.ToString())
-            .WriteAttributeString("AutoFocusMouseEnter", AutoFocusMouseEnter.ToString())
-            .WriteAttributeString("FirstClickDisabled", FirstClickDisabled.ToString())
-            .WriteAttributeString("ShowFileName", ShowFileName.ToString())
-            .WriteAttributeString("ShowWaveform", ShowWaveform.ToString())
-            .WriteAttributeString("MiddleButtonMoveMethod", MiddleButtonMoveMethod.ToString())
-            .WriteAttributeString("AutoSaveInterval", AutoSaveInterval.ToString())
-            .WriteAttributeString("PreviewOnClick", PreviewOnClick.ToString())
-            '.WriteAttributeString("PreviewErrorCheck", PreviewErrorCheck)
-            .WriteAttributeString("ClickStopPreview", ClickStopPreview.ToString())
-            .WriteAttributeString("JackBPM", ErrorJackBPM.ToString())
-            .WriteAttributeString("JackTH", ErrorJackTH.ToString())
-            .WriteEndElement()
+                .WriteStartElement("Edit")
+                .WriteAttributeString("NTInput", NTInput.ToString())
+                .WriteAttributeString("Language", DispLang)
+                '.WriteAttributeString("SortingMethod", SortingMethod)
+                .WriteAttributeString("ErrorCheck", ErrorCheck.ToString())
+                .WriteAttributeString("AutoFocusMouseEnter", AutoFocusMouseEnter.ToString())
+                .WriteAttributeString("FirstClickDisabled", FirstClickDisabled.ToString())
+                .WriteAttributeString("ShowFileName", ShowFileName.ToString())
+                .WriteAttributeString("ShowWaveform", ShowWaveform.ToString())
+                .WriteAttributeString("MiddleButtonMoveMethod", MiddleButtonMoveMethod.ToString())
+                .WriteAttributeString("AutoSaveInterval", AutoSaveInterval.ToString())
+                .WriteAttributeString("PreviewOnClick", PreviewOnClick.ToString())
+                '.WriteAttributeString("PreviewErrorCheck", PreviewErrorCheck)
+                .WriteAttributeString("ClickStopPreview", ClickStopPreview.ToString())
+                .WriteAttributeString("JackBPM", ErrorJackBPM.ToString())
+                .WriteAttributeString("JackTH", ErrorJackTH.ToString())
+                .WriteEndElement()
 
-            .WriteStartElement("Save")
-            .WriteAttributeString("TextEncoding", EncodingToString(TextEncoding))
-            .WriteAttributeString("BMSGridLimit", BMSGridLimit.ToString())
-            .WriteAttributeString("BeepWhileSaved", BeepWhileSaved.ToString())
-            .WriteAttributeString("BPMx1296", BPMx1296.ToString())
-            .WriteAttributeString("STOPx1296", STOPx1296.ToString())
-            .WriteEndElement()
+                .WriteStartElement("Save")
+                .WriteAttributeString("TextEncoding", EncodingToString(TextEncoding))
+                .WriteAttributeString("BMSGridLimit", BMSGridLimit.ToString())
+                .WriteAttributeString("BeepWhileSaved", BeepWhileSaved.ToString())
+                .WriteAttributeString("BPMx1296", BPMx1296.ToString())
+                .WriteAttributeString("STOPx1296", STOPx1296.ToString())
+                .WriteEndElement()
 
-            .WriteStartElement("WAV")
-            .WriteAttributeString("WAVMultiSelect", WAVMultiSelect.ToString())
-            .WriteAttributeString("WAVChangeLabel", WAVChangeLabel.ToString())
-            .WriteAttributeString("BeatChangeMode", BeatChangeMode.ToString())
-            .WriteEndElement()
+                .WriteStartElement("WAV")
+                .WriteAttributeString("WAVMultiSelect", WAVMultiSelect.ToString())
+                .WriteAttributeString("WAVChangeLabel", WAVChangeLabel.ToString())
+                .WriteAttributeString("BeatChangeMode", BeatChangeMode.ToString())
+                .WriteEndElement()
 
-            .WriteStartElement("ShowHide")
-            .WriteAttributeString("showMenu", mnSMenu.Checked.ToString())
-            .WriteAttributeString("showTB", mnSTB.Checked.ToString())
-            .WriteAttributeString("showOpPanel", mnSOP.Checked.ToString())
-            .WriteAttributeString("showStatus", mnSStatus.Checked.ToString())
-            .WriteAttributeString("showLSplit", mnSLSplitter.Checked.ToString())
-            .WriteAttributeString("showRSplit", mnSRSplitter.Checked.ToString())
-            .WriteEndElement()
+                .WriteStartElement("ShowHide")
+                .WriteAttributeString("showMenu", mnSMenu.Checked.ToString())
+                .WriteAttributeString("showTB", mnSTB.Checked.ToString())
+                .WriteAttributeString("showOpPanel", mnSOP.Checked.ToString())
+                .WriteAttributeString("showStatus", mnSStatus.Checked.ToString())
+                .WriteAttributeString("showLSplit", mnSLSplitter.Checked.ToString())
+                .WriteAttributeString("showRSplit", mnSRSplitter.Checked.ToString())
+                .WriteEndElement()
 
-            .WriteStartElement("Grid")
-            .WriteAttributeString("gSnap", gSnap.ToString())
-            .WriteAttributeString("xmlDisableVertical", DisableVerticalMove.ToString())
-            .WriteAttributeString("gWheel", gWheel.ToString())
-            .WriteAttributeString("gPgUpDn", gPgUpDn.ToString())
-            .WriteAttributeString("gShow", gShowGrid.ToString())
-            .WriteAttributeString("gShowS", gShowSubGrid.ToString())
-            .WriteAttributeString("gShowBG", gShowBG.ToString())
-            .WriteAttributeString("gShowM", gShowMeasureNumber.ToString())
-            .WriteAttributeString("gShowV", gShowVerticalLine.ToString())
-            .WriteAttributeString("gShowMB", gShowMeasureBar.ToString())
-            .WriteAttributeString("gShowC", gShowC.ToString())
-            .WriteAttributeString("gBPM", gBPM.ToString())
-            .WriteAttributeString("gSTOP", gSTOP.ToString())
-            .WriteAttributeString("gSCROLL", gSCROLL.ToString())
-            .WriteAttributeString("gBLP", gDisplayBGAColumn.ToString())
-            .WriteAttributeString("gP2", CHPlayer.SelectedIndex.ToString())
-            .WriteAttributeString("gCol", CGB.Value.ToString())
-            .WriteAttributeString("gDivide", gDivide.ToString())
-            .WriteAttributeString("gSub", gSub.ToString())
-            .WriteAttributeString("gSlash", gSlash.ToString())
-            .WriteAttributeString("gxHeight", gxHeight.ToString())
-            .WriteAttributeString("gxWidth", gxWidth.ToString())
-            .WriteEndElement()
+                .WriteStartElement("Grid")
+                .WriteAttributeString("gSnap", gSnap.ToString())
+                .WriteAttributeString("xmlDisableVertical", DisableVerticalMove.ToString())
+                .WriteAttributeString("gWheel", gWheel.ToString())
+                .WriteAttributeString("gPgUpDn", gPgUpDn.ToString())
+                .WriteAttributeString("gShow", gShowGrid.ToString())
+                .WriteAttributeString("gShowS", gShowSubGrid.ToString())
+                .WriteAttributeString("gShowBG", gShowBG.ToString())
+                .WriteAttributeString("gShowM", gShowMeasureNumber.ToString())
+                .WriteAttributeString("gShowV", gShowVerticalLine.ToString())
+                .WriteAttributeString("gShowMB", gShowMeasureBar.ToString())
+                .WriteAttributeString("gShowC", gShowC.ToString())
+                .WriteAttributeString("gBPM", gBPM.ToString())
+                .WriteAttributeString("gSTOP", gSTOP.ToString())
+                .WriteAttributeString("gSCROLL", gSCROLL.ToString())
+                .WriteAttributeString("gBLP", gDisplayBGAColumn.ToString())
+                .WriteAttributeString("gP2", CHPlayer.SelectedIndex.ToString())
+                .WriteAttributeString("gCol", CGB.Value.ToString())
+                .WriteAttributeString("gDivide", gDivide.ToString())
+                .WriteAttributeString("gSub", gSub.ToString())
+                .WriteAttributeString("gSlash", gSlash.ToString())
+                .WriteAttributeString("gxHeight", gxHeight.ToString())
+                .WriteAttributeString("gxWidth", gxWidth.ToString())
+                .WriteEndElement()
 
-            .WriteStartElement("WaveForm")
-            .WriteAttributeString("wLock", wLock.ToString())
-            .WriteAttributeString("wPosition", wPosition.ToString())
-            .WriteAttributeString("wLeft", wLeft.ToString())
-            .WriteAttributeString("wWidth", wWidth.ToString())
-            .WriteAttributeString("wPrecision", wPrecision.ToString())
-            .WriteEndElement()
+                .WriteStartElement("WaveForm")
+                .WriteAttributeString("wLock", wLock.ToString())
+                .WriteAttributeString("wPosition", wPosition.ToString())
+                .WriteAttributeString("wLeft", wLeft.ToString())
+                .WriteAttributeString("wWidth", wWidth.ToString())
+                .WriteAttributeString("wPrecision", wPrecision.ToString())
+                .WriteEndElement()
 
-            .WriteStartElement("Player")
-            .WriteAttributeString("Count", pArgs.Length.ToString())
-            .WriteAttributeString("CurrentPlayer", CurrentPlayer.ToString())
-            For i As Integer = 0 To UBound(pArgs)
-                XMLWritePlayerArguments(w, i) : Next
-            .WriteEndElement()
+                .WriteStartElement("Player")
+                .WriteAttributeString("Count", pArgs.Length.ToString())
+                .WriteAttributeString("CurrentPlayer", CurrentPlayer.ToString())
+                For i As Integer = 0 To UBound(pArgs)
+                    XMLWritePlayerArguments(w, i) : Next
+                .WriteEndElement()
 
-            .WriteStartElement("Total")
-            .WriteAttributeString("Option", TotalOption.ToString())
-            .WriteAttributeString("Multiplier", TotalMultiplier.ToString())
-            .WriteAttributeString("GlobalMultiplier", TotalGlobalMultiplier.ToString())
-            .WriteAttributeString("RecommendedTextDisplay", TotalRecommendedTextDisplay.ToString())
-            .WriteEndElement()
+                .WriteStartElement("Total")
+                .WriteAttributeString("Option", TotalOption.ToString())
+                .WriteAttributeString("Multiplier", TotalMultiplier.ToString())
+                .WriteAttributeString("GlobalMultiplier", TotalGlobalMultiplier.ToString())
+                .WriteAttributeString("RecommendedTextDisplay", TotalRecommendedTextDisplay.ToString())
+                .WriteEndElement()
 
-            .WriteStartElement("KeyBindings")
-            .WriteAttributeString("Count", UBound(Keybindings).ToString())
-            For i As Integer = 0 To UBound(Keybindings)
-                XMLWriteKeybindings(w, i) : Next
-            .WriteEndElement()
+                .WriteStartElement("KeyBindings")
+                .WriteAttributeString("Count", UBound(Keybindings).ToString())
+                For i As Integer = 0 To UBound(Keybindings)
+                    XMLWriteKeybindings(w, i) : Next
+                .WriteEndElement()
 
-5000:       .WriteStartElement("Columns")
+            End If
+            .WriteStartElement("Columns")
             '.WriteAttributeString("Count", col.Length)
             For i As Integer = 0 To UBound(column)
                 XMLWriteColumn(w, i) : Next
@@ -345,285 +346,285 @@ Partial Public Class MainWindow
         Doc.Load(FileStream)
 
         Dim Root As XmlElement = Doc.Item("iBMSC")
-        If Root Is Nothing Then GoTo EndOfSub
+        If Root IsNot Nothing Then
 
-        'version
-        Dim Major As Integer = My.Application.Info.Version.Major
-        Dim Minor As Integer = My.Application.Info.Version.Minor
-        Dim Build As Integer = My.Application.Info.Version.Build
-        Try
-            Dim xMajor As Integer = CInt(Root.Attributes("Major").Value)
-            Dim xMinor As Integer = CInt(Root.Attributes("Minor").Value)
-            Dim xBuild As Integer = CInt(Root.Attributes("Build").Value)
-            Major = xMajor
-            Minor = xMinor
-            Build = xBuild
-        Catch ex As Exception
-        End Try
+            'version
+            Dim Major As Integer = My.Application.Info.Version.Major
+            Dim Minor As Integer = My.Application.Info.Version.Minor
+            Dim Build As Integer = My.Application.Info.Version.Build
+            Try
+                Dim xMajor As Integer = CInt(Root.Attributes("Major").Value)
+                Dim xMinor As Integer = CInt(Root.Attributes("Minor").Value)
+                Dim xBuild As Integer = CInt(Root.Attributes("Build").Value)
+                Major = xMajor
+                Minor = xMinor
+                Build = xBuild
+            Catch ex As Exception
+            End Try
 
-        'form
-        Dim eForm As XmlElement = Root.Item("Form")
-        If eForm IsNot Nothing Then
-            With eForm
-                Select Case Val(.GetAttribute("WindowState"))
-                    Case FormWindowState.Normal
-                        Me.WindowState = FormWindowState.Normal
-                        XMLLoadAttribute(.GetAttribute("Width"), Me.Width)
-                        XMLLoadAttribute(.GetAttribute("Height"), Me.Height)
-                        XMLLoadAttribute(.GetAttribute("Top"), Me.Top)
-                        XMLLoadAttribute(.GetAttribute("Left"), Me.Left)
-                    Case FormWindowState.Maximized
-                        Me.WindowState = FormWindowState.Maximized
-                End Select
-            End With
-        End If
+            'form
+            Dim eForm As XmlElement = Root.Item("Form")
+            If eForm IsNot Nothing Then
+                With eForm
+                    Select Case Val(.GetAttribute("WindowState"))
+                        Case FormWindowState.Normal
+                            Me.WindowState = FormWindowState.Normal
+                            XMLLoadAttribute(.GetAttribute("Width"), Me.Width)
+                            XMLLoadAttribute(.GetAttribute("Height"), Me.Height)
+                            XMLLoadAttribute(.GetAttribute("Top"), Me.Top)
+                            XMLLoadAttribute(.GetAttribute("Left"), Me.Left)
+                        Case FormWindowState.Maximized
+                            Me.WindowState = FormWindowState.Maximized
+                    End Select
+                End With
+            End If
 
-        'recent
-        Dim eRecent As XmlElement = Root.Item("Recent")
-        If eRecent IsNot Nothing Then
-            With eRecent
-                XMLLoadAttribute(.GetAttribute("Recent0"), Recent(0)) : SetRecent(0, Recent(0))
-                XMLLoadAttribute(.GetAttribute("Recent1"), Recent(1)) : SetRecent(1, Recent(1))
-                XMLLoadAttribute(.GetAttribute("Recent2"), Recent(2)) : SetRecent(2, Recent(2))
-                XMLLoadAttribute(.GetAttribute("Recent3"), Recent(3)) : SetRecent(3, Recent(3))
-                XMLLoadAttribute(.GetAttribute("Recent4"), Recent(4)) : SetRecent(4, Recent(4))
-            End With
-        End If
+            'recent
+            Dim eRecent As XmlElement = Root.Item("Recent")
+            If eRecent IsNot Nothing Then
+                With eRecent
+                    XMLLoadAttribute(.GetAttribute("Recent0"), Recent(0)) : SetRecent(0, Recent(0))
+                    XMLLoadAttribute(.GetAttribute("Recent1"), Recent(1)) : SetRecent(1, Recent(1))
+                    XMLLoadAttribute(.GetAttribute("Recent2"), Recent(2)) : SetRecent(2, Recent(2))
+                    XMLLoadAttribute(.GetAttribute("Recent3"), Recent(3)) : SetRecent(3, Recent(3))
+                    XMLLoadAttribute(.GetAttribute("Recent4"), Recent(4)) : SetRecent(4, Recent(4))
+                End With
+            End If
 
-        'edit
-        Dim eEdit As XmlElement = Root.Item("Edit")
-        If eEdit IsNot Nothing Then
-            With eEdit
-                XMLLoadAttribute(.GetAttribute("NTInput"), NTInput)
-                TBNTInput.Checked = NTInput
-                mnNTInput.Checked = NTInput
-                POBLong.Enabled = Not NTInput
-                POBLongShort.Enabled = Not NTInput
+            'edit
+            Dim eEdit As XmlElement = Root.Item("Edit")
+            If eEdit IsNot Nothing Then
+                With eEdit
+                    XMLLoadAttribute(.GetAttribute("NTInput"), NTInput)
+                    TBNTInput.Checked = NTInput
+                    mnNTInput.Checked = NTInput
+                    POBLong.Enabled = Not NTInput
+                    POBLongShort.Enabled = Not NTInput
 
-                LoadLocale(My.Application.Info.DirectoryPath & "\" & .GetAttribute("Language"))
+                    LoadLocale(My.Application.Info.DirectoryPath & "\" & .GetAttribute("Language"))
 
-                'XMLLoadAttribute(.GetAttribute("SortingMethod"), SortingMethod)
+                    'XMLLoadAttribute(.GetAttribute("SortingMethod"), SortingMethod)
 
-                XMLLoadAttribute(.GetAttribute("ErrorCheck"), ErrorCheck)
-                TBErrorCheck.Checked = ErrorCheck
-                TBErrorCheck_Click(TBErrorCheck, New System.EventArgs)
+                    XMLLoadAttribute(.GetAttribute("ErrorCheck"), ErrorCheck)
+                    TBErrorCheck.Checked = ErrorCheck
+                    TBErrorCheck_Click(TBErrorCheck, New System.EventArgs)
 
-                XMLLoadAttribute(.GetAttribute("ShowFileName"), ShowFileName)
-                TBShowFileName.Checked = ShowFileName
-                TBShowFileName_Click(TBShowFileName, New System.EventArgs)
+                    XMLLoadAttribute(.GetAttribute("ShowFileName"), ShowFileName)
+                    TBShowFileName.Checked = ShowFileName
+                    TBShowFileName_Click(TBShowFileName, New System.EventArgs)
 
-                XMLLoadAttribute(.GetAttribute("ShowWaveform"), ShowWaveform)
-                TBShowWaveform.Checked = ShowWaveform
-                TBShowWaveform_Click(TBShowWaveform, New System.EventArgs)
+                    XMLLoadAttribute(.GetAttribute("ShowWaveform"), ShowWaveform)
+                    TBShowWaveform.Checked = ShowWaveform
+                    TBShowWaveform_Click(TBShowWaveform, New System.EventArgs)
 
-                XMLLoadAttribute(.GetAttribute("MiddleButtonMoveMethod"), MiddleButtonMoveMethod)
-                XMLLoadAttribute(.GetAttribute("AutoFocusMouseEnter"), AutoFocusMouseEnter)
-                XMLLoadAttribute(.GetAttribute("FirstClickDisabled"), FirstClickDisabled)
+                    XMLLoadAttribute(.GetAttribute("MiddleButtonMoveMethod"), MiddleButtonMoveMethod)
+                    XMLLoadAttribute(.GetAttribute("AutoFocusMouseEnter"), AutoFocusMouseEnter)
+                    XMLLoadAttribute(.GetAttribute("FirstClickDisabled"), FirstClickDisabled)
 
-                XMLLoadAttribute(.GetAttribute("AutoSaveInterval"), AutoSaveInterval)
-                If AutoSaveInterval > 0 Then AutoSaveTimer.Interval = AutoSaveInterval Else AutoSaveTimer.Enabled = False
+                    XMLLoadAttribute(.GetAttribute("AutoSaveInterval"), AutoSaveInterval)
+                    If AutoSaveInterval > 0 Then AutoSaveTimer.Interval = AutoSaveInterval Else AutoSaveTimer.Enabled = False
 
-                XMLLoadAttribute(.GetAttribute("PreviewOnClick"), PreviewOnClick)
-                TBPreviewOnClick.Checked = PreviewOnClick
-                TBPreviewOnClick_Click(TBPreviewOnClick, New System.EventArgs)
+                    XMLLoadAttribute(.GetAttribute("PreviewOnClick"), PreviewOnClick)
+                    TBPreviewOnClick.Checked = PreviewOnClick
+                    TBPreviewOnClick_Click(TBPreviewOnClick, New System.EventArgs)
 
-                XMLLoadAttribute(.GetAttribute("ClickStopPreview"), ClickStopPreview)
+                    XMLLoadAttribute(.GetAttribute("ClickStopPreview"), ClickStopPreview)
 
-                XMLLoadAttribute(.GetAttribute("JackBPM"), ErrorJackBPM)
-                XMLLoadAttribute(.GetAttribute("JackTH"), ErrorJackTH)
-            End With
-        End If
+                    XMLLoadAttribute(.GetAttribute("JackBPM"), ErrorJackBPM)
+                    XMLLoadAttribute(.GetAttribute("JackTH"), ErrorJackTH)
+                End With
+            End If
 
-        'save
-        Dim eSave As XmlElement = Root.Item("Save")
-        If eSave IsNot Nothing Then
-            With eSave
-                Select Case UCase(.GetAttribute("TextEncoding"))
-                    Case "SYSTEM ANSI" : TextEncoding = System.Text.Encoding.Default
-                    Case "LITTLE ENDIAN UTF16" : TextEncoding = System.Text.Encoding.Unicode
-                    Case "ASCII" : TextEncoding = System.Text.Encoding.ASCII
-                    Case "BIG ENDIAN UTF16" : TextEncoding = System.Text.Encoding.BigEndianUnicode
-                    Case "LITTLE ENDIAN UTF32" : TextEncoding = System.Text.Encoding.UTF32
-                    Case "UTF7" : TextEncoding = System.Text.Encoding.UTF7
-                    Case "UTF8" : TextEncoding = System.Text.Encoding.UTF8
-                    Case "SJIS" : TextEncoding = System.Text.Encoding.GetEncoding(932)
-                    Case "EUC-KR" : TextEncoding = System.Text.Encoding.GetEncoding(51949)
-                        ' leave current encoding
-                        ' Case Else 
-                End Select
+            'save
+            Dim eSave As XmlElement = Root.Item("Save")
+            If eSave IsNot Nothing Then
+                With eSave
+                    Select Case UCase(.GetAttribute("TextEncoding"))
+                        Case "SYSTEM ANSI" : TextEncoding = System.Text.Encoding.Default
+                        Case "LITTLE ENDIAN UTF16" : TextEncoding = System.Text.Encoding.Unicode
+                        Case "ASCII" : TextEncoding = System.Text.Encoding.ASCII
+                        Case "BIG ENDIAN UTF16" : TextEncoding = System.Text.Encoding.BigEndianUnicode
+                        Case "LITTLE ENDIAN UTF32" : TextEncoding = System.Text.Encoding.UTF32
+                        Case "UTF7" : TextEncoding = System.Text.Encoding.UTF7
+                        Case "UTF8" : TextEncoding = System.Text.Encoding.UTF8
+                        Case "SJIS" : TextEncoding = System.Text.Encoding.GetEncoding(932)
+                        Case "EUC-KR" : TextEncoding = System.Text.Encoding.GetEncoding(51949)
+                            ' leave current encoding
+                            ' Case Else 
+                    End Select
 
-                XMLLoadAttribute(.GetAttribute("BMSGridLimit"), BMSGridLimit)
-                XMLLoadAttribute(.GetAttribute("BeepWhileSaved"), BeepWhileSaved)
-                XMLLoadAttribute(.GetAttribute("BPMx1296"), BPMx1296)
-                XMLLoadAttribute(.GetAttribute("STOPx1296"), STOPx1296)
-            End With
-        End If
+                    XMLLoadAttribute(.GetAttribute("BMSGridLimit"), BMSGridLimit)
+                    XMLLoadAttribute(.GetAttribute("BeepWhileSaved"), BeepWhileSaved)
+                    XMLLoadAttribute(.GetAttribute("BPMx1296"), BPMx1296)
+                    XMLLoadAttribute(.GetAttribute("STOPx1296"), STOPx1296)
+                End With
+            End If
 
-        'WAV
-        Dim eWAV As XmlElement = Root.Item("WAV")
-        If eWAV IsNot Nothing Then
-            With eWAV
-                XMLLoadAttribute(.GetAttribute("WAVMultiSelect"), WAVMultiSelect)
-                CWAVMultiSelect.Checked = WAVMultiSelect
-                CWAVMultiSelect_CheckedChanged(CWAVMultiSelect, New EventArgs)
+            'WAV
+            Dim eWAV As XmlElement = Root.Item("WAV")
+            If eWAV IsNot Nothing Then
+                With eWAV
+                    XMLLoadAttribute(.GetAttribute("WAVMultiSelect"), WAVMultiSelect)
+                    CWAVMultiSelect.Checked = WAVMultiSelect
+                    CWAVMultiSelect_CheckedChanged(CWAVMultiSelect, New EventArgs)
 
-                XMLLoadAttribute(.GetAttribute("WAVChangeLabel"), WAVChangeLabel)
-                CWAVChangeLabel.Checked = WAVChangeLabel
-                CWAVChangeLabel_CheckedChanged(CWAVChangeLabel, New EventArgs)
+                    XMLLoadAttribute(.GetAttribute("WAVChangeLabel"), WAVChangeLabel)
+                    CWAVChangeLabel.Checked = WAVChangeLabel
+                    CWAVChangeLabel_CheckedChanged(CWAVChangeLabel, New EventArgs)
 
-                Dim xInt As Integer = CInt(.GetAttribute("BeatChangeMode"))
-                Dim xBeatOpList As RadioButton() = {CBeatPreserve, CBeatMeasure, CBeatCut, CBeatScale}
-                If xInt >= 0 And xInt < xBeatOpList.Length Then
-                    xBeatOpList(xInt).Checked = True
-                    CBeatPreserve_Click(xBeatOpList(xInt), New System.EventArgs)
-                End If
-            End With
-        End If
+                    Dim xInt As Integer = CInt(.GetAttribute("BeatChangeMode"))
+                    Dim xBeatOpList As RadioButton() = {CBeatPreserve, CBeatMeasure, CBeatCut, CBeatScale}
+                    If xInt >= 0 And xInt < xBeatOpList.Length Then
+                        xBeatOpList(xInt).Checked = True
+                        CBeatPreserve_Click(xBeatOpList(xInt), New System.EventArgs)
+                    End If
+                End With
+            End If
 
-        'ShowHide
-        Dim eShowHide As XmlElement = Root.Item("ShowHide")
-        If eShowHide IsNot Nothing Then
-            With eShowHide
-                XMLLoadAttribute(.GetAttribute("showMenu"), mnSMenu.Checked)
-                XMLLoadAttribute(.GetAttribute("showTB"), mnSTB.Checked)
-                XMLLoadAttribute(.GetAttribute("showOpPanel"), mnSOP.Checked)
-                XMLLoadAttribute(.GetAttribute("showStatus"), mnSStatus.Checked)
-                XMLLoadAttribute(.GetAttribute("showLSplit"), mnSLSplitter.Checked)
-                XMLLoadAttribute(.GetAttribute("showRSplit"), mnSRSplitter.Checked)
-            End With
-        End If
+            'ShowHide
+            Dim eShowHide As XmlElement = Root.Item("ShowHide")
+            If eShowHide IsNot Nothing Then
+                With eShowHide
+                    XMLLoadAttribute(.GetAttribute("showMenu"), mnSMenu.Checked)
+                    XMLLoadAttribute(.GetAttribute("showTB"), mnSTB.Checked)
+                    XMLLoadAttribute(.GetAttribute("showOpPanel"), mnSOP.Checked)
+                    XMLLoadAttribute(.GetAttribute("showStatus"), mnSStatus.Checked)
+                    XMLLoadAttribute(.GetAttribute("showLSplit"), mnSLSplitter.Checked)
+                    XMLLoadAttribute(.GetAttribute("showRSplit"), mnSRSplitter.Checked)
+                End With
+            End If
 
-        'Grid
-        Dim eGrid As XmlElement = Root.Item("Grid")
-        If eGrid IsNot Nothing Then
-            With eGrid
-                XMLLoadAttribute(.GetAttribute("gSnap"), CGSnap.Checked)
-                XMLLoadAttribute(.GetAttribute("xmlDisableVertical"), CGDisableVertical.Checked)
-                XMLLoadAttribute(.GetAttribute("gWheel"), gWheel)
-                XMLLoadAttribute(.GetAttribute("gPgUpDn"), gPgUpDn)
-                XMLLoadAttribute(.GetAttribute("gShow"), CGShow.Checked)
-                XMLLoadAttribute(.GetAttribute("gShowS"), CGShowS.Checked)
-                XMLLoadAttribute(.GetAttribute("gShowBG"), CGShowBG.Checked)
-                XMLLoadAttribute(.GetAttribute("gShowM"), CGShowM.Checked)
-                XMLLoadAttribute(.GetAttribute("gShowV"), CGShowV.Checked)
-                XMLLoadAttribute(.GetAttribute("gShowMB"), CGShowMB.Checked)
-                XMLLoadAttribute(.GetAttribute("gShowC"), CGShowC.Checked)
-                XMLLoadAttribute(.GetAttribute("gBPM"), CGBPM.Checked)
-                XMLLoadAttribute(.GetAttribute("gSTOP"), CGSTOP.Checked)
-                XMLLoadAttribute(.GetAttribute("gSCROLL"), CGSCROLL.Checked)
-                XMLLoadAttribute(.GetAttribute("gBLP"), CGBLP.Checked)
-                XMLLoadAttribute(.GetAttribute("gP2"), CHPlayer.SelectedIndex)
-                XMLLoadAttribute(.GetAttribute("gCol"), CGB.Value)
-                XMLLoadAttribute(.GetAttribute("gxHeight"), CGHeight.Value)
-                XMLLoadAttribute(.GetAttribute("gxWidth"), CGWidth.Value)
-                XMLLoadAttribute(.GetAttribute("gSlash"), gSlash)
+            'Grid
+            Dim eGrid As XmlElement = Root.Item("Grid")
+            If eGrid IsNot Nothing Then
+                With eGrid
+                    XMLLoadAttribute(.GetAttribute("gSnap"), CGSnap.Checked)
+                    XMLLoadAttribute(.GetAttribute("xmlDisableVertical"), CGDisableVertical.Checked)
+                    XMLLoadAttribute(.GetAttribute("gWheel"), gWheel)
+                    XMLLoadAttribute(.GetAttribute("gPgUpDn"), gPgUpDn)
+                    XMLLoadAttribute(.GetAttribute("gShow"), CGShow.Checked)
+                    XMLLoadAttribute(.GetAttribute("gShowS"), CGShowS.Checked)
+                    XMLLoadAttribute(.GetAttribute("gShowBG"), CGShowBG.Checked)
+                    XMLLoadAttribute(.GetAttribute("gShowM"), CGShowM.Checked)
+                    XMLLoadAttribute(.GetAttribute("gShowV"), CGShowV.Checked)
+                    XMLLoadAttribute(.GetAttribute("gShowMB"), CGShowMB.Checked)
+                    XMLLoadAttribute(.GetAttribute("gShowC"), CGShowC.Checked)
+                    XMLLoadAttribute(.GetAttribute("gBPM"), CGBPM.Checked)
+                    XMLLoadAttribute(.GetAttribute("gSTOP"), CGSTOP.Checked)
+                    XMLLoadAttribute(.GetAttribute("gSCROLL"), CGSCROLL.Checked)
+                    XMLLoadAttribute(.GetAttribute("gBLP"), CGBLP.Checked)
+                    XMLLoadAttribute(.GetAttribute("gP2"), CHPlayer.SelectedIndex)
+                    XMLLoadAttribute(.GetAttribute("gCol"), CGB.Value)
+                    XMLLoadAttribute(.GetAttribute("gxHeight"), CGHeight.Value)
+                    XMLLoadAttribute(.GetAttribute("gxWidth"), CGWidth.Value)
+                    XMLLoadAttribute(.GetAttribute("gSlash"), gSlash)
 
-                Dim xgDivide As Integer = CInt(.GetAttribute("gDivide"))
-                If xgDivide >= CGDivide.Minimum And xgDivide <= CGDivide.Maximum Then CGDivide.Value = xgDivide
+                    Dim xgDivide As Integer = CInt(.GetAttribute("gDivide"))
+                    If xgDivide >= CGDivide.Minimum And xgDivide <= CGDivide.Maximum Then CGDivide.Value = xgDivide
 
-                Dim xgSub As Integer = CInt(.GetAttribute("gSub"))
-                If xgSub >= CGSub.Minimum And xgSub <= CGSub.Maximum Then CGSub.Value = xgSub
-            End With
-        End If
+                    Dim xgSub As Integer = CInt(.GetAttribute("gSub"))
+                    If xgSub >= CGSub.Minimum And xgSub <= CGSub.Maximum Then CGSub.Value = xgSub
+                End With
+            End If
 
-        'WaveForm
-        Dim eWaveForm As XmlElement = Root.Item("WaveForm")
-        If eWaveForm IsNot Nothing Then
-            With eWaveForm
-                XMLLoadAttribute(.GetAttribute("wLock"), BWLock.Checked)
-                XMLLoadAttribute(.GetAttribute("wPosition"), TWPosition.Value)
-                XMLLoadAttribute(.GetAttribute("wLeft"), TWLeft.Value)
-                XMLLoadAttribute(.GetAttribute("wWidth"), TWWidth.Value)
-                XMLLoadAttribute(.GetAttribute("wPrecision"), TWPrecision.Value)
-            End With
-        End If
+            'WaveForm
+            Dim eWaveForm As XmlElement = Root.Item("WaveForm")
+            If eWaveForm IsNot Nothing Then
+                With eWaveForm
+                    XMLLoadAttribute(.GetAttribute("wLock"), BWLock.Checked)
+                    XMLLoadAttribute(.GetAttribute("wPosition"), TWPosition.Value)
+                    XMLLoadAttribute(.GetAttribute("wLeft"), TWLeft.Value)
+                    XMLLoadAttribute(.GetAttribute("wWidth"), TWWidth.Value)
+                    XMLLoadAttribute(.GetAttribute("wPrecision"), TWPrecision.Value)
+                End With
+            End If
 
-        'Player
-        Dim ePlayer As XmlElement = Root.Item("Player")
-        If ePlayer IsNot Nothing Then
-            With ePlayer
-                XMLLoadAttribute(.GetAttribute("CurrentPlayer"), CurrentPlayer)
+            'Player
+            Dim ePlayer As XmlElement = Root.Item("Player")
+            If ePlayer IsNot Nothing Then
+                With ePlayer
+                    XMLLoadAttribute(.GetAttribute("CurrentPlayer"), CurrentPlayer)
 
-                Dim xCount As Integer = CInt(.GetAttribute("Count"))
-                If xCount > 0 Then ReDim Preserve pArgs(xCount - 1)
-            End With
+                    Dim xCount As Integer = CInt(.GetAttribute("Count"))
+                    If xCount > 0 Then ReDim Preserve pArgs(xCount - 1)
+                End With
 
-            For Each eePlayer As XmlElement In ePlayer.ChildNodes
-                Me.XMLLoadPlayer(eePlayer)
-            Next
-        End If
-
-        Dim eTotal As XmlElement = Root.Item("Total")
-        If eTotal IsNot Nothing Then
-            With eTotal
-                XMLLoadAttribute(.GetAttribute("Option"), TotalOption)
-                XMLLoadAttribute(.GetAttribute("Multiplier"), TotalMultiplier)
-                XMLLoadAttribute(.GetAttribute("GlobalMultiplier"), TotalGlobalMultiplier)
-                XMLLoadAttribute(.GetAttribute("RecommendedTextDisplay"), TotalRecommendedTextDisplay)
-            End With
-        End If
-
-        Dim eKeybindings As XmlElement = Root.Item("KeyBindings")
-        If eKeybindings IsNot Nothing Then
-            With eKeybindings
-                Dim xBound = CInt(.GetAttribute("Count"))
-                If xBound > UBound(Keybindings) Then ReDim Preserve Keybindings(xBound)
-
-                For Each eeKeybindings As XmlElement In .ChildNodes
-                    XMLLoadKeybinding(eeKeybindings)
+                For Each eePlayer As XmlElement In ePlayer.ChildNodes
+                    Me.XMLLoadPlayer(eePlayer)
                 Next
-            End With
+            End If
+
+            Dim eTotal As XmlElement = Root.Item("Total")
+            If eTotal IsNot Nothing Then
+                With eTotal
+                    XMLLoadAttribute(.GetAttribute("Option"), TotalOption)
+                    XMLLoadAttribute(.GetAttribute("Multiplier"), TotalMultiplier)
+                    XMLLoadAttribute(.GetAttribute("GlobalMultiplier"), TotalGlobalMultiplier)
+                    XMLLoadAttribute(.GetAttribute("RecommendedTextDisplay"), TotalRecommendedTextDisplay)
+                End With
+            End If
+
+            Dim eKeybindings As XmlElement = Root.Item("KeyBindings")
+            If eKeybindings IsNot Nothing Then
+                With eKeybindings
+                    Dim xBound = CInt(.GetAttribute("Count"))
+                    If xBound > UBound(Keybindings) Then ReDim Preserve Keybindings(xBound)
+
+                    For Each eeKeybindings As XmlElement In .ChildNodes
+                        XMLLoadKeybinding(eeKeybindings)
+                    Next
+                End With
+            End If
+
+            'Columns
+            Dim eColumns As XmlElement = Root.Item("Columns")
+            If eColumns IsNot Nothing Then
+                For Each eeCol As XmlElement In eColumns.ChildNodes
+                    Me.XMLLoadColumn(eeCol)
+                Next
+            End If
+
+            'VisualSettings
+            Dim eVisualSettings As XmlElement = Root.Item("VisualSettings")
+            If eVisualSettings IsNot Nothing Then
+                With eVisualSettings
+                    XMLLoadElementValue(.Item("ColumnTitle"), vo.ColumnTitle.Color)
+                    XMLLoadElementValue(.Item("ColumnTitleFont"), vo.ColumnTitleFont)
+                    XMLLoadElementValue(.Item("Bg"), vo.Bg.Color)
+                    XMLLoadElementValue(.Item("Grid"), vo.pGrid.Color)
+                    XMLLoadElementValue(.Item("Sub"), vo.pSub.Color)
+                    XMLLoadElementValue(.Item("VLine"), vo.pVLine.Color)
+                    XMLLoadElementValue(.Item("MLine"), vo.pMLine.Color)
+
+                    XMLLoadElementValue(.Item("BGMWav"), vo.pBGMWav.Color)
+                    TWTransparency.Value = vo.pBGMWav.Color.A
+                    TWTransparency2.Value = vo.pBGMWav.Color.A
+                    TWSaturation.Value = CDec(vo.pBGMWav.Color.GetSaturation * 1000)
+                    TWSaturation2.Value = CInt(vo.pBGMWav.Color.GetSaturation * 1000)
+
+                    XMLLoadElementValue(.Item("SelBox"), vo.SelBox.Color)
+                    XMLLoadElementValue(.Item("TSCursor"), vo.PECursor.Color)
+                    XMLLoadElementValue(.Item("TSHalf"), vo.PEHalf.Color)
+                    XMLLoadElementValue(.Item("TSDeltaMouseOver"), vo.PEDeltaMouseOver)
+                    XMLLoadElementValue(.Item("TSMouseOver"), vo.PEMouseOver.Color)
+                    XMLLoadElementValue(.Item("TSSel"), vo.PESel.Color)
+                    XMLLoadElementValue(.Item("TSBPM"), vo.PEBPM.Color)
+                    XMLLoadElementValue(.Item("TSBPMFont"), vo.PEBPMFont)
+                    XMLLoadElementValue(.Item("MiddleDeltaRelease"), vo.MiddleDeltaRelease)
+                    XMLLoadElementValue(.Item("kHeight"), vo.kHeight)
+                    XMLLoadElementValue(.Item("kFont"), vo.kFont)
+                    XMLLoadElementValue(.Item("kMFont"), vo.kMFont)
+                    XMLLoadElementValue(.Item("kLabelVShift"), vo.kLabelVShift)
+                    XMLLoadElementValue(.Item("kLabelHShift"), vo.kLabelHShift)
+                    XMLLoadElementValue(.Item("kLabelHShiftL"), vo.kLabelHShiftL)
+                    XMLLoadElementValue(.Item("kMouseOver"), vo.kMouseOver.Color)
+                    XMLLoadElementValue(.Item("kMouseOverE"), vo.kMouseOverE.Color)
+                    XMLLoadElementValue(.Item("kSelected"), vo.kSelected.Color)
+                    XMLLoadElementValue(.Item("kOpacity"), vo.kOpacity)
+                End With
+            End If
         End If
 
-        'Columns
-        Dim eColumns As XmlElement = Root.Item("Columns")
-        If eColumns IsNot Nothing Then
-            For Each eeCol As XmlElement In eColumns.ChildNodes
-                Me.XMLLoadColumn(eeCol)
-            Next
-        End If
-
-        'VisualSettings
-        Dim eVisualSettings As XmlElement = Root.Item("VisualSettings")
-        If eVisualSettings IsNot Nothing Then
-            With eVisualSettings
-                XMLLoadElementValue(.Item("ColumnTitle"), vo.ColumnTitle.Color)
-                XMLLoadElementValue(.Item("ColumnTitleFont"), vo.ColumnTitleFont)
-                XMLLoadElementValue(.Item("Bg"), vo.Bg.Color)
-                XMLLoadElementValue(.Item("Grid"), vo.pGrid.Color)
-                XMLLoadElementValue(.Item("Sub"), vo.pSub.Color)
-                XMLLoadElementValue(.Item("VLine"), vo.pVLine.Color)
-                XMLLoadElementValue(.Item("MLine"), vo.pMLine.Color)
-
-                XMLLoadElementValue(.Item("BGMWav"), vo.pBGMWav.Color)
-                TWTransparency.Value = vo.pBGMWav.Color.A
-                TWTransparency2.Value = vo.pBGMWav.Color.A
-                TWSaturation.Value = CDec(vo.pBGMWav.Color.GetSaturation * 1000)
-                TWSaturation2.Value = CInt(vo.pBGMWav.Color.GetSaturation * 1000)
-
-                XMLLoadElementValue(.Item("SelBox"), vo.SelBox.Color)
-                XMLLoadElementValue(.Item("TSCursor"), vo.PECursor.Color)
-                XMLLoadElementValue(.Item("TSHalf"), vo.PEHalf.Color)
-                XMLLoadElementValue(.Item("TSDeltaMouseOver"), vo.PEDeltaMouseOver)
-                XMLLoadElementValue(.Item("TSMouseOver"), vo.PEMouseOver.Color)
-                XMLLoadElementValue(.Item("TSSel"), vo.PESel.Color)
-                XMLLoadElementValue(.Item("TSBPM"), vo.PEBPM.Color)
-                XMLLoadElementValue(.Item("TSBPMFont"), vo.PEBPMFont)
-                XMLLoadElementValue(.Item("MiddleDeltaRelease"), vo.MiddleDeltaRelease)
-                XMLLoadElementValue(.Item("kHeight"), vo.kHeight)
-                XMLLoadElementValue(.Item("kFont"), vo.kFont)
-                XMLLoadElementValue(.Item("kMFont"), vo.kMFont)
-                XMLLoadElementValue(.Item("kLabelVShift"), vo.kLabelVShift)
-                XMLLoadElementValue(.Item("kLabelHShift"), vo.kLabelHShift)
-                XMLLoadElementValue(.Item("kLabelHShiftL"), vo.kLabelHShiftL)
-                XMLLoadElementValue(.Item("kMouseOver"), vo.kMouseOver.Color)
-                XMLLoadElementValue(.Item("kMouseOverE"), vo.kMouseOverE.Color)
-                XMLLoadElementValue(.Item("kSelected"), vo.kSelected.Color)
-                XMLLoadElementValue(.Item("kOpacity"), vo.kOpacity)
-            End With
-        End If
-
-EndOfSub:
         UpdateColumnsX()
         FileStream.Close()
         'File.Delete(xTempFileName)

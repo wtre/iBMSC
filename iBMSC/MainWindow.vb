@@ -1307,32 +1307,38 @@ Public Class MainWindow
         Dim xStr() As String = Environment.GetCommandLineArgs
         'Dim xStr() As String = {Application.ExecutablePath, "C:\Users\User\Desktop\yang run xuan\SoFtwArES\Games\O2Mania\music\SHOOT!\shoot! -NM-.bms"}
 
+        Dim L1000 As Boolean = False
+
         If xStr.Length = 2 Then
             ReadFile(xStr(1))
-            If LCase(Path.GetExtension(xStr(1))) = ".ibmsc" AndAlso GetFileName(xStr(1)).StartsWith("AutoSave_", True, Nothing) Then GoTo 1000
+            If LCase(Path.GetExtension(xStr(1))) = ".ibmsc" AndAlso GetFileName(xStr(1)).StartsWith("AutoSave_", True, Nothing) Then L1000 = True
         End If
 
         'pIsSaved.Visible = Not IsSaved
         IsInitializing = False
 
-        If Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length > 1 Then GoTo 1000
-        Dim xFiles() As FileInfo = My.Computer.FileSystem.GetDirectoryInfo(My.Application.Info.DirectoryPath).GetFiles("AutoSave_*.IBMSC")
-        If xFiles Is Nothing OrElse xFiles.Length = 0 Then GoTo 1000
+        If Not L1000 Then
+            If Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length <= 1 Then
 
-        'Me.TopMost = True
-        If MsgBox(Replace(Strings.Messages.RestoreAutosavedFile, "{}", xFiles.Length.ToString()), MsgBoxStyle.YesNo Or MsgBoxStyle.MsgBoxSetForeground) = MsgBoxResult.Yes Then
-            For Each xF As FileInfo In xFiles
-                'MsgBox(xF.FullName)
-                System.Diagnostics.Process.Start(Application.ExecutablePath, """" & xF.FullName & """")
-            Next
+                Dim xFiles() As FileInfo = My.Computer.FileSystem.GetDirectoryInfo(My.Application.Info.DirectoryPath).GetFiles("AutoSave_*.IBMSC")
+                If xFiles IsNot Nothing AndAlso xFiles.Length > 0 Then
+
+                    'Me.TopMost = True
+                    If MsgBox(Replace(Strings.Messages.RestoreAutosavedFile, "{}", xFiles.Length.ToString()), MsgBoxStyle.YesNo Or MsgBoxStyle.MsgBoxSetForeground) = MsgBoxResult.Yes Then
+                        For Each xF As FileInfo In xFiles
+                            'MsgBox(xF.FullName)
+                            System.Diagnostics.Process.Start(Application.ExecutablePath, """" & xF.FullName & """")
+                        Next
+                    End If
+
+                    For Each xF As FileInfo In xFiles
+                        ReDim Preserve pTempFileNames(UBound(pTempFileNames) + 1)
+                        pTempFileNames(UBound(pTempFileNames)) = xF.FullName
+                    Next
+                End If
+            End If
         End If
 
-        For Each xF As FileInfo In xFiles
-            ReDim Preserve pTempFileNames(UBound(pTempFileNames) + 1)
-            pTempFileNames(UBound(pTempFileNames)) = xF.FullName
-        Next
-
-1000:
         IsInitializing = False
         POStatusRefresh()
         Me.ResumeLayout()
@@ -1408,29 +1414,31 @@ Public Class MainWindow
                         If Notes(j).ColumnIndex <> Notes(i).ColumnIndex Then Continue For
                         If Notes(j).VPosition = Notes(i).VPosition Then
                             Notes(i).HasError = True
-                            GoTo EndSearch
+                            Exit For
                         ElseIf Notes(j).LongNote And Notes(j).LNPair = i Then
                             Notes(i).LNPair = j
-                            GoTo EndSearch
+                            Exit For
                         Else
                             Exit For
                         End If
                     Next
 
-                    For j = i + 1 To UBound(Notes)
-                        If Notes(j).ColumnIndex <> Notes(i).ColumnIndex Then Continue For
-                        Notes(i).LNPair = j
-                        Notes(j).LNPair = i
-                        If Not Notes(j).LongNote AndAlso Notes(j).Value \ 10000 <> LnObj Then
-                            Notes(j).HasError = True
-                        End If
-                        Exit For
-                    Next
+                    If Not Notes(i).HasError Or Notes(i).LNPair = 0 Then
 
-                    If j = UBound(Notes) + 1 Then
-                        Notes(i).HasError = True
+                        For j = i + 1 To UBound(Notes)
+                            If Notes(j).ColumnIndex <> Notes(i).ColumnIndex Then Continue For
+                            Notes(i).LNPair = j
+                            Notes(j).LNPair = i
+                            If Not Notes(j).LongNote AndAlso Notes(j).Value \ 10000 <> LnObj Then
+                                Notes(j).HasError = True
+                            End If
+                            Exit For
+                        Next
+
+                        If j = UBound(Notes) + 1 Then
+                            Notes(i).HasError = True
+                        End If
                     End If
-EndSearch:
 
                 ElseIf Notes(i).Value \ 10000 = LnObj And
                     Not IsColumnNumeric(Notes(i).ColumnIndex) Then
@@ -2633,31 +2641,32 @@ EndSearch:
                     Case Else : row = 5
                 End Select
 
+                Do While row <> 6
+                    If Not NTInput Then
+                        If Not .LongNote Then data(row, 0) += 1
+                        If .LongNote Then
+                            If dataLNToggle Then data(row, 1) += 1
+                            dataLNToggle = Not dataLNToggle
+                        End If
+                        If .Value \ 10000 = LnObj Then data(row, 2) += 1
+                        If .Hidden Then data(row, 3) += 1
+                        If .HasError Then data(row, 4) += 1
+                        data(row, 5) += 1
 
-StartCount:     If Not NTInput Then
-                    If Not .LongNote Then data(row, 0) += 1
-                    If .LongNote Then
-                        If dataLNToggle Then data(row, 1) += 1
-                        dataLNToggle = Not dataLNToggle
+                    Else
+                        Dim noteUnit As Integer = 1
+                        If .Length = 0 Then data(row, 0) += 1
+                        If .Length <> 0 Then data(row, 1) += 2 : noteUnit = 2
+
+                        If .Value \ 10000 = LnObj Then data(row, 2) += noteUnit
+                        If .Hidden Then data(row, 3) += noteUnit
+                        If .HasError Then data(row, 4) += noteUnit
+                        data(row, 5) += noteUnit
+
                     End If
-                    If .Value \ 10000 = LnObj Then data(row, 2) += 1
-                    If .Hidden Then data(row, 3) += 1
-                    If .HasError Then data(row, 4) += 1
-                    data(row, 5) += 1
 
-                Else
-                    Dim noteUnit As Integer = 1
-                    If .Length = 0 Then data(row, 0) += 1
-                    If .Length <> 0 Then data(row, 1) += 2 : noteUnit = 2
-
-                    If .Value \ 10000 = LnObj Then data(row, 2) += noteUnit
-                    If .Hidden Then data(row, 3) += noteUnit
-                    If .HasError Then data(row, 4) += noteUnit
-                    data(row, 5) += noteUnit
-
-                End If
-
-                If row <> 6 Then row = 6 : GoTo StartCount
+                    row = 6
+                Loop
             End With
         Next
 
@@ -2721,7 +2730,7 @@ StartCount:     If Not NTInput Then
                 End Select
 
 
-StartCount:     Dim idWAV As Integer = CInt(.Value / 10000)
+                Dim idWAV As Integer = CInt(.Value / 10000)
                 If Not NTInput Then
                     If Not (.LongNote Or .Hidden Or .Landmine Or .Hidden Or .Value \ 10000 = LnObj Or .Comment) Then
                         data(row, 0) += 1
@@ -3097,14 +3106,11 @@ StartCount:     Dim idWAV As Integer = CInt(.Value / 10000)
         'xRedo &= sCmdKM(niA1, .VPosition, .Value, IIf(NTInput, .Length, .LongNote), .Hidden, RealColumnToEnabled(niA7) - RealColumnToEnabled(niA1), 0, True) & vbCrLf
         'xUndo &= sCmdKM(niA7, .VPosition, .Value, IIf(NTInput, .Length, .LongNote), .Hidden, RealColumnToEnabled(niA1) - RealColumnToEnabled(niA7), 0, True) & vbCrLf
 
-        ' Array 0: Unmodified array
+        ' gXKeyCol: Unmodified array
         ' Array 1: Modified array based on range
         ' Array R: Array 1 reversed
-        Dim xniArray0() As Integer = gXKeyCol
-        ' Dim xniArray1 = Integer() ' xniArray0
 
         ' New function: Declare an array to see the range of selected notes. B columns ignored.
-
         Dim xRangeL As Integer = niB ' Big number
         Dim xRangeU As Integer = 0 ' Smol number
 
@@ -3115,44 +3121,17 @@ StartCount:     Dim idWAV As Integer = CInt(.Value / 10000)
             If xRangeU < Notes(xI1).ColumnIndex Then xRangeU = Notes(xI1).ColumnIndex
         Next
 
-        ' Modify xniArray based on range
-        '  Out of range
-        If xRangeL > xniArray0(UBound(xniArray0)) Or xRangeU < xniArray0(0) Then GoTo DoNothing
-
-        '  Semi-in Range
-        '   Cut off left side
-        If xRangeL < niA1 Then
-            xRangeL = 0
-            GoTo MirrorSkip1
-        End If
-
-        For xI1 = 0 To UBound(xniArray0)
-            If xniArray0(xI1) = xRangeL Then
-                xRangeL = xI1
-                Exit For
+        Dim xniArray1(UBound(gXKeyCol)) As Integer
+        Dim xIA1 As Integer = -1
+        For Each ni In gXKeyCol
+            If xRangeL <= ni AndAlso ni <= xRangeU Then
+                xIA1 += 1
+                xniArray1(xIA1) = ni
             End If
         Next
+        If xIA1 <= 0 Then Exit Sub
 
-MirrorSkip1:
-        '   Cut off right side
-        If xRangeU > niD8 Then
-            xRangeU = xniArray0.Length
-            GoTo MirrorSkip2
-        End If
-
-        For xI1 = 0 To UBound(xniArray0)
-            If xniArray0(xI1) = xRangeU Then
-                xRangeU = xI1 + 1
-                Exit For
-            End If
-        Next
-
-MirrorSkip2:
-
-        Dim xniArray1(xRangeU - xRangeL - 1) As Integer
-        For xI1 = 0 To xRangeU - xRangeL - 1
-            xniArray1(xI1) = xniArray0(xI1 + xRangeL)
-        Next
+        ReDim Preserve xniArray1(xIA1)
 
         Dim xniArrayR = xniArray1.Reverse()
         Dim xniArrayLen = xniArray1.Length
@@ -3176,8 +3155,6 @@ MirrorSkip2:
             Notes(xI1).ColumnIndex = xCol
         Next
 
-DoNothing:
-
         AddUndo(xUndo, xBaseRedo.Next)
         UpdatePairing()
         RefreshPanelAll()
@@ -3194,6 +3171,7 @@ DoNothing:
 
         ' Array 1: Unmodified array
         ' Array R: Flipped array
+
         Dim xniArray1 = New Integer() {niA1, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niD8}
         Dim xniArrayR = New Integer() {niD8, niD1, niD2, niD3, niD4, niD5, niD6, niD7, niA2, niA3, niA4, niA5, niA6, niA7, niA8, niA1}
 
@@ -3230,14 +3208,11 @@ DoNothing:
         Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
-        ' Array 0: Unmodified array
+        ' gXKeyCol: Unmodified array
         ' Array 1: Modified array based on range
         ' Array R: Array 1 randomized
-        Dim xniArray0() As Integer = gXKeyCol
-        ' Dim xniArray1 = Integer() ' xniArray0
 
         ' New function: Declare an array to see the range of selected notes. B columns ignored.
-
         Dim xRangeL As Integer = niB ' Big number
         Dim xRangeU As Integer = 0 ' Smol number
 
@@ -3248,43 +3223,17 @@ DoNothing:
             If xRangeU < Notes(xI1).ColumnIndex Then xRangeU = Notes(xI1).ColumnIndex
         Next
 
-        ' Modify xniArray based on range
-        '  Out of range
-        If xRangeL > xniArray0(UBound(xniArray0)) Or xRangeU < xniArray0(0) Then GoTo DoNothing
-
-        '  Semi-in Range
-        '   Cut off left side
-        If xRangeL < niA1 Then
-            xRangeL = 0
-            GoTo Skip1
-        End If
-
-        For xI1 = 0 To UBound(xniArray0)
-            If xniArray0(xI1) = xRangeL Then
-                xRangeL = xI1
-                Exit For
+        Dim xniArray1(UBound(gXKeyCol)) As Integer
+        Dim xIA1 As Integer = -1
+        For Each ni In gXKeyCol
+            If xRangeL <= ni AndAlso ni <= xRangeU Then
+                xIA1 += 1
+                xniArray1(xIA1) = ni
             End If
         Next
+        If xIA1 <= 0 Then Exit Sub
 
-Skip1:
-        '   Cut off right side
-        If xRangeU > niD8 Then
-            xRangeU = xniArray0.Length
-            GoTo Skip2
-        End If
-
-        For xI1 = 0 To UBound(xniArray0)
-            If xniArray0(xI1) = xRangeU Then
-                xRangeU = xI1 + 1
-                Exit For
-            End If
-        Next
-
-Skip2:
-        Dim xniArray1(xRangeU - xRangeL - 1) As Integer
-        For xI1 = 0 To xRangeU - xRangeL - 1
-            xniArray1(xI1) = xniArray0(xI1 + xRangeL)
-        Next
+        ReDim Preserve xniArray1(xIA1)
 
         Dim xniArrayR() As Integer = CType(xniArray1.Clone(), Integer())
 
@@ -3371,9 +3320,6 @@ Skip2:
                 Loop
         End Select
 
-
-DoNothing:
-
         AddUndo(xUndo, xBaseRedo.Next)
         UpdatePairing()
         RefreshPanelAll()
@@ -3391,81 +3337,47 @@ DoNothing:
 
         Dim xniArrayLen = xniArray1.Length
 
-        Dim vPos As Double = -1
+        Dim vPos As Double
         Dim xIArray(0) As Integer
         Dim xValueArray(0) As Long
-        Dim xI3 As Integer = 0
         Dim xITemp As Integer
-        Dim xValueTemp As Long
-        Dim xSorted As Boolean = False
-        For xI1 = 1 To UBound(Notes)
 
-            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
-            ' If starting a new row or same VPosition
-            If xI3 = 0 Or vPos = Notes(xI1).VPosition Then
-RestartSorting: xSorted = False
-                ReDim Preserve xIArray(xI3)
-                ReDim Preserve xValueArray(xI3)
-                vPos = Notes(xI1).VPosition
-                xIArray(xI3) = xI1
-                xValueArray(xI3) = Notes(xI1).Value
-                xI3 += 1
-            Else
-                ' Start sorting in a row
-                ' xI4: First item in the sort loop, xI2: The nth swap/comparison
-                ' Sorting process (4 items, c for comparison between 2 items):
-                ' cccc
-                ' ccc
-                ' cc
-                ' c
+        ' Find array of indexes of selected notes in the same vPosition
+        xI1 = 1
+        Dim xI1Arr(-1) As Integer
+        ' Find the first index of selected notes
+        Do While xI1 <= UBound(Notes)
+            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
+            ' Begin building array until vPosition changes
+            vPos = Notes(xI1).VPosition
+            Do While xI1 <= UBound(Notes) AndAlso Math.Abs(Notes(xI1).VPosition - vPos) < ErrorJackSpeed
+                If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
+                ReDim Preserve xI1Arr(xI1Arr.Length)
+                xI1Arr(UBound(xI1Arr)) = xI1
+                xI1 += 1
+            Loop
 
-                For xI4 = 0 To xI3 - 2
-                    For xI2 = 0 To xI3 - 2 - xI4
-                        If xValueArray(xI2) > xValueArray(xI2 + 1) Then
-                            xITemp = xIArray(xI2 + 1)
-                            xIArray(xI2 + 1) = xIArray(xI2)
-                            xIArray(xI2) = xITemp
-
-                            xValueTemp = xValueArray(xI2 + 1)
-                            xValueArray(xI2 + 1) = xValueArray(xI2)
-                            xValueArray(xI2) = xValueTemp
-                        End If
-                    Next
-                Next
-
-                For xI4 = 0 To xI3 - 1
-                    Me.RedoMoveNote(Notes(xIArray(xI4)), xniArray1(xI4), Notes(xIArray(xI4)).VPosition, xUndo, xRedo)
-                    Notes(xIArray(xI4)).ColumnIndex = xniArray1(xI4)
-                    ' Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
-                    ' Notes(xI1).ColumnIndex = xCol
-                Next
-                xI3 = 0
-                xSorted = True
-                GoTo RestartSorting
-            End If
-
-        Next
-
-        If Not xSorted Then
-            For xI4 = 0 To xI3 - 2
-                For xI2 = xI4 To xI3 - 2
-                    If xValueArray(xI2) > xValueArray(xI2 + 1) Then
-                        xITemp = xIArray(xI2 + 1)
-                        xIArray(xI2 + 1) = xIArray(xI2)
-                        xIArray(xI2) = xITemp
-
-                        xValueTemp = xValueArray(xI2 + 1)
-                        xValueArray(xI2 + 1) = xValueArray(xI2)
-                        xValueArray(xI2) = xValueTemp
+            ' Sort columns, insertion sort
+            For xI2 = 1 To UBound(xI1Arr)
+                For xI3 = xI2 To 1 Step -1
+                    If Notes(xI1Arr(xI2 - 1)).Value > Notes(xI1Arr(xI2)).Value Then
+                        xITemp = xI1Arr(xI2 - 1)
+                        xI1Arr(xI2 - 1) = xI1Arr(xI2)
+                        xI1Arr(xI2) = xITemp
+                    Else
+                        Exit For
                     End If
                 Next
             Next
 
-            For xI4 = 0 To xI3 - 1
-                Me.RedoMoveNote(Notes(xIArray(xI4)), xniArray1(xI4), Notes(xIArray(xI4)).VPosition, xUndo, xRedo)
-                Notes(xIArray(xI4)).ColumnIndex = xniArray1(xI4)
+            ' Move notes
+            For xI2 = 0 To UBound(xI1Arr)
+                Dim xI2I = xI1Arr(xI2)
+                Me.RedoMoveNote(Notes(xI2I), xniArray1(xI2), Notes(xI2I).VPosition, xUndo, xRedo)
+                Notes(xI2I).ColumnIndex = xniArray1(xI2)
             Next
-        End If
+            ReDim xI1Arr(-1)
+        Loop
 
         AddUndo(xUndo, xBaseRedo.Next)
         UpdatePairing()
@@ -4340,33 +4252,37 @@ RestartSorting: xSorted = False
         If xLbl Then
             Dim xStr As String = UCase(Trim(InputBox(Strings.Messages.PromptEnter, Me.Text)))
 
-            If Len(xStr) = 0 Then GoTo Jump2
-            If xStr = "00" Or xStr = "0" Then GoTo Jump1
-            If Not Len(xStr) = 1 And Not Len(xStr) = 2 Then GoTo Jump1
+            If Len(xStr) <> 0 Then
+                Dim Valid As Boolean = True
 
-            Dim xI3 As Integer = Asc(Mid(xStr, 1, 1))
-            If Not ((xI3 >= 48 And xI3 <= 57) Or (xI3 >= 65 And xI3 <= 90)) Then GoTo Jump1
-            If Len(xStr) = 2 Then
-                Dim xI4 As Integer = Asc(Mid(xStr, 2, 1))
-                If Not ((xI4 >= 48 And xI4 <= 57) Or (xI4 >= 65 And xI4 <= 90)) Then GoTo Jump1
+                If xStr = "00" Or xStr = "0" Then Valid = False
+                If Not Len(xStr) = 1 And Not Len(xStr) = 2 Then Valid = False
+
+                Dim xI3 As Integer = Asc(Mid(xStr, 1, 1))
+                If Not ((xI3 >= 48 And xI3 <= 57) Or (xI3 >= 65 And xI3 <= 90)) Then Valid = False
+                If Len(xStr) = 2 Then
+                    Dim xI4 As Integer = Asc(Mid(xStr, 2, 1))
+                    If Not ((xI4 >= 48 And xI4 <= 57) Or (xI4 >= 65 And xI4 <= 90)) Then Valid = False
+                End If
+
+                If Valid Then
+                    Dim xVal As Integer = C36to10(xStr) * 10000
+
+                    Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+                    Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+                    Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+                    For xI1 = 1 To UBound(Notes)
+                        If IsColumnNumeric(Notes(xI1).ColumnIndex) Or Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
+
+                        Me.RedoRelabelNote(Notes(xI1), xVal, xUndo, xRedo)
+                        Notes(xI1).Value = xVal
+                    Next
+                    AddUndo(xUndo, xBaseRedo.Next)
+                Else
+                    MsgBox(Strings.Messages.InvalidLabel, MsgBoxStyle.Critical, Strings.Messages.Err)
+                End If
             End If
-            Dim xVal As Integer = C36to10(xStr) * 10000
-
-            Dim xUndo As UndoRedo.LinkedURCmd = Nothing
-            Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
-            Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
-
-            For xI1 = 1 To UBound(Notes)
-                If IsColumnNumeric(Notes(xI1).ColumnIndex) Or Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
-
-                Me.RedoRelabelNote(Notes(xI1), xVal, xUndo, xRedo)
-                Notes(xI1).Value = xVal
-            Next
-            AddUndo(xUndo, xBaseRedo.Next)
-            GoTo Jump2
-Jump1:
-            MsgBox(Strings.Messages.InvalidLabel, MsgBoxStyle.Critical, Strings.Messages.Err)
-Jump2:
         End If
 
         RefreshPanelAll()
@@ -4852,25 +4768,25 @@ Jump2:
                 LWAV.Items.Item(xI1) = C10to36(xI1 + 1) & ": " & hWAV(xI1 + 1)
                 LWAV.Items.Item(xI1 - 1) = C10to36(xI1) & ": " & hWAV(xI1)
 
-                If Not WAVChangeLabel Then GoTo 1100
+                If WAVChangeLabel Then
+                    Dim xL1 As String = C10to36(xI1)
+                    Dim xL2 As String = C10to36(xI1 + 1)
+                    For xI2 As Integer = 1 To UBound(Notes)
+                        If IsColumnNumeric(Notes(xI2).ColumnIndex) Then Continue For
 
-                Dim xL1 As String = C10to36(xI1)
-                Dim xL2 As String = C10to36(xI1 + 1)
-                For xI2 As Integer = 1 To UBound(Notes)
-                    If IsColumnNumeric(Notes(xI2).ColumnIndex) Then Continue For
+                        If C10to36(Notes(xI2).Value \ 10000) = xL1 Then
+                            Me.RedoRelabelNote(Notes(xI2), xI1 * 10000 + 10000, xUndo, xRedo)
+                            Notes(xI2).Value = xI1 * 10000 + 10000
 
-                    If C10to36(Notes(xI2).Value \ 10000) = xL1 Then
-                        Me.RedoRelabelNote(Notes(xI2), xI1 * 10000 + 10000, xUndo, xRedo)
-                        Notes(xI2).Value = xI1 * 10000 + 10000
+                        ElseIf C10to36(Notes(xI2).Value \ 10000) = xL2 Then
+                            Me.RedoRelabelNote(Notes(xI2), xI1 * 10000, xUndo, xRedo)
+                            Notes(xI2).Value = xI1 * 10000
 
-                    ElseIf C10to36(Notes(xI2).Value \ 10000) = xL2 Then
-                        Me.RedoRelabelNote(Notes(xI2), xI1 * 10000, xUndo, xRedo)
-                        Notes(xI2).Value = xI1 * 10000
+                        End If
+                    Next
 
-                    End If
-                Next
-
-1100:           xIndices(xIndex) += -1
+                End If
+                xIndices(xIndex) += -1
             End If
         Next
 
@@ -4911,25 +4827,27 @@ Jump2:
                 LWAV.Items.Item(xI1) = C10to36(xI1 + 1) & ": " & hWAV(xI1 + 1)
                 LWAV.Items.Item(xI1 + 1) = C10to36(xI1 + 2) & ": " & hWAV(xI1 + 2)
 
-                If Not WAVChangeLabel Then GoTo 1100
+                If WAVChangeLabel Then
 
-                Dim xL1 As String = C10to36(xI1 + 2)
-                Dim xL2 As String = C10to36(xI1 + 1)
-                For xI2 As Integer = 1 To UBound(Notes)
-                    If IsColumnNumeric(Notes(xI2).ColumnIndex) Then Continue For
 
-                    If C10to36(Notes(xI2).Value \ 10000) = xL1 Then
-                        Me.RedoRelabelNote(Notes(xI2), xI1 * 10000 + 10000, xUndo, xRedo)
-                        Notes(xI2).Value = xI1 * 10000 + 10000
+                    Dim xL1 As String = C10to36(xI1 + 2)
+                    Dim xL2 As String = C10to36(xI1 + 1)
+                    For xI2 As Integer = 1 To UBound(Notes)
+                        If IsColumnNumeric(Notes(xI2).ColumnIndex) Then Continue For
 
-                    ElseIf C10to36(Notes(xI2).Value \ 10000) = xL2 Then
-                        Me.RedoRelabelNote(Notes(xI2), xI1 * 10000 + 20000, xUndo, xRedo)
-                        Notes(xI2).Value = xI1 * 10000 + 20000
+                        If C10to36(Notes(xI2).Value \ 10000) = xL1 Then
+                            Me.RedoRelabelNote(Notes(xI2), xI1 * 10000 + 10000, xUndo, xRedo)
+                            Notes(xI2).Value = xI1 * 10000 + 10000
 
-                    End If
-                Next
+                        ElseIf C10to36(Notes(xI2).Value \ 10000) = xL2 Then
+                            Me.RedoRelabelNote(Notes(xI2), xI1 * 10000 + 20000, xUndo, xRedo)
+                            Notes(xI2).Value = xI1 * 10000 + 20000
 
-1100:           xIndices(xIndex) += 1
+                        End If
+                    Next
+
+                End If
+                xIndices(xIndex) += 1
             End If
         Next
 
