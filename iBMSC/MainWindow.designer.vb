@@ -25,16 +25,16 @@ Partial Class MainWindow
         Me.TBLangDef = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBLangRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
-        Me.TBLanguage = New System.Windows.Forms.ToolStripDropDownButton()
         Me.mnLanguage = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TBLanguage = New System.Windows.Forms.ToolStripDropDownButton()
         Me.cmnTheme = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.TBThemeDef = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeSave = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeLoadComptability = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
-        Me.mnTheme = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBTheme = New System.Windows.Forms.ToolStripDropDownButton()
+        Me.mnTheme = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Menu1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.MInsert = New System.Windows.Forms.ToolStripMenuItem()
@@ -105,7 +105,6 @@ Partial Class MainWindow
         Me.mnShowFileName = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnShowWaveform = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator20 = New System.Windows.Forms.ToolStripSeparator()
-        Me.mnTechnicalErrorCheck = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnPOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnGOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnKOptions = New System.Windows.Forms.ToolStripMenuItem()
@@ -129,11 +128,11 @@ Partial Class MainWindow
         Me.POBSRandom = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBHRandom = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBSort = New System.Windows.Forms.ToolStripMenuItem()
+        Me.POConvert = New System.Windows.Forms.ToolStripDropDownButton()
         Me.mnPreview = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnPlayB = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnPlay = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnStop = New System.Windows.Forms.ToolStripMenuItem()
-        Me.POConvert = New System.Windows.Forms.ToolStripDropDownButton()
         Me.TBMain = New System.Windows.Forms.ToolStrip()
         Me.TBNew = New System.Windows.Forms.ToolStripButton()
         Me.TBOpen = New System.Windows.Forms.ToolStripSplitButton()
@@ -378,6 +377,10 @@ Partial Class MainWindow
         Me.POptionsScroll = New System.Windows.Forms.Panel()
         Me.TimerInternalPlay = New System.Windows.Forms.Timer(Me.components)
         Me.TimerPreviewNote = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnTechnicalErrorCheck = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnTOTAL = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator13 = New System.Windows.Forms.ToolStripSeparator()
         Me.cmnLanguage.SuspendLayout()
         Me.cmnTheme.SuspendLayout()
         Me.Menu1.SuspendLayout()
@@ -462,7 +465,7 @@ Partial Class MainWindow
         '
         Me.cmnLanguage.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBLangDef, Me.TBLangRefresh, Me.ToolStripSeparator9})
         Me.cmnLanguage.Name = "cmnLanguage"
-        Me.cmnLanguage.OwnerItem = Me.mnLanguage
+        Me.cmnLanguage.OwnerItem = Me.TBLanguage
         Me.cmnLanguage.Size = New System.Drawing.Size(121, 54)
         '
         'TBLangDef
@@ -483,6 +486,14 @@ Partial Class MainWindow
         Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
         Me.ToolStripSeparator9.Size = New System.Drawing.Size(117, 6)
         '
+        'mnLanguage
+        '
+        Me.mnLanguage.DropDown = Me.cmnLanguage
+        Me.mnLanguage.Image = Global.iBMSC.My.Resources.Resources.x16Language
+        Me.mnLanguage.Name = "mnLanguage"
+        Me.mnLanguage.Size = New System.Drawing.Size(253, 22)
+        Me.mnLanguage.Text = "&Language"
+        '
         'TBLanguage
         '
         Me.TBLanguage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -493,19 +504,11 @@ Partial Class MainWindow
         Me.TBLanguage.Size = New System.Drawing.Size(29, 22)
         Me.TBLanguage.Text = "Language"
         '
-        'mnLanguage
-        '
-        Me.mnLanguage.DropDown = Me.cmnLanguage
-        Me.mnLanguage.Image = Global.iBMSC.My.Resources.Resources.x16Language
-        Me.mnLanguage.Name = "mnLanguage"
-        Me.mnLanguage.Size = New System.Drawing.Size(253, 22)
-        Me.mnLanguage.Text = "&Language"
-        '
         'cmnTheme
         '
         Me.cmnTheme.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBThemeDef, Me.TBThemeSave, Me.TBThemeRefresh, Me.TBThemeLoadComptability, Me.ToolStripSeparator6})
         Me.cmnTheme.Name = "cmnLanguage"
-        Me.cmnTheme.OwnerItem = Me.TBTheme
+        Me.cmnTheme.OwnerItem = Me.mnTheme
         Me.cmnTheme.Size = New System.Drawing.Size(246, 98)
         '
         'TBThemeDef
@@ -539,14 +542,6 @@ Partial Class MainWindow
         Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
         Me.ToolStripSeparator6.Size = New System.Drawing.Size(242, 6)
         '
-        'mnTheme
-        '
-        Me.mnTheme.DropDown = Me.cmnTheme
-        Me.mnTheme.Image = Global.iBMSC.My.Resources.Resources.x16Theme
-        Me.mnTheme.Name = "mnTheme"
-        Me.mnTheme.Size = New System.Drawing.Size(253, 22)
-        Me.mnTheme.Text = "&Theme"
-        '
         'TBTheme
         '
         Me.TBTheme.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -556,6 +551,14 @@ Partial Class MainWindow
         Me.TBTheme.Name = "TBTheme"
         Me.TBTheme.Size = New System.Drawing.Size(29, 22)
         Me.TBTheme.Text = "Theme"
+        '
+        'mnTheme
+        '
+        Me.mnTheme.DropDown = Me.cmnTheme
+        Me.mnTheme.Image = Global.iBMSC.My.Resources.Resources.x16Theme
+        Me.mnTheme.Name = "mnTheme"
+        Me.mnTheme.Size = New System.Drawing.Size(253, 22)
+        Me.mnTheme.Text = "&Theme"
         '
         'Timer1
         '
@@ -592,7 +595,7 @@ Partial Class MainWindow
         Me.mnMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.mnMain.Dock = System.Windows.Forms.DockStyle.None
         Me.mnMain.GripMargin = New System.Windows.Forms.Padding(2)
-        Me.mnMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnFile, Me.mnEdit, Me.mnSys, Me.mnOptions, Me.mnConversion, Me.mnPreview})
+        Me.mnMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnFile, Me.mnEdit, Me.mnSys, Me.mnOptions, Me.mnConversion, Me.mnPreview, Me.ToolsToolStripMenuItem})
         Me.mnMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.mnMain.Location = New System.Drawing.Point(0, 0)
         Me.mnMain.Name = "mnMain"
@@ -1055,7 +1058,7 @@ Partial Class MainWindow
         '
         'mnOptions
         '
-        Me.mnOptions.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnNTInput, Me.mnErrorCheck, Me.mnPreviewOnClick, Me.mnShowFileName, Me.mnShowWaveform, Me.ToolStripSeparator20, Me.mnTechnicalErrorCheck, Me.mnPOptions, Me.mnGOptions, Me.mnKOptions, Me.mnVOptions, Me.mnVCOptions, Me.mnLanguage, Me.mnTheme})
+        Me.mnOptions.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnNTInput, Me.mnErrorCheck, Me.mnPreviewOnClick, Me.mnShowFileName, Me.mnShowWaveform, Me.ToolStripSeparator20, Me.mnPOptions, Me.mnGOptions, Me.mnKOptions, Me.mnVOptions, Me.mnVCOptions, Me.mnLanguage, Me.mnTheme})
         Me.mnOptions.Name = "mnOptions"
         Me.mnOptions.Size = New System.Drawing.Size(61, 19)
         Me.mnOptions.Text = "&Options"
@@ -1112,13 +1115,6 @@ Partial Class MainWindow
         Me.ToolStripSeparator20.Name = "ToolStripSeparator20"
         Me.ToolStripSeparator20.Size = New System.Drawing.Size(250, 6)
         '
-        'mnTechnicalErrorCheck
-        '
-        Me.mnTechnicalErrorCheck.Image = Global.iBMSC.My.Resources.Resources.x16CheckErrorTechnical
-        Me.mnTechnicalErrorCheck.Name = "mnTechnicalErrorCheck"
-        Me.mnTechnicalErrorCheck.Size = New System.Drawing.Size(253, 22)
-        Me.mnTechnicalErrorCheck.Text = "Technical &Error Check"
-        '
         'mnPOptions
         '
         Me.mnPOptions.Image = Global.iBMSC.My.Resources.Resources.x16PlayerOptions
@@ -1170,7 +1166,6 @@ Partial Class MainWindow
         '
         Me.cmnConversion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.POBLong, Me.POBShort, Me.POBLongShort, Me.ToolStripSeparator10, Me.POBHidden, Me.POBVisible, Me.POBHiddenVisible, Me.ToolStripSeparator11, Me.POBModify, Me.POBMirror, Me.POBFlip, Me.POBRandom, Me.POBRRandom, Me.POBSRandom, Me.POBHRandom, Me.POBSort})
         Me.cmnConversion.Name = "cmnLanguage"
-        Me.cmnConversion.OwnerItem = Me.POConvert
         Me.cmnConversion.Size = New System.Drawing.Size(222, 324)
         '
         'POBLong
@@ -1283,6 +1278,16 @@ Partial Class MainWindow
         Me.POBSort.Size = New System.Drawing.Size(221, 22)
         Me.POBSort.Text = "S&ort"
         '
+        'POConvert
+        '
+        Me.POConvert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.POConvert.DropDown = Me.cmnConversion
+        Me.POConvert.Image = Global.iBMSC.My.Resources.Resources.ConvertNotes
+        Me.POConvert.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.POConvert.Name = "POConvert"
+        Me.POConvert.Size = New System.Drawing.Size(29, 22)
+        Me.POConvert.Text = "Convert Notes"
+        '
         'mnPreview
         '
         Me.mnPreview.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnPlayB, Me.mnPlay, Me.mnStop})
@@ -1313,16 +1318,6 @@ Partial Class MainWindow
         Me.mnStop.ShortcutKeys = System.Windows.Forms.Keys.F7
         Me.mnStop.Size = New System.Drawing.Size(201, 22)
         Me.mnStop.Text = "&Stop"
-        '
-        'POConvert
-        '
-        Me.POConvert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.POConvert.DropDown = Me.cmnConversion
-        Me.POConvert.Image = Global.iBMSC.My.Resources.Resources.ConvertNotes
-        Me.POConvert.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.POConvert.Name = "POConvert"
-        Me.POConvert.Size = New System.Drawing.Size(29, 22)
-        Me.POConvert.Text = "Convert Notes"
         '
         'TBMain
         '
@@ -4239,6 +4234,32 @@ Partial Class MainWindow
         '
         Me.TimerPreviewNote.Interval = 1
         '
+        'ToolsToolStripMenuItem
+        '
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnTechnicalErrorCheck, Me.mnTOTAL, Me.ToolStripSeparator13})
+        Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(46, 19)
+        Me.ToolsToolStripMenuItem.Text = "Tools"
+        '
+        'mnTechnicalErrorCheck
+        '
+        Me.mnTechnicalErrorCheck.Image = Global.iBMSC.My.Resources.Resources.x16CheckErrorTechnical
+        Me.mnTechnicalErrorCheck.Name = "mnTechnicalErrorCheck"
+        Me.mnTechnicalErrorCheck.ShortcutKeyDisplayString = "Ctrl+Alt+E"
+        Me.mnTechnicalErrorCheck.Size = New System.Drawing.Size(250, 22)
+        Me.mnTechnicalErrorCheck.Text = "Check Technical &Error"
+        '
+        'mnTOTAL
+        '
+        Me.mnTOTAL.Name = "mnTOTAL"
+        Me.mnTOTAL.Size = New System.Drawing.Size(250, 22)
+        Me.mnTOTAL.Text = "#TOTAL Tool"
+        '
+        'ToolStripSeparator13
+        '
+        Me.ToolStripSeparator13.Name = "ToolStripSeparator13"
+        Me.ToolStripSeparator13.Size = New System.Drawing.Size(247, 6)
+        '
         'MainWindow
         '
         Me.AllowDrop = True
@@ -4721,9 +4742,12 @@ Partial Class MainWindow
     Friend WithEvents BInsertOrRemoveSpaceMN As ToolStripButton
     Friend WithEvents BWAVDuplicate As Button
     Friend WithEvents BWAVColorOverride As Button
-    Friend WithEvents mnTechnicalErrorCheck As ToolStripMenuItem
     Friend WithEvents mnKOptions As ToolStripMenuItem
     Friend WithEvents TBKOptions As ToolStripButton
     Friend WithEvents TimerInternalPlay As Timer
     Friend WithEvents TimerPreviewNote As Timer
+    Friend WithEvents ToolsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents mnTechnicalErrorCheck As ToolStripMenuItem
+    Friend WithEvents mnTOTAL As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator13 As ToolStripSeparator
 End Class

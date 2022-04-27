@@ -166,7 +166,10 @@ Partial Public Class MainWindow
                 .WriteAttributeString("Option", TotalOption.ToString())
                 .WriteAttributeString("Multiplier", TotalMultiplier.ToString())
                 .WriteAttributeString("GlobalMultiplier", TotalGlobalMultiplier.ToString())
-                .WriteAttributeString("RecommendedTextDisplay", TotalRecommendedTextDisplay.ToString())
+                .WriteAttributeString("Decimal", TotalDecimal.ToString())
+                .WriteAttributeString("DisplayValue", TotalDisplayValue.ToString())
+                .WriteAttributeString("DisplayText", TotalDisplayText.ToString())
+                .WriteAttributeString("Autofill", TotalAutofill.ToString())
                 .WriteEndElement()
 
                 .WriteStartElement("KeyBindings")
@@ -560,7 +563,10 @@ Partial Public Class MainWindow
                     XMLLoadAttribute(.GetAttribute("Option"), TotalOption)
                     XMLLoadAttribute(.GetAttribute("Multiplier"), TotalMultiplier)
                     XMLLoadAttribute(.GetAttribute("GlobalMultiplier"), TotalGlobalMultiplier)
-                    XMLLoadAttribute(.GetAttribute("RecommendedTextDisplay"), TotalRecommendedTextDisplay)
+                    XMLLoadAttribute(.GetAttribute("Decimal"), TotalDecimal)
+                    XMLLoadAttribute(.GetAttribute("DisplayValue"), TotalDisplayValue)
+                    XMLLoadAttribute(.GetAttribute("DisplayText"), TotalDisplayText)
+                    XMLLoadAttribute(.GetAttribute("Autofill"), TotalAutofill)
                 End With
             End If
 

@@ -37,7 +37,6 @@ Partial Class OpTotal
         Me.LTotalIIDX1 = New System.Windows.Forms.Label()
         Me.LTotalIIDX2 = New System.Windows.Forms.Label()
         Me.LTotalMultiplier = New System.Windows.Forms.Label()
-        Me.TMultiplier = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
@@ -45,12 +44,22 @@ Partial Class OpTotal
         Me.Cancel_Button = New System.Windows.Forms.Button()
         Me.CBDisplayText = New System.Windows.Forms.CheckBox()
         Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TGlobalMultiplier = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.NDecimal = New System.Windows.Forms.NumericUpDown()
+        Me.NGlobalMultiplier = New System.Windows.Forms.NumericUpDown()
+        Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
+        Me.CBDisplayValue = New System.Windows.Forms.CheckBox()
+        Me.CBAutoFill = New System.Windows.Forms.CheckBox()
+        Me.NMultiplier = New System.Windows.Forms.NumericUpDown()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel4.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         Me.TableLayoutPanel3.SuspendLayout()
+        CType(Me.NDecimal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NGlobalMultiplier, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TableLayoutPanel5.SuspendLayout()
+        CType(Me.NMultiplier, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CTotalIIDX1
@@ -100,6 +109,7 @@ Partial Class OpTotal
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
+        Me.TableLayoutPanel1.Controls.Add(Me.NMultiplier, 1, 3)
         Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel4, 3, 2)
         Me.TableLayoutPanel1.Controls.Add(Me.Label4, 3, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Label3, 2, 0)
@@ -111,7 +121,6 @@ Partial Class OpTotal
         Me.TableLayoutPanel1.Controls.Add(Me.LTotalIIDX1, 2, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.LTotalIIDX2, 2, 2)
         Me.TableLayoutPanel1.Controls.Add(Me.LTotalMultiplier, 2, 3)
-        Me.TableLayoutPanel1.Controls.Add(Me.TMultiplier, 1, 3)
         Me.TableLayoutPanel1.Controls.Add(Me.Label6, 3, 1)
         Me.TableLayoutPanel1.Controls.Add(Me.Label8, 3, 3)
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(12, 12)
@@ -132,7 +141,7 @@ Partial Class OpTotal
         Me.TableLayoutPanel4.Controls.Add(Me.Label9, 0, 2)
         Me.TableLayoutPanel4.Controls.Add(Me.Label7, 0, 0)
         Me.TableLayoutPanel4.Controls.Add(Me.Label10, 0, 1)
-        Me.TableLayoutPanel4.Location = New System.Drawing.Point(346, 46)
+        Me.TableLayoutPanel4.Location = New System.Drawing.Point(312, 46)
         Me.TableLayoutPanel4.Name = "TableLayoutPanel4"
         Me.TableLayoutPanel4.RowCount = 3
         Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
@@ -178,9 +187,9 @@ Partial Class OpTotal
         '
         Me.Label4.AutoSize = True
         Me.Label4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Label4.Location = New System.Drawing.Point(346, 1)
+        Me.Label4.Location = New System.Drawing.Point(312, 1)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(220, 15)
+        Me.Label4.Size = New System.Drawing.Size(254, 15)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "Calculation Formula"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -189,7 +198,7 @@ Partial Class OpTotal
         '
         Me.Label3.AutoSize = True
         Me.Label3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Label3.Location = New System.Drawing.Point(281, 1)
+        Me.Label3.Location = New System.Drawing.Point(247, 1)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(58, 15)
         Me.Label3.TabIndex = 3
@@ -202,7 +211,7 @@ Partial Class OpTotal
         Me.Label2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Label2.Location = New System.Drawing.Point(174, 1)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(100, 15)
+        Me.Label2.Size = New System.Drawing.Size(66, 15)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Parameters"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -225,7 +234,7 @@ Partial Class OpTotal
         '
         Me.LTotalIIDX1.AutoSize = True
         Me.LTotalIIDX1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.LTotalIIDX1.Location = New System.Drawing.Point(281, 17)
+        Me.LTotalIIDX1.Location = New System.Drawing.Point(247, 17)
         Me.LTotalIIDX1.Name = "LTotalIIDX1"
         Me.LTotalIIDX1.Size = New System.Drawing.Size(58, 25)
         Me.LTotalIIDX1.TabIndex = 7
@@ -236,7 +245,7 @@ Partial Class OpTotal
         '
         Me.LTotalIIDX2.AutoSize = True
         Me.LTotalIIDX2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.LTotalIIDX2.Location = New System.Drawing.Point(281, 43)
+        Me.LTotalIIDX2.Location = New System.Drawing.Point(247, 43)
         Me.LTotalIIDX2.Name = "LTotalIIDX2"
         Me.LTotalIIDX2.Size = New System.Drawing.Size(58, 66)
         Me.LTotalIIDX2.TabIndex = 8
@@ -247,28 +256,20 @@ Partial Class OpTotal
         '
         Me.LTotalMultiplier.AutoSize = True
         Me.LTotalMultiplier.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.LTotalMultiplier.Location = New System.Drawing.Point(281, 110)
+        Me.LTotalMultiplier.Location = New System.Drawing.Point(247, 110)
         Me.LTotalMultiplier.Name = "LTotalMultiplier"
         Me.LTotalMultiplier.Size = New System.Drawing.Size(58, 29)
         Me.LTotalMultiplier.TabIndex = 9
         Me.LTotalMultiplier.Text = "Multiplier"
         Me.LTotalMultiplier.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'TMultiplier
-        '
-        Me.TMultiplier.Location = New System.Drawing.Point(174, 113)
-        Me.TMultiplier.Name = "TMultiplier"
-        Me.TMultiplier.Size = New System.Drawing.Size(100, 23)
-        Me.TMultiplier.TabIndex = 6
-        Me.TMultiplier.Text = "0.25"
-        '
         'Label6
         '
         Me.Label6.AutoSize = True
         Me.Label6.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Label6.Location = New System.Drawing.Point(346, 17)
+        Me.Label6.Location = New System.Drawing.Point(312, 17)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(220, 25)
+        Me.Label6.Size = New System.Drawing.Size(254, 25)
         Me.Label6.TabIndex = 10
         Me.Label6.Text = "7.605 * Notes / (0.01 * Notes + 6.5)"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -277,9 +278,9 @@ Partial Class OpTotal
         '
         Me.Label8.AutoSize = True
         Me.Label8.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Label8.Location = New System.Drawing.Point(346, 110)
+        Me.Label8.Location = New System.Drawing.Point(312, 110)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(220, 29)
+        Me.Label8.Size = New System.Drawing.Size(254, 29)
         Me.Label8.TabIndex = 12
         Me.Label8.Text = "Notes * Multiplier"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -292,7 +293,7 @@ Partial Class OpTotal
         Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel2.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel2.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel2.Location = New System.Drawing.Point(418, 180)
+        Me.TableLayoutPanel2.Location = New System.Drawing.Point(412, 246)
         Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
         Me.TableLayoutPanel2.RowCount = 1
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -323,7 +324,7 @@ Partial Class OpTotal
         Me.CBDisplayText.AutoSize = True
         Me.CBDisplayText.Checked = True
         Me.CBDisplayText.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBDisplayText.Location = New System.Drawing.Point(186, 158)
+        Me.CBDisplayText.Location = New System.Drawing.Point(3, 29)
         Me.CBDisplayText.Name = "CBDisplayText"
         Me.CBDisplayText.Size = New System.Drawing.Size(200, 19)
         Me.CBDisplayText.TabIndex = 2
@@ -335,23 +336,28 @@ Partial Class OpTotal
         Me.TableLayoutPanel3.ColumnCount = 2
         Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
         Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel3.Controls.Add(Me.TGlobalMultiplier, 1, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.Label11, 0, 1)
         Me.TableLayoutPanel3.Controls.Add(Me.Label5, 0, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.NDecimal, 1, 1)
+        Me.TableLayoutPanel3.Controls.Add(Me.NGlobalMultiplier, 1, 0)
         Me.TableLayoutPanel3.Location = New System.Drawing.Point(12, 158)
         Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
-        Me.TableLayoutPanel3.RowCount = 1
-        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.TableLayoutPanel3.Size = New System.Drawing.Size(167, 28)
+        Me.TableLayoutPanel3.RowCount = 2
+        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel3.Size = New System.Drawing.Size(167, 55)
         Me.TableLayoutPanel3.TabIndex = 1
         '
-        'TGlobalMultiplier
+        'Label11
         '
-        Me.TGlobalMultiplier.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TGlobalMultiplier.Location = New System.Drawing.Point(104, 3)
-        Me.TGlobalMultiplier.Name = "TGlobalMultiplier"
-        Me.TGlobalMultiplier.Size = New System.Drawing.Size(60, 23)
-        Me.TGlobalMultiplier.TabIndex = 1
-        Me.TGlobalMultiplier.Text = "1.0"
+        Me.Label11.AutoSize = True
+        Me.Label11.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Label11.Location = New System.Drawing.Point(3, 27)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(95, 28)
+        Me.Label11.TabIndex = 2
+        Me.Label11.Text = "Decimal Places"
+        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label5
         '
@@ -359,19 +365,87 @@ Partial Class OpTotal
         Me.Label5.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Label5.Location = New System.Drawing.Point(3, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(95, 28)
+        Me.Label5.Size = New System.Drawing.Size(95, 27)
         Me.Label5.TabIndex = 0
         Me.Label5.Text = "Global Multiplier"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'NDecimal
+        '
+        Me.NDecimal.Location = New System.Drawing.Point(104, 30)
+        Me.NDecimal.Name = "NDecimal"
+        Me.NDecimal.Size = New System.Drawing.Size(60, 23)
+        Me.NDecimal.TabIndex = 3
+        '
+        'NGlobalMultiplier
+        '
+        Me.NGlobalMultiplier.DecimalPlaces = 2
+        Me.NGlobalMultiplier.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
+        Me.NGlobalMultiplier.Location = New System.Drawing.Point(104, 3)
+        Me.NGlobalMultiplier.Name = "NGlobalMultiplier"
+        Me.NGlobalMultiplier.Size = New System.Drawing.Size(60, 23)
+        Me.NGlobalMultiplier.TabIndex = 4
+        Me.NGlobalMultiplier.Value = New Decimal(New Integer() {10, 0, 0, 65536})
+        '
+        'TableLayoutPanel5
+        '
+        Me.TableLayoutPanel5.ColumnCount = 1
+        Me.TableLayoutPanel5.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.TableLayoutPanel5.Controls.Add(Me.CBAutoFill, 0, 2)
+        Me.TableLayoutPanel5.Controls.Add(Me.CBDisplayText, 0, 1)
+        Me.TableLayoutPanel5.Controls.Add(Me.CBDisplayValue, 0, 0)
+        Me.TableLayoutPanel5.Location = New System.Drawing.Point(182, 158)
+        Me.TableLayoutPanel5.Name = "TableLayoutPanel5"
+        Me.TableLayoutPanel5.RowCount = 3
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+        Me.TableLayoutPanel5.Size = New System.Drawing.Size(400, 80)
+        Me.TableLayoutPanel5.TabIndex = 101
+        '
+        'CBDisplayValue
+        '
+        Me.CBDisplayValue.AutoSize = True
+        Me.CBDisplayValue.Checked = True
+        Me.CBDisplayValue.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBDisplayValue.Location = New System.Drawing.Point(3, 3)
+        Me.CBDisplayValue.Name = "CBDisplayValue"
+        Me.CBDisplayValue.Size = New System.Drawing.Size(95, 19)
+        Me.CBDisplayValue.TabIndex = 2
+        Me.CBDisplayValue.Text = "Display Value"
+        Me.CBDisplayValue.UseVisualStyleBackColor = True
+        '
+        'CBAutoFill
+        '
+        Me.CBAutoFill.AutoSize = True
+        Me.CBAutoFill.Checked = True
+        Me.CBAutoFill.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBAutoFill.Location = New System.Drawing.Point(3, 55)
+        Me.CBAutoFill.Name = "CBAutoFill"
+        Me.CBAutoFill.Size = New System.Drawing.Size(107, 19)
+        Me.CBAutoFill.TabIndex = 3
+        Me.CBAutoFill.Text = "Autofill #TOTAL"
+        Me.CBAutoFill.UseVisualStyleBackColor = True
+        '
+        'NMultiplier
+        '
+        Me.NMultiplier.DecimalPlaces = 3
+        Me.NMultiplier.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.NMultiplier.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
+        Me.NMultiplier.Location = New System.Drawing.Point(174, 113)
+        Me.NMultiplier.Name = "NMultiplier"
+        Me.NMultiplier.Size = New System.Drawing.Size(66, 23)
+        Me.NMultiplier.TabIndex = 6
+        Me.NMultiplier.Value = New Decimal(New Integer() {25, 0, 0, 131072})
         '
         'OpTotal
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.CancelButton = Me.Cancel_Button
-        Me.ClientSize = New System.Drawing.Size(600, 225)
+        Me.ClientSize = New System.Drawing.Size(594, 291)
+        Me.Controls.Add(Me.TableLayoutPanel5)
         Me.Controls.Add(Me.TableLayoutPanel3)
-        Me.Controls.Add(Me.CBDisplayText)
         Me.Controls.Add(Me.TableLayoutPanel2)
         Me.Controls.Add(Me.TableLayoutPanel1)
         Me.Font = New System.Drawing.Font("Segoe UI", 9.0!)
@@ -382,7 +456,7 @@ Partial Class OpTotal
         Me.Name = "OpTotal"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "#TOTAL Settings"
+        Me.Text = "#TOTAL Tool"
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout()
         Me.TableLayoutPanel4.ResumeLayout(False)
@@ -390,8 +464,12 @@ Partial Class OpTotal
         Me.TableLayoutPanel2.ResumeLayout(False)
         Me.TableLayoutPanel3.ResumeLayout(False)
         Me.TableLayoutPanel3.PerformLayout()
+        CType(Me.NDecimal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NGlobalMultiplier, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TableLayoutPanel5.ResumeLayout(False)
+        Me.TableLayoutPanel5.PerformLayout()
+        CType(Me.NMultiplier, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 
@@ -414,10 +492,15 @@ Partial Class OpTotal
     Friend WithEvents Label9 As Label
     Friend WithEvents Label7 As Label
     Friend WithEvents Label10 As Label
-    Friend WithEvents TMultiplier As TextBox
     Friend WithEvents Label6 As Label
     Friend WithEvents Label8 As Label
     Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
-    Friend WithEvents TGlobalMultiplier As TextBox
     Friend WithEvents Label5 As Label
+    Friend WithEvents Label11 As Label
+    Friend WithEvents NDecimal As NumericUpDown
+    Friend WithEvents NGlobalMultiplier As NumericUpDown
+    Friend WithEvents TableLayoutPanel5 As TableLayoutPanel
+    Friend WithEvents CBDisplayValue As CheckBox
+    Friend WithEvents CBAutoFill As CheckBox
+    Friend WithEvents NMultiplier As NumericUpDown
 End Class

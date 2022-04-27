@@ -396,7 +396,10 @@ Public Class MainWindow
     Dim TotalOption As Integer = 0
     Dim TotalMultiplier As Double = 0.25
     Dim TotalGlobalMultiplier As Double = 1
-    Dim TotalRecommendedTextDisplay As Boolean = True
+    Dim TotalDecimal As Integer = 0
+    Dim TotalDisplayValue As Boolean = True
+    Dim TotalDisplayText As Boolean = True
+    Dim TotalAutofill As Boolean = True
 
     '----Find Delete Replace Options
     Dim fdriMesL As Integer
@@ -1495,7 +1498,7 @@ Public Class MainWindow
         Next
     End Sub
 
-    Private Sub CheckTechnicalError(sender As Object, e As EventArgs) Handles mnTechnicalErrorCheck.Click
+    Private Sub CheckTechnicalError(sender As Object, e As EventArgs)
         For xIN = 1 To UBound(Notes)
             If Notes(xIN).ErrorType = 1 Then
                 Notes(xIN).ErrorType = 0
@@ -2828,8 +2831,13 @@ Public Class MainWindow
             Case 2
                 TotalValue = xIAll * TotalMultiplier * TotalGlobalMultiplier
         End Select
-        TBTotalValue.Text = IIf(TotalRecommendedTextDisplay, "Recommended #TOTAL: ", "").ToString() & Str(Math.Round(TotalValue, 3))
+        If TotalDisplayValue Then
+            TBTotalValue.Text = IIf(TotalDisplayText, "Recommended #TOTAL: ", "").ToString() & Math.Round(TotalValue, TotalDecimal).ToString()
+        Else
+            TBTotalValue.Text = ""
+        End If
         TBStatistics.Text = xIAll.ToString()
+        If TotalAutofill Then THTotal.Text = Math.Round(TotalValue, TotalDecimal).ToString()
     End Sub
 
     Public Function GetMouseVPosition(Optional snap As Boolean = True) As Double
@@ -3944,28 +3952,25 @@ Public Class MainWindow
         Next
     End Sub
 
-    Private Sub TBTotalValue_Click(sender As Object, e As EventArgs) Handles TBTotalValue.Click
-        Dim xDiag As New OpTotal(CInt(TBStatistics.Text), TotalOption, TotalMultiplier, TotalGlobalMultiplier, TotalRecommendedTextDisplay)
+    Private Sub TBTotalValue_Click(sender As Object, e As EventArgs) Handles TBTotalValue.Click, mnTOTAL.Click
+        Dim xDiag As New OpTotal(CInt(TBStatistics.Text), TotalOption, TotalMultiplier, TotalGlobalMultiplier, TotalDecimal, TotalDisplayValue, TotalDisplayText, TotalAutofill)
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
             With xDiag
                 TotalOption = .TotalOption
-                TotalMultiplier = CDbl(.TMultiplier.Text)
-                TotalGlobalMultiplier = CDbl(.TGlobalMultiplier.Text)
-                TotalRecommendedTextDisplay = .CBDisplayText.Checked
+                TotalMultiplier = .NMultiplier.Value
+                TotalGlobalMultiplier = .NGlobalMultiplier.Value
+                TotalDecimal = CInt(.NDecimal.Value)
+                TotalDisplayValue = .CBDisplayValue.Checked
+                TotalDisplayText = .CBDisplayText.Checked
+                TotalAutofill = .CBAutoFill.Checked
             End With
 
-            Dim N As Integer = CInt(TBStatistics.Text)
-            Dim TotalValue As Double
-            Select Case TotalOption
-                Case 0
-                    TotalValue = N * 7.605 / (0.01 * N + 6.5) * TotalGlobalMultiplier
-                Case 1
-                    TotalValue = CDbl(IIf(N < 400, 200 + N / 5, IIf(N < 600, 280 + (N - 400) / 2.5, 360 + (N - 600) / 5))) * TotalGlobalMultiplier
-                Case 2
-                    TotalValue = N * TotalMultiplier * TotalGlobalMultiplier
-            End Select
-            TBTotalValue.Text = IIf(TotalRecommendedTextDisplay, "Recommended #TOTAL: ", "").ToString() & Str(Math.Round(TotalValue, 3))
+            CalculateTotalPlayableNotes()
         End If
+    End Sub
+
+    Private Sub THTotal_KeyDown(sender As Object, e As KeyEventArgs) Handles THTotal.KeyDown
+        TotalAutofill = False
     End Sub
 
     Private Sub UpdateColumnsX()
@@ -4096,6 +4101,8 @@ Public Class MainWindow
                 TBPaste.Text = "Paste (" & Join(keybind.Combo, ", ") & ")"
             Case "Select All"
                 mnSelectAll.ShortcutKeyDisplayString = keybind.Combo(0)
+            Case "Check Technical Error"
+                mnTechnicalErrorCheck.ShortcutKeyDisplayString = keybind.Combo(0)
         End Select
     End Sub
 
