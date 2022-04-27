@@ -647,11 +647,13 @@ Partial Public Class MainWindow
                 If Not ClickStopPreview Then PreviewNote("", True)
                 PreviewNote(xFileLocation, False)
 
-                If wLWAV(xIW).Duration = 0 Then wLWAV(xIW) = LoadDuration(ExcludeFileName(FileName) & "\" & hWAV(xIW))
-                TimerPreviewNote.Enabled = True
-                InternalPlayNotes = New Note() {Notes(NoteIndex)}
-                InternalPlayTimerStart = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds
-                InternalPlayTimerEnd = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds + CLng(wLWAV(xIW).Duration * 1000)
+                If AudioLine Then
+                    If wLWAV(xIW).Duration = 0 Then wLWAV(xIW) = LoadDuration(ExcludeFileName(FileName) & "\" & hWAV(xIW))
+                    TimerPreviewNote.Enabled = True
+                    InternalPlayNotes = New Note() {Notes(NoteIndex)}
+                    InternalPlayTimerStart = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds
+                    InternalPlayTimerEnd = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds + CLng(wLWAV(xIW).Duration * 1000)
+                End If
             End If
         End If
     End Sub

@@ -71,6 +71,7 @@ Public Class MainWindow
     Dim BeepWhileSaved As Boolean = True
     Dim BPMx1296 As Boolean = False
     Dim STOPx1296 As Boolean = False
+    Dim AudioLine As Boolean = True
 
     Dim IsInitializing As Boolean = True
     Dim FirstMouseEnter As Boolean = True
@@ -4033,7 +4034,7 @@ Public Class MainWindow
         End Select
 
         Dim xDiag As New OpGeneral(gWheel, gPgUpDn, MiddleButtonMoveMethod, xTE, CInt(192.0R / BMSGridLimit),
-            AutoSaveInterval, BeepWhileSaved, BPMx1296, STOPx1296,
+            AutoSaveInterval, BeepWhileSaved, BPMx1296, STOPx1296, AudioLine,
             AutoFocusMouseEnter, FirstClickDisabled, ClickStopPreview, ErrorJackBPM, ErrorJackTH)
 
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
@@ -4048,6 +4049,7 @@ Public Class MainWindow
                 BeepWhileSaved = .cBeep.Checked
                 BPMx1296 = .cBpm1296.Checked
                 STOPx1296 = .cStop1296.Checked
+                AudioLine = .cAudioLine.Checked
                 AutoFocusMouseEnter = .cMEnterFocus.Checked
                 FirstClickDisabled = .cMClickFocus.Checked
                 ClickStopPreview = .cMStopPreview.Checked

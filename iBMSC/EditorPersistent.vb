@@ -105,6 +105,7 @@ Partial Public Class MainWindow
                 .WriteAttributeString("BeepWhileSaved", BeepWhileSaved.ToString())
                 .WriteAttributeString("BPMx1296", BPMx1296.ToString())
                 .WriteAttributeString("STOPx1296", STOPx1296.ToString())
+                .WriteAttributeString("AudioLine", AudioLine.ToString())
                 .WriteEndElement()
 
                 .WriteStartElement("WAV")
@@ -460,6 +461,7 @@ Partial Public Class MainWindow
                     XMLLoadAttribute(.GetAttribute("BeepWhileSaved"), BeepWhileSaved)
                     XMLLoadAttribute(.GetAttribute("BPMx1296"), BPMx1296)
                     XMLLoadAttribute(.GetAttribute("STOPx1296"), STOPx1296)
+                    XMLLoadAttribute(.GetAttribute("AudioLine"), AudioLine)
                 End With
             End If
 
