@@ -105,3 +105,4 @@ Listed in the order added.
 
 ### #TOTAL Options
 * Allows you to set a recommended #TOTAL value based on either IIDX supposition 1, IIDX supposition 2, or a multiplier.
+* Allows you to auto-set the #TOTAL value for the chart.
