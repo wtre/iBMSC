@@ -215,7 +215,6 @@ Partial Public Class MainWindow
 
             Case Keys.Subtract
                 DecreaseCurrentWav()
-
         End Select
 
         ' Turn keycode into string
@@ -316,6 +315,8 @@ Partial Public Class MainWindow
 
             Case "Move to BGM"
                 MoveToBGM(xUndo, xRedo)
+            Case "Move to Template Position"
+                MoveToTemplatePosition(xUndo, xRedo)
             Case "Disable Vertical Moves"
                 CGDisableVertical.Checked = Not CGDisableVertical.Checked
             Case "Snap to Grid"
@@ -470,6 +471,44 @@ Partial Public Class MainWindow
         CalculateTotalPlayableNotes()
         RefreshPanelAll()
     End Sub
+
+    Private Sub MoveToTemplatePosition(xUndo As UndoRedo.LinkedURCmd, xRedo As UndoRedo.LinkedURCmd)
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+        For xI2 As Integer = 1 To UBound(Notes)
+            If Not Notes(xI2).Selected Or Notes(xI2).Ghost Then Continue For
+            Dim xTargetPositions = FindNoteTemplatePosition(Notes(xI2))
+            If xTargetPositions Is Nothing Then Continue For
+
+            Dim xTargetColumn = CInt(xTargetPositions(0))
+            Dim xTargetVPosition = CInt(IIf(TemplateSnapToVPosition, xTargetPositions(1), Notes(xI2).VPosition))
+            RedoMoveNote(Notes(xI2), xTargetColumn, xTargetVPosition, xUndo, xRedo)
+            Notes(xI2).ColumnIndex = xTargetColumn
+            Notes(xI2).VPosition = xTargetVPosition
+        Next
+        AddUndo(xUndo, xBaseRedo.Next)
+        UpdatePairing()
+        CalculateTotalPlayableNotes()
+        RefreshPanelAll()
+    End Sub
+
+    Private Function FindNoteTemplatePosition(ByVal Note As Note) As double()
+        Dim VPosDiff As Double = 192 * 999
+        Dim VPosition As Double
+        Dim xTargetColumn As Integer = 0
+        For xI = 1 To UBound(NotesTemplate)
+            If NotesTemplate(xI).Value <> Note.Value Then Continue For
+
+            Dim Diff As Double = Math.Abs(NotesTemplate(xI).VPosition - Note.VPosition)
+            If Diff < VPosDiff Then
+                VPosDiff = Diff
+                xTargetColumn = NotesTemplate(xI).ColumnIndex
+                VPosition = NotesTemplate(xI).VPosition
+            Else
+                Return {xTargetColumn, VPosition}
+            End If
+        Next
+        If VPosDiff <> 192 * 999 Then Return {xTargetColumn, VPosition} Else Return Nothing
+    End Function
 
     Private Sub PMainInResize(ByVal sender As Object, ByVal e As System.EventArgs) Handles PMainIn.Resize, PMainInL.Resize, PMainInR.Resize
         If Not Me.Created Then Exit Sub

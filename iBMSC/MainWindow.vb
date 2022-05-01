@@ -52,6 +52,7 @@ Public Class MainWindow
 
 
     Dim Notes() As Note = {New Note(niBPM, -1, 1200000, 0, False)}
+    Dim NotesTemplate() As Note = {New Note(niBPM, -1, 1200000, 0, False)}
     Dim mColumn(999) As Integer  '0 = no column, 1 = 1 column, etc.
     Dim GreatestVPosition As Double    '+ 2000 = -VS.Minimum
 
@@ -72,6 +73,7 @@ Public Class MainWindow
     Dim BPMx1296 As Boolean = False
     Dim STOPx1296 As Boolean = False
     Dim AudioLine As Boolean = True
+    Dim TemplateSnapToVPosition As Boolean = False
 
     Dim IsInitializing As Boolean = True
     Dim FirstMouseEnter As Boolean = True
@@ -92,13 +94,10 @@ Public Class MainWindow
     'Dim TitlePath As New Drawing2D.GraphicsPath
     Dim InitPath As String = ""
     Dim IsSaved As Boolean = True
-    Dim GhostMode As Integer = 0
-    ' Ghost mode
-    ' 0 - Default, ghost notes entirely uneditable
-    ' 1 - Ghost notes loaded with expectation of editing them
-    ' 2 - Ghost notes loaded as main notes and main notes temporarily changed to ghost notes
+    Dim GhostMode As Integer = 0 ' 0 - Default, ghost notes entirely uneditable, 1 - Ghost notes loaded with expectation of editing them, 2 - Ghost notes loaded as main notes and main notes temporarily changed to ghost notes
     Dim GhostExpansionModify As Boolean = False
     Dim GhostEdit As Boolean = False
+    Dim FileNameTemplate As String = ""
 
     'Variables for Drag/Drop
     Dim DDFileName() As String = {}
@@ -315,7 +314,8 @@ Public Class MainWindow
                                        New Keybinding("Move to P8", "Move note to PMS Lane 8", {"D8", "NumPad8"}, CategoryPMS),
                                        New Keybinding("Move to P9", "Move note to PMS Lane 9", {"D9", "NumPad9"}, CategoryPMS),
                                                                                                                                _ ' Miscellaneous BMS
-                                       New Keybinding("Move to BGM", "Move to BGM Lane", {"D0", "NumPad0"}),
+                                       New Keybinding("Move to BGM", "Move note to BGM Lane", {"D0", "NumPad0"}),
+                                       New Keybinding("Move to Template Position", "Move note to Template Position if available", {"P"}),
                                        New Keybinding("Disable Vertical Moves", "Disable vertical moves", {"D"}),
                                        New Keybinding("Snap to Grid", "Snap to grid", {"G"}),
                                        New Keybinding("Convert to Long Note", "Å® Long Note", {"L"}),
@@ -1075,6 +1075,7 @@ Public Class MainWindow
         'THLnType.Text = "1"
         CHLnObj.SelectedIndex = 0
         GhostMode = 0
+        FileNameTemplate = ""
         ReDim hCOM(1295)
         hCOMNum = 0
         COverrides = Nothing
@@ -1783,6 +1784,23 @@ Public Class MainWindow
         NewRecent(FileName)
         SetIsSaved(True)
         'pIsSaved.Visible = Not IsSaved
+    End Sub
+
+    Private Sub TBOpenTemplate_ButtonClick(sender As Object, e As EventArgs) Handles mnOpenTemplate.Click
+        Dim xDOpen As New OpenFileDialog
+        xDOpen.Filter = Strings.FileType._bms & "|*.bms;*.bme;*.bml;*.pms;*.txt|" &
+                            Strings.FileType.BMS & "|*.bms|" &
+                            Strings.FileType.BME & "|*.bme|" &
+                            Strings.FileType.BML & "|*.bml|" &
+                            Strings.FileType.PMS & "|*.pms|" &
+                            Strings.FileType.TXT & "|*.txt|" &
+                            Strings.FileType._all & "|*.*"
+        xDOpen.DefaultExt = "bms"
+        xDOpen.InitialDirectory = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName)).ToString()
+
+        If xDOpen.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
+        NotesTemplate = OpenBMSFunc(My.Computer.FileSystem.ReadAllText(xDOpen.FileName, TextEncoding))
+        FileNameTemplate = GetFileName(xDOpen.FileName)
     End Sub
 
     Private Sub TBImportIBMSC_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBImportIBMSC.Click, mnImportIBMSC.Click
@@ -4048,7 +4066,7 @@ Public Class MainWindow
         End Select
 
         Dim xDiag As New OpGeneral(gWheel, gPgUpDn, MiddleButtonMoveMethod, xTE, CInt(192.0R / BMSGridLimit),
-            AutoSaveInterval, BeepWhileSaved, BPMx1296, STOPx1296, AudioLine,
+            AutoSaveInterval, BeepWhileSaved, BPMx1296, STOPx1296, AudioLine, TemplateSnapToVPosition,
             AutoFocusMouseEnter, FirstClickDisabled, ClickStopPreview, ErrorJackBPM, ErrorJackTH)
 
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
@@ -4064,6 +4082,7 @@ Public Class MainWindow
                 BPMx1296 = .cBpm1296.Checked
                 STOPx1296 = .cStop1296.Checked
                 AudioLine = .cAudioLine.Checked
+                TemplateSnapToVPosition = .cTemplateSnapToVPosition.Checked
                 AutoFocusMouseEnter = .cMEnterFocus.Checked
                 FirstClickDisabled = .cMClickFocus.Checked
                 ClickStopPreview = .cMStopPreview.Checked

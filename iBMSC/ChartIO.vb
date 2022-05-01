@@ -17,13 +17,11 @@ Partial Public Class MainWindow
         Dim nNotes As Integer = 1
 
         ' Assume ghost note strings contain only notes in the section. Expansion field to be saved separately
-        If xGhost Then
-            nNotes = Notes.Length
-        ElseIf xComment Then
-            xStrLine2 = xStrLine
+        If xGhost Or xComment Then
             nNotes = Notes.Length
         Else ' Initialization
             ReDim Notes(0)
+            ReDim NotesTemplate(0)
             ReDim mColumn(999)
             ReDim hWAV(1295)
             ReDim hBPM(1295)    'x10000
@@ -56,6 +54,8 @@ Partial Public Class MainWindow
         Dim nLine As Integer = -1
 
         For Each sLine In xStrLine
+            If xComment Then xStrLine2 = xStrLine : Exit For
+
             Dim sLineTrim As String = sLine.Trim
             If sLineTrim = "" Then Continue For
 
@@ -185,6 +185,9 @@ Partial Public Class MainWindow
                     If xComVal > hCOMNum Then hCOMNum = xComVal
                     Continue For
 
+                ElseIf SWIC(sLineTrim, "#TEMPLATE") Then
+                    FileNameTemplate = Mid(sLineTrim, Len("#TEMPLATE") + 2)
+                    NotesTemplate = OpenBMSFunc(My.Computer.FileSystem.ReadAllText(ExcludeFileName(FileName) & "\" & FileNameTemplate, TextEncoding))
                 End If
                 'TODO: LNOBJ value validation
 
@@ -290,6 +293,129 @@ Partial Public Class MainWindow
             xExpansion &= sLine & vbCrLf
         End If
     End Sub
+
+    Private Function OpenBMSFunc(ByVal xStrAll As String) As Note()
+        'Line feed validation: will remove some empty lines
+        xStrAll = Replace(Replace(Replace(xStrAll, vbLf, vbCr), vbCr & vbCr, vbCr), vbCr, vbCrLf)
+
+        Dim xStrLine() As String = Split(xStrAll, vbCrLf, , CompareMethod.Text)
+        Dim xStrLine2(xStrLine.Length) As String ' Create a second array which removes expansion codes from the second for loop
+        Dim xI1 As Integer
+        Dim sLine As String
+        Dim xExpansion As String = ""
+
+        Dim Notes(0) As Note
+        Dim mColumn(999) As Integer
+        Dim hWAV(1295) As String
+        Dim hBPM(1295) As Long 'x10000
+        Dim hSTOP(1295) As Long
+        Dim hBMSCROLL(1295) As Long
+        Dim MeasureLength(999) As Double
+        For i = 0 To UBound(MeasureLength)
+            MeasureLength(i) = 192.0R
+        Next
+
+        With Notes(0)
+            .ColumnIndex = niBPM
+            .VPosition = -1
+            .Value = 1200000
+        End With
+
+        Dim xStack As Integer = 0
+        Dim nLine As Integer = -1
+
+        For Each sLine In xStrLine
+            Dim sLineTrim As String = sLine.Trim
+            If sLineTrim = "" Then Continue For
+
+            If xStack > 0 Then AddToExpansion(xExpansion, xStack, sLine) : Continue For
+
+            If sLineTrim.StartsWith("#") And Mid(sLineTrim, 5, 3) = "02:" Then
+                Dim xIndex As Integer = CInt(Mid(sLineTrim, 2, 3))
+                Dim xRatio As Double = Val(Mid(sLineTrim, 8))
+                MeasureLength(xIndex) = xRatio * 192.0R
+                Continue For
+
+            ElseIf SWIC(sLineTrim, "#BPM") And Not Mid(sLineTrim, Len("#BPM") + 1, 1).Trim = "" Then  'If BPM##
+                ' zdr: No limits on BPM editing.. they don't make much sense.
+                hBPM(C36to10(Mid(sLineTrim, Len("#BPM") + 1, 2))) = CLng(CDbl(Mid(sLineTrim, Len("#BPM") + 4)) * 10000)
+                Continue For
+
+            ElseIf SWIC(sLineTrim, "#BPM") Then  'If BPM ####
+                Notes(0).Value = CLng(CDbl(Mid(sLineTrim, Len("#BPM") + 1).Trim)) * 10000
+                Continue For
+
+                'No limits on STOPs either.
+            ElseIf SWIC(sLineTrim, "#STOP") Then
+                hSTOP(C36to10(Mid(sLineTrim, Len("#STOP") + 1, 2))) = CLng(CDbl(Mid(sLineTrim, Len("#STOP") + 4)) * 10000)
+                Continue For
+
+            ElseIf SWIC(sLineTrim, "#SCROLL") Then
+                hBMSCROLL(C36to10(Mid(sLineTrim, Len("#SCROLL") + 1, 2))) = CLng(CDbl(Mid(sLineTrim, Len("#SCROLL") + 4)) * 10000)
+                Continue For
+
+            End If
+
+            If sLineTrim.StartsWith("#") And Mid(sLineTrim, 7, 1) = ":" Then   'If the line contains Ks
+                Dim xIdentifier As String = Mid(sLineTrim, 5, 2)
+                If BMSChannelToColumn(xIdentifier) = 0 Then xExpansion &= sLine & vbCrLf : Continue For
+
+                nLine += 1
+                xStrLine2(nLine) = sLineTrim
+
+            Else
+                AddToExpansion(xExpansion, xStack, sLine)
+            End If
+        Next
+        Dim MeasureBottom(999) As Double
+        MeasureBottom(0) = 0.0#
+        For xIM As Integer = 0 To 998
+            MeasureBottom(xIM + 1) = MeasureBottom(xIM) + MeasureLength(xIM)
+        Next
+
+        ' BPM must be updated before loading notes, do not combine loops
+        ' xStrLine2 should contain only # lines for notes
+        ReDim Preserve xStrLine2(nLine)
+        For Each sLineTrim In xStrLine2
+
+            If Not (sLineTrim.StartsWith("#") And Mid(sLineTrim, 7, 1) = ":") Then Continue For 'If the line contains Ks ' P: The hell is a K
+
+            ' >> Measure =           Mid(sLine, 2, 3)
+            ' >> Column Identifier = Mid(sLine, 5, 2)
+            ' >> K =                 Mid(sLine, xI1, 2)
+            Dim xMeasure As Integer = CInt(Mid(sLineTrim, 2, 3))
+            Dim Channel As String = Mid(sLineTrim, 5, 2)
+            If BMSChannelToColumn(Channel) = 0 Then Continue For
+
+            If Channel = "01" Then mColumn(xMeasure) += 1 'If the identifier is 01 then add a B column in that measure
+            For xI1 = 8 To Len(sLineTrim) - 1 Step 2   'For all Ks within that line ( - 1 can be ommitted )
+                If Mid(sLineTrim, xI1, 2) = "00" Then Continue For 'If the K is not 00
+
+                ReDim Preserve Notes(Notes.Length)
+
+                With Notes(UBound(Notes))
+                    .ColumnIndex = BMSChannelToColumn(Channel) +
+                                        CInt(IIf(Channel = "01", 1, 0)) * (mColumn(xMeasure) - 1)
+                    .LongNote = IsChannelLongNote(Channel)
+                    .Hidden = IsChannelHidden(Channel)
+                    .Landmine = IsChannelLandmine(Channel)
+                    .Selected = False
+                    .VPosition = MeasureBottom(xMeasure) + MeasureLength(xMeasure) * (xI1 / 2 - 4) / ((Len(sLineTrim) - 7) / 2)
+                    .Value = C36to10(Mid(sLineTrim, xI1, 2)) * 10000
+
+                    If Channel = "03" Then .Value = Convert.ToInt32(Mid(sLineTrim, xI1, 2), 16) * 10000
+                    If Channel = "08" Then .Value = hBPM(C36to10(Mid(sLineTrim, xI1, 2)))
+                    If Channel = "09" Then .Value = hSTOP(C36to10(Mid(sLineTrim, xI1, 2)))
+                    If Channel = "SC" Then .Value = hBMSCROLL(C36to10(Mid(sLineTrim, xI1, 2)))
+                End With
+
+            Next
+        Next
+
+        ' If NTInput Then ConvertBMSE2NT()
+
+        Return Notes
+    End Function
 
     ReadOnly BMSChannelList() As String = {"01", "03", "04", "06", "07", "08", "09",
                                        "11", "12", "13", "14", "15", "16", "18", "19",
@@ -458,8 +584,10 @@ Partial Public Class MainWindow
             Next
             TExpansion.Text = ExpansionTextTemp
         End If
-        Dim xStrEditor As String = vbCrLf & "*---------------------- EDITOR EXPANSION FIELD" & vbCrLf & xStrEditorCommentNotes & vbCrLf & vbCrLf
-        If xStrEditorCommentNotes = "" Then xStrEditor = ""
+        ' Add template filename
+        Dim xStrEditorTemplate As String = "#TEMPLATE " & FileNameTemplate
+        Dim xStrEditor As String = vbCrLf & "*---------------------- EDITOR EXPANSION FIELD" & vbCrLf & xStrEditorCommentNotes & vbCrLf & xStrEditorTemplate & vbCrLf & vbCrLf
+        If xStrEditorCommentNotes = "" AndAlso xStrEditorTemplate = "" Then xStrEditor = ""
 
         ' Output main data field.
         Dim xStrMain As String = "*---------------------- MAIN DATA FIELD" & vbCrLf & vbCrLf & Join(xStrMeasure, "") & vbCrLf
