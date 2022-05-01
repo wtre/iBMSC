@@ -269,6 +269,7 @@ Partial Public Class MainWindow
             TExpansion.Text = xExpansion
         End If
 
+        LoadColorOverride(FileName)
         SortByVPositionQuick(0, UBound(Notes))
         UpdatePairing()
         CalculateTotalPlayableNotes()
