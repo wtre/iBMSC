@@ -1497,7 +1497,7 @@ Partial Public Class MainWindow
             Next
             FileStream.Close()
         Else
-            ReDim COverrides(0)
+            ReDim COverrides(-1)
         End If
     End Sub
 End Class

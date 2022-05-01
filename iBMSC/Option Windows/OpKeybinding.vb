@@ -37,9 +37,12 @@ Public Class OpKeybinding
     Private Sub LVKeybinding_Click(sender As Object, e As EventArgs) Handles LVKeybinding.Click, LVKeybinding.KeyUp
         ' List keybindings in LCombos
         LCombos.Items.Clear()
-        For Each keyComboIndividual In Keybinds(LVKeybinding.FocusedItem.Index).Combo
-            LCombos.Items.Add(keyComboIndividual)
-        Next
+        With Keybinds(LVKeybinding.FocusedItem.Index)
+            If .Combo.Length = 0 OrElse .Combo(0) = "" Then Exit Sub
+            For Each keyComboIndividual In .Combo
+                LCombos.Items.Add(keyComboIndividual)
+            Next
+        End With
     End Sub
 
     Private Sub LVKeybinding_DoubleClick(sender As Object, e As EventArgs) Handles LVKeybinding.DoubleClick
@@ -84,7 +87,8 @@ Public Class OpKeybinding
             If Not keyComboOK Then Exit Sub
 
             With Keybinds(LVKeybinding.FocusedItem.Index)
-                ReDim Preserve .Combo(.Combo.Length)
+                If .Combo.Length = 0 Then ReDim .Combo(0)
+                If .Combo(0) <> "" Then ReDim Preserve .Combo(.Combo.Length)
                 .Combo(UBound(.Combo)) = TComboInput.Text
 
                 LCombos.Items.Add(TComboInput.Text)
@@ -174,16 +178,26 @@ Public Class OpKeybinding
 
         End Select
 
-        Dim NoteKeybinds = From k In Keybinds
-                           Where Not CategoryToIgnore.Contains(k.Category)
-                           Select k
+        For i = 0 To UBound(Keybinds)
+            If CategoryToIgnore.Contains(Keybinds(i).Category) Then Continue For
 
-        For Each keybind In NoteKeybinds
-            If keybind.Combo.Contains(TComboInput.Text) Then
-                keyComboOK = False
-                MsgBox("Error: " & TComboInput.Text & " has been assigned to " & keybind.OpName & ".")
-                Exit Sub
-            End If
+            Dim keybind = Keybinds(i)
+            For j = 0 To UBound(keybind.Combo)
+                If keybind.Combo(j) = TComboInput.Text Then
+                    If MsgBox(TComboInput.Text & " has been assigned to " & keybind.OpName & ". Remove keybinding for " & keybind.OpName & "?", MsgBoxStyle.YesNo) = DialogResult.Yes Then
+                        For k = j To UBound(Keybinds(i).Combo) - 1
+                            Keybinds(i).Combo(k) = Keybinds(i).Combo(k + 1)
+                        Next
+                        ReDim Preserve Keybinds(i).Combo(UBound(Keybinds(i).Combo) - 1)
+
+                        LVKeybinding.Items(i).SubItems(2).Text = Join(Keybinds(i).Combo, ", ")
+                        Exit For
+                    Else
+                        keyComboOK = False
+                        Exit Sub
+                    End If
+                End If
+            Next
         Next
     End Sub
 

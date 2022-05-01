@@ -4077,21 +4077,17 @@ Public Class MainWindow
     End Sub
 
     Private Sub TBKOptions_Click(sender As Object, e As EventArgs) Handles TBKOptions.Click, mnKOptions.Click
-        Try
-            Dim xDiag As New OpKeybinding(Keybindings)
-            If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
-                With xDiag
-                    Keybindings = .Keybinds
+        Dim xDiag As New OpKeybinding(Keybindings)
+        If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            With xDiag
+                Keybindings = .Keybinds
 
-                    ' Rename shortcutstrings
-                    For Each keybind In .Keybinds
-                        RenameShortcuts(keybind)
-                    Next
-                End With
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        End Try
+                ' Rename shortcutstrings
+                For Each keybind In .Keybinds
+                    RenameShortcuts(keybind)
+                Next
+            End With
+        End If
     End Sub
 
     Private Sub RenameShortcuts(ByVal keybind As Keybinding)
