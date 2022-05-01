@@ -240,34 +240,32 @@ Public Class MainWindow
     '----Visual Override Options
     Structure ColorOverride
         Public Name As String
+        Public Enabled As Boolean
+        Public ColorOption As Integer
         Public RangeL As Integer
         Public RangeU As Integer
         Public NoteColor As Integer
-        Public TextColor As Integer
-        Public LongNoteColor As Integer
-        Public LongTextColor As Integer
-        Public BG As Integer
+        Public NoteColorU As Integer
 
         Public Sub New(ByVal xName As String,
+                       ByVal xEnabled As Boolean,
+                       ByVal xColorOption As Integer,
                        ByVal xRangeL As Integer,
                        ByVal xRangeU As Integer,
                        ByVal xNoteColor As Integer,
-                       ByVal xTextColor As Integer,
-                       ByVal xLongNoteColor As Integer,
-                       ByVal xLongTextColor As Integer,
-                       ByVal xBG As Integer)
+                       ByVal xNoteColorU As Integer)
 
             Name = xName
+            Enabled = xEnabled
+            ColorOption = xColorOption
             RangeL = xRangeL
             RangeU = xRangeU
             NoteColor = xNoteColor
-            TextColor = xTextColor
-            LongNoteColor = xLongNoteColor
-            LongTextColor = xLongTextColor
-            BG = xBG
+            NoteColorU = xNoteColorU
         End Sub
     End Structure
     Dim COverrides(-1) As ColorOverride
+    Dim COverridesSaveOption As Integer = 1
 
     '----Keybinding Options
     Structure Keybinding
@@ -333,8 +331,7 @@ Public Class MainWindow
                                        New Keybinding("Select All", "Select all notes", {"Ctrl+A"}),
                                        New Keybinding("Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"}),
                                                                                                                                                               _ ' Experimental
-                                       New Keybinding("TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"}),
-                                       New Keybinding("GetVPositionFromTime", "*EXPERIMENTAL*", {"Shift+F2"})
+                                       New Keybinding("TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"})
                                        }
     Dim Keybindings() As Keybinding = CType(KeybindingsInit.Clone(), Keybinding())
 
@@ -1085,7 +1082,6 @@ Public Class MainWindow
         WaveformLoaded = False
 
         TExpansion.Text = ""
-        LoadColorOverride(FileName)
 
         LBeat.Items.Clear()
         For xI1 As Integer = 0 To 999
@@ -1306,6 +1302,7 @@ Public Class MainWindow
             '-----------------------------------------------------------------------------------------------------------------
         End If
         'On Error GoTo 0
+        LoadColorOverride(FileName)
         SetIsSaved(True)
 
         Dim xStr() As String = Environment.GetCommandLineArgs
@@ -3581,11 +3578,28 @@ Public Class MainWindow
     End Sub
 
     Private Sub TBVCOptions_Click(sender As Object, e As EventArgs) Handles mnVCOptions.Click, BWAVColorOverride.Click
-        Dim xDiag As New OpVisualOverride(COverrides)
+        Dim xDiag As New OpVisualOverride(COverrides, hWAV, COverridesSaveOption)
+        ' Save settings
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
             COverrides = xDiag.COverrides
-            If Not IsNothing(COverrides) Then If COverrides.Length > 0 Then SaveColorOverride(FileName)
+            If COverridesSaveOption <> xDiag.CoBSave.SelectedIndex Then
+                COverridesSaveOption = xDiag.CoBSave.SelectedIndex
+
+                If Not IsNothing(COverrides) Then If COverrides.Length > 0 Then SaveColorOverride(FileName, True)
+            Else
+                If Not IsNothing(COverrides) Then If COverrides.Length > 0 Then SaveColorOverride(FileName, False)
+
+            End If
         End If
+
+        ' Load settings if chosen
+        If xDiag.CoBLoad.SelectedIndex <> -1 Then
+            COverridesSaveOption = xDiag.CoBLoad.SelectedIndex
+            LoadColorOverride(FileName)
+
+            TBVCOptions_Click(sender, New EventArgs)
+        End If
+
         UpdateColumnsX()
         RefreshPanelAll()
     End Sub

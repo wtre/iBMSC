@@ -97,6 +97,7 @@ Partial Public Class MainWindow
                 .WriteAttributeString("ClickStopPreview", ClickStopPreview.ToString())
                 .WriteAttributeString("JackBPM", ErrorJackBPM.ToString())
                 .WriteAttributeString("JackTH", ErrorJackTH.ToString())
+                .WriteAttributeString("COverridesSaveOption", COverridesSaveOption.ToString())
                 .WriteEndElement()
 
                 .WriteStartElement("Save")
@@ -222,10 +223,13 @@ Partial Public Class MainWindow
         End With
     End Sub
 
-    Private Sub SaveColorOverride(ByVal Path As String)
-        If Not System.IO.Directory.Exists("Colors") Then My.Computer.FileSystem.CreateDirectory("Colors")
+    Private Sub SaveColorOverride(ByVal Path As String, ByVal Warning As Boolean)
+        Dim F As String = ColorOverridePath(Path)
+        If My.Computer.FileSystem.FileExists(F) AndAlso Warning Then
+            Dim xDiag = MsgBox("Overwrite existing settings below?" & vbCrLf & F, MsgBoxStyle.YesNo)
+            If xDiag = DialogResult.No Then Exit Sub
+        End If
 
-        Dim F As String = "Colors\" + GetFileName(FileName) + ".xml"
         Dim w As New XmlTextWriter(F, System.Text.Encoding.Unicode)
         With w
             .WriteStartDocument()
@@ -239,13 +243,12 @@ Partial Public Class MainWindow
                 .WriteStartElement("Color")
                 .WriteAttributeString("Index", i.ToString())
                 .WriteAttributeString("Name", COverrides(i).Name.ToString())
+                .WriteAttributeString("Enabled", COverrides(i).Enabled.ToString())
+                .WriteAttributeString("ColorOption", COverrides(i).ColorOption.ToString())
                 .WriteAttributeString("RangeL", COverrides(i).RangeL.ToString())
                 .WriteAttributeString("RangeU", COverrides(i).RangeU.ToString())
                 .WriteAttributeString("NoteColor", COverrides(i).NoteColor.ToString())
-                .WriteAttributeString("TextColor", COverrides(i).TextColor.ToString())
-                .WriteAttributeString("LongNoteColor", COverrides(i).LongNoteColor.ToString())
-                .WriteAttributeString("LongTextColor", COverrides(i).LongTextColor.ToString())
-                .WriteAttributeString("BG", COverrides(i).BG.ToString())
+                .WriteAttributeString("NoteColorU", COverrides(i).NoteColorU.ToString())
                 .WriteEndElement()
             Next
 
@@ -254,6 +257,21 @@ Partial Public Class MainWindow
             .Close()
         End With
     End Sub
+
+    Private Function ColorOverridePath(ByVal Path As String) As String
+        Select Case COverridesSaveOption
+            Case 0
+                If Not System.IO.Directory.Exists("Colors") Then My.Computer.FileSystem.CreateDirectory("Colors")
+                Return "Colors\Untitled.bmsc.xml"
+            Case 1
+                If Not System.IO.Directory.Exists("Colors") Then My.Computer.FileSystem.CreateDirectory("Colors")
+                Return "Colors\" + GetFileName(Path) + ".xml"
+            Case 2
+                Return ExcludeFileName(Path) & "\Colors.xml"
+            Case Else
+                Return ""
+        End Select
+    End Function
 
     Private Sub XMLLoadElementValue(ByVal n As XmlElement, ByRef v As Integer)
         If n Is Nothing Then Exit Sub
@@ -436,6 +454,7 @@ Partial Public Class MainWindow
 
                     XMLLoadAttribute(.GetAttribute("JackBPM"), ErrorJackBPM)
                     XMLLoadAttribute(.GetAttribute("JackTH"), ErrorJackTH)
+                    XMLLoadAttribute(.GetAttribute("COverridesSaveOption"), COverridesSaveOption)
                 End With
             End If
 
@@ -1451,7 +1470,8 @@ Partial Public Class MainWindow
     End Sub
 
     Private Sub LoadColorOverride(ByVal Path As String)
-        Dim F As String = "Colors\" + GetFileName(Path) + ".xml"
+        Dim F As String = ColorOverridePath(Path)
+
         If My.Computer.FileSystem.FileExists(F) Then
 
             Dim Doc As New XmlDocument
@@ -1467,17 +1487,17 @@ Partial Public Class MainWindow
                 With eColor
                     XMLLoadAttribute(.GetAttribute("Index"), i)
                     XMLLoadAttribute(.GetAttribute("Name"), COverrides(i).Name)
+                    XMLLoadAttribute(.GetAttribute("Enabled"), COverrides(i).Enabled)
+                    XMLLoadAttribute(.GetAttribute("ColorOption"), COverrides(i).ColorOption)
                     XMLLoadAttribute(.GetAttribute("RangeL"), COverrides(i).RangeL)
                     XMLLoadAttribute(.GetAttribute("RangeU"), COverrides(i).RangeU)
                     XMLLoadAttribute(.GetAttribute("NoteColor"), COverrides(i).NoteColor)
-                    XMLLoadAttribute(.GetAttribute("TextColor"), COverrides(i).TextColor) ' Unused
-                    XMLLoadAttribute(.GetAttribute("LongNoteColor"), COverrides(i).LongNoteColor) ' Unused
-                    XMLLoadAttribute(.GetAttribute("LongTextColor"), COverrides(i).LongTextColor) ' Unused
-                    XMLLoadAttribute(.GetAttribute("BG"), COverrides(i).BG) ' Unused
+                    XMLLoadAttribute(.GetAttribute("NoteColorU"), COverrides(i).NoteColorU)
                 End With
             Next
             FileStream.Close()
-
+        Else
+            ReDim COverrides(0)
         End If
     End Sub
 End Class

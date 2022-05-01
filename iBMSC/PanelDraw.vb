@@ -604,25 +604,7 @@ Partial Public Class MainWindow
         dark = GetColumn(sNote.ColumnIndex).getDark(xAlpha)
 
         ' Color override
-        If Not IsNothing(CO) Then
-
-            For i = 0 To UBound(CO)
-                Dim CORangeL = CO(i).RangeL * 10000
-                Dim CORangeU = CO(i).RangeU * 10000
-                Dim CONoteColor = CO(i).NoteColor
-                If sNote.Value >= CORangeL AndAlso sNote.Value <= CORangeU AndAlso Not sNote.Landmine Then
-                    ' bright = Color.FromArgb((CInt(((CONoteColor >> 24) And &HFF) * xAlpha) << 24))
-                    ' dark = bright
-
-                    ' bright = Color.FromArgb(CONoteColor * xAlpha)
-
-                    bright = Color.FromArgb(CInt(CONoteColor * xAlpha))
-                    dark = Color.FromArgb(CInt(CONoteColor * xAlpha))
-                    Exit For
-                End If
-
-            Next
-        End If
+        GetOverridenColor(sNote, bright, dark, xAlpha, CO)
 
         If Not sNote.LongNote Then
             xPen = New Pen(GetColumn(sNote.ColumnIndex).getBright(xAlpha))
@@ -747,25 +729,7 @@ Partial Public Class MainWindow
         dark = GetColumn(sNote.ColumnIndex).getDark(xAlpha)
 
         ' Color override
-        If Not IsNothing(CO) Then
-
-            For i = 0 To UBound(CO)
-                Dim CORangeL = CO(i).RangeL * 10000
-                Dim CORangeU = CO(i).RangeU * 10000
-                Dim CONoteColor = CO(i).NoteColor
-                If sNote.Value >= CORangeL AndAlso sNote.Value <= CORangeU AndAlso Not sNote.Landmine Then
-                    ' bright = Color.FromArgb((CInt(((CONoteColor >> 24) And &HFF) * xAlpha) << 24))
-                    ' dark = bright
-
-                    ' bright = Color.FromArgb(CONoteColor * xAlpha)
-
-                    bright = Color.FromArgb(CInt(CONoteColor * xAlpha))
-                    dark = Color.FromArgb(CInt(CONoteColor * xAlpha))
-                    Exit For
-                End If
-
-            Next
-        End If
+        GetOverridenColor(sNote, bright, dark, xAlpha, CO)
 
         If sNote.Length = 0 Then
             p1 = New Point(HorizontalPositiontoDisplay(xnLeft, xHS),
@@ -844,6 +808,123 @@ Partial Public Class MainWindow
         '                      New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex + 1), xHS), VerticalPositiontoDisplay(sNote.VPosition, xVS, xHeight) - vo.kHeight - 2))
 
     End Sub
+
+    Private Sub GetOverridenColor(ByRef sNote As Note, ByRef Bright As Color, ByRef Dark As Color, ByVal xAlpha As Single, ByVal CO As ColorOverride())
+        If Not IsNothing(CO) Then
+
+            For i = 0 To UBound(CO)
+                If Not CO(i).Enabled Then Continue For
+                Dim CORangeL = CO(i).RangeL * 10000
+                Dim CORangeU = CO(i).RangeU * 10000
+                Dim CONoteColor = CO(i).NoteColor
+                Dim CONoteColorU = CO(i).NoteColorU
+                If sNote.Value >= CORangeL AndAlso sNote.Value <= CORangeU AndAlso Not sNote.Landmine Then
+                    Select Case CO(i).ColorOption
+                        Case 0
+                            Bright = Color.FromArgb(CInt(CONoteColor * xAlpha))
+                            Dark = Bright
+                        Case 1
+                            Dim CORange = Math.Max(1, CORangeU - CORangeL)
+                            Bright = InterpolateColorARGB(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (sNote.Value - CORangeL) / CORange, xAlpha)
+                            Dark = Bright
+                        Case 2
+                            Dim CORange = Math.Max(1, CORangeU - CORangeL)
+                            Bright = InterpolateColorAHSL(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (sNote.Value - CORangeL) / CORange, xAlpha)
+                            Dark = Bright
+                        Case 3
+                            Dim CORange = Math.Max(1, CORangeU - CORangeL)
+                            Bright = InterpolateColorAHSL(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (sNote.Value - CORangeL) / CORange, xAlpha, 0)
+                            Dark = Bright
+                    End Select
+                End If
+
+            Next
+        End If
+    End Sub
+
+    Private Function InterpolateColorARGB(ColorL As Color, ColorU As Color, Ratio As Double, Optional xAlpha As Single = 1) As Color
+        Dim A As Double = ((1 - Ratio) * Convert.ToInt32(ColorL.A)) + (Ratio * Convert.ToInt32(ColorU.A))
+        Dim R As Double = ((1 - Ratio) * Convert.ToInt32(ColorL.R)) + (Ratio * Convert.ToInt32(ColorU.R))
+        Dim G As Double = ((1 - Ratio) * Convert.ToInt32(ColorL.G)) + (Ratio * Convert.ToInt32(ColorU.G))
+        Dim B As Double = ((1 - Ratio) * Convert.ToInt32(ColorL.B)) + (Ratio * Convert.ToInt32(ColorU.B))
+        Return Color.FromArgb(Convert.ToByte(A * xAlpha), Convert.ToByte(R), Convert.ToByte(G), Convert.ToByte(B))
+    End Function
+
+    Private Function InterpolateColorAHSL(ColorL As Color, ColorU As Color, Ratio As Double, Optional xAlpha As Single = 1, Optional Direction As Integer = 1) As Color
+        Dim HSLL = GetHSL(ColorL)
+        Dim HSLU = GetHSL(ColorU)
+        If Direction = 1 AndAlso HSLL(0) > HSLU(0) Then
+            HSLU(0) += 360
+        ElseIf Direction = 0 AndAlso HSLL(0) < HSLU(0) Then
+            HSLL(0) += 360
+        End If
+        Dim A As Double = Math.Min((1 - Ratio) * Convert.ToInt32(ColorL.A) + (Ratio * Convert.ToInt32(ColorU.A)), 255)
+        Dim H As Double = ((1 - Ratio) * HSLL(0) + Ratio * HSLU(0)) Mod 360
+        Dim S As Double = Math.Min((1 - Ratio) * HSLL(1) + Ratio * HSLU(1), 1000)
+        Dim L As Double = Math.Min((1 - Ratio) * HSLL(2) + Ratio * HSLU(2), 1000)
+
+        ' Copied from ColorPicker
+        Dim xxS = S / 1000
+        Dim xxB = (L - 500) / 500
+        Dim R As Double
+        Dim G As Double
+        Dim B As Double
+
+        If H < 60 Then
+            B = -1 : R = 1 : G = (H - 30) / 30
+        ElseIf H < 120 Then
+            B = -1 : G = 1 : R = (90 - H) / 30
+        ElseIf H < 180 Then
+            R = -1 : G = 1 : B = (H - 150) / 30
+        ElseIf H < 240 Then
+            R = -1 : B = 1 : G = (210 - H) / 30
+        ElseIf H < 300 Then
+            G = -1 : B = 1 : R = (H - 270) / 30
+        Else
+            G = -1 : R = 1 : B = (330 - H) / 30
+        End If
+
+        R = (R * xxS * (1 - Math.Abs(xxB)) + xxB + 1) * 255 / 2
+        G = (G * xxS * (1 - Math.Abs(xxB)) + xxB + 1) * 255 / 2
+        B = (B * xxS * (1 - Math.Abs(xxB)) + xxB + 1) * 255 / 2
+
+        Return Color.FromArgb(CInt(A * xAlpha), CInt(R), CInt(G), CInt(B))
+    End Function
+
+    Private Function GetHSL(ColorI As Color) As Integer()
+        Dim R As Double = CInt(ColorI.R) / 255
+        Dim G As Double = CInt(ColorI.G) / 255
+        Dim B As Double = CInt(ColorI.B) / 255
+        Console.WriteLine("R: " & R & vbCrLf & "G: " & G & vbCrLf & "B: " & B & vbCrLf)
+        Dim CMin = Math.Min(Math.Min(R, G), B)
+        Dim CMax = Math.Max(Math.Max(R, G), B)
+        Dim Delta = CMax - CMin
+        Dim H As Double
+        Dim S As Double
+        Dim L As Double
+        Console.WriteLine("CMin: " & CMin & vbCrLf & "CMax: " & CMax & vbCrLf & "Delta: " & Delta & vbCrLf)
+        If Delta = 0 Then
+            H = 0
+        ElseIf CMax = R Then
+            H = (6 + ((G - B) / Delta)) Mod 6
+        ElseIf CMax = G Then
+            H = (B - R) / Delta + 2
+        Else
+            H = (R - G) / Delta + 4
+        End If
+
+        H = Math.Round(H * 60)
+        If H < 0 Then H += 360
+
+        L = (CMax + CMin) / 2
+
+        If Delta = 0 Then S = 0 Else If L = 1 Then S = 1 Else S = Delta / (1 - Math.Abs(2 * L - 1))
+        Console.WriteLine(H & vbCrLf & S & vbCrLf & L & vbCrLf)
+        S *= 1000
+        L *= 1000
+
+        Return {CInt(H), CInt(S), CInt(L)}
+    End Function
 
     Private Function WordWrapConvert(ByVal s As String) As String
         If s = "" Then Return ""

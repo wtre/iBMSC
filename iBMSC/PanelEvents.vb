@@ -353,20 +353,6 @@ Partial Public Class MainWindow
         POStatusRefresh()
     End Sub
 
-    ' Private Sub MTCFromMode(ByVal ColSP As Integer, ByVal ColPMS As Integer, ByVal ColDP As Integer, xUndo As UndoRedo.LinkedURCmd, xRedo As UndoRedo.LinkedURCmd)
-    '     Dim xCol As Integer
-    '     Select Case gXKeyMode
-    '         Case "SP"
-    '             xCol = ColSP
-    '         Case "PMS"
-    '             xCol = ColPMS
-    '         Case "DP"
-    '             xCol = ColDP
-    '     End Select
-    '     If xCol = -1 Then Exit Sub
-    '     MoveToColumn(xCol, xUndo, xRedo)
-    ' End Sub
-
     Private Sub SelectAllWithHoveredNoteLabel()
         For xI1 = 0 To UBound(Notes)
             Notes(xI1).Selected = CBool(IIf(IsLabelMatch(Notes(xI1), KMouseOver), True, Notes(xI1).Selected))

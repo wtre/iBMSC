@@ -96,6 +96,8 @@ Listed in the order added.
 
 ### Visual Override Options
 * Creates a list of note ranges with a specified color and replaces specified notes' display color.
+* Allows a range of notes to have a gradient of colors, or a single color.
+* Settings can be saved to either Editor, Chart, or Song.
 
 ### Keybinding Options
 * Allows for rebinding keys for a lot of functions, such as note lane assignment.

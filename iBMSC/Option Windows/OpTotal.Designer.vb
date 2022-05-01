@@ -26,6 +26,7 @@ Partial Class OpTotal
         Me.Label1 = New System.Windows.Forms.Label()
         Me.CTotalIIDX2 = New System.Windows.Forms.RadioButton()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.NMultiplier = New System.Windows.Forms.NumericUpDown()
         Me.TableLayoutPanel4 = New System.Windows.Forms.TableLayoutPanel()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
@@ -49,17 +50,16 @@ Partial Class OpTotal
         Me.NDecimal = New System.Windows.Forms.NumericUpDown()
         Me.NGlobalMultiplier = New System.Windows.Forms.NumericUpDown()
         Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
-        Me.CBDisplayValue = New System.Windows.Forms.CheckBox()
         Me.CBAutoFill = New System.Windows.Forms.CheckBox()
-        Me.NMultiplier = New System.Windows.Forms.NumericUpDown()
+        Me.CBDisplayValue = New System.Windows.Forms.CheckBox()
         Me.TableLayoutPanel1.SuspendLayout()
+        CType(Me.NMultiplier, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TableLayoutPanel4.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
         Me.TableLayoutPanel3.SuspendLayout()
         CType(Me.NDecimal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NGlobalMultiplier, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TableLayoutPanel5.SuspendLayout()
-        CType(Me.NMultiplier, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CTotalIIDX1
@@ -132,6 +132,17 @@ Partial Class OpTotal
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(570, 140)
         Me.TableLayoutPanel1.TabIndex = 0
+        '
+        'NMultiplier
+        '
+        Me.NMultiplier.DecimalPlaces = 3
+        Me.NMultiplier.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.NMultiplier.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
+        Me.NMultiplier.Location = New System.Drawing.Point(174, 113)
+        Me.NMultiplier.Name = "NMultiplier"
+        Me.NMultiplier.Size = New System.Drawing.Size(66, 23)
+        Me.NMultiplier.TabIndex = 6
+        Me.NMultiplier.Value = New Decimal(New Integer() {25, 0, 0, 131072})
         '
         'TableLayoutPanel4
         '
@@ -373,6 +384,7 @@ Partial Class OpTotal
         'NDecimal
         '
         Me.NDecimal.Location = New System.Drawing.Point(104, 30)
+        Me.NDecimal.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.NDecimal.Name = "NDecimal"
         Me.NDecimal.Size = New System.Drawing.Size(60, 23)
         Me.NDecimal.TabIndex = 3
@@ -403,18 +415,6 @@ Partial Class OpTotal
         Me.TableLayoutPanel5.Size = New System.Drawing.Size(400, 80)
         Me.TableLayoutPanel5.TabIndex = 101
         '
-        'CBDisplayValue
-        '
-        Me.CBDisplayValue.AutoSize = True
-        Me.CBDisplayValue.Checked = True
-        Me.CBDisplayValue.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CBDisplayValue.Location = New System.Drawing.Point(3, 3)
-        Me.CBDisplayValue.Name = "CBDisplayValue"
-        Me.CBDisplayValue.Size = New System.Drawing.Size(95, 19)
-        Me.CBDisplayValue.TabIndex = 2
-        Me.CBDisplayValue.Text = "Display Value"
-        Me.CBDisplayValue.UseVisualStyleBackColor = True
-        '
         'CBAutoFill
         '
         Me.CBAutoFill.AutoSize = True
@@ -427,16 +427,17 @@ Partial Class OpTotal
         Me.CBAutoFill.Text = "Autofill #TOTAL"
         Me.CBAutoFill.UseVisualStyleBackColor = True
         '
-        'NMultiplier
+        'CBDisplayValue
         '
-        Me.NMultiplier.DecimalPlaces = 3
-        Me.NMultiplier.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.NMultiplier.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
-        Me.NMultiplier.Location = New System.Drawing.Point(174, 113)
-        Me.NMultiplier.Name = "NMultiplier"
-        Me.NMultiplier.Size = New System.Drawing.Size(66, 23)
-        Me.NMultiplier.TabIndex = 6
-        Me.NMultiplier.Value = New Decimal(New Integer() {25, 0, 0, 131072})
+        Me.CBDisplayValue.AutoSize = True
+        Me.CBDisplayValue.Checked = True
+        Me.CBDisplayValue.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBDisplayValue.Location = New System.Drawing.Point(3, 3)
+        Me.CBDisplayValue.Name = "CBDisplayValue"
+        Me.CBDisplayValue.Size = New System.Drawing.Size(95, 19)
+        Me.CBDisplayValue.TabIndex = 2
+        Me.CBDisplayValue.Text = "Display Value"
+        Me.CBDisplayValue.UseVisualStyleBackColor = True
         '
         'OpTotal
         '
@@ -459,6 +460,7 @@ Partial Class OpTotal
         Me.Text = "#TOTAL Tool"
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout()
+        CType(Me.NMultiplier, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TableLayoutPanel4.ResumeLayout(False)
         Me.TableLayoutPanel4.PerformLayout()
         Me.TableLayoutPanel2.ResumeLayout(False)
@@ -468,7 +470,6 @@ Partial Class OpTotal
         CType(Me.NGlobalMultiplier, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TableLayoutPanel5.ResumeLayout(False)
         Me.TableLayoutPanel5.PerformLayout()
-        CType(Me.NMultiplier, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
