@@ -97,6 +97,7 @@ Partial Public Class MainWindow
                 .WriteAttributeString("ClickStopPreview", ClickStopPreview.ToString())
                 .WriteAttributeString("JackBPM", ErrorJackBPM.ToString())
                 .WriteAttributeString("JackTH", ErrorJackTH.ToString())
+                .WriteAttributeString("gLNGap", gLNGap.ToString())
                 .WriteAttributeString("COverridesSaveOption", COverridesSaveOption.ToString())
                 .WriteAttributeString("TemplateSnapToVPosition", TemplateSnapToVPosition.ToString())
                 .WriteEndElement()
@@ -462,6 +463,7 @@ Partial Public Class MainWindow
 
                     XMLLoadAttribute(.GetAttribute("JackBPM"), ErrorJackBPM)
                     XMLLoadAttribute(.GetAttribute("JackTH"), ErrorJackTH)
+                    XMLLoadAttribute(.GetAttribute("gLNGap"), gLNGap)
                     XMLLoadAttribute(.GetAttribute("COverridesSaveOption"), COverridesSaveOption)
                     XMLLoadAttribute(.GetAttribute("TemplateSnapToVPosition"), TemplateSnapToVPosition)
                 End With

@@ -116,6 +116,9 @@ Partial Class MainWindow
         Me.POBLong = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBShort = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBLongShort = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator25 = New System.Windows.Forms.ToolStripSeparator()
+        Me.POBAutoLongVPosition = New System.Windows.Forms.ToolStripMenuItem()
+        Me.POBAutoLongColumn = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator()
         Me.POBHidden = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBVisible = New System.Windows.Forms.ToolStripMenuItem()
@@ -1174,23 +1177,24 @@ Partial Class MainWindow
         '
         'cmnConversion
         '
-        Me.cmnConversion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.POBLong, Me.POBShort, Me.POBLongShort, Me.ToolStripSeparator10, Me.POBHidden, Me.POBVisible, Me.POBHiddenVisible, Me.ToolStripSeparator11, Me.POBModify, Me.POBMirror, Me.POBFlip, Me.POBRandom, Me.POBRRandom, Me.POBSRandom, Me.POBHRandom, Me.POBSort})
+        Me.cmnConversion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.POBLong, Me.POBShort, Me.POBLongShort, Me.ToolStripSeparator25, Me.POBAutoLongVPosition, Me.POBAutoLongColumn, Me.ToolStripSeparator10, Me.POBHidden, Me.POBVisible, Me.POBHiddenVisible, Me.ToolStripSeparator11, Me.POBModify, Me.POBMirror, Me.POBFlip, Me.POBRandom, Me.POBRRandom, Me.POBSRandom, Me.POBHRandom, Me.POBSort})
         Me.cmnConversion.Name = "cmnLanguage"
-        Me.cmnConversion.Size = New System.Drawing.Size(222, 324)
+        Me.cmnConversion.OwnerItem = Me.POConvert
+        Me.cmnConversion.Size = New System.Drawing.Size(237, 396)
         '
         'POBLong
         '
         Me.POBLong.Enabled = False
         Me.POBLong.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesL
         Me.POBLong.Name = "POBLong"
-        Me.POBLong.Size = New System.Drawing.Size(221, 22)
+        Me.POBLong.Size = New System.Drawing.Size(236, 22)
         Me.POBLong.Text = "→ &Long Note"
         '
         'POBShort
         '
         Me.POBShort.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesN
         Me.POBShort.Name = "POBShort"
-        Me.POBShort.Size = New System.Drawing.Size(221, 22)
+        Me.POBShort.Size = New System.Drawing.Size(236, 22)
         Me.POBShort.Text = "→ &Short Note"
         '
         'POBLongShort
@@ -1198,94 +1202,113 @@ Partial Class MainWindow
         Me.POBLongShort.Enabled = False
         Me.POBLongShort.Image = Global.iBMSC.My.Resources.Resources.ConvertNotes
         Me.POBLongShort.Name = "POBLongShort"
-        Me.POBLongShort.Size = New System.Drawing.Size(221, 22)
+        Me.POBLongShort.Size = New System.Drawing.Size(236, 22)
         Me.POBLongShort.Text = "Long Note ↔ Short Note"
+        '
+        'ToolStripSeparator25
+        '
+        Me.ToolStripSeparator25.Name = "ToolStripSeparator25"
+        Me.ToolStripSeparator25.Size = New System.Drawing.Size(233, 6)
+        '
+        'POBAutoLongVPosition
+        '
+        Me.POBAutoLongVPosition.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesL
+        Me.POBAutoLongVPosition.Name = "POBAutoLongVPosition"
+        Me.POBAutoLongVPosition.Size = New System.Drawing.Size(236, 22)
+        Me.POBAutoLongVPosition.Text = "&Auto Long Note (By VPosition)"
+        '
+        'POBAutoLongColumn
+        '
+        Me.POBAutoLongColumn.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesL
+        Me.POBAutoLongColumn.Name = "POBAutoLongColumn"
+        Me.POBAutoLongColumn.Size = New System.Drawing.Size(236, 22)
+        Me.POBAutoLongColumn.Text = "&Auto Long Note (By Column)"
         '
         'ToolStripSeparator10
         '
         Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
-        Me.ToolStripSeparator10.Size = New System.Drawing.Size(218, 6)
+        Me.ToolStripSeparator10.Size = New System.Drawing.Size(233, 6)
         '
         'POBHidden
         '
         Me.POBHidden.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesH
         Me.POBHidden.Name = "POBHidden"
-        Me.POBHidden.Size = New System.Drawing.Size(221, 22)
+        Me.POBHidden.Size = New System.Drawing.Size(236, 22)
         Me.POBHidden.Text = "→ &Hidden Note"
         '
         'POBVisible
         '
         Me.POBVisible.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesV
         Me.POBVisible.Name = "POBVisible"
-        Me.POBVisible.Size = New System.Drawing.Size(221, 22)
+        Me.POBVisible.Size = New System.Drawing.Size(236, 22)
         Me.POBVisible.Text = "→ &Visible Note"
         '
         'POBHiddenVisible
         '
         Me.POBHiddenVisible.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesHV
         Me.POBHiddenVisible.Name = "POBHiddenVisible"
-        Me.POBHiddenVisible.Size = New System.Drawing.Size(221, 22)
+        Me.POBHiddenVisible.Size = New System.Drawing.Size(236, 22)
         Me.POBHiddenVisible.Text = "Hidden Note ↔ Visible Note"
         '
         'ToolStripSeparator11
         '
         Me.ToolStripSeparator11.Name = "ToolStripSeparator11"
-        Me.ToolStripSeparator11.Size = New System.Drawing.Size(218, 6)
+        Me.ToolStripSeparator11.Size = New System.Drawing.Size(233, 6)
         '
         'POBModify
         '
         Me.POBModify.Image = Global.iBMSC.My.Resources.Resources.x16ModifyLabel
         Me.POBModify.Name = "POBModify"
-        Me.POBModify.Size = New System.Drawing.Size(221, 22)
+        Me.POBModify.Size = New System.Drawing.Size(236, 22)
         Me.POBModify.Text = "Modify &Labels"
         '
         'POBMirror
         '
         Me.POBMirror.Image = Global.iBMSC.My.Resources.Resources.x16Mirror
         Me.POBMirror.Name = "POBMirror"
-        Me.POBMirror.Size = New System.Drawing.Size(221, 22)
+        Me.POBMirror.Size = New System.Drawing.Size(236, 22)
         Me.POBMirror.Text = "&Mirror"
         '
         'POBFlip
         '
         Me.POBFlip.Image = Global.iBMSC.My.Resources.Resources.x16Flip
         Me.POBFlip.Name = "POBFlip"
-        Me.POBFlip.Size = New System.Drawing.Size(221, 22)
+        Me.POBFlip.Size = New System.Drawing.Size(236, 22)
         Me.POBFlip.Text = "&Flip"
         '
         'POBRandom
         '
         Me.POBRandom.Image = Global.iBMSC.My.Resources.Resources.x16Random
         Me.POBRandom.Name = "POBRandom"
-        Me.POBRandom.Size = New System.Drawing.Size(221, 22)
+        Me.POBRandom.Size = New System.Drawing.Size(236, 22)
         Me.POBRandom.Text = "&Random"
         '
         'POBRRandom
         '
         Me.POBRRandom.Image = Global.iBMSC.My.Resources.Resources.x16RRandom
         Me.POBRRandom.Name = "POBRRandom"
-        Me.POBRRandom.Size = New System.Drawing.Size(221, 22)
+        Me.POBRRandom.Size = New System.Drawing.Size(236, 22)
         Me.POBRRandom.Text = "&R-Random"
         '
         'POBSRandom
         '
         Me.POBSRandom.Image = Global.iBMSC.My.Resources.Resources.x16SRandom
         Me.POBSRandom.Name = "POBSRandom"
-        Me.POBSRandom.Size = New System.Drawing.Size(221, 22)
+        Me.POBSRandom.Size = New System.Drawing.Size(236, 22)
         Me.POBSRandom.Text = "&S-Random"
         '
         'POBHRandom
         '
         Me.POBHRandom.Image = Global.iBMSC.My.Resources.Resources.x16HRandom
         Me.POBHRandom.Name = "POBHRandom"
-        Me.POBHRandom.Size = New System.Drawing.Size(221, 22)
+        Me.POBHRandom.Size = New System.Drawing.Size(236, 22)
         Me.POBHRandom.Text = "&H-Random"
         '
         'POBSort
         '
         Me.POBSort.Image = Global.iBMSC.My.Resources.Resources.lgwidth
         Me.POBSort.Name = "POBSort"
-        Me.POBSort.Size = New System.Drawing.Size(221, 22)
+        Me.POBSort.Size = New System.Drawing.Size(236, 22)
         Me.POBSort.Text = "S&ort"
         '
         'mnPreview
@@ -1363,7 +1386,7 @@ Partial Class MainWindow
         Me.TBMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBNew, Me.TBOpen, Me.TBSave, Me.ToolStripSeparator1, Me.TBCut, Me.TBCopy, Me.TBPaste, Me.TBFind, Me.ToolStripSeparator24, Me.TBStatistics, Me.POConvert, Me.TBMyO2, Me.ToolStripSeparator4, Me.TBErrorCheck, Me.TBPreviewOnClick, Me.TBShowFileName, Me.TBShowWaveform, Me.ToolStripSeparator8, Me.TBNTInput, Me.TBWavIncrease, Me.ToolStripSeparator2, Me.TBUndo, Me.TBRedo, Me.ToolStripSeparator5, Me.TBTimeSelect, Me.TBSelect, Me.TBWrite, Me.ToolStripSeparator3, Me.TBPlayB, Me.TBPlay, Me.TBStop, Me.TBPOptions, Me.ToolStripSeparator7, Me.TBGOptions, Me.TBKOptions, Me.TBVOptions, Me.TBLanguage, Me.TBTheme, Me.POBStorm, Me.TBTotalValue})
         Me.TBMain.Location = New System.Drawing.Point(3, 23)
         Me.TBMain.Name = "TBMain"
-        Me.TBMain.Size = New System.Drawing.Size(939, 25)
+        Me.TBMain.Size = New System.Drawing.Size(993, 25)
         Me.TBMain.TabIndex = 64
         Me.TBMain.Text = "Main Toolbar"
         '
@@ -4761,4 +4784,7 @@ Partial Class MainWindow
     Friend WithEvents mnTOTAL As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator13 As ToolStripSeparator
     Friend WithEvents mnOpenTemplate As ToolStripMenuItem
+    Friend WithEvents POBAutoLongVPosition As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator25 As ToolStripSeparator
+    Friend WithEvents POBAutoLongColumn As ToolStripMenuItem
 End Class
