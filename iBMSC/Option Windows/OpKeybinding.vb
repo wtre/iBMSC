@@ -150,7 +150,7 @@ Public Class OpKeybinding
         End If
 
         ' Check with other key combos
-        Dim OtherFunctionKeyCombos() As String = {"Ctrl+N", "Ctrl+O", "Ctrl+S", "Ctrl+Alt+S", "Ctrl+Shift+E", "Alt+D1", "Alt+D2", "Alt+D3", "Alt+D4", "Alt+D5",
+        Dim OtherFunctionKeyCombos() As String = {"Ctrl+N", "Ctrl+O", "Ctrl+Alt+O", "Ctrl+S", "Ctrl+Alt+S", "Ctrl+Shift+E", "Alt+D1", "Alt+D2", "Alt+D3", "Alt+D4", "Alt+D5",
                                                   "Ctrl+F", "Ctrl+G", "Ctrl+T", "Ctrl+Shift+T",
                                                   "Alt+B", "Alt+S", "Alt+R", "Alt+G"}
         If OtherFunctionKeyCombos.Contains(TComboInput.Text) Then

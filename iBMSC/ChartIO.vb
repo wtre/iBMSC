@@ -17,8 +17,11 @@ Partial Public Class MainWindow
         Dim nNotes As Integer = 1
 
         ' Assume ghost note strings contain only notes in the section. Expansion field to be saved separately
-        If xGhost Or xComment Then
+        If xGhost Then
             nNotes = Notes.Length
+        ElseIf xComment Then
+            nNotes = Notes.Length
+            ReDim mColumn(999)
         Else ' Initialization
             ReDim Notes(0)
             ReDim NotesTemplate(0)
@@ -54,7 +57,7 @@ Partial Public Class MainWindow
         Dim nLine As Integer = -1
 
         For Each sLine In xStrLine
-            If xComment Then xStrLine2 = xStrLine : Exit For
+            If xComment Then xStrLine2 = xStrLine : nLine = UBound(xStrLine) : Exit For
 
             Dim sLineTrim As String = sLine.Trim
             If sLineTrim = "" Then Continue For
@@ -585,7 +588,8 @@ Partial Public Class MainWindow
             TExpansion.Text = ExpansionTextTemp
         End If
         ' Add template filename
-        Dim xStrEditorTemplate As String = "#TEMPLATE " & FileNameTemplate
+        Dim xStrEditorTemplate As String = ""
+        If FileNameTemplate <> "" Then xStrEditorTemplate = "#TEMPLATE " & FileNameTemplate
         Dim xStrEditor As String = vbCrLf & "*---------------------- EDITOR EXPANSION FIELD" & vbCrLf & xStrEditorCommentNotes & vbCrLf & xStrEditorTemplate & vbCrLf & vbCrLf
         If xStrEditorCommentNotes = "" AndAlso xStrEditorTemplate = "" Then xStrEditor = ""
 

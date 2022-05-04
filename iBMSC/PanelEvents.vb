@@ -723,7 +723,8 @@ Partial Public Class MainWindow
                 Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
                 Dim valstr As String = InputBox(xMessage, Text)
-                Dim value As Long = CLng(CDbl(valstr) * 10000)
+                Dim value As Long = 0
+                If Not valstr.StartsWith("-c ") Then value = CLng(CDbl(valstr) * 10000)
                 If valstr.StartsWith("-c ") Then ' Input comment notes
                     If valstr = "-c " Then valstr &= " "
                     For xI1 = 1 To UBound(Notes)
@@ -1852,7 +1853,8 @@ Partial Public Class MainWindow
                         If xColumn = niSCROLL Then xMessage = Strings.Messages.PromptEnterSCROLL
 
                         Dim valstr As String = InputBox(xMessage, Me.Text)
-                        Dim value As Long = CLng(CDbl(valstr) * 10000)
+                        Dim value As Long = 0
+                        If Not valstr.StartsWith("-c ") Then value = CLng(CDbl(valstr) * 10000)
                         If valstr.StartsWith("-c ") Then ' Input comment notes
                             If valstr = "-c " Then valstr &= " "
                             For xI1 = 1 To UBound(Notes)
