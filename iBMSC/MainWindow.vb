@@ -285,8 +285,9 @@ Public Class MainWindow
     Public KbCategorySP As Integer = 1
     Public KbCategoryPMS As Integer = 2
     Public KbCategoryDP As Integer = 3
+    Public KbCategoryAllMod As Integer = 10 ' AllMod meaning all modifiers included
     Public KbCategoryHidden As Integer = 0
-    Public KbCategory() As Integer = {KbCategoryPMS, KbCategoryDP, KbCategorySP, KbCategoryHidden, -1} ' Order matters
+    Public KbCategory() As Integer = {KbCategoryPMS, KbCategoryDP, KbCategorySP, KbCategoryAllMod, KbCategoryHidden, -1} ' Order matters
     Public KeybindingsInit() As Keybinding = { ' SP Note Assignments
                                        New Keybinding("Move to A2", "Move note to 1P Lane 1", {"D1", "NumPad1"}, KbCategorySP),
                                        New Keybinding("Move to A3", "Move note to 1P Lane 2", {"D2", "NumPad2"}, KbCategorySP),
@@ -332,7 +333,25 @@ Public Class MainWindow
                                        New Keybinding("Paste", "", {"Ctrl+V"}),
                                        New Keybinding("Select All", "Select all notes", {"Ctrl+A"}),
                                        New Keybinding("Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"}),
-                                                                                                                                                              _ ' Experimental
+                                                                                                                                                              _ ' All Modifiers
+                                       New Keybinding("Move Note Up", "*HIDDEN*", {"Up"}, KbCategoryAllMod),
+                                       New Keybinding("Move Note Down", "*HIDDEN*", {"Down"}, KbCategoryAllMod),
+                                       New Keybinding("Move Note Left", "*HIDDEN*", {"Left"}, KbCategoryAllMod),
+                                       New Keybinding("Move Note Right", "*HIDDEN*", {"Right"}, KbCategoryAllMod),
+                                       New Keybinding("Insert Space/Define Measure", "*HIDDEN*", {"Insert"}, KbCategoryAllMod),
+                                       New Keybinding("Decrease Division", "*HIDDEN*", {"Oemcomma"}, KbCategoryAllMod),
+                                       New Keybinding("Increase Division", "*HIDDEN*", {"OemPeriod"}, KbCategoryAllMod),
+                                                                                                                        _ ' Hidden / Experimental
+                                       New Keybinding("Delete", "*HIDDEN*", {"Delete"}, KbCategoryHidden),
+                                       New Keybinding("Home", "*HIDDEN*", {"Home"}, KbCategoryHidden),
+                                       New Keybinding("End", "*HIDDEN*", {"End"}, KbCategoryHidden),
+                                       New Keybinding("PageUp", "*HIDDEN*", {"PageUp"}, KbCategoryHidden),
+                                       New Keybinding("PageDown", "*HIDDEN*", {"PageDown"}, KbCategoryHidden),
+                                       New Keybinding("Set CGDivision", "*HIDDEN*", {"OemQuestion"}, KbCategoryHidden),
+                                       New Keybinding("Decrease CGHeight", "*HIDDEN*", {"OemMinus"}, KbCategoryHidden),
+                                       New Keybinding("Increase CGHeight", "*HIDDEN*", {"Oemplus"}, KbCategoryHidden),
+                                       New Keybinding("DecreaseCurrentWav", "*HIDDEN*", {"Subtract"}, KbCategoryHidden),
+                                       New Keybinding("IncreaseCurrentWav", "*HIDDEN*", {"Add"}, KbCategoryHidden),
                                        New Keybinding("TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"}, KbCategoryHidden)
                                        }
     Dim Keybindings() As Keybinding = CType(KeybindingsInit.Clone(), Keybinding())
@@ -4101,10 +4120,15 @@ Public Class MainWindow
         Dim xDiag As New OpKeybinding(Keybindings)
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
             With xDiag
-                Keybindings = .Keybinds
 
                 ' Rename shortcutstrings
                 For Each keybind In .Keybinds
+                    For i = 0 To UBound(Keybindings)
+                        If Keybindings(i).OpName = keybind.OpName Then
+                            Keybindings(i) = keybind
+                            Exit For
+                        End If
+                    Next
                     RenameShortcuts(keybind)
                 Next
             End With

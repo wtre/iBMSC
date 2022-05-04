@@ -2,6 +2,7 @@
 
 Public Class OpKeybinding
     Public Keybinds() As MainWindow.Keybinding
+    Dim KeybindsHidden() As MainWindow.Keybinding
     Dim keyComboEvent() As String
     Dim keyComboOK As Boolean
 
@@ -131,12 +132,17 @@ Public Class OpKeybinding
     End Sub
 
     Private Sub CheckConflictWithOtherFunctions()
-        ' Check with other keys with multiple functions
-        Dim OtherFunctionKeys() As String = {"Up", "Down", "Left", "Right",
-                                             "Insert", "Delete", "Home", "End", "PageUp", "PageDown",
-                                             "Oemcomma", "OemPeriod", "OemQuestion",
-                                             "Oemplus", "OemMinus", "Add", "Subtract",
-                                             "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"}
+        ' Check with hidden functions
+        For Each keybindHidden In KeybindsHidden
+            If keyComboEvent(UBound(keyComboEvent)) = keybindHidden.Combo(0) Then
+                keyComboOK = False
+                MsgBox("Error: " & keyComboEvent(UBound(keyComboEvent)) & " is unavailable for custom keybinding.")
+                Exit Sub
+            End If
+        Next
+
+        ' Check with other miscellaneous keys
+        Dim OtherFunctionKeys() As String = {"F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"}
         If OtherFunctionKeys.Contains(keyComboEvent(UBound(keyComboEvent))) Then
             keyComboOK = False
             MsgBox("Error: " & keyComboEvent(UBound(keyComboEvent)) & " is unavailable for custom keybinding.")
@@ -153,6 +159,7 @@ Public Class OpKeybinding
             Exit Sub
         End If
 
+        ' Check for category restrictions
         Select Case Keybinds(LVKeybinding.FocusedItem.Index).Category
             ' If note assignment option, check if there is shift
             Case MainWindow.KbCategorySP, MainWindow.KbCategoryDP, MainWindow.KbCategoryPMS
@@ -166,7 +173,6 @@ Public Class OpKeybinding
 
     Private Sub CheckConflictWithOtherKeybindings()
         Dim CategoryToIgnore() As Integer = {}
-        ' TODO
         Select Case Keybinds(LVKeybinding.FocusedItem.Index).Category
             ' If note assignment option, check with each other in the same category
             Case MainWindow.KbCategorySP
@@ -204,9 +210,29 @@ Public Class OpKeybinding
     Private Sub InitializeKeybindings()
         LVKeybinding.Items.Clear()
 
+        ' Remove hidden options
+        Dim KeybindsBackup As MainWindow.Keybinding() = CType(Keybinds.Clone(), MainWindow.Keybinding())
+        ReDim KeybindsHidden(UBound(KeybindsBackup))
+        Dim i As Integer = -1
+        Dim j As Integer = -1 ' TODO: Setup another array for hidden keybinds, and create sub CheckConflictWithHiddenFunctions
+        For Each keybind In KeybindsBackup
+            If keybind.Category <> MainWindow.KbCategoryAllMod AndAlso
+                keybind.Category <> MainWindow.KbCategoryHidden Then
+                i += 1
+                Keybinds(i) = keybind
+                Continue For
+            Else
+                j += 1
+                KeybindsHidden(j) = keybind
+                Continue For
+            End If
+        Next
+        ReDim Preserve Keybinds(i)
+        ReDim Preserve KeybindsHidden(j)
+
         ' List view array initialization
         Dim LVArray(UBound(Keybinds)) As ListViewItem
-        Dim i As Integer = -1
+        i = -1
         For Each keybind In Keybinds
             i += 1
 

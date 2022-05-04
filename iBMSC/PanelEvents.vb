@@ -18,205 +18,6 @@ Partial Public Class MainWindow
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
         ReDim SelectedNotes(-1)
 
-        Select Case e.KeyCode
-            Case Keys.Up
-                Dim xVPosition As Double = 192 / gDivide
-                If My.Computer.Keyboard.CtrlKeyDown Then xVPosition = 1
-
-                'Ks cannot be beyond the upper boundary
-                Dim muVPosition As Double = GetMaxVPosition() - 1
-                For xI1 = 1 To UBound(Notes)
-                    If Notes(xI1).Selected Then
-                        'K(xI1).VPosition = Math.Floor(K(xI1).VPosition / (192 / gDivide)) * 192 / gDivide
-                        Dim NTLength As Double = CDbl(IIf(NTInput, Notes(xI1).Length, 0))
-                        muVPosition = CDbl(IIf(Notes(xI1).VPosition + NTLength + xVPosition > muVPosition,
-                                                          Notes(xI1).VPosition + NTLength + xVPosition,
-                                                          muVPosition))
-                    End If
-                Next
-                muVPosition -= 191999
-
-                Dim xVPos As Double
-                For xI1 = UBound(Notes) To 1 Step -1
-                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
-
-                    xVPos = Notes(xI1).VPosition + xVPosition - muVPosition
-                    Me.RedoMoveNote(Notes(xI1), Notes(xI1).ColumnIndex, xVPos, xUndo, xRedo)
-                    Notes(xI1).VPosition = xVPos
-                    IsNoteInPanel(xVPos, Notes(xI1).Length)
-                Next
-
-                SortByVPositionInsertion()
-                UpdatePairing()
-                CalculateTotalPlayableNotes()
-                CalculateGreatestVPosition()
-                RefreshPanelAll()
-
-            Case Keys.Down
-                Dim xVPosition As Double = -192 / gDivide
-                If My.Computer.Keyboard.CtrlKeyDown Then xVPosition = -1
-
-                'Ks cannot be beyond the lower boundary
-                Dim mVPosition As Double = 0
-                For xI1 = 1 To UBound(Notes)
-                    If Notes(xI1).Selected Then
-                        'K(xI1).VPosition = Math.Ceiling(K(xI1).VPosition / (192 / gDivide)) * 192 / gDivide
-                        mVPosition = CDbl(IIf(Notes(xI1).VPosition + xVPosition < mVPosition,
-                                                                 Notes(xI1).VPosition + xVPosition,
-                                                                 mVPosition))
-                    End If
-                Next
-
-                Dim xVPos As Double
-                For xI1 = UBound(Notes) To 1 Step -1
-                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
-
-                    xVPos = Notes(xI1).VPosition + xVPosition - mVPosition
-                    Me.RedoMoveNote(Notes(xI1), Notes(xI1).ColumnIndex, xVPos, xUndo, xRedo)
-                    Notes(xI1).VPosition = xVPos
-                    IsNoteInPanel(xVPos, Notes(xI1).Length)
-                Next
-
-                If xVPosition - mVPosition <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
-                SortByVPositionInsertion()
-                UpdatePairing()
-                CalculateTotalPlayableNotes()
-                CalculateGreatestVPosition()
-                RefreshPanelAll()
-
-            Case Keys.Left
-                'For xI1 = 1 To UBound(K)
-                '    If K(xI1).Selected Then K(xI1).ColumnIndex = RealColumnToEnabled(K(xI1).ColumnIndex) - 1
-                'Next
-
-                'Ks cannot be beyond the left boundary
-                Dim mLeft As Integer = 0
-                For xI1 = 1 To UBound(Notes)
-                    If Notes(xI1).Selected Then mLeft = CInt(IIf(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) - 1 < mLeft,
-                                                        ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) - 1,
-                                                        mLeft))
-                Next
-
-                Dim xCol As Integer
-                For xI1 = UBound(Notes) To 1 Step -1
-                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
-
-                    xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) - 1 - mLeft)
-                    Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
-                    Notes(xI1).ColumnIndex = xCol
-                    IsNoteInPanel(Notes(xI1).VPosition, Notes(xI1).Length)
-                Next
-
-                If -1 - mLeft <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
-                UpdatePairing()
-                CalculateTotalPlayableNotes()
-                RefreshPanelAll()
-
-            Case Keys.Right
-                Dim xCol As Integer
-                For xI1 = UBound(Notes) To 1 Step -1
-                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
-
-                    xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) + 1)
-                    Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
-                    Notes(xI1).ColumnIndex = xCol
-                    IsNoteInPanel(Notes(xI1).VPosition, Notes(xI1).Length)
-                Next
-
-                AddUndo(xUndo, xBaseRedo.Next)
-                UpdatePairing()
-                CalculateTotalPlayableNotes()
-                RefreshPanelAll()
-
-            Case Keys.Insert
-                If TBTimeSelect.Checked Then
-                    With My.Computer.Keyboard
-                        If Not .CtrlKeyDown And Not .ShiftKeyDown Then
-                            BDefineMeasure_Click(BDefineMeasure, New System.EventArgs)
-                        ElseIf .CtrlKeyDown And Not .ShiftKeyDown Then
-                            BInsertOrRemoveSpaceM_Click(BInsertOrRemoveSpaceM, New System.EventArgs)
-                        ElseIf Not .CtrlKeyDown And .ShiftKeyDown Then
-                            BInsertOrRemoveSpaceN_Click(BInsertOrRemoveSpaceN, New System.EventArgs)
-                        Else
-                            InsertOrRemoveSpaceMN(sender, New System.EventArgs)
-                        End If
-                    End With
-                End If
-
-            Case Keys.Delete
-                mnDelete_Click(mnDelete, New System.EventArgs)
-
-            Case Keys.Home
-                If PanelFocus = 0 Then LeftPanelScroll.Value = 0
-                If PanelFocus = 1 Then MainPanelScroll.Value = 0
-                If PanelFocus = 2 Then RightPanelScroll.Value = 0
-
-            Case Keys.End
-                If PanelFocus = 0 Then LeftPanelScroll.Value = LeftPanelScroll.Minimum
-                If PanelFocus = 1 Then MainPanelScroll.Value = MainPanelScroll.Minimum
-                If PanelFocus = 2 Then RightPanelScroll.Value = RightPanelScroll.Minimum
-
-            Case Keys.PageUp
-                If PanelFocus = 0 Then LeftPanelScroll.Value = CInt(IIf(LeftPanelScroll.Value - gPgUpDn > LeftPanelScroll.Minimum, LeftPanelScroll.Value - gPgUpDn, LeftPanelScroll.Minimum))
-                If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value - gPgUpDn > MainPanelScroll.Minimum, MainPanelScroll.Value - gPgUpDn, MainPanelScroll.Minimum))
-                If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value - gPgUpDn > RightPanelScroll.Minimum, RightPanelScroll.Value - gPgUpDn, RightPanelScroll.Minimum))
-
-            Case Keys.PageDown
-                If PanelFocus = 0 Then LeftPanelScroll.Value = CInt(IIf(LeftPanelScroll.Value + gPgUpDn < 0, LeftPanelScroll.Value + gPgUpDn, 0))
-                If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value + gPgUpDn < 0, MainPanelScroll.Value + gPgUpDn, 0))
-                If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value + gPgUpDn < 0, RightPanelScroll.Value + gPgUpDn, 0))
-
-            Case Keys.Oemcomma
-                With My.Computer.Keyboard
-                    Dim Modif As Integer = CInt(IIf(.ShiftKeyDown, 3, 2))
-                    If Not .CtrlKeyDown And Not .AltKeyDown Then ' Divide CGDivide
-                        If CInt(CGDivide.Value) / Modif >= CGDivide.Minimum Then CGDivide.Value = CGDivide.Value / Modif
-                    ElseIf .CtrlKeyDown And Not .AltKeyDown Then ' Decrease CGDivide by 1
-                        If CGDivide.Value - 1 >= CGDivide.Minimum Then CGDivide.Value -= 1
-                    ElseIf Not .CtrlKeyDown And .AltKeyDown Then ' Divide CGSub
-                        If CInt(CGSub.Value) / Modif >= CGSub.Minimum Then CGSub.Value = CGSub.Value / Modif
-                    Else ' Decrease CGSub by 1
-                        If CGSub.Value - 1 >= CGSub.Minimum Then CGSub.Value -= 1
-                    End If
-                End With
-
-            Case Keys.OemPeriod
-                With My.Computer.Keyboard
-                    Dim Modif As Integer = CInt(IIf(.ShiftKeyDown, 3, 2))
-                    If Not .CtrlKeyDown And Not .AltKeyDown Then ' Divide CGDivide
-                        If CGDivide.Value * Modif <= CGDivide.Maximum Then CGDivide.Value *= Modif
-                    ElseIf .CtrlKeyDown And Not .AltKeyDown Then ' Decrease CGDivide by 1
-                        If CGDivide.Value + 1 <= CGDivide.Maximum Then CGDivide.Value += 1
-                    ElseIf Not .CtrlKeyDown And .AltKeyDown Then ' Divide CGSub
-                        If CGSub.Value * Modif <= CGSub.Maximum Then CGSub.Value *= Modif
-                    Else ' Decrease CGSub by 1
-                        If CGSub.Value + 1 <= CGSub.Maximum Then CGSub.Value += 1
-                    End If
-                End With
-
-            Case Keys.OemQuestion
-                'Dim xTempSwap As Integer = gSlash
-                'gSlash = CGDivide.Value
-                'CGDivide.Value = xTempSwap
-                CGDivide.Value = gSlash
-
-            Case Keys.Oemplus
-                With CGHeight
-                    .Value += CDec(IIf(.Value > .Maximum - .Increment, .Maximum - .Value, .Increment))
-                End With
-
-            Case Keys.OemMinus
-                With CGHeight
-                    .Value -= CDec(IIf(.Value < .Minimum + .Increment, .Value - .Minimum, .Increment))
-                End With
-
-            Case Keys.Add
-                IncreaseCurrentWav()
-
-            Case Keys.Subtract
-                DecreaseCurrentWav()
-        End Select
-
         ' Turn keycode into string
         Dim keyComboEvent(-1) As String
         If e.Control Then
@@ -232,14 +33,14 @@ Partial Public Class MainWindow
             keyComboEvent(UBound(keyComboEvent)) = "Alt"
         End If
         ReDim Preserve keyComboEvent(keyComboEvent.Length)
-        keyComboEvent(UBound(keyComboEvent)) = e.KeyCode.ToString
+        keyComboEvent(UBound(keyComboEvent)) = e.KeyCode.ToString()
 
         ' Determine
         Dim keybindOptionName As String = ""
 
         ' Check for specific categories first
         For Each P In KbCategory
-            If (P = KbCategoryPMS AndAlso gXKeyMode <> "PMS") Or
+            If (P = KbCategoryPMS AndAlso gXKeyMode <> "PMS") OrElse
                 (P = KbCategoryDP AndAlso gXKeyMode <> "DP") Then Continue For
 
             Dim keybindOptions = From k In Keybindings
@@ -248,8 +49,10 @@ Partial Public Class MainWindow
 
             For Each keybind In keybindOptions
                 Dim keyComboString = Join(keyComboEvent, "+")
-                ' To account for per-note assignment using shift
+                ' Category SP/PMS/DP: Account for per-note assignment using shift
                 If P = KbCategorySP Or P = KbCategoryPMS Or P = KbCategoryDP Then keyComboString = keyComboString.Replace("Shift+", "")
+                ' Category AllMod: Ignore modifiers
+                If P = KbCategoryAllMod Then keyComboString = e.KeyCode.ToString()
 
                 If keybind.Combo.Contains(keyComboString) Then
                     keybindOptionName = keybind.OpName
@@ -344,9 +147,191 @@ Partial Public Class MainWindow
                 mnSelectAll_Click(mnSelectAll, New EventArgs)
             Case "Select All with Hovered Note Label"
                 If KMouseOver <> -1 Then SelectAllWithHoveredNoteLabel()
+
+            Case "Move Note Up"
+                Dim xVPosition As Double = 192 / gDivide
+                If My.Computer.Keyboard.CtrlKeyDown Then xVPosition = 1
+
+                'Ks cannot be beyond the upper boundary
+                Dim muVPosition As Double = GetMaxVPosition() - 1
+                For xI1 = 1 To UBound(Notes)
+                    If Notes(xI1).Selected Then
+                        'K(xI1).VPosition = Math.Floor(K(xI1).VPosition / (192 / gDivide)) * 192 / gDivide
+                        Dim NTLength As Double = CDbl(IIf(NTInput, Notes(xI1).Length, 0))
+                        muVPosition = CDbl(IIf(Notes(xI1).VPosition + NTLength + xVPosition > muVPosition,
+                                                          Notes(xI1).VPosition + NTLength + xVPosition,
+                                                          muVPosition))
+                    End If
+                Next
+                muVPosition -= 191999
+
+                Dim xVPos As Double
+                For xI1 = UBound(Notes) To 1 Step -1
+                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
+
+                    xVPos = Notes(xI1).VPosition + xVPosition - muVPosition
+                    Me.RedoMoveNote(Notes(xI1), Notes(xI1).ColumnIndex, xVPos, xUndo, xRedo)
+                    Notes(xI1).VPosition = xVPos
+                    IsNoteInPanel(xVPos, Notes(xI1).Length)
+                Next
+
+                SortByVPositionInsertion()
+                UpdatePairing()
+                CalculateTotalPlayableNotes()
+                CalculateGreatestVPosition()
+                RefreshPanelAll()
+            Case "Move Note Down"
+                Dim xVPosition As Double = -192 / gDivide
+                If My.Computer.Keyboard.CtrlKeyDown Then xVPosition = -1
+
+                'Ks cannot be beyond the lower boundary
+                Dim mVPosition As Double = 0
+                For xI1 = 1 To UBound(Notes)
+                    If Notes(xI1).Selected Then
+                        'K(xI1).VPosition = Math.Ceiling(K(xI1).VPosition / (192 / gDivide)) * 192 / gDivide
+                        mVPosition = CDbl(IIf(Notes(xI1).VPosition + xVPosition < mVPosition,
+                                                                 Notes(xI1).VPosition + xVPosition,
+                                                                 mVPosition))
+                    End If
+                Next
+
+                Dim xVPos As Double
+                For xI1 = UBound(Notes) To 1 Step -1
+                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
+
+                    xVPos = Notes(xI1).VPosition + xVPosition - mVPosition
+                    Me.RedoMoveNote(Notes(xI1), Notes(xI1).ColumnIndex, xVPos, xUndo, xRedo)
+                    Notes(xI1).VPosition = xVPos
+                    IsNoteInPanel(xVPos, Notes(xI1).Length)
+                Next
+
+                If xVPosition - mVPosition <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
+                SortByVPositionInsertion()
+                UpdatePairing()
+                CalculateTotalPlayableNotes()
+                CalculateGreatestVPosition()
+                RefreshPanelAll()
+            Case "Move Note Left"
+                'For xI1 = 1 To UBound(K)
+                '    If K(xI1).Selected Then K(xI1).ColumnIndex = RealColumnToEnabled(K(xI1).ColumnIndex) - 1
+                'Next
+
+                'Ks cannot be beyond the left boundary
+                Dim mLeft As Integer = 0
+                For xI1 = 1 To UBound(Notes)
+                    If Notes(xI1).Selected Then mLeft = CInt(IIf(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) - 1 < mLeft,
+                                                        ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) - 1,
+                                                        mLeft))
+                Next
+
+                Dim xCol As Integer
+                For xI1 = UBound(Notes) To 1 Step -1
+                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
+
+                    xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) - 1 - mLeft)
+                    Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
+                    Notes(xI1).ColumnIndex = xCol
+                    IsNoteInPanel(Notes(xI1).VPosition, Notes(xI1).Length)
+                Next
+
+                If -1 - mLeft <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
+                UpdatePairing()
+                CalculateTotalPlayableNotes()
+                RefreshPanelAll()
+            Case "Move Note Right"
+                Dim xCol As Integer
+                For xI1 = UBound(Notes) To 1 Step -1
+                    If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
+
+                    xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) + 1)
+                    Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
+                    Notes(xI1).ColumnIndex = xCol
+                    IsNoteInPanel(Notes(xI1).VPosition, Notes(xI1).Length)
+                Next
+
+                AddUndo(xUndo, xBaseRedo.Next)
+                UpdatePairing()
+                CalculateTotalPlayableNotes()
+                RefreshPanelAll()
+            Case "Insert Space/Define Measure"
+                If TBTimeSelect.Checked Then
+                    With My.Computer.Keyboard
+                        If Not .CtrlKeyDown And Not .ShiftKeyDown Then
+                            BDefineMeasure_Click(BDefineMeasure, New System.EventArgs)
+                        ElseIf .CtrlKeyDown And Not .ShiftKeyDown Then
+                            BInsertOrRemoveSpaceM_Click(BInsertOrRemoveSpaceM, New System.EventArgs)
+                        ElseIf Not .CtrlKeyDown And .ShiftKeyDown Then
+                            BInsertOrRemoveSpaceN_Click(BInsertOrRemoveSpaceN, New System.EventArgs)
+                        Else
+                            InsertOrRemoveSpaceMN(sender, New System.EventArgs)
+                        End If
+                    End With
+                End If
+            Case "Decrease Division"
+                With My.Computer.Keyboard
+                    Dim Modif As Integer = CInt(IIf(.ShiftKeyDown, 3, 2))
+                    If Not .CtrlKeyDown And Not .AltKeyDown Then ' Divide CGDivide
+                        If CInt(CGDivide.Value) / Modif >= CGDivide.Minimum Then CGDivide.Value = CGDivide.Value / Modif
+                    ElseIf .CtrlKeyDown And Not .AltKeyDown Then ' Decrease CGDivide by 1
+                        If CGDivide.Value - 1 >= CGDivide.Minimum Then CGDivide.Value -= 1
+                    ElseIf Not .CtrlKeyDown And .AltKeyDown Then ' Divide CGSub
+                        If CInt(CGSub.Value) / Modif >= CGSub.Minimum Then CGSub.Value = CGSub.Value / Modif
+                    Else ' Decrease CGSub by 1
+                        If CGSub.Value - 1 >= CGSub.Minimum Then CGSub.Value -= 1
+                    End If
+                End With
+            Case "Increase Division"
+                With My.Computer.Keyboard
+                    Dim Modif As Integer = CInt(IIf(.ShiftKeyDown, 3, 2))
+                    If Not .CtrlKeyDown And Not .AltKeyDown Then ' Divide CGDivide
+                        If CGDivide.Value * Modif <= CGDivide.Maximum Then CGDivide.Value *= Modif
+                    ElseIf .CtrlKeyDown And Not .AltKeyDown Then ' Decrease CGDivide by 1
+                        If CGDivide.Value + 1 <= CGDivide.Maximum Then CGDivide.Value += 1
+                    ElseIf Not .CtrlKeyDown And .AltKeyDown Then ' Divide CGSub
+                        If CGSub.Value * Modif <= CGSub.Maximum Then CGSub.Value *= Modif
+                    Else ' Decrease CGSub by 1
+                        If CGSub.Value + 1 <= CGSub.Maximum Then CGSub.Value += 1
+                    End If
+                End With
+
+            Case "Delete"
+                mnDelete_Click(mnDelete, New System.EventArgs)
+            Case "Home"
+                If PanelFocus = 0 Then LeftPanelScroll.Value = 0
+                If PanelFocus = 1 Then MainPanelScroll.Value = 0
+                If PanelFocus = 2 Then RightPanelScroll.Value = 0
+            Case "End"
+                If PanelFocus = 0 Then LeftPanelScroll.Value = LeftPanelScroll.Minimum
+                If PanelFocus = 1 Then MainPanelScroll.Value = MainPanelScroll.Minimum
+                If PanelFocus = 2 Then RightPanelScroll.Value = RightPanelScroll.Minimum
+            Case "PageUp"
+                If PanelFocus = 0 Then LeftPanelScroll.Value = CInt(IIf(LeftPanelScroll.Value - gPgUpDn > LeftPanelScroll.Minimum, LeftPanelScroll.Value - gPgUpDn, LeftPanelScroll.Minimum))
+                If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value - gPgUpDn > MainPanelScroll.Minimum, MainPanelScroll.Value - gPgUpDn, MainPanelScroll.Minimum))
+                If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value - gPgUpDn > RightPanelScroll.Minimum, RightPanelScroll.Value - gPgUpDn, RightPanelScroll.Minimum))
+            Case "PageDown"
+                If PanelFocus = 0 Then LeftPanelScroll.Value = CInt(IIf(LeftPanelScroll.Value + gPgUpDn < 0, LeftPanelScroll.Value + gPgUpDn, 0))
+                If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value + gPgUpDn < 0, MainPanelScroll.Value + gPgUpDn, 0))
+                If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value + gPgUpDn < 0, RightPanelScroll.Value + gPgUpDn, 0))
+            Case "Set CGDivision"
+                'Dim xTempSwap As Integer = gSlash
+                'gSlash = CGDivide.Value
+                'CGDivide.Value = xTempSwap
+                CGDivide.Value = gSlash
+            Case "Decrease CGHeight"
+                With CGHeight
+                    .Value -= CDec(IIf(.Value < .Minimum + .Increment, .Value - .Minimum, .Increment))
+                End With
+            Case "Increase CGHeight"
+                With CGHeight
+                    .Value += CDec(IIf(.Value > .Maximum - .Increment, .Maximum - .Value, .Increment))
+                End With
+            Case "DecreaseCurrentWav"
+                DecreaseCurrentWav()
+            Case "IncreaseCurrentWav"
+                IncreaseCurrentWav()
             Case "TBPreviewHighlighted_Click"
                 TBPreviewHighlighted_Click(sender, New EventArgs)
-            Case "GetVPositionFromTime"
+            Case "GetVPositionFromTime" ' Currently not accessible
                 MsgBox("VPosition: " & GetVPositionFromTime(CDbl(InputBox("Enter time"))))
         End Select
 
