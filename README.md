@@ -29,8 +29,8 @@ Listed in the order added.
 * Added note search function (goto measure except it's goto note). One note per VPosition only.
 * Added sort function. Selected notes are sorted based on their VPosition and Value.
 * Added mBMplay as a default player.
-* Added support for #RANDOM. Supports expansion field and main data field only. Not tested thoroughly, nested #RANDOM in "Modify Section" only. Accessible via the "Select Section" button in Expansion Code or via Ctrl+Alt+R.
-* Added color overriding options where you can specify a range of notes to appear a specific color, such as red notes for drums and green notes for the piano. Accessible via the Options tab or via Shift+F12.
+* Added basic support for #RANDOM. Supports expansion field and main data field only. Not tested thoroughly, nested #RANDOM in "Modify Section" only. Accessible via the "Select Section" button in Expansion Code or via Ctrl+Alt+R.
+* Added color overriding options where you can specify a range of notes to appear a specific color (or a color gradient), such as red notes for drums and green notes for the piano. Accessible via the Options tab or via Shift+F12.
 * Added comment notes. Comment notes will be saved as #ECMD and #ECOM within the same bms/pms file. Not tested thoroughly.
 * The window will now follow notes being moved by arrow keys.
 * When creating LNs in NT mode, the VPosition will snap to the highlighted note if any.
@@ -44,11 +44,12 @@ Listed in the order added.
 * Added support for rebinding keys.
 * Added #TOTAL Options window to set a recommended #TOTAL value based on the selected calculation formula.
 * Added lines to scroll along the panel while previewing a keysound and to indicate the keysound's end point.
+* Added support to move notes to their template position.
 
 ## Keyboard shortcuts
-* Changed keybinding to allow note placement between D1 and D8:
-  * Numpad keys are now assigned to 2P lanes.
-  * QWERTYUI keys are also assigned to 2P lanes.
+* While rebinding keys is now supported, the default keybinding has also been changed to allow note placement between D1 and D8 or only on PMS lanes in PMS mode:
+  * Numpad keys are assigned to 2P lanes when making DP charts.
+  * QWERTYUI keys are also assigned to 2P lanes when making DP charts.
   * 1 to 7 are now assigned to A2 to A8, and 8 is now assigned to A1.
   * Ctrl+1 to Ctrl+8 are now assigned to D1-D8.
   * For PMS: Number keys 1-9 assign the notes to PMS lanes when a PMS theme is used.
@@ -79,7 +80,7 @@ Listed in the order added.
 * Added shortcut for inserting/removing space with Time Selection Tool (Ctrl+Insert for measure only, Shift+Insert for notes only, and Ctrl+Shift+Insert for both)
 * Added shortcut for techincal error check (Ctrl+Alt+E by default)
 * Added shortcut for keybinding options (Shift+F10)
-* Added experimental feature shortcuts (Preview highlighted notes - Shift+F4, Get VPosition from Time - Shift+F2)
+* Added experimental feature shortcuts (Preview highlighted notes - Shift+F4)
 
 ## New dialog/option boxes
 

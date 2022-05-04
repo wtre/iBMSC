@@ -193,8 +193,8 @@ Partial Public Class MainWindow
         '    ClearURReference(sRedo(xI1))
         'Next
 
-        ReDim sUndo(99)
-        ReDim sRedo(99)
+        ReDim sUndo(UndoRedoCount)
+        ReDim sRedo(UndoRedoCount)
         sUndo(0) = New UndoRedo.NoOperation
         sUndo(1) = New UndoRedo.NoOperation
         sRedo(0) = New UndoRedo.NoOperation

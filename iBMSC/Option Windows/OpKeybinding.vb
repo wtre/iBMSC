@@ -155,7 +155,7 @@ Public Class OpKeybinding
 
         Select Case Keybinds(LVKeybinding.FocusedItem.Index).Category
             ' If note assignment option, check if there is shift
-            Case MainWindow.CategorySP, MainWindow.CategoryDP, MainWindow.CategoryPMS
+            Case MainWindow.KbCategorySP, MainWindow.KbCategoryDP, MainWindow.KbCategoryPMS
                 If keyComboEvent.Contains("Shift") Then
                     keyComboOK = False
                     MsgBox("Error: Shift cannot be used for note assignment keybindings.")
@@ -169,12 +169,12 @@ Public Class OpKeybinding
         ' TODO
         Select Case Keybinds(LVKeybinding.FocusedItem.Index).Category
             ' If note assignment option, check with each other in the same category
-            Case MainWindow.CategorySP
-                CategoryToIgnore = {MainWindow.CategoryDP, MainWindow.CategoryPMS}
-            Case MainWindow.CategoryDP
-                CategoryToIgnore = {MainWindow.CategorySP, MainWindow.CategoryPMS}
-            Case MainWindow.CategoryPMS
-                CategoryToIgnore = {MainWindow.CategorySP, MainWindow.CategoryDP}
+            Case MainWindow.KbCategorySP
+                CategoryToIgnore = {MainWindow.KbCategoryDP, MainWindow.KbCategoryPMS}
+            Case MainWindow.KbCategoryDP
+                CategoryToIgnore = {MainWindow.KbCategorySP, MainWindow.KbCategoryPMS}
+            Case MainWindow.KbCategoryPMS
+                CategoryToIgnore = {MainWindow.KbCategorySP, MainWindow.KbCategoryDP}
 
         End Select
 
@@ -227,6 +227,8 @@ Public Class OpKeybinding
                 keybindStrings = {""}
             End If
             LVArray(i).SubItems.Add(Join(keybindStrings, ", "))
+            Dim x = CInt("&HF9")
+            If i Mod 2 = 1 Then LVArray(i).BackColor = Color.FromArgb(x, x, x)
         Next
 
         LVKeybinding.Items.AddRange(LVArray)

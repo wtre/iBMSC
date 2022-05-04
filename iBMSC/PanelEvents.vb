@@ -238,9 +238,9 @@ Partial Public Class MainWindow
         Dim keybindOptionName As String = ""
 
         ' Check for specific categories first
-        For Each P In KeybindingCategory
-            If (P = CategoryPMS AndAlso gXKeyMode <> "PMS") Or
-                (P = CategoryDP AndAlso gXKeyMode <> "DP") Then Continue For
+        For Each P In KbCategory
+            If (P = KbCategoryPMS AndAlso gXKeyMode <> "PMS") Or
+                (P = KbCategoryDP AndAlso gXKeyMode <> "DP") Then Continue For
 
             Dim keybindOptions = From k In Keybindings
                                  Where k.Category = P
@@ -249,7 +249,7 @@ Partial Public Class MainWindow
             For Each keybind In keybindOptions
                 Dim keyComboString = Join(keyComboEvent, "+")
                 ' To account for per-note assignment using shift
-                If P = CategorySP Or P = CategoryPMS Or P = CategoryDP Then keyComboString = keyComboString.Replace("Shift+", "")
+                If P = KbCategorySP Or P = KbCategoryPMS Or P = KbCategoryDP Then keyComboString = keyComboString.Replace("Shift+", "")
 
                 If keybind.Combo.Contains(keyComboString) Then
                     keybindOptionName = keybind.OpName

@@ -109,8 +109,9 @@ Public Class MainWindow
     'Dim SaveTheme As Boolean = True
 
     'Variables for undo/redo
-    Dim sUndo(99) As UndoRedo.LinkedURCmd
-    Dim sRedo(99) As UndoRedo.LinkedURCmd
+    Dim UndoRedoCount As Integer = 200
+    Dim sUndo(UndoRedoCount) As UndoRedo.LinkedURCmd
+    Dim sRedo(UndoRedoCount) As UndoRedo.LinkedURCmd
     Dim sI As Integer = 0
 
     'Variables for select tool
@@ -281,39 +282,40 @@ Public Class MainWindow
         End Sub
     End Structure
 
-    Public CategorySP As Integer = 1
-    Public CategoryPMS As Integer = 2
-    Public CategoryDP As Integer = 3
-    Public KeybindingCategory() As Integer = {CategoryPMS, CategoryDP, CategorySP, -1} ' Order matters
+    Public KbCategorySP As Integer = 1
+    Public KbCategoryPMS As Integer = 2
+    Public KbCategoryDP As Integer = 3
+    Public KbCategoryHidden As Integer = 0
+    Public KbCategory() As Integer = {KbCategoryPMS, KbCategoryDP, KbCategorySP, KbCategoryHidden, -1} ' Order matters
     Public KeybindingsInit() As Keybinding = { ' SP Note Assignments
-                                       New Keybinding("Move to A2", "Move note to 1P Lane 1", {"D1", "NumPad1"}, CategorySP),
-                                       New Keybinding("Move to A3", "Move note to 1P Lane 2", {"D2", "NumPad2"}, CategorySP),
-                                       New Keybinding("Move to A4", "Move note to 1P Lane 3", {"D3", "NumPad3"}, CategorySP),
-                                       New Keybinding("Move to A5", "Move note to 1P Lane 4", {"D4", "NumPad4"}, CategorySP),
-                                       New Keybinding("Move to A6", "Move note to 1P Lane 5", {"D5", "NumPad5"}, CategorySP),
-                                       New Keybinding("Move to A7", "Move note to 1P Lane 6", {"D6", "NumPad6"}, CategorySP),
-                                       New Keybinding("Move to A8", "Move note to 1P Lane 7", {"D7", "NumPad7"}, CategorySP),
-                                       New Keybinding("Move to A1", Strings.fopKeybinding.MDesc1PS, {"D8", "NumPad8"}, CategorySP),
-                                                                                                                                   _ ' DP Note Assignments
-                                       New Keybinding("Move to D1", "Move note to 2P Lane 1", {"Q", "Ctrl+D1", "NumPad1"}, CategoryDP),
-                                       New Keybinding("Move to D2", "Move note to 2P Lane 2", {"W", "Ctrl+D2", "NumPad2"}, CategoryDP),
-                                       New Keybinding("Move to D3", "Move note to 2P Lane 3", {"E", "Ctrl+D3", "NumPad3"}, CategoryDP),
-                                       New Keybinding("Move to D4", "Move note to 2P Lane 4", {"R", "Ctrl+D4", "NumPad4"}, CategoryDP),
-                                       New Keybinding("Move to D5", "Move note to 2P Lane 5", {"T", "Ctrl+D5", "NumPad5"}, CategoryDP),
-                                       New Keybinding("Move to D6", "Move note to 2P Lane 6", {"Y", "Ctrl+D6", "NumPad6"}, CategoryDP),
-                                       New Keybinding("Move to D7", "Move note to 2P Lane 7", {"U", "Ctrl+D7", "NumPad7"}, CategoryDP),
-                                       New Keybinding("Move to D8", Strings.fopKeybinding.MDesc2PS, {"I", "Ctrl+D8", "NumPad8"}, CategoryDP),
-                                                                                                                                             _ ' PMS Note Assignments
-                                       New Keybinding("Move to P1", "Move note to PMS Lane 1", {"D1", "NumPad1"}, CategoryPMS),
-                                       New Keybinding("Move to P2", "Move note to PMS Lane 2", {"D2", "NumPad2"}, CategoryPMS),
-                                       New Keybinding("Move to P3", "Move note to PMS Lane 3", {"D3", "NumPad3"}, CategoryPMS),
-                                       New Keybinding("Move to P4", "Move note to PMS Lane 4", {"D4", "NumPad4"}, CategoryPMS),
-                                       New Keybinding("Move to P5", "Move note to PMS Lane 5", {"D5", "NumPad5"}, CategoryPMS),
-                                       New Keybinding("Move to P6", "Move note to PMS Lane 6", {"D6", "NumPad6"}, CategoryPMS),
-                                       New Keybinding("Move to P7", "Move note to PMS Lane 7", {"D7", "NumPad7"}, CategoryPMS),
-                                       New Keybinding("Move to P8", "Move note to PMS Lane 8", {"D8", "NumPad8"}, CategoryPMS),
-                                       New Keybinding("Move to P9", "Move note to PMS Lane 9", {"D9", "NumPad9"}, CategoryPMS),
-                                                                                                                               _ ' Miscellaneous BMS
+                                       New Keybinding("Move to A2", "Move note to 1P Lane 1", {"D1", "NumPad1"}, KbCategorySP),
+                                       New Keybinding("Move to A3", "Move note to 1P Lane 2", {"D2", "NumPad2"}, KbCategorySP),
+                                       New Keybinding("Move to A4", "Move note to 1P Lane 3", {"D3", "NumPad3"}, KbCategorySP),
+                                       New Keybinding("Move to A5", "Move note to 1P Lane 4", {"D4", "NumPad4"}, KbCategorySP),
+                                       New Keybinding("Move to A6", "Move note to 1P Lane 5", {"D5", "NumPad5"}, KbCategorySP),
+                                       New Keybinding("Move to A7", "Move note to 1P Lane 6", {"D6", "NumPad6"}, KbCategorySP),
+                                       New Keybinding("Move to A8", "Move note to 1P Lane 7", {"D7", "NumPad7"}, KbCategorySP),
+                                       New Keybinding("Move to A1", Strings.fopKeybinding.MDesc1PS, {"D8", "NumPad8"}, KbCategorySP),
+                                                                                                                                     _ ' DP Note Assignments
+                                       New Keybinding("Move to D1", "Move note to 2P Lane 1", {"Q", "Ctrl+D1", "NumPad1"}, KbCategoryDP),
+                                       New Keybinding("Move to D2", "Move note to 2P Lane 2", {"W", "Ctrl+D2", "NumPad2"}, KbCategoryDP),
+                                       New Keybinding("Move to D3", "Move note to 2P Lane 3", {"E", "Ctrl+D3", "NumPad3"}, KbCategoryDP),
+                                       New Keybinding("Move to D4", "Move note to 2P Lane 4", {"R", "Ctrl+D4", "NumPad4"}, KbCategoryDP),
+                                       New Keybinding("Move to D5", "Move note to 2P Lane 5", {"T", "Ctrl+D5", "NumPad5"}, KbCategoryDP),
+                                       New Keybinding("Move to D6", "Move note to 2P Lane 6", {"Y", "Ctrl+D6", "NumPad6"}, KbCategoryDP),
+                                       New Keybinding("Move to D7", "Move note to 2P Lane 7", {"U", "Ctrl+D7", "NumPad7"}, KbCategoryDP),
+                                       New Keybinding("Move to D8", Strings.fopKeybinding.MDesc2PS, {"I", "Ctrl+D8", "NumPad8"}, KbCategoryDP),
+                                                                                                                                               _ ' PMS Note Assignments
+                                       New Keybinding("Move to P1", "Move note to PMS Lane 1", {"D1", "NumPad1"}, KbCategoryPMS),
+                                       New Keybinding("Move to P2", "Move note to PMS Lane 2", {"D2", "NumPad2"}, KbCategoryPMS),
+                                       New Keybinding("Move to P3", "Move note to PMS Lane 3", {"D3", "NumPad3"}, KbCategoryPMS),
+                                       New Keybinding("Move to P4", "Move note to PMS Lane 4", {"D4", "NumPad4"}, KbCategoryPMS),
+                                       New Keybinding("Move to P5", "Move note to PMS Lane 5", {"D5", "NumPad5"}, KbCategoryPMS),
+                                       New Keybinding("Move to P6", "Move note to PMS Lane 6", {"D6", "NumPad6"}, KbCategoryPMS),
+                                       New Keybinding("Move to P7", "Move note to PMS Lane 7", {"D7", "NumPad7"}, KbCategoryPMS),
+                                       New Keybinding("Move to P8", "Move note to PMS Lane 8", {"D8", "NumPad8"}, KbCategoryPMS),
+                                       New Keybinding("Move to P9", "Move note to PMS Lane 9", {"D9", "NumPad9"}, KbCategoryPMS),
+                                                                                                                                 _ ' Miscellaneous BMS
                                        New Keybinding("Move to BGM", "Move note to BGM Lane", {"D0", "NumPad0"}),
                                        New Keybinding("Move to Template Position", "Move note to Template Position if available", {"P"}),
                                        New Keybinding("Disable Vertical Moves", "Disable vertical moves", {"D"}),
@@ -331,7 +333,7 @@ Public Class MainWindow
                                        New Keybinding("Select All", "Select all notes", {"Ctrl+A"}),
                                        New Keybinding("Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"}),
                                                                                                                                                               _ ' Experimental
-                                       New Keybinding("TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"})
+                                       New Keybinding("TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"}, KbCategoryHidden)
                                        }
     Dim Keybindings() As Keybinding = CType(KeybindingsInit.Clone(), Keybinding())
 
@@ -3374,7 +3376,7 @@ Public Class MainWindow
             If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
             ' Begin building array until vPosition changes
             vPos = Notes(xI1).VPosition
-            Do While xI1 <= UBound(Notes) AndAlso Math.Abs(Notes(xI1).VPosition - vPos) < ErrorJackSpeed
+            Do While xI1 <= UBound(Notes) AndAlso Math.Abs(GetTimeFromVPosition(Notes(xI1).VPosition) - GetTimeFromVPosition(vPos)) <= ErrorJackSpeed
                 If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
                 ReDim Preserve xI1Arr(xI1Arr.Length)
                 xI1Arr(UBound(xI1Arr)) = xI1
