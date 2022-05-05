@@ -428,9 +428,7 @@ Partial Public Class MainWindow
                 With eEdit
                     XMLLoadAttribute(.GetAttribute("NTInput"), NTInput)
                     TBNTInput.Checked = NTInput
-                    mnNTInput.Checked = NTInput
-                    POBLong.Enabled = Not NTInput
-                    POBLongShort.Enabled = Not NTInput
+                    TBNTInput_Click(TBNTInput, New EventArgs)
 
                     LoadLocale(My.Application.Info.DirectoryPath & "\" & .GetAttribute("Language"))
 

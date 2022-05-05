@@ -134,9 +134,11 @@ Partial Public Class MainWindow
                     NTInput = xCmd.BecomeNT
                     TBNTInput.Checked = NTInput
                     mnNTInput.Checked = NTInput
+                    POBLongObjNT.Visible = NTInput
+                    POBLongNTObj.Visible = NTInput
+                    POBLong.Visible = Not NTInput
+                    POBLongShort.Visible = Not NTInput
 
-                    POBLong.Enabled = Not NTInput
-                    POBLongShort.Enabled = Not NTInput
                     bAdjustLength = False
                     bAdjustUpper = False
 

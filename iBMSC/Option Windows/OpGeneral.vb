@@ -377,16 +377,13 @@ Public Class OpGeneral
     End Sub
 
     Private Sub NLNGap_ValueChanged(sender As Object, e As EventArgs) Handles NLNGap.ValueChanged
-        Select Case NLNGap.Value Mod 100
-            Case 1, 21, 31, 41, 51, 61, 71, 81, 91
-                LabelTHLN.Text = "st"
-            Case 2, 22, 32, 42, 52, 62, 72, 82, 92
-                LabelTHLN.Text = "nd"
-            Case 3, 23, 33, 43, 53, 63, 73, 83, 93
-                LabelTHLN.Text = "rd"
-            Case Else
-                LabelTHLN.Text = "th"
+        Select Case NLNGap.Value
+            Case Is > 1
+                LabelTHLN.Text = "bars"
+            Case Is > 0
+                LabelTHLN.Text = "bar"
+            Case 0
+                LabelTHLN.Text = "bars"
         End Select
-        LabelTHLN.Text &= " of a bar"
     End Sub
 End Class

@@ -1088,9 +1088,10 @@ Partial Public Class MainWindow
 
                             NTInput = CBool(xPref And &H1)
                             TBNTInput.Checked = NTInput
-                            mnNTInput.Checked = NTInput
-                            POBLong.Enabled = Not NTInput
-                            POBLongShort.Enabled = Not NTInput
+                            POBLongObjNT.Visible = NTInput
+                            POBLongNTObj.Visible = NTInput
+                            POBLong.Visible = Not NTInput
+                            POBLongShort.Visible = Not NTInput
 
                             ErrorCheck = CBool(xPref And &H2)
                             TBErrorCheck.Checked = ErrorCheck

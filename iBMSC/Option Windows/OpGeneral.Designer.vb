@@ -341,7 +341,7 @@ Partial Class OpGeneral
         '
         'nGridPartition
         '
-        Me.nGridPartition.Location = New System.Drawing.Point(198, 3)
+        Me.nGridPartition.Location = New System.Drawing.Point(197, 3)
         Me.nGridPartition.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.nGridPartition.Minimum = New Decimal(New Integer() {8, 0, 0, 0})
         Me.nGridPartition.Name = "nGridPartition"
@@ -354,7 +354,7 @@ Partial Class OpGeneral
         Me.Label6.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Label6.Location = New System.Drawing.Point(3, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(189, 33)
+        Me.Label6.Size = New System.Drawing.Size(188, 33)
         Me.Label6.TabIndex = 8
         Me.Label6.Text = "Maximum Grid Partition in BMS"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -442,7 +442,7 @@ Partial Class OpGeneral
         Me.Label8.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Label8.Location = New System.Drawing.Point(3, 33)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(189, 33)
+        Me.Label8.Size = New System.Drawing.Size(188, 33)
         Me.Label8.TabIndex = 8
         Me.Label8.Text = "Minimum Jack Threshold"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -488,7 +488,7 @@ Partial Class OpGeneral
         Me.TableLayoutPanel2.Controls.Add(Me.Label9, 1, 0)
         Me.TableLayoutPanel2.Controls.Add(Me.nJackTH, 2, 0)
         Me.TableLayoutPanel2.Controls.Add(Me.LabelTHJack, 3, 0)
-        Me.TableLayoutPanel2.Location = New System.Drawing.Point(198, 36)
+        Me.TableLayoutPanel2.Location = New System.Drawing.Point(197, 36)
         Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
         Me.TableLayoutPanel2.RowCount = 1
         Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
@@ -527,14 +527,14 @@ Partial Class OpGeneral
         Me.NLNGap.Name = "NLNGap"
         Me.NLNGap.Size = New System.Drawing.Size(74, 23)
         Me.NLNGap.TabIndex = 9
-        Me.NLNGap.Value = New Decimal(New Integer() {100, 0, 0, 0})
+        Me.NLNGap.Value = New Decimal(New Integer() {5, 0, 0, 65536})
         '
         'Label10
         '
         Me.Label10.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Label10.Location = New System.Drawing.Point(3, 66)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(189, 34)
+        Me.Label10.Size = New System.Drawing.Size(188, 34)
         Me.Label10.TabIndex = 8
         Me.Label10.Text = "Auto Long Note Gap"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -567,7 +567,7 @@ Partial Class OpGeneral
         Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.TableLayoutPanel4.Controls.Add(Me.LabelTHLN, 1, 0)
         Me.TableLayoutPanel4.Controls.Add(Me.NLNGap, 0, 0)
-        Me.TableLayoutPanel4.Location = New System.Drawing.Point(198, 69)
+        Me.TableLayoutPanel4.Location = New System.Drawing.Point(197, 69)
         Me.TableLayoutPanel4.Name = "TableLayoutPanel4"
         Me.TableLayoutPanel4.RowCount = 1
         Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
@@ -581,7 +581,7 @@ Partial Class OpGeneral
         Me.LabelTHLN.Name = "LabelTHLN"
         Me.LabelTHLN.Size = New System.Drawing.Size(89, 28)
         Me.LabelTHLN.TabIndex = 10
-        Me.LabelTHLN.Text = "th"
+        Me.LabelTHLN.Text = "bars"
         Me.LabelTHLN.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'OpGeneral

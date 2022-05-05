@@ -175,6 +175,7 @@ Partial Public Class MainWindow
                     IsNoteInPanel(xVPos, Notes(xI1).Length)
                 Next
 
+                If xVPosition - muVPosition <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
                 SortByVPositionInsertion()
                 UpdatePairing()
                 CalculateTotalPlayableNotes()

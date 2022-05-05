@@ -1447,7 +1447,7 @@ Public Class MainWindow
                         End If
                     Next
 
-                    If Not Notes(i).HasError Or Notes(i).LNPair = 0 Then
+                    If Not Notes(i).HasError AndAlso Notes(i).LNPair = 0 Then
 
                         For j = i + 1 To UBound(Notes)
                             If Notes(j).ColumnIndex <> Notes(i).ColumnIndex Then Continue For
@@ -3246,11 +3246,11 @@ Public Class MainWindow
 
 
     Private Function sIA() As Integer
-        Return CInt(IIf(sI > 98, 0, sI + 1))
+        Return CInt(IIf(sI > UndoRedoCount - 1, 0, sI + 1))
     End Function
 
     Private Function sIM() As Integer
-        Return CInt(IIf(sI < 1, 99, sI - 1))
+        Return CInt(IIf(sI < 1, UndoRedoCount, sI - 1))
     End Function
 
 
@@ -3270,12 +3270,15 @@ Public Class MainWindow
     End Sub
 
     Private Sub TBRedo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBRedo.Click, mnRedo.Click
+        Console.WriteLine("Redo sI " + sI.ToString())
         KMouseOver = -1
         'KMouseDown = -1
         ReDim SelectedNotes(-1)
         If sRedo(sIA).ofType = UndoRedo.opNoOperation Then Exit Sub
         PerformCommand(sRedo(sIA))
         sI = sIA()
+
+        Console.WriteLine("Redo sI " + sI.ToString())
 
         TBUndo.Enabled = sUndo(sI).ofType <> UndoRedo.opNoOperation
         TBRedo.Enabled = sRedo(sIA).ofType <> UndoRedo.opNoOperation
@@ -3615,8 +3618,10 @@ Public Class MainWindow
 
         TBNTInput.Checked = NTInput
         mnNTInput.Checked = NTInput
-        POBLong.Enabled = Not NTInput
-        POBLongShort.Enabled = Not NTInput
+        POBLongObjNT.Visible = NTInput
+        POBLongNTObj.Visible = NTInput
+        POBLong.Visible = Not NTInput
+        POBLongShort.Visible = Not NTInput
 
         bAdjustLength = False
         bAdjustUpper = False
@@ -3877,6 +3882,60 @@ Public Class MainWindow
                 mnTechnicalErrorCheck.ShortcutKeyDisplayString = keybind.Combo(0)
         End Select
     End Sub
+
+    Private Sub POBLongObjNT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBLongObjNT.Click
+        If Not NTInput OrElse LnObj = 0 Then Exit Sub
+
+        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+        For xI1 As Integer = 1 To UBound(Notes)
+            If Not Notes(xI1).Selected OrElse Notes(xI1).Ghost OrElse LnObj <> Notes(xI1).Value / 10000 OrElse Notes(xI1).LNPair = 0 Then Notes(xI1).Selected = False : Continue For
+
+            Dim LNPair As Integer = Notes(xI1).LNPair
+            Dim xLen As Double = Notes(xI1).VPosition - Notes(LNPair).VPosition
+            Me.RedoLongNoteModify(Notes(LNPair), Notes(LNPair).VPosition, xLen, xUndo, xRedo)
+            Notes(LNPair).Length = Notes(xI1).VPosition - Notes(LNPair).VPosition
+        Next
+
+        Me.RedoRemoveNoteSelected(True, xUndo, xRedo)
+        RemoveNotes(True)
+
+        AddUndo(xUndo, xBaseRedo.Next)
+        SortByVPositionInsertion()
+        UpdatePairing()
+        RefreshPanelAll()
+    End Sub
+
+    Private Sub POBLongNTObj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBLongNTObj.Click
+        If Not NTInput OrElse LnObj = 0 Then Exit Sub
+
+        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+        For xI1 As Integer = 1 To UBound(Notes)
+            If Not Notes(xI1).Selected OrElse Notes(xI1).Ghost OrElse Notes(xI1).Length = 0 Then Continue For
+
+            Dim vPos As Double = Notes(xI1).VPosition + Notes(xI1).Length
+            Me.RedoLongNoteModify(Notes(xI1), Notes(xI1).VPosition, 0, xUndo, xRedo)
+            Notes(xI1).Length = 0
+
+            Dim NoteLNObj As Note = CType(Notes(xI1), Note)
+            NoteLNObj.VPosition = vPos
+            NoteLNObj.Value = LnObj * 10000
+            RedoAddNote(NoteLNObj, xUndo, xRedo)
+            AddNote(NoteLNObj)
+        Next
+
+        AddUndo(xUndo, xBaseRedo.Next)
+        SortByVPositionInsertion()
+        UpdatePairing()
+        RefreshPanelAll()
+    End Sub
+
+
 
     Private Sub POBLong_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBLong.Click
         If NTInput Then Exit Sub
