@@ -45,6 +45,8 @@ Listed in the order added.
 * Added #TOTAL Options window to set a recommended #TOTAL value based on the selected calculation formula.
 * Added lines to scroll along the panel while previewing a keysound and to indicate the keysound's end point.
 * Added support to move notes to their template position.
+* Added ability to convert notes to Long notes in a series by VPosition or by column.
+* Added ability to convert between LNObj's and NT LN's.
 
 ## Keyboard shortcuts
 * While rebinding keys is now supported, the default keybinding has also been changed to allow note placement between D1 and D8 or only on PMS lanes in PMS mode:
