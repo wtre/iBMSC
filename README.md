@@ -86,23 +86,23 @@ Listed in the order added.
 
 ## New dialog/option boxes
 
-### Advanced Statistics
+### Advanced Statistics (Ctrl+Shift+T)
 * Displays note statistics over individual lanes from A1 to D8.
 * Displays note usages, including #WAV assigned notes with 0 note count and #WAV unassigned notes with non-zero note count.
 
-### Select Expansion Code
+### Select Expansion Code (Ctrl+Alt+R)
 * Display ghost notes: Select an #if section to display its notes in ghost form.
 * Display ghost notes (All): Display all notes in ghost form.
 * Modify notes: Select an #if section and jump straight to modifying them.
 * Modify section: Open an instance of pBMSC, allowing you to modify the #if section individually.
 * Remove ghost notes: Remove all ghost notes.
 
-### Visual Override Options
+### Visual Override Options (Shift+F12)
 * Creates a list of note ranges with a specified color and replaces specified notes' display color.
 * Allows a range of notes to have a gradient of colors, or a single color.
 * Settings can be saved to either Editor, Chart, or Song.
 
-### Keybinding Options
+### Keybinding Options (Shift+F10)
 * Allows for rebinding keys for a lot of functions, such as note lane assignment.
 * Some other functions are also rebindable, such as Snap to Grid, Undo, and Redo.
 
