@@ -113,10 +113,11 @@ Partial Class MainWindow
         Me.mnVCOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnConversion = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmnConversion = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.POBLongObjNT = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBLong = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBShort = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBLongShort = New System.Windows.Forms.ToolStripMenuItem()
+        Me.POBLongObjNT = New System.Windows.Forms.ToolStripMenuItem()
+        Me.POBLongNTObj = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator25 = New System.Windows.Forms.ToolStripSeparator()
         Me.POBAutoLongVPosition = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBAutoLongColumn = New System.Windows.Forms.ToolStripMenuItem()
@@ -386,7 +387,7 @@ Partial Class MainWindow
         Me.POptionsScroll = New System.Windows.Forms.Panel()
         Me.TimerInternalPlay = New System.Windows.Forms.Timer(Me.components)
         Me.TimerPreviewNote = New System.Windows.Forms.Timer(Me.components)
-        Me.POBLongNTObj = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TimerSelectionBox = New System.Windows.Forms.Timer(Me.components)
         Me.cmnLanguage.SuspendLayout()
         Me.cmnTheme.SuspendLayout()
         Me.Menu1.SuspendLayout()
@@ -1181,15 +1182,7 @@ Partial Class MainWindow
         '
         Me.cmnConversion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.POBLong, Me.POBShort, Me.POBLongShort, Me.POBLongObjNT, Me.POBLongNTObj, Me.ToolStripSeparator25, Me.POBAutoLongVPosition, Me.POBAutoLongColumn, Me.ToolStripSeparator10, Me.POBHidden, Me.POBVisible, Me.POBHiddenVisible, Me.ToolStripSeparator11, Me.POBModify, Me.POBMirror, Me.POBFlip, Me.POBRandom, Me.POBRRandom, Me.POBSRandom, Me.POBHRandom, Me.POBSort})
         Me.cmnConversion.Name = "cmnLanguage"
-        Me.cmnConversion.OwnerItem = Me.mnConversion
-        Me.cmnConversion.Size = New System.Drawing.Size(237, 440)
-        '
-        'POBLongObjNT
-        '
-        Me.POBLongObjNT.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesL
-        Me.POBLongObjNT.Name = "POBLongObjNT"
-        Me.POBLongObjNT.Size = New System.Drawing.Size(236, 22)
-        Me.POBLongObjNT.Text = "L&NObj → NT Long Note"
+        Me.cmnConversion.Size = New System.Drawing.Size(237, 418)
         '
         'POBLong
         '
@@ -1213,6 +1206,20 @@ Partial Class MainWindow
         Me.POBLongShort.Size = New System.Drawing.Size(236, 22)
         Me.POBLongShort.Text = "Long Note ↔ Short Note"
         Me.POBLongShort.Visible = False
+        '
+        'POBLongObjNT
+        '
+        Me.POBLongObjNT.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesL
+        Me.POBLongObjNT.Name = "POBLongObjNT"
+        Me.POBLongObjNT.Size = New System.Drawing.Size(236, 22)
+        Me.POBLongObjNT.Text = "L&NObj → NT Long Note"
+        '
+        'POBLongNTObj
+        '
+        Me.POBLongNTObj.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesL
+        Me.POBLongNTObj.Name = "POBLongNTObj"
+        Me.POBLongNTObj.Size = New System.Drawing.Size(236, 22)
+        Me.POBLongNTObj.Text = "&NT Long Note → LNObj"
         '
         'ToolStripSeparator25
         '
@@ -4302,12 +4309,9 @@ Partial Class MainWindow
         '
         Me.TimerPreviewNote.Interval = 1
         '
-        'POBLongNTObj
+        'TimerSelectionBox
         '
-        Me.POBLongNTObj.Image = Global.iBMSC.My.Resources.Resources.ConvertNotesL
-        Me.POBLongNTObj.Name = "POBLongNTObj"
-        Me.POBLongNTObj.Size = New System.Drawing.Size(236, 22)
-        Me.POBLongNTObj.Text = "&NT Long Note → LNObj"
+        Me.TimerSelectionBox.Interval = 15
         '
         'MainWindow
         '
@@ -4805,4 +4809,5 @@ Partial Class MainWindow
     Friend WithEvents POBAutoLongColumn As ToolStripMenuItem
     Friend WithEvents POBLongObjNT As ToolStripMenuItem
     Friend WithEvents POBLongNTObj As ToolStripMenuItem
+    Friend WithEvents TimerSelectionBox As Timer
 End Class

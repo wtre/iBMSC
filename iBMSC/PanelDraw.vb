@@ -188,9 +188,12 @@ Partial Public Class MainWindow
 
     Private Sub DrawSelectionBox(xIndex As Integer, e1 As BufferedGraphics)
         If TBSelect.Checked AndAlso xIndex = PanelFocus AndAlso Not (pMouseMove = New Point(-1, -1) Or LastMouseDownLocation = New Point(-1, -1)) Then
+            TimerSelectionBox.Enabled = True
             e1.Graphics.DrawRectangle(vo.SelBox, CSng(IIf(pMouseMove.X > LastMouseDownLocation.X, LastMouseDownLocation.X, pMouseMove.X)),
                                                 CSng(IIf(pMouseMove.Y > LastMouseDownLocation.Y, LastMouseDownLocation.Y, pMouseMove.Y)),
                                                 Math.Abs(pMouseMove.X - LastMouseDownLocation.X), Math.Abs(pMouseMove.Y - LastMouseDownLocation.Y))
+        Else
+            TimerSelectionBox.Enabled = False
         End If
     End Sub
 

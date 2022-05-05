@@ -5972,4 +5972,8 @@ case2:              Dim xI0 As Integer
         InternalPlayTimerCount = TimeNow - InternalPlayTimerStart
         RefreshPanelAll()
     End Sub
+
+    Private Sub TimerSelectionBox_Tick(sender As Object, e As EventArgs) Handles TimerSelectionBox.Tick
+        RefreshPanelAll()
+    End Sub
 End Class
