@@ -128,6 +128,12 @@ Partial Public Class MainWindow
                 POBLong_Click(Nothing, Nothing)
             Case "Convert to Short Note"
                 POBNormal_Click(Nothing, Nothing)
+            Case "Convert between Long and Short Note"
+                POBNormalLong_Click(Nothing, Nothing)
+            Case "Auto Long Note (By VPosition)"
+                POBAutoLongVPosition_Click(Nothing, Nothing)
+            Case "Auto Long Note (By Column)"
+                POBAutoLongColumn_Click(Nothing, Nothing)
             Case "Check Technical Error"
                 CheckTechnicalError(Nothing, Nothing)
             Case "Select Expansion Section"

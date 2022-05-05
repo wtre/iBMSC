@@ -324,6 +324,9 @@ Public Class MainWindow
                                        New Keybinding("Snap to Grid", "Snap to grid", {"G"}),
                                        New Keybinding("Convert to Long Note", "Å® Long Note", {"L"}),
                                        New Keybinding("Convert to Short Note", "Å® Short Note", {"S"}),
+                                       New Keybinding("Convert between Long and Short Note", "Long Note ? Short Note", {""}),
+                                       New Keybinding("Auto Long Note (By VPosition)", "Auto Long Note (By VPosition)", {""}),
+                                       New Keybinding("Auto Long Note (By Column)", "Auto Long Note (By Column)", {""}),
                                        New Keybinding("Check Technical Error", "Check for technical errors such as impossible scratches in DP or impossible chords in PMS", {"Ctrl+Alt+E"}),
                                        New Keybinding("Select Expansion Section", "Select #IF sections in the Expansion field", {"Ctrl+Alt+R"}),
                                                                                                                                                 _ ' Miscellaneous Editor
@@ -3337,7 +3340,7 @@ Public Class MainWindow
         Dim xDiag As New OpVisualOverride(COverrides, hWAV, COverridesSaveOption)
         ' Save settings
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            COverrides = xDiag.COverrides
+            COverrides = CType(xDiag.COverrides.Clone(), ColorOverride())
             If COverridesSaveOption <> xDiag.CoBSave.SelectedIndex Then
                 COverridesSaveOption = xDiag.CoBSave.SelectedIndex
 
@@ -3861,6 +3864,16 @@ Public Class MainWindow
                 CGSnap.Text = "Snap to grid (" & keybind.Combo(0) & ")"
             Case "Disable Vertical Moves"
                 CGDisableVertical.Text = "Disable vertical moves (" & keybind.Combo(0) & ")"
+            Case "Convert to Long Note"
+                POBLong.ShortcutKeyDisplayString = keybind.Combo(0)
+            Case "Convert to Short Note"
+                POBShort.ShortcutKeyDisplayString = keybind.Combo(0)
+            Case "Convert between Long and Short Note"
+                POBLongShort.ShortcutKeyDisplayString = keybind.Combo(0)
+            Case "Auto Long Note (By VPosition)"
+                POBAutoLongVPosition.ShortcutKeyDisplayString = keybind.Combo(0)
+            Case "Auto Long Note (By Column)"
+                POBAutoLongColumn.ShortcutKeyDisplayString = keybind.Combo(0)
             Case "Undo"
                 mnUndo.ShortcutKeyDisplayString = keybind.Combo(0)
                 TBUndo.Text = "Undo (" & Join(keybind.Combo, ", ") & ")"
@@ -4004,7 +4017,7 @@ Public Class MainWindow
         RefreshPanelAll()
     End Sub
 
-    Private Sub POBAutoLong_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBAutoLongVPosition.Click
+    Private Sub POBAutoLongVPosition_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBAutoLongVPosition.Click
         ' TODO: Make it applicable to notes with the same VPosition, not just one note at a time
         If Not NTInput Then ConvertBMSE2NT()
 

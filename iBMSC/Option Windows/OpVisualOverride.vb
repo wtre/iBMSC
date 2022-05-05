@@ -12,7 +12,7 @@
 
         LOverrides.Items.Clear()
 
-        COverrides = xColorOverrides
+        COverrides = CType(xColorOverrides.Clone(), MainWindow.ColorOverride())
 
         WHeight = Height
         ReDim TLValuesHeight(TLValues.RowStyles.Count - 1)
