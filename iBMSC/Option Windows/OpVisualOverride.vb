@@ -190,13 +190,15 @@
     End Sub
 
     Private Sub CBEnable_CheckedChanged(sender As Object, e As EventArgs) Handles CBEnable.CheckedChanged
+        If LOverrides.SelectedIndex = -1 Then Exit Sub
+
         COverrides(LOverrides.SelectedIndex).Enabled = CBEnable.Checked
     End Sub
 
     Private Sub CColorList_CheckedChanged(sender As Object, e As EventArgs) Handles RColorSing.CheckedChanged, RColorGrad.CheckedChanged, RColorGradHSLD.CheckedChanged, RColorGradHSLU.CheckedChanged
         If LOverrides.SelectedIndex = -1 Then Exit Sub
-        Dim RadioS As RadioButton = CType(sender, RadioButton)
 
+        Dim RadioS As RadioButton = CType(sender, RadioButton)
         Dim COption = COverrides(LOverrides.SelectedIndex).ColorOption
         Dim COption1 = Array.IndexOf(CColorOptionList, RadioS)
         If (COption = 0 AndAlso COption1 <> 0) OrElse (COption <> 0 AndAlso COption1 = 0) Then UpdateTLValuesDisplay()

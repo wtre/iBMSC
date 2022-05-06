@@ -19,6 +19,8 @@ Listed in the order added.
 * Reorganized the sidebar so you can tab between textboxes properly.
 * Prevented notes in Expansion Code from being loaded.
 * Rare bug that occurs when the mouse is highlighting a long note while toggling between NT and BMSE simultaneously.
+* Slightly faster loading time.
+* Smoothened Selection Box animation.
 
 ## Functionalities
 * Added Random, R-Random, S-Random and H-Random. Supports PMS as well.
