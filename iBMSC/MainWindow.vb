@@ -5986,7 +5986,7 @@ case2:              Dim xI0 As Integer
         RefreshPanelAll()
     End Sub
 
-    Private Sub TimerSelectionBox_Tick(sender As Object, e As EventArgs) Handles TimerSelectionBox.Tick
+    Private Sub TimerRefreshPanel_Tick(sender As Object, e As EventArgs) Handles TimerRefreshPanel.Tick
         RefreshPanelAll()
     End Sub
 End Class
