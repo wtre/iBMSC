@@ -239,18 +239,18 @@ Partial Public Class MainWindow
             .Indentation = 4
 
             .WriteStartElement("ColorOverride")
-            .WriteAttributeString("Count", UBound(COverrides).ToString())
+            .WriteAttributeString("Count", UBound(COverridesFull).ToString())
 
-            For i = 0 To UBound(COverrides)
+            For i = 0 To UBound(COverridesFull)
                 .WriteStartElement("Color")
                 .WriteAttributeString("Index", i.ToString())
-                .WriteAttributeString("Name", COverrides(i).Name.ToString())
-                .WriteAttributeString("Enabled", COverrides(i).Enabled.ToString())
-                .WriteAttributeString("ColorOption", COverrides(i).ColorOption.ToString())
-                .WriteAttributeString("RangeL", COverrides(i).RangeL.ToString())
-                .WriteAttributeString("RangeU", COverrides(i).RangeU.ToString())
-                .WriteAttributeString("NoteColor", COverrides(i).NoteColor.ToString())
-                .WriteAttributeString("NoteColorU", COverrides(i).NoteColorU.ToString())
+                .WriteAttributeString("Name", COverridesFull(i).Name.ToString())
+                .WriteAttributeString("Enabled", COverridesFull(i).Enabled.ToString())
+                .WriteAttributeString("ColorOption", COverridesFull(i).ColorOption.ToString())
+                .WriteAttributeString("RangeL", COverridesFull(i).RangeL.ToString())
+                .WriteAttributeString("RangeU", COverridesFull(i).RangeU.ToString())
+                .WriteAttributeString("NoteColor", COverridesFull(i).NoteColor.ToString())
+                .WriteAttributeString("NoteColorU", COverridesFull(i).NoteColorU.ToString())
                 .WriteEndElement()
             Next
 
@@ -1490,23 +1490,23 @@ Partial Public Class MainWindow
             Dim Root As XmlElement = Doc.Item("ColorOverride")
 
             Dim n As Integer = CInt(Root.GetAttribute("Count"))
-            ReDim COverrides(n)
+            ReDim COverridesFull(n)
             Dim i As Integer
             For Each eColor As XmlElement In Root.ChildNodes
                 With eColor
                     XMLLoadAttribute(.GetAttribute("Index"), i)
-                    XMLLoadAttribute(.GetAttribute("Name"), COverrides(i).Name)
-                    XMLLoadAttribute(.GetAttribute("Enabled"), COverrides(i).Enabled)
-                    XMLLoadAttribute(.GetAttribute("ColorOption"), COverrides(i).ColorOption)
-                    XMLLoadAttribute(.GetAttribute("RangeL"), COverrides(i).RangeL)
-                    XMLLoadAttribute(.GetAttribute("RangeU"), COverrides(i).RangeU)
-                    XMLLoadAttribute(.GetAttribute("NoteColor"), COverrides(i).NoteColor)
-                    XMLLoadAttribute(.GetAttribute("NoteColorU"), COverrides(i).NoteColorU)
+                    XMLLoadAttribute(.GetAttribute("Name"), COverridesFull(i).Name)
+                    XMLLoadAttribute(.GetAttribute("Enabled"), COverridesFull(i).Enabled)
+                    XMLLoadAttribute(.GetAttribute("ColorOption"), COverridesFull(i).ColorOption)
+                    XMLLoadAttribute(.GetAttribute("RangeL"), COverridesFull(i).RangeL)
+                    XMLLoadAttribute(.GetAttribute("RangeU"), COverridesFull(i).RangeU)
+                    XMLLoadAttribute(.GetAttribute("NoteColor"), COverridesFull(i).NoteColor)
+                    XMLLoadAttribute(.GetAttribute("NoteColorU"), COverridesFull(i).NoteColorU)
                 End With
             Next
             FileStream.Close()
         Else
-            ReDim COverrides(-1)
+            ReDim COverridesFull(-1)
         End If
     End Sub
 End Class

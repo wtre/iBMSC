@@ -337,9 +337,9 @@ Partial Public Class MainWindow
             If Notes(xI1).VPosition > xUpperBorder Then Exit For
             If Not IsNoteVisible(xI1, xTHeight, xVS) Then Continue For
             If NTInput Then
-                DrawNoteNT(Notes(xI1), e1, xHS, xVS, xTHeight, COverrides)
+                DrawNoteNT(Notes(xI1), e1, xHS, xVS, xTHeight, COverridesActive)
             Else
-                DrawNote(Notes(xI1), e1, xHS, xVS, xTHeight, COverrides)
+                DrawNote(Notes(xI1), e1, xHS, xVS, xTHeight, COverridesActive)
             End If
         Next
     End Sub
@@ -368,9 +368,9 @@ Partial Public Class MainWindow
 
     Private Sub DrawMouseOver(e1 As BufferedGraphics, xTHeight As Integer, xHS As Integer, xVS As Integer)
         If NTInput Then
-            If Not bAdjustLength Then DrawNoteNT(Notes(KMouseOver), e1, xHS, xVS, xTHeight, COverrides)
+            If Not bAdjustLength Then DrawNoteNT(Notes(KMouseOver), e1, xHS, xVS, xTHeight, COverridesActive)
         Else
-            DrawNote(Notes(KMouseOver), e1, xHS, xVS, xTHeight, COverrides)
+            DrawNote(Notes(KMouseOver), e1, xHS, xVS, xTHeight, COverridesActive)
         End If
 
         Dim rect = GetNoteRectangle(KMouseOver, xTHeight, xHS, xVS)

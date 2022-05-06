@@ -265,7 +265,8 @@ Public Class MainWindow
             NoteColorU = xNoteColorU
         End Sub
     End Structure
-    Dim COverrides(-1) As ColorOverride
+    Dim COverridesFull(-1) As ColorOverride
+    Dim COverridesActive(-1) As ColorOverride
     Dim COverridesSaveOption As Integer = 1
 
     '----Keybinding Options
@@ -1103,7 +1104,7 @@ Public Class MainWindow
         FileNameTemplate = ""
         ReDim hCOM(1295)
         hCOMNum = 0
-        COverrides = Nothing
+        COverridesFull = Nothing
         ReDim wLWAV(1295)
         WaveformLoaded = False
 
@@ -3337,16 +3338,16 @@ Public Class MainWindow
     End Sub
 
     Private Sub TBVCOptions_Click(sender As Object, e As EventArgs) Handles mnVCOptions.Click, BWAVColorOverride.Click
-        Dim xDiag As New OpVisualOverride(COverrides, hWAV, COverridesSaveOption)
+        Dim xDiag As New OpVisualOverride(COverridesFull, hWAV, COverridesSaveOption)
         ' Save settings
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            COverrides = CType(xDiag.COverrides.Clone(), ColorOverride())
+            COverridesFull = CType(xDiag.COverrides.Clone(), ColorOverride())
             If COverridesSaveOption <> xDiag.CoBSave.SelectedIndex Then
                 COverridesSaveOption = xDiag.CoBSave.SelectedIndex
 
-                If Not IsNothing(COverrides) Then If COverrides.Length > 0 Then SaveColorOverride(FileName, True)
+                If Not IsNothing(COverridesFull) Then If COverridesFull.Length > 0 Then SaveColorOverride(FileName, True)
             Else
-                If Not IsNothing(COverrides) Then If COverrides.Length > 0 Then SaveColorOverride(FileName, False)
+                If Not IsNothing(COverridesFull) Then If COverridesFull.Length > 0 Then SaveColorOverride(FileName, False)
 
             End If
         End If
@@ -3358,6 +3359,16 @@ Public Class MainWindow
 
             TBVCOptions_Click(sender, New EventArgs)
         End If
+
+        ReDim COverridesActive(UBound(COverridesFull))
+        Dim i As Integer = -1
+        For Each COverride In COverridesFull
+            If COverride.Enabled Then
+                i += 1
+                COverridesActive(i) = COverride
+            End If
+        Next
+        ReDim Preserve COverridesActive(i)
 
         UpdateColumnsX()
         RefreshPanelAll()

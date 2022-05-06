@@ -191,6 +191,8 @@ Partial Public Class MainWindow
                 ElseIf SWIC(sLineTrim, "#TEMPLATE") Then
                     FileNameTemplate = Mid(sLineTrim, Len("#TEMPLATE") + 2)
                     NotesTemplate = OpenBMSFunc(My.Computer.FileSystem.ReadAllText(ExcludeFileName(FileName) & "\" & FileNameTemplate, TextEncoding))
+                    Continue For
+
                 End If
                 'TODO: LNOBJ value validation
 
