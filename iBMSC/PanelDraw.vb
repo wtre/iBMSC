@@ -603,11 +603,8 @@ Partial Public Class MainWindow
         Dim p2 = New Point(HorizontalPositiontoDisplay(xnLeft + xColumnWidth, xHS),
                            NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) + 10)
 
-        bright = GetColumn(sNote.ColumnIndex).getBright(xAlpha)
-        dark = GetColumn(sNote.ColumnIndex).getDark(xAlpha)
-
         ' Color override
-        GetOverridenColor(sNote, bright, dark, xAlpha, CO)
+        GetColor(sNote, bright, dark, xAlpha, CO)
 
         If Not sNote.LongNote Then
             xPen = New Pen(GetColumn(sNote.ColumnIndex).getBright(xAlpha))
@@ -653,17 +650,20 @@ Partial Public Class MainWindow
         'e.Graphics.DrawString(sNote.TimeOffset.ToString("0.##"), New Font("Verdana", 9), Brushes.Cyan, _
         '                      New Point(HorizontalPositiontoDisplay(nLeft(sNote.ColumnIndex + 1), xHS), VerticalPositiontoDisplay(sNote.VPosition, xVS, xHeight) - vo.kHeight - 2))
 
-        Dim ErrorGraphics As Bitmap
-        Select Case sNote.ErrorType
-            Case 1
-                ErrorGraphics = My.Resources.ImageErrorR
-            Case Else
-                ErrorGraphics = My.Resources.ImageError
-        End Select
-        If ErrorCheck AndAlso sNote.HasError Then e.Graphics.DrawImage(ErrorGraphics,
-                                                            CInt(HorizontalPositiontoDisplay(CInt(xnLeft + xColumnWidth / 2), xHS) - 12),
-                                                            CInt(NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight / 2 - 12),
-                                                            24, 24)
+        If ErrorCheck AndAlso sNote.HasError Then
+            Dim ErrorGraphics As Bitmap
+            Select Case sNote.ErrorType
+                Case 1
+                    ErrorGraphics = My.Resources.ImageErrorR
+                Case Else
+                    ErrorGraphics = My.Resources.ImageError
+            End Select
+
+            e.Graphics.DrawImage(ErrorGraphics,
+                                 CInt(HorizontalPositiontoDisplay(CInt(xnLeft + xColumnWidth / 2), xHS) - 12),
+                                 CInt(NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight / 2 - 12),
+                                 24, 24)
+        End If
 
         If sNote.Selected Then e.Graphics.DrawRectangle(vo.kSelected, HorizontalPositiontoDisplay(xnLeft, xHS), NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight - 1, xColumnWidth * gxWidth, vo.kHeight + 2)
 
@@ -728,11 +728,8 @@ Partial Public Class MainWindow
             Next
         End If
 
-        bright = GetColumn(sNote.ColumnIndex).getBright(xAlpha)
-        dark = GetColumn(sNote.ColumnIndex).getDark(xAlpha)
-
-        ' Color override
-        GetOverridenColor(sNote, bright, dark, xAlpha, CO)
+        ' Get Color + Color override
+        GetColor(sNote, bright, dark, xAlpha, CO)
 
         If sNote.Length = 0 Then
             p1 = New Point(HorizontalPositiontoDisplay(xnLeft, xHS),
@@ -793,18 +790,18 @@ Partial Public Class MainWindow
         End If
 
         ' Errors
-        Dim ErrorGraphics As Bitmap
-        Select Case sNote.ErrorType
-            Case 1
-                ErrorGraphics = My.Resources.ImageErrorR
-            Case Else
-                ErrorGraphics = My.Resources.ImageError
-        End Select
         If ErrorCheck AndAlso sNote.HasError Then
+            Dim ErrorGraphics As Bitmap
+            Select Case sNote.ErrorType
+                Case 1
+                    ErrorGraphics = My.Resources.ImageErrorR
+                Case Else
+                    ErrorGraphics = My.Resources.ImageError
+            End Select
             e.Graphics.DrawImage(ErrorGraphics,
-                                 CInt(HorizontalPositiontoDisplay(CInt(xnLeft + xColumnWidth / 2), xHS) - 12),
-                                 CInt(NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight / 2 - 12),
-                                 24, 24)
+                             CInt(HorizontalPositiontoDisplay(CInt(xnLeft + xColumnWidth / 2), xHS) - 12),
+                             CInt(NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) - vo.kHeight / 2 - 12),
+                             24, 24)
         End If
 
         'e.Graphics.DrawString(sNote.TimeOffset.ToString("0.##"), New Font("Verdana", 9), Brushes.Cyan, _
@@ -812,7 +809,7 @@ Partial Public Class MainWindow
 
     End Sub
 
-    Private Sub GetOverridenColor(ByRef sNote As Note, ByRef Bright As Color, ByRef Dark As Color, ByVal xAlpha As Single, ByVal CO As ColorOverride())
+    Private Sub GetColor(ByRef sNote As Note, ByRef Bright As Color, ByRef Dark As Color, ByVal xAlpha As Single, ByVal CO As ColorOverride())
         If Not IsNothing(CO) Then
 
             For i = 0 To UBound(CO)
@@ -826,23 +823,29 @@ Partial Public Class MainWindow
                         Case 0
                             Bright = Color.FromArgb(CInt(CONoteColor * xAlpha))
                             Dark = Bright
+                            Return
                         Case 1
                             Dim CORange = Math.Max(1, CORangeU - CORangeL)
                             Bright = InterpolateColorARGB(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (sNote.Value - CORangeL) / CORange, xAlpha)
                             Dark = Bright
+                            Return
                         Case 2
                             Dim CORange = Math.Max(1, CORangeU - CORangeL)
                             Bright = InterpolateColorAHSL(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (sNote.Value - CORangeL) / CORange, xAlpha)
                             Dark = Bright
+                            Return
                         Case 3
                             Dim CORange = Math.Max(1, CORangeU - CORangeL)
                             Bright = InterpolateColorAHSL(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (sNote.Value - CORangeL) / CORange, xAlpha, 0)
                             Dark = Bright
+                            Return
                     End Select
                 End If
 
             Next
         End If
+        Bright = GetColumn(sNote.ColumnIndex).getBright(xAlpha)
+        Dark = GetColumn(sNote.ColumnIndex).getDark(xAlpha)
     End Sub
 
     Private Function InterpolateColorARGB(ColorL As Color, ColorU As Color, Ratio As Double, Optional xAlpha As Single = 1) As Color
