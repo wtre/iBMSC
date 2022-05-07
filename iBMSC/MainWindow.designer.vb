@@ -370,7 +370,6 @@ Partial Class MainWindow
         Me.POHeaderExpander = New System.Windows.Forms.CheckBox()
         Me.POHeaderPart1 = New System.Windows.Forms.TableLayoutPanel()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.THPlayLevel = New System.Windows.Forms.TextBox()
         Me.CHRank = New System.Windows.Forms.ComboBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.CHPlayer = New System.Windows.Forms.ComboBox()
@@ -382,13 +381,14 @@ Partial Class MainWindow
         Me.THTitle = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.Label6 = New System.Windows.Forms.Label()
         Me.POHeaderSwitch = New System.Windows.Forms.CheckBox()
         Me.POptionsScroll = New System.Windows.Forms.Panel()
         Me.TimerInternalPlay = New System.Windows.Forms.Timer(Me.components)
         Me.TimerPreviewNote = New System.Windows.Forms.Timer(Me.components)
         Me.TimerRefreshPanel = New System.Windows.Forms.Timer(Me.components)
         Me.TimerExternalExpansion = New System.Windows.Forms.Timer(Me.components)
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.THPlayLevel = New System.Windows.Forms.TextBox()
         Me.cmnLanguage.SuspendLayout()
         Me.cmnTheme.SuspendLayout()
         Me.Menu1.SuspendLayout()
@@ -2453,7 +2453,7 @@ Partial Class MainWindow
         Me.POptions.Dock = System.Windows.Forms.DockStyle.Top
         Me.POptions.Location = New System.Drawing.Point(0, 0)
         Me.POptions.Name = "POptions"
-        Me.POptions.Size = New System.Drawing.Size(183, 2087)
+        Me.POptions.Size = New System.Drawing.Size(183, 1778)
         Me.POptions.TabIndex = 29
         '
         'POExpansion
@@ -2463,7 +2463,7 @@ Partial Class MainWindow
         Me.POExpansion.Controls.Add(Me.POExpansionInner)
         Me.POExpansion.Controls.Add(Me.POExpansionSwitch)
         Me.POExpansion.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POExpansion.Location = New System.Drawing.Point(0, 1792)
+        Me.POExpansion.Location = New System.Drawing.Point(0, 1483)
         Me.POExpansion.Name = "POExpansion"
         Me.POExpansion.Size = New System.Drawing.Size(183, 295)
         Me.POExpansion.TabIndex = 6
@@ -2543,7 +2543,7 @@ Partial Class MainWindow
         Me.POBeat.Controls.Add(Me.POBeatInner)
         Me.POBeat.Controls.Add(Me.POBeatSwitch)
         Me.POBeat.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POBeat.Location = New System.Drawing.Point(0, 1522)
+        Me.POBeat.Location = New System.Drawing.Point(0, 1213)
         Me.POBeat.Name = "POBeat"
         Me.POBeat.Size = New System.Drawing.Size(183, 270)
         Me.POBeat.TabIndex = 5
@@ -2807,7 +2807,7 @@ Partial Class MainWindow
         Me.POWAV.Controls.Add(Me.POWAVInner)
         Me.POWAV.Controls.Add(Me.POWAVSwitch)
         Me.POWAV.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POWAV.Location = New System.Drawing.Point(0, 1252)
+        Me.POWAV.Location = New System.Drawing.Point(0, 943)
         Me.POWAV.Name = "POWAV"
         Me.POWAV.Size = New System.Drawing.Size(183, 270)
         Me.POWAV.TabIndex = 4
@@ -2964,7 +2964,7 @@ Partial Class MainWindow
         Me.POWaveForm.Controls.Add(Me.POWaveFormInner)
         Me.POWaveForm.Controls.Add(Me.POWaveFormSwitch)
         Me.POWaveForm.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POWaveForm.Location = New System.Drawing.Point(0, 1009)
+        Me.POWaveForm.Location = New System.Drawing.Point(0, 700)
         Me.POWaveForm.Name = "POWaveForm"
         Me.POWaveForm.Size = New System.Drawing.Size(183, 243)
         Me.POWaveForm.TabIndex = 3
@@ -3355,7 +3355,7 @@ Partial Class MainWindow
         Me.POGrid.Controls.Add(Me.POGridInner)
         Me.POGrid.Controls.Add(Me.POGridSwitch)
         Me.POGrid.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POGrid.Location = New System.Drawing.Point(0, 779)
+        Me.POGrid.Location = New System.Drawing.Point(0, 470)
         Me.POGrid.Name = "POGrid"
         Me.POGrid.Size = New System.Drawing.Size(183, 230)
         Me.POGrid.TabIndex = 2
@@ -3733,7 +3733,7 @@ Partial Class MainWindow
         Me.POHeader.Dock = System.Windows.Forms.DockStyle.Top
         Me.POHeader.Location = New System.Drawing.Point(0, 0)
         Me.POHeader.Name = "POHeader"
-        Me.POHeader.Size = New System.Drawing.Size(183, 779)
+        Me.POHeader.Size = New System.Drawing.Size(183, 470)
         Me.POHeader.TabIndex = 1
         '
         'POHeaderInner
@@ -3746,7 +3746,7 @@ Partial Class MainWindow
         Me.POHeaderInner.Dock = System.Windows.Forms.DockStyle.Top
         Me.POHeaderInner.Location = New System.Drawing.Point(0, 20)
         Me.POHeaderInner.Name = "POHeaderInner"
-        Me.POHeaderInner.Size = New System.Drawing.Size(183, 759)
+        Me.POHeaderInner.Size = New System.Drawing.Size(183, 450)
         Me.POHeaderInner.TabIndex = 2
         '
         'POHeaderPart2
@@ -3754,24 +3754,19 @@ Partial Class MainWindow
         Me.POHeaderPart2.AutoSize = True
         Me.POHeaderPart2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.POHeaderPart2.ColumnCount = 3
-        Me.POHeaderPart2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67.0!))
+        Me.POHeaderPart2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70.0!))
         Me.POHeaderPart2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.POHeaderPart2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28.0!))
-        Me.POHeaderPart2.Controls.Add(Me.CHDifficulty, 1, 5)
-        Me.POHeaderPart2.Controls.Add(Me.Label13, 2, 6)
-        Me.POHeaderPart2.Controls.Add(Me.THExRank, 1, 6)
-        Me.POHeaderPart2.Controls.Add(Me.Label25, 2, 7)
-        Me.POHeaderPart2.Controls.Add(Me.CHLnObj, 1, 9)
-        Me.POHeaderPart2.Controls.Add(Me.Label23, 0, 6)
-        Me.POHeaderPart2.Controls.Add(Me.Label21, 0, 5)
-        Me.POHeaderPart2.Controls.Add(Me.THComment, 1, 8)
-        Me.POHeaderPart2.Controls.Add(Me.Label24, 0, 9)
+        Me.POHeaderPart2.Controls.Add(Me.Label13, 2, 5)
+        Me.POHeaderPart2.Controls.Add(Me.THExRank, 1, 5)
+        Me.POHeaderPart2.Controls.Add(Me.CHLnObj, 1, 7)
+        Me.POHeaderPart2.Controls.Add(Me.Label23, 0, 5)
+        Me.POHeaderPart2.Controls.Add(Me.THComment, 1, 6)
+        Me.POHeaderPart2.Controls.Add(Me.Label24, 0, 7)
         Me.POHeaderPart2.Controls.Add(Me.Label15, 0, 0)
-        Me.POHeaderPart2.Controls.Add(Me.THTotal, 1, 7)
-        Me.POHeaderPart2.Controls.Add(Me.Label20, 0, 7)
         Me.POHeaderPart2.Controls.Add(Me.BHStageFile, 2, 2)
         Me.POHeaderPart2.Controls.Add(Me.BHBanner, 2, 3)
-        Me.POHeaderPart2.Controls.Add(Me.Label19, 0, 8)
+        Me.POHeaderPart2.Controls.Add(Me.Label19, 0, 6)
         Me.POHeaderPart2.Controls.Add(Me.BHBackBMP, 2, 4)
         Me.POHeaderPart2.Controls.Add(Me.Label17, 0, 1)
         Me.POHeaderPart2.Controls.Add(Me.Label16, 0, 2)
@@ -3783,107 +3778,100 @@ Partial Class MainWindow
         Me.POHeaderPart2.Controls.Add(Me.THSubTitle, 1, 0)
         Me.POHeaderPart2.Controls.Add(Me.THSubArtist, 1, 1)
         Me.POHeaderPart2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POHeaderPart2.Location = New System.Drawing.Point(0, 386)
+        Me.POHeaderPart2.Location = New System.Drawing.Point(0, 250)
         Me.POHeaderPart2.Name = "POHeaderPart2"
-        Me.POHeaderPart2.RowCount = 17
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
+        Me.POHeaderPart2.RowCount = 8
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
         Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart2.Size = New System.Drawing.Size(183, 373)
+        Me.POHeaderPart2.Size = New System.Drawing.Size(183, 200)
         Me.POHeaderPart2.TabIndex = 102
         '
         'CHDifficulty
         '
-        Me.POHeaderPart2.SetColumnSpan(Me.CHDifficulty, 2)
-        Me.CHDifficulty.Dock = System.Windows.Forms.DockStyle.Top
+        Me.POHeaderPart1.SetColumnSpan(Me.CHDifficulty, 2)
+        Me.CHDifficulty.Dock = System.Windows.Forms.DockStyle.Fill
         Me.CHDifficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CHDifficulty.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.CHDifficulty.Items.AddRange(New Object() {"None", "1 - EZ / Beginner", "2 - NM / Normal", "3 - HD / Hyper", "4 - MX / Another", "5 - SC / Insane"})
-        Me.CHDifficulty.Location = New System.Drawing.Point(67, 118)
+        Me.CHDifficulty.Location = New System.Drawing.Point(70, 150)
         Me.CHDifficulty.Margin = New System.Windows.Forms.Padding(0)
         Me.CHDifficulty.Name = "CHDifficulty"
-        Me.CHDifficulty.Size = New System.Drawing.Size(116, 23)
-        Me.CHDifficulty.TabIndex = 110
+        Me.CHDifficulty.Size = New System.Drawing.Size(113, 23)
+        Me.CHDifficulty.TabIndex = 13
         '
         'Label13
         '
         Me.Label13.AutoSize = True
         Me.Label13.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Label13.Location = New System.Drawing.Point(158, 141)
+        Me.Label13.Location = New System.Drawing.Point(158, 125)
         Me.Label13.Margin = New System.Windows.Forms.Padding(3, 0, 0, 0)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(25, 23)
-        Me.Label13.TabIndex = 63
+        Me.Label13.Size = New System.Drawing.Size(25, 25)
+        Me.Label13.TabIndex = 115
         Me.Label13.Text = "(%)"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'THExRank
         '
         Me.THExRank.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THExRank.Location = New System.Drawing.Point(67, 141)
+        Me.THExRank.Location = New System.Drawing.Point(70, 125)
         Me.THExRank.Margin = New System.Windows.Forms.Padding(0)
         Me.THExRank.Name = "THExRank"
-        Me.THExRank.Size = New System.Drawing.Size(88, 23)
-        Me.THExRank.TabIndex = 111
+        Me.THExRank.Size = New System.Drawing.Size(85, 23)
+        Me.THExRank.TabIndex = 114
         '
         'Label25
         '
         Me.Label25.AutoSize = True
         Me.Label25.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Label25.Location = New System.Drawing.Point(158, 164)
+        Me.Label25.Location = New System.Drawing.Point(158, 200)
         Me.Label25.Margin = New System.Windows.Forms.Padding(3, 0, 0, 0)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(25, 23)
-        Me.Label25.TabIndex = 23
+        Me.Label25.Size = New System.Drawing.Size(25, 25)
+        Me.Label25.TabIndex = 18
         Me.Label25.Text = "(%)"
         Me.Label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'CHLnObj
         '
         Me.POHeaderPart2.SetColumnSpan(Me.CHLnObj, 2)
-        Me.CHLnObj.Dock = System.Windows.Forms.DockStyle.Top
+        Me.CHLnObj.Dock = System.Windows.Forms.DockStyle.Fill
         Me.CHLnObj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CHLnObj.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.CHLnObj.Items.AddRange(New Object() {"None (#LnType 1)", "01", "02", "03", "04", "05", "06", "07", "08", "09", "0A", "0B", "0C", "0D", "0E", "0F", "0G", "0H", "0I", "0J", "0K", "0L", "0M", "0N", "0O", "0P", "0Q", "0R", "0S", "0T", "0U", "0V", "0W", "0X", "0Y", "0Z", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "1A", "1B", "1C", "1D", "1E", "1F", "1G", "1H", "1I", "1J", "1K", "1L", "1M", "1N", "1O", "1P", "1Q", "1R", "1S", "1T", "1U", "1V", "1W", "1X", "1Y", "1Z", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "2A", "2B", "2C", "2D", "2E", "2F", "2G", "2H", "2I", "2J", "2K", "2L", "2M", "2N", "2O", "2P", "2Q", "2R", "2S", "2T", "2U", "2V", "2W", "2X", "2Y", "2Z", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "3A", "3B", "3C", "3D", "3E", "3F", "3G", "3H", "3I", "3J", "3K", "3L", "3M", "3N", "3O", "3P", "3Q", "3R", "3S", "3T", "3U", "3V", "3W", "3X", "3Y", "3Z", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "4A", "4B", "4C", "4D", "4E", "4F", "4G", "4H", "4I", "4J", "4K", "4L", "4M", "4N", "4O", "4P", "4Q", "4R", "4S", "4T", "4U", "4V", "4W", "4X", "4Y", "4Z", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "5A", "5B", "5C", "5D", "5E", "5F", "5G", "5H", "5I", "5J", "5K", "5L", "5M", "5N", "5O", "5P", "5Q", "5R", "5S", "5T", "5U", "5V", "5W", "5X", "5Y", "5Z", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "6A", "6B", "6C", "6D", "6E", "6F", "6G", "6H", "6I", "6J", "6K", "6L", "6M", "6N", "6O", "6P", "6Q", "6R", "6S", "6T", "6U", "6V", "6W", "6X", "6Y", "6Z", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "7A", "7B", "7C", "7D", "7E", "7F", "7G", "7H", "7I", "7J", "7K", "7L", "7M", "7N", "7O", "7P", "7Q", "7R", "7S", "7T", "7U", "7V", "7W", "7X", "7Y", "7Z", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "8A", "8B", "8C", "8D", "8E", "8F", "8G", "8H", "8I", "8J", "8K", "8L", "8M", "8N", "8O", "8P", "8Q", "8R", "8S", "8T", "8U", "8V", "8W", "8X", "8Y", "8Z", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "9A", "9B", "9C", "9D", "9E", "9F", "9G", "9H", "9I", "9J", "9K", "9L", "9M", "9N", "9O", "9P", "9Q", "9R", "9S", "9T", "9U", "9V", "9W", "9X", "9Y", "9Z", "A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ", "B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ", "C0", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "CA", "CB", "CC", "CD", "CE", "CF", "CG", "CH", "CI", "CJ", "CK", "CL", "CM", "CN", "CO", "CP", "CQ", "CR", "CS", "CT", "CU", "CV", "CW", "CX", "CY", "CZ", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "DA", "DB", "DC", "DD", "DE", "DF", "DG", "DH", "DI", "DJ", "DK", "DL", "DM", "DN", "DO", "DP", "DQ", "DR", "DS", "DT", "DU", "DV", "DW", "DX", "DY", "DZ", "E0", "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "EA", "EB", "EC", "ED", "EE", "EF", "EG", "EH", "EI", "EJ", "EK", "EL", "EM", "EN", "EO", "EP", "EQ", "ER", "ES", "ET", "EU", "EV", "EW", "EX", "EY", "EZ", "F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "FA", "FB", "FC", "FD", "FE", "FF", "FG", "FH", "FI", "FJ", "FK", "FL", "FM", "FN", "FO", "FP", "FQ", "FR", "FS", "FT", "FU", "FV", "FW", "FX", "FY", "FZ", "G0", "G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "GA", "GB", "GC", "GD", "GE", "GF", "GG", "GH", "GI", "GJ", "GK", "GL", "GM", "GN", "GO", "GP", "GQ", "GR", "GS", "GT", "GU", "GV", "GW", "GX", "GY", "GZ", "H0", "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "HA", "HB", "HC", "HD", "HE", "HF", "HG", "HH", "HI", "HJ", "HK", "HL", "HM", "HN", "HO", "HP", "HQ", "HR", "HS", "HT", "HU", "HV", "HW", "HX", "HY", "HZ", "I0", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "IA", "IB", "IC", "ID", "IE", "IF", "IG", "IH", "II", "IJ", "IK", "IL", "IM", "IN", "IO", "IP", "IQ", "IR", "IS", "IT", "IU", "IV", "IW", "IX", "IY", "IZ", "J0", "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J8", "J9", "JA", "JB", "JC", "JD", "JE", "JF", "JG", "JH", "JI", "JJ", "JK", "JL", "JM", "JN", "JO", "JP", "JQ", "JR", "JS", "JT", "JU", "JV", "JW", "JX", "JY", "JZ", "K0", "K1", "K2", "K3", "K4", "K5", "K6", "K7", "K8", "K9", "KA", "KB", "KC", "KD", "KE", "KF", "KG", "KH", "KI", "KJ", "KK", "KL", "KM", "KN", "KO", "KP", "KQ", "KR", "KS", "KT", "KU", "KV", "KW", "KX", "KY", "KZ", "L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8", "L9", "LA", "LB", "LC", "LD", "LE", "LF", "LG", "LH", "LI", "LJ", "LK", "LL", "LM", "LN", "LO", "LP", "LQ", "LR", "LS", "LT", "LU", "LV", "LW", "LX", "LY", "LZ", "M0", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9", "MA", "MB", "MC", "MD", "ME", "MF", "MG", "MH", "MI", "MJ", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "N0", "N1", "N2", "N3", "N4", "N5", "N6", "N7", "N8", "N9", "NA", "NB", "NC", "ND", "NE", "NF", "NG", "NH", "NI", "NJ", "NK", "NL", "NM", "NN", "NO", "NP", "NQ", "NR", "NS", "NT", "NU", "NV", "NW", "NX", "NY", "NZ", "O0", "O1", "O2", "O3", "O4", "O5", "O6", "O7", "O8", "O9", "OA", "OB", "OC", "OD", "OE", "OF", "OG", "OH", "OI", "OJ", "OK", "OL", "OM", "ON", "OO", "OP", "OQ", "OR", "OS", "OT", "OU", "OV", "OW", "OX", "OY", "OZ", "P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "PA", "PB", "PC", "PD", "PE", "PF", "PG", "PH", "PI", "PJ", "PK", "PL", "PM", "PN", "PO", "PP", "PQ", "PR", "PS", "PT", "PU", "PV", "PW", "PX", "PY", "PZ", "Q0", "Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "QA", "QB", "QC", "QD", "QE", "QF", "QG", "QH", "QI", "QJ", "QK", "QL", "QM", "QN", "QO", "QP", "QQ", "QR", "QS", "QT", "QU", "QV", "QW", "QX", "QY", "QZ", "R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "RA", "RB", "RC", "RD", "RE", "RF", "RG", "RH", "RI", "RJ", "RK", "RL", "RM", "RN", "RO", "RP", "RQ", "RR", "RS", "RT", "RU", "RV", "RW", "RX", "RY", "RZ", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "SA", "SB", "SC", "SD", "SE", "SF", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SP", "SQ", "SR", "SS", "ST", "SU", "SV", "SW", "SX", "SY", "SZ", "T0", "T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "TA", "TB", "TC", "TD", "TE", "TF", "TG", "TH", "TI", "TJ", "TK", "TL", "TM", "TN", "TO", "TP", "TQ", "TR", "TS", "TT", "TU", "TV", "TW", "TX", "TY", "TZ", "U0", "U1", "U2", "U3", "U4", "U5", "U6", "U7", "U8", "U9", "UA", "UB", "UC", "UD", "UE", "UF", "UG", "UH", "UI", "UJ", "UK", "UL", "UM", "UN", "UO", "UP", "UQ", "UR", "US", "UT", "UU", "UV", "UW", "UX", "UY", "UZ", "V0", "V1", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "VA", "VB", "VC", "VD", "VE", "VF", "VG", "VH", "VI", "VJ", "VK", "VL", "VM", "VN", "VO", "VP", "VQ", "VR", "VS", "VT", "VU", "VV", "VW", "VX", "VY", "VZ", "W0", "W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9", "WA", "WB", "WC", "WD", "WE", "WF", "WG", "WH", "WI", "WJ", "WK", "WL", "WM", "WN", "WO", "WP", "WQ", "WR", "WS", "WT", "WU", "WV", "WW", "WX", "WY", "WZ", "X0", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9", "XA", "XB", "XC", "XD", "XE", "XF", "XG", "XH", "XI", "XJ", "XK", "XL", "XM", "XN", "XO", "XP", "XQ", "XR", "XS", "XT", "XU", "XV", "XW", "XX", "XY", "XZ", "Y0", "Y1", "Y2", "Y3", "Y4", "Y5", "Y6", "Y7", "Y8", "Y9", "YA", "YB", "YC", "YD", "YE", "YF", "YG", "YH", "YI", "YJ", "YK", "YL", "YM", "YN", "YO", "YP", "YQ", "YR", "YS", "YT", "YU", "YV", "YW", "YX", "YY", "YZ", "Z0", "Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZA", "ZB", "ZC", "ZD", "ZE", "ZF", "ZG", "ZH", "ZI", "ZJ", "ZK", "ZL", "ZM", "ZN", "ZO", "ZP", "ZQ", "ZR", "ZS", "ZT", "ZU", "ZV", "ZW", "ZX", "ZY", "ZZ"})
-        Me.CHLnObj.Location = New System.Drawing.Point(67, 210)
+        Me.CHLnObj.Location = New System.Drawing.Point(70, 175)
         Me.CHLnObj.Margin = New System.Windows.Forms.Padding(0)
         Me.CHLnObj.Name = "CHLnObj"
-        Me.CHLnObj.Size = New System.Drawing.Size(116, 23)
-        Me.CHLnObj.TabIndex = 114
+        Me.CHLnObj.Size = New System.Drawing.Size(113, 23)
+        Me.CHLnObj.TabIndex = 119
         '
         'Label23
         '
-        Me.Label23.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(19, 145)
+        Me.Label23.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label23.Location = New System.Drawing.Point(22, 125)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(45, 15)
-        Me.Label23.TabIndex = 26
+        Me.Label23.Size = New System.Drawing.Size(45, 25)
+        Me.Label23.TabIndex = 113
         Me.Label23.Text = "ExRank"
         Me.Label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label21
         '
-        Me.Label21.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(9, 122)
+        Me.Label21.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label21.Location = New System.Drawing.Point(12, 150)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(55, 15)
-        Me.Label21.TabIndex = 25
+        Me.Label21.Size = New System.Drawing.Size(55, 25)
+        Me.Label21.TabIndex = 12
         Me.Label21.Text = "Difficulty"
         Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -3891,51 +3879,51 @@ Partial Class MainWindow
         '
         Me.POHeaderPart2.SetColumnSpan(Me.THComment, 2)
         Me.THComment.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THComment.Location = New System.Drawing.Point(67, 187)
+        Me.THComment.Location = New System.Drawing.Point(70, 150)
         Me.THComment.Margin = New System.Windows.Forms.Padding(0)
         Me.THComment.Name = "THComment"
-        Me.THComment.Size = New System.Drawing.Size(116, 23)
-        Me.THComment.TabIndex = 113
+        Me.THComment.Size = New System.Drawing.Size(113, 23)
+        Me.THComment.TabIndex = 117
         '
         'Label24
         '
-        Me.Label24.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label24.AutoSize = True
-        Me.Label24.Location = New System.Drawing.Point(23, 214)
+        Me.Label24.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label24.Location = New System.Drawing.Point(26, 175)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(41, 15)
-        Me.Label24.TabIndex = 27
+        Me.Label24.Size = New System.Drawing.Size(41, 25)
+        Me.Label24.TabIndex = 118
         Me.Label24.Text = "LNObj"
         Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label15
         '
-        Me.Label15.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(15, 4)
+        Me.Label15.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label15.Location = New System.Drawing.Point(18, 0)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(49, 15)
-        Me.Label15.TabIndex = 6
+        Me.Label15.Size = New System.Drawing.Size(49, 25)
+        Me.Label15.TabIndex = 100
         Me.Label15.Text = "SubTitle"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'THTotal
         '
         Me.THTotal.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THTotal.Location = New System.Drawing.Point(67, 164)
+        Me.THTotal.Location = New System.Drawing.Point(70, 200)
         Me.THTotal.Margin = New System.Windows.Forms.Padding(0)
         Me.THTotal.Name = "THTotal"
-        Me.THTotal.Size = New System.Drawing.Size(88, 23)
-        Me.THTotal.TabIndex = 112
+        Me.THTotal.Size = New System.Drawing.Size(85, 23)
+        Me.THTotal.TabIndex = 17
         '
         'Label20
         '
-        Me.Label20.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(32, 168)
+        Me.Label20.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label20.Location = New System.Drawing.Point(35, 200)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(32, 15)
-        Me.Label20.TabIndex = 5
+        Me.Label20.Size = New System.Drawing.Size(32, 25)
+        Me.Label20.TabIndex = 16
         Me.Label20.Text = "Total"
         Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -3943,11 +3931,11 @@ Partial Class MainWindow
         '
         Me.BHStageFile.Dock = System.Windows.Forms.DockStyle.Fill
         Me.BHStageFile.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.BHStageFile.Location = New System.Drawing.Point(158, 46)
+        Me.BHStageFile.Location = New System.Drawing.Point(158, 50)
         Me.BHStageFile.Margin = New System.Windows.Forms.Padding(3, 0, 0, 0)
         Me.BHStageFile.Name = "BHStageFile"
-        Me.BHStageFile.Size = New System.Drawing.Size(25, 24)
-        Me.BHStageFile.TabIndex = 105
+        Me.BHStageFile.Size = New System.Drawing.Size(25, 25)
+        Me.BHStageFile.TabIndex = 106
         Me.BHStageFile.Text = "..."
         Me.BHStageFile.UseVisualStyleBackColor = True
         '
@@ -3955,22 +3943,22 @@ Partial Class MainWindow
         '
         Me.BHBanner.Dock = System.Windows.Forms.DockStyle.Fill
         Me.BHBanner.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.BHBanner.Location = New System.Drawing.Point(158, 70)
+        Me.BHBanner.Location = New System.Drawing.Point(158, 75)
         Me.BHBanner.Margin = New System.Windows.Forms.Padding(3, 0, 0, 0)
         Me.BHBanner.Name = "BHBanner"
-        Me.BHBanner.Size = New System.Drawing.Size(25, 24)
-        Me.BHBanner.TabIndex = 107
+        Me.BHBanner.Size = New System.Drawing.Size(25, 25)
+        Me.BHBanner.TabIndex = 109
         Me.BHBanner.Text = "..."
         Me.BHBanner.UseVisualStyleBackColor = True
         '
         'Label19
         '
-        Me.Label19.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(3, 191)
+        Me.Label19.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label19.Location = New System.Drawing.Point(6, 150)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(61, 15)
-        Me.Label19.TabIndex = 13
+        Me.Label19.Size = New System.Drawing.Size(61, 25)
+        Me.Label19.TabIndex = 116
         Me.Label19.Text = "Comment"
         Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -3978,103 +3966,103 @@ Partial Class MainWindow
         '
         Me.BHBackBMP.Dock = System.Windows.Forms.DockStyle.Fill
         Me.BHBackBMP.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.BHBackBMP.Location = New System.Drawing.Point(158, 94)
+        Me.BHBackBMP.Location = New System.Drawing.Point(158, 100)
         Me.BHBackBMP.Margin = New System.Windows.Forms.Padding(3, 0, 0, 0)
         Me.BHBackBMP.Name = "BHBackBMP"
-        Me.BHBackBMP.Size = New System.Drawing.Size(25, 24)
-        Me.BHBackBMP.TabIndex = 109
+        Me.BHBackBMP.Size = New System.Drawing.Size(25, 25)
+        Me.BHBackBMP.TabIndex = 112
         Me.BHBackBMP.Text = "..."
         Me.BHBackBMP.UseVisualStyleBackColor = True
         '
         'Label17
         '
-        Me.Label17.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(9, 27)
+        Me.Label17.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label17.Location = New System.Drawing.Point(12, 25)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(55, 15)
-        Me.Label17.TabIndex = 7
+        Me.Label17.Size = New System.Drawing.Size(55, 25)
+        Me.Label17.TabIndex = 102
         Me.Label17.Text = "SubArtist"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label16
         '
-        Me.Label16.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(7, 50)
+        Me.Label16.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label16.Location = New System.Drawing.Point(10, 50)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(57, 15)
-        Me.Label16.TabIndex = 9
+        Me.Label16.Size = New System.Drawing.Size(57, 25)
+        Me.Label16.TabIndex = 104
         Me.Label16.Text = "Stage File"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label12
         '
-        Me.Label12.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(20, 74)
+        Me.Label12.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label12.Location = New System.Drawing.Point(23, 75)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(44, 15)
-        Me.Label12.TabIndex = 13
+        Me.Label12.Size = New System.Drawing.Size(44, 25)
+        Me.Label12.TabIndex = 107
         Me.Label12.Text = "Banner"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'THBackBMP
         '
         Me.THBackBMP.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THBackBMP.Location = New System.Drawing.Point(67, 94)
+        Me.THBackBMP.Location = New System.Drawing.Point(70, 100)
         Me.THBackBMP.Margin = New System.Windows.Forms.Padding(0)
         Me.THBackBMP.Name = "THBackBMP"
-        Me.THBackBMP.Size = New System.Drawing.Size(88, 23)
-        Me.THBackBMP.TabIndex = 108
+        Me.THBackBMP.Size = New System.Drawing.Size(85, 23)
+        Me.THBackBMP.TabIndex = 111
         '
         'Label11
         '
-        Me.Label11.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(4, 98)
+        Me.Label11.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label11.Location = New System.Drawing.Point(7, 100)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(60, 15)
-        Me.Label11.TabIndex = 16
+        Me.Label11.Size = New System.Drawing.Size(60, 25)
+        Me.Label11.TabIndex = 110
         Me.Label11.Text = "Back BMP"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'THBanner
         '
         Me.THBanner.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THBanner.Location = New System.Drawing.Point(67, 70)
+        Me.THBanner.Location = New System.Drawing.Point(70, 75)
         Me.THBanner.Margin = New System.Windows.Forms.Padding(0)
         Me.THBanner.Name = "THBanner"
-        Me.THBanner.Size = New System.Drawing.Size(88, 23)
-        Me.THBanner.TabIndex = 106
+        Me.THBanner.Size = New System.Drawing.Size(85, 23)
+        Me.THBanner.TabIndex = 108
         '
         'THStageFile
         '
         Me.THStageFile.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THStageFile.Location = New System.Drawing.Point(67, 46)
+        Me.THStageFile.Location = New System.Drawing.Point(70, 50)
         Me.THStageFile.Margin = New System.Windows.Forms.Padding(0)
         Me.THStageFile.Name = "THStageFile"
-        Me.THStageFile.Size = New System.Drawing.Size(88, 23)
-        Me.THStageFile.TabIndex = 104
+        Me.THStageFile.Size = New System.Drawing.Size(85, 23)
+        Me.THStageFile.TabIndex = 105
         '
         'THSubTitle
         '
         Me.POHeaderPart2.SetColumnSpan(Me.THSubTitle, 2)
         Me.THSubTitle.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THSubTitle.Location = New System.Drawing.Point(67, 0)
+        Me.THSubTitle.Location = New System.Drawing.Point(70, 0)
         Me.THSubTitle.Margin = New System.Windows.Forms.Padding(0)
         Me.THSubTitle.Name = "THSubTitle"
-        Me.THSubTitle.Size = New System.Drawing.Size(116, 23)
-        Me.THSubTitle.TabIndex = 102
+        Me.THSubTitle.Size = New System.Drawing.Size(113, 23)
+        Me.THSubTitle.TabIndex = 101
         '
         'THSubArtist
         '
         Me.POHeaderPart2.SetColumnSpan(Me.THSubArtist, 2)
         Me.THSubArtist.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THSubArtist.Location = New System.Drawing.Point(67, 23)
+        Me.THSubArtist.Location = New System.Drawing.Point(70, 25)
         Me.THSubArtist.Margin = New System.Windows.Forms.Padding(0)
         Me.THSubArtist.Name = "THSubArtist"
-        Me.THSubArtist.Size = New System.Drawing.Size(116, 23)
+        Me.THSubArtist.Size = New System.Drawing.Size(113, 23)
         Me.THSubArtist.TabIndex = 103
         '
         'POHeaderExpander
@@ -4085,7 +4073,7 @@ Partial Class MainWindow
         Me.POHeaderExpander.Dock = System.Windows.Forms.DockStyle.Top
         Me.POHeaderExpander.FlatAppearance.BorderSize = 0
         Me.POHeaderExpander.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.POHeaderExpander.Location = New System.Drawing.Point(0, 361)
+        Me.POHeaderExpander.Location = New System.Drawing.Point(0, 225)
         Me.POHeaderExpander.Margin = New System.Windows.Forms.Padding(0)
         Me.POHeaderExpander.Name = "POHeaderExpander"
         Me.POHeaderExpander.Size = New System.Drawing.Size(183, 25)
@@ -4100,113 +4088,101 @@ Partial Class MainWindow
         Me.POHeaderPart1.AutoSize = True
         Me.POHeaderPart1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.POHeaderPart1.ColumnCount = 3
-        Me.POHeaderPart1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67.0!))
+        Me.POHeaderPart1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70.0!))
         Me.POHeaderPart1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.POHeaderPart1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28.0!))
+        Me.POHeaderPart1.Controls.Add(Me.CHDifficulty, 1, 6)
         Me.POHeaderPart1.Controls.Add(Me.Label3, 0, 0)
-        Me.POHeaderPart1.Controls.Add(Me.THPlayLevel, 1, 6)
+        Me.POHeaderPart1.Controls.Add(Me.Label25, 2, 8)
         Me.POHeaderPart1.Controls.Add(Me.CHRank, 1, 5)
         Me.POHeaderPart1.Controls.Add(Me.Label10, 0, 5)
         Me.POHeaderPart1.Controls.Add(Me.CHPlayer, 1, 4)
         Me.POHeaderPart1.Controls.Add(Me.Label4, 0, 1)
         Me.POHeaderPart1.Controls.Add(Me.THGenre, 1, 2)
+        Me.POHeaderPart1.Controls.Add(Me.THTotal, 1, 8)
         Me.POHeaderPart1.Controls.Add(Me.THBPM, 1, 3)
+        Me.POHeaderPart1.Controls.Add(Me.Label20, 0, 8)
         Me.POHeaderPart1.Controls.Add(Me.Label2, 0, 2)
         Me.POHeaderPart1.Controls.Add(Me.THArtist, 1, 1)
         Me.POHeaderPart1.Controls.Add(Me.THTitle, 1, 0)
         Me.POHeaderPart1.Controls.Add(Me.Label9, 0, 3)
         Me.POHeaderPart1.Controls.Add(Me.Label8, 0, 4)
-        Me.POHeaderPart1.Controls.Add(Me.Label6, 0, 6)
+        Me.POHeaderPart1.Controls.Add(Me.Label6, 0, 7)
+        Me.POHeaderPart1.Controls.Add(Me.THPlayLevel, 1, 7)
+        Me.POHeaderPart1.Controls.Add(Me.Label21, 0, 6)
         Me.POHeaderPart1.Dock = System.Windows.Forms.DockStyle.Top
         Me.POHeaderPart1.Location = New System.Drawing.Point(0, 0)
         Me.POHeaderPart1.Name = "POHeaderPart1"
-        Me.POHeaderPart1.RowCount = 17
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
+        Me.POHeaderPart1.RowCount = 9
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
         Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.POHeaderPart1.Size = New System.Drawing.Size(183, 361)
+        Me.POHeaderPart1.Size = New System.Drawing.Size(183, 225)
         Me.POHeaderPart1.TabIndex = 25
         '
         'Label3
         '
-        Me.Label3.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(35, 4)
+        Me.Label3.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label3.Location = New System.Drawing.Point(38, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(29, 15)
-        Me.Label3.TabIndex = 2
+        Me.Label3.Size = New System.Drawing.Size(29, 25)
+        Me.Label3.TabIndex = 0
         Me.Label3.Text = "Title"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'THPlayLevel
-        '
-        Me.POHeaderPart1.SetColumnSpan(Me.THPlayLevel, 2)
-        Me.THPlayLevel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THPlayLevel.Location = New System.Drawing.Point(67, 138)
-        Me.THPlayLevel.Margin = New System.Windows.Forms.Padding(0)
-        Me.THPlayLevel.Name = "THPlayLevel"
-        Me.THPlayLevel.Size = New System.Drawing.Size(116, 23)
-        Me.THPlayLevel.TabIndex = 8
         '
         'CHRank
         '
         Me.POHeaderPart1.SetColumnSpan(Me.CHRank, 2)
-        Me.CHRank.Dock = System.Windows.Forms.DockStyle.Top
+        Me.CHRank.Dock = System.Windows.Forms.DockStyle.Fill
         Me.CHRank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CHRank.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.CHRank.Items.AddRange(New Object() {"0 - Very Hard", "1 - Hard", "2 - Normal", "3 - Easy", "4 - Very Easy"})
-        Me.CHRank.Location = New System.Drawing.Point(67, 115)
+        Me.CHRank.Location = New System.Drawing.Point(70, 125)
         Me.CHRank.Margin = New System.Windows.Forms.Padding(0)
         Me.CHRank.Name = "CHRank"
-        Me.CHRank.Size = New System.Drawing.Size(116, 23)
-        Me.CHRank.TabIndex = 7
+        Me.CHRank.Size = New System.Drawing.Size(113, 23)
+        Me.CHRank.TabIndex = 11
         '
         'Label10
         '
-        Me.Label10.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(14, 119)
+        Me.Label10.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label10.Location = New System.Drawing.Point(3, 125)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(50, 15)
-        Me.Label10.TabIndex = 16
-        Me.Label10.Text = "Ranking"
+        Me.Label10.Size = New System.Drawing.Size(64, 25)
+        Me.Label10.TabIndex = 10
+        Me.Label10.Text = "JudgeRank"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'CHPlayer
         '
         Me.POHeaderPart1.SetColumnSpan(Me.CHPlayer, 2)
-        Me.CHPlayer.Dock = System.Windows.Forms.DockStyle.Top
+        Me.CHPlayer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.CHPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CHPlayer.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.CHPlayer.Items.AddRange(New Object() {"1 - Single Play", "2 - Couple Play", "3 - Double Play"})
-        Me.CHPlayer.Location = New System.Drawing.Point(67, 92)
+        Me.CHPlayer.Location = New System.Drawing.Point(70, 100)
         Me.CHPlayer.Margin = New System.Windows.Forms.Padding(0)
         Me.CHPlayer.Name = "CHPlayer"
-        Me.CHPlayer.Size = New System.Drawing.Size(116, 23)
-        Me.CHPlayer.TabIndex = 6
+        Me.CHPlayer.Size = New System.Drawing.Size(113, 23)
+        Me.CHPlayer.TabIndex = 9
         '
         'Label4
         '
-        Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(29, 27)
+        Me.Label4.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label4.Location = New System.Drawing.Point(32, 25)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(35, 15)
-        Me.Label4.TabIndex = 3
+        Me.Label4.Size = New System.Drawing.Size(35, 25)
+        Me.Label4.TabIndex = 2
         Me.Label4.Text = "Artist"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -4214,11 +4190,11 @@ Partial Class MainWindow
         '
         Me.POHeaderPart1.SetColumnSpan(Me.THGenre, 2)
         Me.THGenre.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THGenre.Location = New System.Drawing.Point(67, 46)
+        Me.THGenre.Location = New System.Drawing.Point(70, 50)
         Me.THGenre.Margin = New System.Windows.Forms.Padding(0)
         Me.THGenre.Name = "THGenre"
-        Me.THGenre.Size = New System.Drawing.Size(116, 23)
-        Me.THGenre.TabIndex = 4
+        Me.THGenre.Size = New System.Drawing.Size(113, 23)
+        Me.THGenre.TabIndex = 5
         '
         'THBPM
         '
@@ -4226,22 +4202,22 @@ Partial Class MainWindow
         Me.THBPM.DecimalPlaces = 4
         Me.THBPM.Dock = System.Windows.Forms.DockStyle.Fill
         Me.THBPM.Increment = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.THBPM.Location = New System.Drawing.Point(67, 69)
+        Me.THBPM.Location = New System.Drawing.Point(70, 75)
         Me.THBPM.Margin = New System.Windows.Forms.Padding(0)
         Me.THBPM.Maximum = New Decimal(New Integer() {655359999, 0, 0, 262144})
         Me.THBPM.Minimum = New Decimal(New Integer() {1, 0, 0, 262144})
         Me.THBPM.Name = "THBPM"
-        Me.THBPM.Size = New System.Drawing.Size(116, 23)
-        Me.THBPM.TabIndex = 5
+        Me.THBPM.Size = New System.Drawing.Size(113, 23)
+        Me.THBPM.TabIndex = 7
         Me.THBPM.Value = New Decimal(New Integer() {120, 0, 0, 0})
         '
         'Label2
         '
-        Me.Label2.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(26, 50)
+        Me.Label2.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label2.Location = New System.Drawing.Point(29, 50)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(38, 15)
+        Me.Label2.Size = New System.Drawing.Size(38, 25)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "Genre"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -4250,54 +4226,43 @@ Partial Class MainWindow
         '
         Me.POHeaderPart1.SetColumnSpan(Me.THArtist, 2)
         Me.THArtist.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THArtist.Location = New System.Drawing.Point(67, 23)
+        Me.THArtist.Location = New System.Drawing.Point(70, 25)
         Me.THArtist.Margin = New System.Windows.Forms.Padding(0)
         Me.THArtist.Name = "THArtist"
-        Me.THArtist.Size = New System.Drawing.Size(116, 23)
+        Me.THArtist.Size = New System.Drawing.Size(113, 23)
         Me.THArtist.TabIndex = 3
         '
         'THTitle
         '
         Me.POHeaderPart1.SetColumnSpan(Me.THTitle, 2)
         Me.THTitle.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THTitle.Location = New System.Drawing.Point(67, 0)
+        Me.THTitle.Location = New System.Drawing.Point(70, 0)
         Me.THTitle.Margin = New System.Windows.Forms.Padding(0)
         Me.THTitle.Name = "THTitle"
-        Me.THTitle.Size = New System.Drawing.Size(116, 23)
-        Me.THTitle.TabIndex = 2
+        Me.THTitle.Size = New System.Drawing.Size(113, 23)
+        Me.THTitle.TabIndex = 1
         '
         'Label9
         '
-        Me.Label9.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(32, 73)
+        Me.Label9.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label9.Location = New System.Drawing.Point(35, 75)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(32, 15)
-        Me.Label9.TabIndex = 5
+        Me.Label9.Size = New System.Drawing.Size(32, 25)
+        Me.Label9.TabIndex = 6
         Me.Label9.Text = "BPM"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label8
         '
-        Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(25, 96)
+        Me.Label8.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label8.Location = New System.Drawing.Point(28, 100)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(39, 15)
-        Me.Label8.TabIndex = 13
+        Me.Label8.Size = New System.Drawing.Size(39, 25)
+        Me.Label8.TabIndex = 8
         Me.Label8.Text = "Player"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label6
-        '
-        Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.Right
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(5, 142)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(59, 15)
-        Me.Label6.TabIndex = 8
-        Me.Label6.Text = "Play Level"
-        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'POHeaderSwitch
         '
@@ -4343,6 +4308,27 @@ Partial Class MainWindow
         'TimerExternalExpansion
         '
         Me.TimerExternalExpansion.Interval = 3000
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label6.Location = New System.Drawing.Point(8, 175)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(59, 25)
+        Me.Label6.TabIndex = 14
+        Me.Label6.Text = "Play Level"
+        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'THPlayLevel
+        '
+        Me.POHeaderPart1.SetColumnSpan(Me.THPlayLevel, 2)
+        Me.THPlayLevel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.THPlayLevel.Location = New System.Drawing.Point(70, 175)
+        Me.THPlayLevel.Margin = New System.Windows.Forms.Padding(0)
+        Me.THPlayLevel.Name = "THPlayLevel"
+        Me.THPlayLevel.Size = New System.Drawing.Size(113, 23)
+        Me.THPlayLevel.TabIndex = 15
         '
         'MainWindow
         '
@@ -4798,7 +4784,6 @@ Partial Class MainWindow
     Friend WithEvents POHeaderExpander As CheckBox
     Friend WithEvents POHeaderPart1 As TableLayoutPanel
     Friend WithEvents Label3 As Label
-    Friend WithEvents THPlayLevel As TextBox
     Friend WithEvents CHRank As ComboBox
     Friend WithEvents Label10 As Label
     Friend WithEvents CHPlayer As ComboBox
@@ -4810,7 +4795,6 @@ Partial Class MainWindow
     Friend WithEvents THTitle As TextBox
     Friend WithEvents Label9 As Label
     Friend WithEvents Label8 As Label
-    Friend WithEvents Label6 As Label
     Friend WithEvents POHeaderSwitch As CheckBox
     Friend WithEvents POptionsScroll As Panel
     Friend WithEvents BExpansion As Button
@@ -4842,4 +4826,6 @@ Partial Class MainWindow
     Friend WithEvents POBLongNTObj As ToolStripMenuItem
     Friend WithEvents TimerRefreshPanel As Timer
     Friend WithEvents TimerExternalExpansion As Timer
+    Friend WithEvents Label6 As Label
+    Friend WithEvents THPlayLevel As TextBox
 End Class
