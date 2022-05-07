@@ -95,7 +95,6 @@ Public Class MainWindow
     Dim InitPath As String = ""
     Dim IsSaved As Boolean = True
     Dim GhostMode As Integer = 0 ' 0 - Default, ghost notes entirely uneditable, 1 - Ghost notes loaded with expectation of editing them, 2 - Ghost notes loaded as main notes and main notes temporarily changed to ghost notes
-    Dim GhostExpansionModify As Boolean = False
     Dim GhostEdit As Boolean = False
     Dim FileNameTemplate As String = ""
 
@@ -1032,7 +1031,7 @@ Public Class MainWindow
         End If
 
         If xRandomFile Then
-            xStrAll = SaveBMS(True)
+            xStrAll = SaveBMS()
             My.Computer.FileSystem.WriteAllText(FileName, xStrAll, False, TextEncoding)
             If BeepWhileSaved Then Beep()
         End If
@@ -3494,20 +3493,6 @@ Public Class MainWindow
         If IsSaved Then SetIsSaved(False)
     End Sub
 
-    Private Sub TExpansion_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TExpansion.TextChanged
-        THGenre_TextChanged(sender, e)
-        If GhostExpansionModify Then
-            Select Case GhostMode
-                Case 1
-                    GhostMode = 0
-                Case 2
-                    SwapGhostNotes()
-                    GhostMode = 0
-            End Select
-            GhostExpansionModify = False
-        End If
-    End Sub
-
     Private Sub CHLnObj_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CHLnObj.SelectedIndexChanged
         If IsSaved Then SetIsSaved(False)
         LnObj = CHLnObj.SelectedIndex
@@ -5836,6 +5821,8 @@ case2:              Dim xI0 As Integer
     End Function
 
     Private Sub Expand_Load(sender As Object, e As EventArgs) Handles BExpansion.Click
+        If Not TExpansion.Enabled Then Exit Sub
+
         ReDim ExpansionSplit(2)
         Dim xDOp As New OpExpand()
         ExpansionSplit(1) = "-"
@@ -5876,7 +5863,6 @@ case2:              Dim xI0 As Integer
     Public Sub Expand_ModifySection()
         RemoveGhostNotes()
         GhostMode = 0
-        Dim ReadText As String = Nothing
         Dim RandomTempFilePath = ExcludeFileName(FileName) & "\" & RandomTempFileName
         ' Picks another random filename because the programme somehow generated the same exact RandomFileName as a previous instance. 1 in 2-billion chance btw
         Do Until Not My.Computer.FileSystem.FileExists(RandomTempFilePath)
@@ -5887,15 +5873,18 @@ case2:              Dim xI0 As Integer
         ' Dim xStrHeader As String = GenerateHeaderMeta()
         ' xStrHeader &= GenerateHeaderIndexedData()
         My.Computer.FileSystem.WriteAllText(RandomTempFilePath, ExpansionSplit(1), False, TextEncoding)
-        System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath & "\" & My.Application.Info.ProductName & ".exe", RandomTempFilePath)
-        Do Until False
-            Threading.Thread.Sleep(3000)
-            ReadText = My.Computer.FileSystem.ReadAllText(RandomTempFilePath, TextEncoding)
-            If ReadText.EndsWith("*---------------------- RANDOM DATA FIELD") Then
-                Exit Do
-            End If
-        Loop
+        Process.Start(My.Application.Info.DirectoryPath & "\" & My.Application.Info.ProductName & ".exe", RandomTempFilePath)
+        TimerExternalExpansion.Enabled = True
+        TExpansion.Enabled = False
+    End Sub
 
+    Private Sub TimerExternalExpansion_Tick(sender As Object, e As EventArgs) Handles TimerExternalExpansion.Tick
+        Dim ReadText As String = Nothing
+        Dim RandomTempFilePath = ExcludeFileName(FileName) & "\" & RandomTempFileName
+        ReadText = My.Computer.FileSystem.ReadAllText(RandomTempFilePath, TextEncoding)
+        If Not ReadText.EndsWith("*---------------------- RANDOM DATA FIELD") Then Exit Sub
+
+        TExpansion.Enabled = True
         ExpansionSplit(1) = ""
         TExpansion.Text = ""
         Dim xStrCompare() As String = Split(Replace(Replace(Replace(SaveBMS(), vbLf, vbCr), vbCr & vbCr, vbCr), vbCr, vbCrLf), vbCrLf,, CompareMethod.Text)
@@ -5907,6 +5896,7 @@ case2:              Dim xI0 As Integer
         Next
         TExpansion.Text = Join(ExpansionSplit, vbCrLf)
         AddTempFileList(RandomTempFilePath)
+        TimerExternalExpansion.Enabled = False
     End Sub
 
     Public Sub Expand_RemoveGhostNotes()
@@ -5961,11 +5951,11 @@ case2:              Dim xI0 As Integer
         Select Case GhostMode
             Case 1
                 Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.SaveWarning & Strings.Messages.GhostNotesModifyExpansion1, MsgBoxStyle.YesNo)
-                If xResult = MsgBoxResult.No Then GhostExpansionModify = True : Exit Sub
+                If xResult = MsgBoxResult.No Then PMain.Focus() : Exit Sub
                 GhostMode = 0
             Case 2
                 Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.SaveWarning & Strings.Messages.GhostNotesModifyExpansion2, MsgBoxStyle.YesNo)
-                If xResult = MsgBoxResult.No Then GhostExpansionModify = True : Exit Sub
+                If xResult = MsgBoxResult.No Then PMain.Focus() : Exit Sub
                 SaveBMS()
                 Expand_RemoveGhostNotes()
         End Select

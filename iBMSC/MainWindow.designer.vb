@@ -25,16 +25,16 @@ Partial Class MainWindow
         Me.TBLangDef = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBLangRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
-        Me.TBLanguage = New System.Windows.Forms.ToolStripDropDownButton()
         Me.mnLanguage = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TBLanguage = New System.Windows.Forms.ToolStripDropDownButton()
         Me.cmnTheme = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.TBThemeDef = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeSave = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeLoadComptability = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
-        Me.mnTheme = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBTheme = New System.Windows.Forms.ToolStripDropDownButton()
+        Me.mnTheme = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Menu1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.MInsert = New System.Windows.Forms.ToolStripMenuItem()
@@ -134,6 +134,7 @@ Partial Class MainWindow
         Me.POBSRandom = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBHRandom = New System.Windows.Forms.ToolStripMenuItem()
         Me.POBSort = New System.Windows.Forms.ToolStripMenuItem()
+        Me.POConvert = New System.Windows.Forms.ToolStripDropDownButton()
         Me.mnPreview = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnPlayB = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnPlay = New System.Windows.Forms.ToolStripMenuItem()
@@ -142,7 +143,6 @@ Partial Class MainWindow
         Me.mnTechnicalErrorCheck = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnTOTAL = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator13 = New System.Windows.Forms.ToolStripSeparator()
-        Me.POConvert = New System.Windows.Forms.ToolStripDropDownButton()
         Me.TBMain = New System.Windows.Forms.ToolStrip()
         Me.TBNew = New System.Windows.Forms.ToolStripButton()
         Me.TBOpen = New System.Windows.Forms.ToolStripSplitButton()
@@ -388,6 +388,7 @@ Partial Class MainWindow
         Me.TimerInternalPlay = New System.Windows.Forms.Timer(Me.components)
         Me.TimerPreviewNote = New System.Windows.Forms.Timer(Me.components)
         Me.TimerRefreshPanel = New System.Windows.Forms.Timer(Me.components)
+        Me.TimerExternalExpansion = New System.Windows.Forms.Timer(Me.components)
         Me.cmnLanguage.SuspendLayout()
         Me.cmnTheme.SuspendLayout()
         Me.Menu1.SuspendLayout()
@@ -472,7 +473,7 @@ Partial Class MainWindow
         '
         Me.cmnLanguage.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBLangDef, Me.TBLangRefresh, Me.ToolStripSeparator9})
         Me.cmnLanguage.Name = "cmnLanguage"
-        Me.cmnLanguage.OwnerItem = Me.mnLanguage
+        Me.cmnLanguage.OwnerItem = Me.TBLanguage
         Me.cmnLanguage.Size = New System.Drawing.Size(121, 54)
         '
         'TBLangDef
@@ -493,6 +494,14 @@ Partial Class MainWindow
         Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
         Me.ToolStripSeparator9.Size = New System.Drawing.Size(117, 6)
         '
+        'mnLanguage
+        '
+        Me.mnLanguage.DropDown = Me.cmnLanguage
+        Me.mnLanguage.Image = Global.iBMSC.My.Resources.Resources.x16Language
+        Me.mnLanguage.Name = "mnLanguage"
+        Me.mnLanguage.Size = New System.Drawing.Size(253, 22)
+        Me.mnLanguage.Text = "&Language"
+        '
         'TBLanguage
         '
         Me.TBLanguage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -503,19 +512,11 @@ Partial Class MainWindow
         Me.TBLanguage.Size = New System.Drawing.Size(29, 22)
         Me.TBLanguage.Text = "Language"
         '
-        'mnLanguage
-        '
-        Me.mnLanguage.DropDown = Me.cmnLanguage
-        Me.mnLanguage.Image = Global.iBMSC.My.Resources.Resources.x16Language
-        Me.mnLanguage.Name = "mnLanguage"
-        Me.mnLanguage.Size = New System.Drawing.Size(253, 22)
-        Me.mnLanguage.Text = "&Language"
-        '
         'cmnTheme
         '
         Me.cmnTheme.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBThemeDef, Me.TBThemeSave, Me.TBThemeRefresh, Me.TBThemeLoadComptability, Me.ToolStripSeparator6})
         Me.cmnTheme.Name = "cmnLanguage"
-        Me.cmnTheme.OwnerItem = Me.TBTheme
+        Me.cmnTheme.OwnerItem = Me.mnTheme
         Me.cmnTheme.Size = New System.Drawing.Size(246, 98)
         '
         'TBThemeDef
@@ -549,14 +550,6 @@ Partial Class MainWindow
         Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
         Me.ToolStripSeparator6.Size = New System.Drawing.Size(242, 6)
         '
-        'mnTheme
-        '
-        Me.mnTheme.DropDown = Me.cmnTheme
-        Me.mnTheme.Image = Global.iBMSC.My.Resources.Resources.x16Theme
-        Me.mnTheme.Name = "mnTheme"
-        Me.mnTheme.Size = New System.Drawing.Size(253, 22)
-        Me.mnTheme.Text = "&Theme"
-        '
         'TBTheme
         '
         Me.TBTheme.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -566,6 +559,14 @@ Partial Class MainWindow
         Me.TBTheme.Name = "TBTheme"
         Me.TBTheme.Size = New System.Drawing.Size(29, 22)
         Me.TBTheme.Text = "Theme"
+        '
+        'mnTheme
+        '
+        Me.mnTheme.DropDown = Me.cmnTheme
+        Me.mnTheme.Image = Global.iBMSC.My.Resources.Resources.x16Theme
+        Me.mnTheme.Name = "mnTheme"
+        Me.mnTheme.Size = New System.Drawing.Size(253, 22)
+        Me.mnTheme.Text = "&Theme"
         '
         'Timer1
         '
@@ -1182,7 +1183,7 @@ Partial Class MainWindow
         '
         Me.cmnConversion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.POBLong, Me.POBShort, Me.POBLongShort, Me.POBLongObjNT, Me.POBLongNTObj, Me.ToolStripSeparator25, Me.POBAutoLongVPosition, Me.POBAutoLongColumn, Me.ToolStripSeparator10, Me.POBHidden, Me.POBVisible, Me.POBHiddenVisible, Me.ToolStripSeparator11, Me.POBModify, Me.POBMirror, Me.POBFlip, Me.POBRandom, Me.POBRRandom, Me.POBSRandom, Me.POBHRandom, Me.POBSort})
         Me.cmnConversion.Name = "cmnLanguage"
-        Me.cmnConversion.OwnerItem = Me.POConvert
+        Me.cmnConversion.OwnerItem = Me.mnConversion
         Me.cmnConversion.Size = New System.Drawing.Size(237, 418)
         '
         'POBLong
@@ -1328,6 +1329,16 @@ Partial Class MainWindow
         Me.POBSort.Size = New System.Drawing.Size(236, 22)
         Me.POBSort.Text = "S&ort"
         '
+        'POConvert
+        '
+        Me.POConvert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.POConvert.DropDown = Me.cmnConversion
+        Me.POConvert.Image = Global.iBMSC.My.Resources.Resources.ConvertNotes
+        Me.POConvert.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.POConvert.Name = "POConvert"
+        Me.POConvert.Size = New System.Drawing.Size(29, 22)
+        Me.POConvert.Text = "Convert Notes"
+        '
         'mnPreview
         '
         Me.mnPreview.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnPlayB, Me.mnPlay, Me.mnStop})
@@ -1384,16 +1395,6 @@ Partial Class MainWindow
         '
         Me.ToolStripSeparator13.Name = "ToolStripSeparator13"
         Me.ToolStripSeparator13.Size = New System.Drawing.Size(247, 6)
-        '
-        'POConvert
-        '
-        Me.POConvert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.POConvert.DropDown = Me.cmnConversion
-        Me.POConvert.Image = Global.iBMSC.My.Resources.Resources.ConvertNotes
-        Me.POConvert.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.POConvert.Name = "POConvert"
-        Me.POConvert.Size = New System.Drawing.Size(29, 22)
-        Me.POConvert.Text = "Convert Notes"
         '
         'TBMain
         '
@@ -2452,7 +2453,7 @@ Partial Class MainWindow
         Me.POptions.Dock = System.Windows.Forms.DockStyle.Top
         Me.POptions.Location = New System.Drawing.Point(0, 0)
         Me.POptions.Name = "POptions"
-        Me.POptions.Size = New System.Drawing.Size(183, 1747)
+        Me.POptions.Size = New System.Drawing.Size(183, 2087)
         Me.POptions.TabIndex = 29
         '
         'POExpansion
@@ -2462,7 +2463,7 @@ Partial Class MainWindow
         Me.POExpansion.Controls.Add(Me.POExpansionInner)
         Me.POExpansion.Controls.Add(Me.POExpansionSwitch)
         Me.POExpansion.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POExpansion.Location = New System.Drawing.Point(0, 1452)
+        Me.POExpansion.Location = New System.Drawing.Point(0, 1792)
         Me.POExpansion.Name = "POExpansion"
         Me.POExpansion.Size = New System.Drawing.Size(183, 295)
         Me.POExpansion.TabIndex = 6
@@ -2542,7 +2543,7 @@ Partial Class MainWindow
         Me.POBeat.Controls.Add(Me.POBeatInner)
         Me.POBeat.Controls.Add(Me.POBeatSwitch)
         Me.POBeat.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POBeat.Location = New System.Drawing.Point(0, 1182)
+        Me.POBeat.Location = New System.Drawing.Point(0, 1522)
         Me.POBeat.Name = "POBeat"
         Me.POBeat.Size = New System.Drawing.Size(183, 270)
         Me.POBeat.TabIndex = 5
@@ -2806,7 +2807,7 @@ Partial Class MainWindow
         Me.POWAV.Controls.Add(Me.POWAVInner)
         Me.POWAV.Controls.Add(Me.POWAVSwitch)
         Me.POWAV.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POWAV.Location = New System.Drawing.Point(0, 912)
+        Me.POWAV.Location = New System.Drawing.Point(0, 1252)
         Me.POWAV.Name = "POWAV"
         Me.POWAV.Size = New System.Drawing.Size(183, 270)
         Me.POWAV.TabIndex = 4
@@ -2963,7 +2964,7 @@ Partial Class MainWindow
         Me.POWaveForm.Controls.Add(Me.POWaveFormInner)
         Me.POWaveForm.Controls.Add(Me.POWaveFormSwitch)
         Me.POWaveForm.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POWaveForm.Location = New System.Drawing.Point(0, 669)
+        Me.POWaveForm.Location = New System.Drawing.Point(0, 1009)
         Me.POWaveForm.Name = "POWaveForm"
         Me.POWaveForm.Size = New System.Drawing.Size(183, 243)
         Me.POWaveForm.TabIndex = 3
@@ -3354,7 +3355,7 @@ Partial Class MainWindow
         Me.POGrid.Controls.Add(Me.POGridInner)
         Me.POGrid.Controls.Add(Me.POGridSwitch)
         Me.POGrid.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POGrid.Location = New System.Drawing.Point(0, 439)
+        Me.POGrid.Location = New System.Drawing.Point(0, 779)
         Me.POGrid.Name = "POGrid"
         Me.POGrid.Size = New System.Drawing.Size(183, 230)
         Me.POGrid.TabIndex = 2
@@ -3732,7 +3733,7 @@ Partial Class MainWindow
         Me.POHeader.Dock = System.Windows.Forms.DockStyle.Top
         Me.POHeader.Location = New System.Drawing.Point(0, 0)
         Me.POHeader.Name = "POHeader"
-        Me.POHeader.Size = New System.Drawing.Size(183, 439)
+        Me.POHeader.Size = New System.Drawing.Size(183, 779)
         Me.POHeader.TabIndex = 1
         '
         'POHeaderInner
@@ -3745,7 +3746,7 @@ Partial Class MainWindow
         Me.POHeaderInner.Dock = System.Windows.Forms.DockStyle.Top
         Me.POHeaderInner.Location = New System.Drawing.Point(0, 20)
         Me.POHeaderInner.Name = "POHeaderInner"
-        Me.POHeaderInner.Size = New System.Drawing.Size(183, 419)
+        Me.POHeaderInner.Size = New System.Drawing.Size(183, 759)
         Me.POHeaderInner.TabIndex = 2
         '
         'POHeaderPart2
@@ -3753,9 +3754,9 @@ Partial Class MainWindow
         Me.POHeaderPart2.AutoSize = True
         Me.POHeaderPart2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.POHeaderPart2.ColumnCount = 3
-        Me.POHeaderPart2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
+        Me.POHeaderPart2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67.0!))
         Me.POHeaderPart2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
-        Me.POHeaderPart2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
+        Me.POHeaderPart2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28.0!))
         Me.POHeaderPart2.Controls.Add(Me.CHDifficulty, 1, 5)
         Me.POHeaderPart2.Controls.Add(Me.Label13, 2, 6)
         Me.POHeaderPart2.Controls.Add(Me.THExRank, 1, 6)
@@ -3782,9 +3783,9 @@ Partial Class MainWindow
         Me.POHeaderPart2.Controls.Add(Me.THSubTitle, 1, 0)
         Me.POHeaderPart2.Controls.Add(Me.THSubArtist, 1, 1)
         Me.POHeaderPart2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.POHeaderPart2.Location = New System.Drawing.Point(0, 186)
+        Me.POHeaderPart2.Location = New System.Drawing.Point(0, 386)
         Me.POHeaderPart2.Name = "POHeaderPart2"
-        Me.POHeaderPart2.RowCount = 10
+        Me.POHeaderPart2.RowCount = 17
         Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
@@ -3795,7 +3796,14 @@ Partial Class MainWindow
         Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart2.Size = New System.Drawing.Size(183, 233)
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart2.Size = New System.Drawing.Size(183, 373)
         Me.POHeaderPart2.TabIndex = 102
         '
         'CHDifficulty
@@ -4077,7 +4085,7 @@ Partial Class MainWindow
         Me.POHeaderExpander.Dock = System.Windows.Forms.DockStyle.Top
         Me.POHeaderExpander.FlatAppearance.BorderSize = 0
         Me.POHeaderExpander.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.POHeaderExpander.Location = New System.Drawing.Point(0, 161)
+        Me.POHeaderExpander.Location = New System.Drawing.Point(0, 361)
         Me.POHeaderExpander.Margin = New System.Windows.Forms.Padding(0)
         Me.POHeaderExpander.Name = "POHeaderExpander"
         Me.POHeaderExpander.Size = New System.Drawing.Size(183, 25)
@@ -4091,9 +4099,10 @@ Partial Class MainWindow
         '
         Me.POHeaderPart1.AutoSize = True
         Me.POHeaderPart1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.POHeaderPart1.ColumnCount = 2
-        Me.POHeaderPart1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
+        Me.POHeaderPart1.ColumnCount = 3
+        Me.POHeaderPart1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67.0!))
         Me.POHeaderPart1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+        Me.POHeaderPart1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28.0!))
         Me.POHeaderPart1.Controls.Add(Me.Label3, 0, 0)
         Me.POHeaderPart1.Controls.Add(Me.THPlayLevel, 1, 6)
         Me.POHeaderPart1.Controls.Add(Me.CHRank, 1, 5)
@@ -4111,7 +4120,7 @@ Partial Class MainWindow
         Me.POHeaderPart1.Dock = System.Windows.Forms.DockStyle.Top
         Me.POHeaderPart1.Location = New System.Drawing.Point(0, 0)
         Me.POHeaderPart1.Name = "POHeaderPart1"
-        Me.POHeaderPart1.RowCount = 7
+        Me.POHeaderPart1.RowCount = 17
         Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
@@ -4119,14 +4128,24 @@ Partial Class MainWindow
         Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
         Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle())
-        Me.POHeaderPart1.Size = New System.Drawing.Size(183, 161)
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.POHeaderPart1.Size = New System.Drawing.Size(183, 361)
         Me.POHeaderPart1.TabIndex = 25
         '
         'Label3
         '
         Me.Label3.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(33, 4)
+        Me.Label3.Location = New System.Drawing.Point(35, 4)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(29, 15)
         Me.Label3.TabIndex = 2
@@ -4135,30 +4154,32 @@ Partial Class MainWindow
         '
         'THPlayLevel
         '
+        Me.POHeaderPart1.SetColumnSpan(Me.THPlayLevel, 2)
         Me.THPlayLevel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THPlayLevel.Location = New System.Drawing.Point(65, 138)
+        Me.THPlayLevel.Location = New System.Drawing.Point(67, 138)
         Me.THPlayLevel.Margin = New System.Windows.Forms.Padding(0)
         Me.THPlayLevel.Name = "THPlayLevel"
-        Me.THPlayLevel.Size = New System.Drawing.Size(118, 23)
+        Me.THPlayLevel.Size = New System.Drawing.Size(116, 23)
         Me.THPlayLevel.TabIndex = 8
         '
         'CHRank
         '
+        Me.POHeaderPart1.SetColumnSpan(Me.CHRank, 2)
         Me.CHRank.Dock = System.Windows.Forms.DockStyle.Top
         Me.CHRank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CHRank.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.CHRank.Items.AddRange(New Object() {"0 - Very Hard", "1 - Hard", "2 - Normal", "3 - Easy", "4 - Very Easy"})
-        Me.CHRank.Location = New System.Drawing.Point(65, 115)
+        Me.CHRank.Location = New System.Drawing.Point(67, 115)
         Me.CHRank.Margin = New System.Windows.Forms.Padding(0)
         Me.CHRank.Name = "CHRank"
-        Me.CHRank.Size = New System.Drawing.Size(118, 23)
+        Me.CHRank.Size = New System.Drawing.Size(116, 23)
         Me.CHRank.TabIndex = 7
         '
         'Label10
         '
         Me.Label10.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(12, 119)
+        Me.Label10.Location = New System.Drawing.Point(14, 119)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(50, 15)
         Me.Label10.TabIndex = 16
@@ -4167,21 +4188,22 @@ Partial Class MainWindow
         '
         'CHPlayer
         '
+        Me.POHeaderPart1.SetColumnSpan(Me.CHPlayer, 2)
         Me.CHPlayer.Dock = System.Windows.Forms.DockStyle.Top
         Me.CHPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CHPlayer.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.CHPlayer.Items.AddRange(New Object() {"1 - Single Play", "2 - Couple Play", "3 - Double Play"})
-        Me.CHPlayer.Location = New System.Drawing.Point(65, 92)
+        Me.CHPlayer.Location = New System.Drawing.Point(67, 92)
         Me.CHPlayer.Margin = New System.Windows.Forms.Padding(0)
         Me.CHPlayer.Name = "CHPlayer"
-        Me.CHPlayer.Size = New System.Drawing.Size(118, 23)
+        Me.CHPlayer.Size = New System.Drawing.Size(116, 23)
         Me.CHPlayer.TabIndex = 6
         '
         'Label4
         '
         Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(27, 27)
+        Me.Label4.Location = New System.Drawing.Point(29, 27)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(35, 15)
         Me.Label4.TabIndex = 3
@@ -4190,24 +4212,26 @@ Partial Class MainWindow
         '
         'THGenre
         '
+        Me.POHeaderPart1.SetColumnSpan(Me.THGenre, 2)
         Me.THGenre.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THGenre.Location = New System.Drawing.Point(65, 46)
+        Me.THGenre.Location = New System.Drawing.Point(67, 46)
         Me.THGenre.Margin = New System.Windows.Forms.Padding(0)
         Me.THGenre.Name = "THGenre"
-        Me.THGenre.Size = New System.Drawing.Size(118, 23)
+        Me.THGenre.Size = New System.Drawing.Size(116, 23)
         Me.THGenre.TabIndex = 4
         '
         'THBPM
         '
+        Me.POHeaderPart1.SetColumnSpan(Me.THBPM, 2)
         Me.THBPM.DecimalPlaces = 4
         Me.THBPM.Dock = System.Windows.Forms.DockStyle.Fill
         Me.THBPM.Increment = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.THBPM.Location = New System.Drawing.Point(65, 69)
+        Me.THBPM.Location = New System.Drawing.Point(67, 69)
         Me.THBPM.Margin = New System.Windows.Forms.Padding(0)
         Me.THBPM.Maximum = New Decimal(New Integer() {655359999, 0, 0, 262144})
         Me.THBPM.Minimum = New Decimal(New Integer() {1, 0, 0, 262144})
         Me.THBPM.Name = "THBPM"
-        Me.THBPM.Size = New System.Drawing.Size(118, 23)
+        Me.THBPM.Size = New System.Drawing.Size(116, 23)
         Me.THBPM.TabIndex = 5
         Me.THBPM.Value = New Decimal(New Integer() {120, 0, 0, 0})
         '
@@ -4215,7 +4239,7 @@ Partial Class MainWindow
         '
         Me.Label2.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(24, 50)
+        Me.Label2.Location = New System.Drawing.Point(26, 50)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(38, 15)
         Me.Label2.TabIndex = 4
@@ -4224,27 +4248,29 @@ Partial Class MainWindow
         '
         'THArtist
         '
+        Me.POHeaderPart1.SetColumnSpan(Me.THArtist, 2)
         Me.THArtist.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THArtist.Location = New System.Drawing.Point(65, 23)
+        Me.THArtist.Location = New System.Drawing.Point(67, 23)
         Me.THArtist.Margin = New System.Windows.Forms.Padding(0)
         Me.THArtist.Name = "THArtist"
-        Me.THArtist.Size = New System.Drawing.Size(118, 23)
+        Me.THArtist.Size = New System.Drawing.Size(116, 23)
         Me.THArtist.TabIndex = 3
         '
         'THTitle
         '
+        Me.POHeaderPart1.SetColumnSpan(Me.THTitle, 2)
         Me.THTitle.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THTitle.Location = New System.Drawing.Point(65, 0)
+        Me.THTitle.Location = New System.Drawing.Point(67, 0)
         Me.THTitle.Margin = New System.Windows.Forms.Padding(0)
         Me.THTitle.Name = "THTitle"
-        Me.THTitle.Size = New System.Drawing.Size(118, 23)
+        Me.THTitle.Size = New System.Drawing.Size(116, 23)
         Me.THTitle.TabIndex = 2
         '
         'Label9
         '
         Me.Label9.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(30, 73)
+        Me.Label9.Location = New System.Drawing.Point(32, 73)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(32, 15)
         Me.Label9.TabIndex = 5
@@ -4255,7 +4281,7 @@ Partial Class MainWindow
         '
         Me.Label8.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(23, 96)
+        Me.Label8.Location = New System.Drawing.Point(25, 96)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(39, 15)
         Me.Label8.TabIndex = 13
@@ -4266,7 +4292,7 @@ Partial Class MainWindow
         '
         Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(3, 142)
+        Me.Label6.Location = New System.Drawing.Point(5, 142)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(59, 15)
         Me.Label6.TabIndex = 8
@@ -4313,6 +4339,10 @@ Partial Class MainWindow
         'TimerRefreshPanel
         '
         Me.TimerRefreshPanel.Interval = 15
+        '
+        'TimerExternalExpansion
+        '
+        Me.TimerExternalExpansion.Interval = 3000
         '
         'MainWindow
         '
@@ -4811,4 +4841,5 @@ Partial Class MainWindow
     Friend WithEvents POBLongObjNT As ToolStripMenuItem
     Friend WithEvents POBLongNTObj As ToolStripMenuItem
     Friend WithEvents TimerRefreshPanel As Timer
+    Friend WithEvents TimerExternalExpansion As Timer
 End Class
