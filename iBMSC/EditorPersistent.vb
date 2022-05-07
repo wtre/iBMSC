@@ -1508,5 +1508,20 @@ Partial Public Class MainWindow
         Else
             ReDim COverridesFull(-1)
         End If
+        LoadColorOverrideActive()
+    End Sub
+
+    Private Sub LoadColorOverrideActive()
+        Dim i As Integer = -1
+        If COverridesFull IsNot Nothing Then
+            ReDim COverridesActive(UBound(COverridesFull))
+            For Each COverride In COverridesFull
+                If COverride.Enabled Then
+                    i += 1
+                    COverridesActive(i) = COverride
+                End If
+            Next
+        End If
+        ReDim Preserve COverridesActive(i)
     End Sub
 End Class

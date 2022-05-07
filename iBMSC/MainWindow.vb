@@ -3359,15 +3359,7 @@ Public Class MainWindow
             TBVCOptions_Click(sender, New EventArgs)
         End If
 
-        ReDim COverridesActive(UBound(COverridesFull))
-        Dim i As Integer = -1
-        For Each COverride In COverridesFull
-            If COverride.Enabled Then
-                i += 1
-                COverridesActive(i) = COverride
-            End If
-        Next
-        ReDim Preserve COverridesActive(i)
+        LoadColorOverrideActive()
 
         UpdateColumnsX()
         RefreshPanelAll()

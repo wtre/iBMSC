@@ -342,18 +342,13 @@ Partial Class MainWindow
         Me.POHeader = New System.Windows.Forms.Panel()
         Me.POHeaderInner = New System.Windows.Forms.Panel()
         Me.POHeaderPart2 = New System.Windows.Forms.TableLayoutPanel()
-        Me.CHDifficulty = New System.Windows.Forms.ComboBox()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.THExRank = New System.Windows.Forms.TextBox()
-        Me.Label25 = New System.Windows.Forms.Label()
         Me.CHLnObj = New System.Windows.Forms.ComboBox()
         Me.Label23 = New System.Windows.Forms.Label()
-        Me.Label21 = New System.Windows.Forms.Label()
         Me.THComment = New System.Windows.Forms.TextBox()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
-        Me.THTotal = New System.Windows.Forms.TextBox()
-        Me.Label20 = New System.Windows.Forms.Label()
         Me.BHStageFile = New System.Windows.Forms.Button()
         Me.BHBanner = New System.Windows.Forms.Button()
         Me.Label19 = New System.Windows.Forms.Label()
@@ -369,26 +364,31 @@ Partial Class MainWindow
         Me.THSubArtist = New System.Windows.Forms.TextBox()
         Me.POHeaderExpander = New System.Windows.Forms.CheckBox()
         Me.POHeaderPart1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.CHDifficulty = New System.Windows.Forms.ComboBox()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label25 = New System.Windows.Forms.Label()
         Me.CHRank = New System.Windows.Forms.ComboBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.CHPlayer = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.THGenre = New System.Windows.Forms.TextBox()
+        Me.THTotal = New System.Windows.Forms.TextBox()
         Me.THBPM = New System.Windows.Forms.NumericUpDown()
+        Me.Label20 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.THArtist = New System.Windows.Forms.TextBox()
         Me.THTitle = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.THPlayLevel = New System.Windows.Forms.TextBox()
+        Me.Label21 = New System.Windows.Forms.Label()
         Me.POHeaderSwitch = New System.Windows.Forms.CheckBox()
         Me.POptionsScroll = New System.Windows.Forms.Panel()
         Me.TimerInternalPlay = New System.Windows.Forms.Timer(Me.components)
         Me.TimerPreviewNote = New System.Windows.Forms.Timer(Me.components)
         Me.TimerRefreshPanel = New System.Windows.Forms.Timer(Me.components)
         Me.TimerExternalExpansion = New System.Windows.Forms.Timer(Me.components)
-        Me.Label6 = New System.Windows.Forms.Label()
-        Me.THPlayLevel = New System.Windows.Forms.TextBox()
         Me.cmnLanguage.SuspendLayout()
         Me.cmnTheme.SuspendLayout()
         Me.Menu1.SuspendLayout()
@@ -2854,6 +2854,7 @@ Partial Class MainWindow
         'LWAV
         '
         Me.LWAV.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LWAV.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.LWAV.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LWAV.IntegralHeight = False
         Me.LWAV.ItemHeight = 14
@@ -3794,19 +3795,6 @@ Partial Class MainWindow
         Me.POHeaderPart2.Size = New System.Drawing.Size(183, 200)
         Me.POHeaderPart2.TabIndex = 102
         '
-        'CHDifficulty
-        '
-        Me.POHeaderPart1.SetColumnSpan(Me.CHDifficulty, 2)
-        Me.CHDifficulty.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CHDifficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CHDifficulty.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.CHDifficulty.Items.AddRange(New Object() {"None", "1 - EZ / Beginner", "2 - NM / Normal", "3 - HD / Hyper", "4 - MX / Another", "5 - SC / Insane"})
-        Me.CHDifficulty.Location = New System.Drawing.Point(70, 150)
-        Me.CHDifficulty.Margin = New System.Windows.Forms.Padding(0)
-        Me.CHDifficulty.Name = "CHDifficulty"
-        Me.CHDifficulty.Size = New System.Drawing.Size(113, 23)
-        Me.CHDifficulty.TabIndex = 13
-        '
         'Label13
         '
         Me.Label13.AutoSize = True
@@ -3827,18 +3815,6 @@ Partial Class MainWindow
         Me.THExRank.Name = "THExRank"
         Me.THExRank.Size = New System.Drawing.Size(85, 23)
         Me.THExRank.TabIndex = 114
-        '
-        'Label25
-        '
-        Me.Label25.AutoSize = True
-        Me.Label25.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Label25.Location = New System.Drawing.Point(158, 200)
-        Me.Label25.Margin = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(25, 25)
-        Me.Label25.TabIndex = 18
-        Me.Label25.Text = "(%)"
-        Me.Label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'CHLnObj
         '
@@ -3863,17 +3839,6 @@ Partial Class MainWindow
         Me.Label23.TabIndex = 113
         Me.Label23.Text = "ExRank"
         Me.Label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'Label21
-        '
-        Me.Label21.AutoSize = True
-        Me.Label21.Dock = System.Windows.Forms.DockStyle.Right
-        Me.Label21.Location = New System.Drawing.Point(12, 150)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(55, 25)
-        Me.Label21.TabIndex = 12
-        Me.Label21.Text = "Difficulty"
-        Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'THComment
         '
@@ -3906,26 +3871,6 @@ Partial Class MainWindow
         Me.Label15.TabIndex = 100
         Me.Label15.Text = "SubTitle"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'THTotal
-        '
-        Me.THTotal.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THTotal.Location = New System.Drawing.Point(70, 200)
-        Me.THTotal.Margin = New System.Windows.Forms.Padding(0)
-        Me.THTotal.Name = "THTotal"
-        Me.THTotal.Size = New System.Drawing.Size(85, 23)
-        Me.THTotal.TabIndex = 17
-        '
-        'Label20
-        '
-        Me.Label20.AutoSize = True
-        Me.Label20.Dock = System.Windows.Forms.DockStyle.Right
-        Me.Label20.Location = New System.Drawing.Point(35, 200)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(32, 25)
-        Me.Label20.TabIndex = 16
-        Me.Label20.Text = "Total"
-        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'BHStageFile
         '
@@ -4127,6 +4072,19 @@ Partial Class MainWindow
         Me.POHeaderPart1.Size = New System.Drawing.Size(183, 225)
         Me.POHeaderPart1.TabIndex = 25
         '
+        'CHDifficulty
+        '
+        Me.POHeaderPart1.SetColumnSpan(Me.CHDifficulty, 2)
+        Me.CHDifficulty.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CHDifficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CHDifficulty.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CHDifficulty.Items.AddRange(New Object() {"None", "1 - EZ / Beginner", "2 - NM / Normal", "3 - HD / Hyper", "4 - MX / Another", "5 - SC / Insane"})
+        Me.CHDifficulty.Location = New System.Drawing.Point(70, 150)
+        Me.CHDifficulty.Margin = New System.Windows.Forms.Padding(0)
+        Me.CHDifficulty.Name = "CHDifficulty"
+        Me.CHDifficulty.Size = New System.Drawing.Size(113, 23)
+        Me.CHDifficulty.TabIndex = 13
+        '
         'Label3
         '
         Me.Label3.AutoSize = True
@@ -4137,6 +4095,18 @@ Partial Class MainWindow
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Title"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'Label25
+        '
+        Me.Label25.AutoSize = True
+        Me.Label25.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Label25.Location = New System.Drawing.Point(158, 200)
+        Me.Label25.Margin = New System.Windows.Forms.Padding(3, 0, 0, 0)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(25, 25)
+        Me.Label25.TabIndex = 18
+        Me.Label25.Text = "(%)"
+        Me.Label25.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'CHRank
         '
@@ -4196,6 +4166,15 @@ Partial Class MainWindow
         Me.THGenre.Size = New System.Drawing.Size(113, 23)
         Me.THGenre.TabIndex = 5
         '
+        'THTotal
+        '
+        Me.THTotal.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.THTotal.Location = New System.Drawing.Point(70, 200)
+        Me.THTotal.Margin = New System.Windows.Forms.Padding(0)
+        Me.THTotal.Name = "THTotal"
+        Me.THTotal.Size = New System.Drawing.Size(85, 23)
+        Me.THTotal.TabIndex = 17
+        '
         'THBPM
         '
         Me.POHeaderPart1.SetColumnSpan(Me.THBPM, 2)
@@ -4210,6 +4189,17 @@ Partial Class MainWindow
         Me.THBPM.Size = New System.Drawing.Size(113, 23)
         Me.THBPM.TabIndex = 7
         Me.THBPM.Value = New Decimal(New Integer() {120, 0, 0, 0})
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label20.Location = New System.Drawing.Point(35, 200)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(32, 25)
+        Me.Label20.TabIndex = 16
+        Me.Label20.Text = "Total"
+        Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label2
         '
@@ -4264,6 +4254,38 @@ Partial Class MainWindow
         Me.Label8.Text = "Player"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label6.Location = New System.Drawing.Point(8, 175)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(59, 25)
+        Me.Label6.TabIndex = 14
+        Me.Label6.Text = "Play Level"
+        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'THPlayLevel
+        '
+        Me.POHeaderPart1.SetColumnSpan(Me.THPlayLevel, 2)
+        Me.THPlayLevel.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.THPlayLevel.Location = New System.Drawing.Point(70, 175)
+        Me.THPlayLevel.Margin = New System.Windows.Forms.Padding(0)
+        Me.THPlayLevel.Name = "THPlayLevel"
+        Me.THPlayLevel.Size = New System.Drawing.Size(113, 23)
+        Me.THPlayLevel.TabIndex = 15
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Dock = System.Windows.Forms.DockStyle.Right
+        Me.Label21.Location = New System.Drawing.Point(12, 150)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(55, 25)
+        Me.Label21.TabIndex = 12
+        Me.Label21.Text = "Difficulty"
+        Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
         'POHeaderSwitch
         '
         Me.POHeaderSwitch.Appearance = System.Windows.Forms.Appearance.Button
@@ -4308,27 +4330,6 @@ Partial Class MainWindow
         'TimerExternalExpansion
         '
         Me.TimerExternalExpansion.Interval = 3000
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Dock = System.Windows.Forms.DockStyle.Right
-        Me.Label6.Location = New System.Drawing.Point(8, 175)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(59, 25)
-        Me.Label6.TabIndex = 14
-        Me.Label6.Text = "Play Level"
-        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'THPlayLevel
-        '
-        Me.POHeaderPart1.SetColumnSpan(Me.THPlayLevel, 2)
-        Me.THPlayLevel.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.THPlayLevel.Location = New System.Drawing.Point(70, 175)
-        Me.THPlayLevel.Margin = New System.Windows.Forms.Padding(0)
-        Me.THPlayLevel.Name = "THPlayLevel"
-        Me.THPlayLevel.Size = New System.Drawing.Size(113, 23)
-        Me.THPlayLevel.TabIndex = 15
         '
         'MainWindow
         '
