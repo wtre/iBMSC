@@ -322,11 +322,13 @@ Public Class MainWindow
                                        New Keybinding("Move to Template Position", "Move note to Template Position if available", {"P"}),
                                        New Keybinding("Disable Vertical Moves", "Disable vertical moves", {"D"}),
                                        New Keybinding("Snap to Grid", "Snap to grid", {"G"}),
+                                                                                             _
                                        New Keybinding("Convert to Long Note", "Å® Long Note", {"L"}),
                                        New Keybinding("Convert to Short Note", "Å® Short Note", {"S"}),
                                        New Keybinding("Convert between Long and Short Note", "Long Note ? Short Note", {""}),
                                        New Keybinding("Auto Long Note (By VPosition)", "Auto Long Note (By VPosition)", {""}),
                                        New Keybinding("Auto Long Note (By Column)", "Auto Long Note (By Column)", {""}),
+                                                                                                                        _
                                        New Keybinding("Check Technical Error", "Check for technical errors such as impossible scratches in DP or impossible chords in PMS", {"Ctrl+Alt+E"}),
                                        New Keybinding("Select Expansion Section", "Select #IF sections in the Expansion field", {"Ctrl+Alt+R"}),
                                                                                                                                                 _ ' Miscellaneous Editor
@@ -3360,11 +3362,21 @@ Public Class MainWindow
         End If
 
         LoadColorOverrideActive()
+        ' LWAV.Refresh()
 
         UpdateColumnsX()
         RefreshPanelAll()
     End Sub
 
+    ' Private Sub LWAV_DrawItem(sender As Object, e As DrawItemEventArgs) Handles LWAV.DrawItem
+    '     e.DrawBackground()
+    '     Dim c As Color
+    '     GetColor(New Note(0, 0, (e.Index + 1) * 10000, 0), c, c, 1, COverridesActive)
+    '     e.Graphics.FillRectangle(New SolidBrush(c), e.Bounds)
+    '     e.Graphics.DrawString(LWAV.Items.Item(e.Index).ToString(), e.Font, New SolidBrush(e.ForeColor), e.Bounds)
+    '     e.DrawFocusRectangle()
+    '     e.Graphics.Dispose()
+    ' End Sub
 
     Private Sub AddToPOWAV(ByVal xPath() As String)
         Dim xIndices(LWAV.SelectedIndices.Count - 1) As Integer

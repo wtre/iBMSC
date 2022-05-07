@@ -1183,7 +1183,6 @@ Partial Class MainWindow
         '
         Me.cmnConversion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.POBLong, Me.POBShort, Me.POBLongShort, Me.POBLongObjNT, Me.POBLongNTObj, Me.ToolStripSeparator25, Me.POBAutoLongVPosition, Me.POBAutoLongColumn, Me.ToolStripSeparator10, Me.POBHidden, Me.POBVisible, Me.POBHiddenVisible, Me.ToolStripSeparator11, Me.POBModify, Me.POBMirror, Me.POBFlip, Me.POBRandom, Me.POBRRandom, Me.POBSRandom, Me.POBHRandom, Me.POBSort})
         Me.cmnConversion.Name = "cmnLanguage"
-        Me.cmnConversion.OwnerItem = Me.POConvert
         Me.cmnConversion.Size = New System.Drawing.Size(237, 418)
         '
         'POBLong
@@ -1277,6 +1276,7 @@ Partial Class MainWindow
         '
         Me.POBModify.Image = Global.iBMSC.My.Resources.Resources.x16ModifyLabel
         Me.POBModify.Name = "POBModify"
+        Me.POBModify.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.F2), System.Windows.Forms.Keys)
         Me.POBModify.Size = New System.Drawing.Size(236, 22)
         Me.POBModify.Text = "Modify &Labels"
         '
@@ -1379,7 +1379,7 @@ Partial Class MainWindow
         '
         Me.mnTOTAL.Name = "mnTOTAL"
         Me.mnTOTAL.Size = New System.Drawing.Size(250, 22)
-        Me.mnTOTAL.Text = "#TOTAL Tool"
+        Me.mnTOTAL.Text = "#&TOTAL Tool"
         '
         'ToolStripSeparator13
         '
