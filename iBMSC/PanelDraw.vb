@@ -508,8 +508,8 @@ Partial Public Class MainWindow
                 Next
             End If
 
-            Dim xPtsL(xTHeight * wPrecision) As PointF
-            Dim xPtsR(xTHeight * wPrecision) As PointF
+            Dim xPtsL(CInt(xTHeight * wPrecision)) As PointF
+            Dim xPtsR(CInt(xTHeight * wPrecision)) As PointF
 
             Dim xD1 As Double
 
@@ -537,14 +537,14 @@ Partial Public Class MainWindow
             Dim xIPts As Integer = -1
 
             For xI1 = xTHeight * wPrecision To 0 Step -1
-                xI3 = (-xI1 / wPrecision + xTHeight + xVSR * gxHeight - 1) / gxHeight
+                xI3 = (-xI1 / wPrecision + xTHeight + xVSR * gxHeight - 1) / gxHeight ' Upper bound?
                 For xI2 = 1 To UBound(bVPosition)
                     If bVPosition(xI2) >= xI3 Then Exit For
                 Next
                 xI2 -= 1
                 xD1 = bWavDataIndex(xI2) + (xI3 - bVPosition(xI2)) * 1.25 * xwSampleRate / bBPM(xI2)
 
-                If xD1 <= UBound(xwWavL) And xD1 >= 0 Then
+                If xD1 <= UBound(xwWavL) AndAlso xD1 >= 0 Then
                     xIPts += 1
                     xPtsL(xIPts) = New PointF(xwWavL(CInt(xD1)) * wWidth + xwLeft, CSng(xI1 / wPrecision))
                     xPtsR(xIPts) = New PointF(xwWavR(CInt(xD1)) * wWidth + xwLeft, CSng(xI1 / wPrecision))
@@ -558,13 +558,56 @@ Partial Public Class MainWindow
         End If
     End Sub
 
+    ''' <summary>
+    ''' Draws waveforms on notes based on their value.
+    ''' </summary>
+
     Private Sub DrawWaveformNotes(e1 As BufferedGraphics, xTHeight As Integer, xHS As Integer, xVSR As Integer)
-        For xINote = 1 To UBound(Notes)
-            If Not (-PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition) AndAlso _ ' If note is not higher than window
-               IsColumnSound(Notes(xINote).ColumnIndex) AndAlso _ ' Column is sound
-               Not Notes(xINote).Comment Then _ ' Note is not comment
-                  DrawWaveform(e1, xTHeight, xHS, xVSR, xINote)
-        Next
+        ' Optimized
+        Dim xVEnd As Double = Notes(UBound(Notes)).VPosition
+        If -PanelVScroll(PanelFocus) < xVEnd / 3 Then ' Apply waveforms from the beginning
+            For xINote = 1 To UBound(Notes)
+                If Not IsColumnSound(Notes(xINote).ColumnIndex) Then Continue For
+
+                If -PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition Then Exit For ' If note is higher than window
+                If Not (-PanelVScroll(PanelFocus) > GetVPositionFromTime(GetTimeFromVPosition(Notes(xINote).VPosition) + wLWAV(CInt(Notes(xINote).Value / 10000)).Duration)) AndAlso _ ' If note waveform is not lower than window
+                   Not Notes(xINote).Comment Then ' Note is not comment 
+                    DrawWaveform(e1, xTHeight, xHS, xVSR, xINote)
+                End If
+            Next
+
+        ElseIf -PanelVScroll(PanelFocus) > xVEnd * 2 / 3 Then ' Apply waveforms from the end
+            For xINote = UBound(Notes) To 1 Step -1
+                If Not IsColumnSound(Notes(xINote).ColumnIndex) Then Continue For
+
+                If -PanelVScroll(PanelFocus) > GetVPositionFromTime(GetTimeFromVPosition(Notes(xINote).VPosition) + wLWAV(CInt(Notes(xINote).Value / 10000)).Duration) Then Exit For ' If note waveform is not lower than window
+                If Not (-PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition) AndAlso ' If note is higher than window
+                   IsColumnSound(Notes(xINote).ColumnIndex) AndAlso _ ' Column is sound
+                   Not Notes(xINote).Comment Then  ' Note is not comment
+                    DrawWaveform(e1, xTHeight, xHS, xVSR, xINote)
+                End If
+            Next
+
+        Else ' Apply waveforms from the middle, going both down and up
+            Dim xIMid As Integer = CInt(UBound(Notes) / 2)
+
+            For xINote = xIMid To 1 Step -1
+                If Not IsColumnSound(Notes(xINote).ColumnIndex) Then Continue For
+
+                If -PanelVScroll(PanelFocus) > GetVPositionFromTime(GetTimeFromVPosition(Notes(xINote).VPosition) + wLWAV(CInt(Notes(xINote).Value / 10000)).Duration) Then Exit For ' If note waveform is lower than window
+                If Not Notes(xINote).Comment Then  ' Note is not comment
+                    DrawWaveform(e1, xTHeight, xHS, xVSR, xINote)
+                End If
+            Next
+            For xINote = xIMid To UBound(Notes)
+                If Not IsColumnSound(Notes(xINote).ColumnIndex) Then Continue For
+
+                If -PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition Then Exit For ' If note is higher than window
+                If Not Notes(xINote).Comment Then  ' Note is not comment
+                    DrawWaveform(e1, xTHeight, xHS, xVSR, xINote)
+                End If
+            Next
+        End If
     End Sub
 
     ''' <summary>

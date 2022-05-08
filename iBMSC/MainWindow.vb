@@ -3816,8 +3816,9 @@ Public Class MainWindow
     End Sub
 
     Private Sub TWPrecision_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TWPrecision.ValueChanged
-        wPrecision = CInt(TWPrecision.Value)
-        TWPrecision2.Value = CInt(IIf(wPrecision > TWPrecision2.Maximum, TWPrecision2.Maximum, wPrecision))
+        ' (0 - 100) → (0 - 20)
+        wPrecision = TWPrecision.Value / 5
+        TWPrecision2.Value = CInt(IIf(TWPrecision.Value > TWPrecision2.Maximum, TWPrecision2.Maximum, TWPrecision.Value))
         RefreshPanelAll()
     End Sub
 

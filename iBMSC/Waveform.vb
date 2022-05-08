@@ -11,7 +11,7 @@ Partial Public Class MainWindow
     Dim wPosition As Double = 0
     Dim wLeft As Integer = 50
     Dim wWidth As Integer = 100
-    Dim wPrecision As Integer = 1
+    Dim wPrecision As Double = 1
 
     Private Sub BWLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BWLoad.Click
         Dim xDWAV As New OpenFileDialog
