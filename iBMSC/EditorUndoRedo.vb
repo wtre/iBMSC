@@ -132,12 +132,7 @@ Partial Public Class MainWindow
                 Case UndoRedo.opNT
                     Dim xCmd As UndoRedo.NT = CType(sCmd, UndoRedo.NT)
                     NTInput = xCmd.BecomeNT
-                    TBNTInput.Checked = NTInput
-                    mnNTInput.Checked = NTInput
-                    POBLongObjNT.Visible = NTInput
-                    POBLongNTObj.Visible = NTInput
-                    POBLong.Visible = Not NTInput
-                    POBLongShort.Visible = Not NTInput
+                    RefreshItemsByNTInput()
 
                     bAdjustLength = False
                     bAdjustUpper = False

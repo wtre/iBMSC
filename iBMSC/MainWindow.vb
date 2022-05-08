@@ -1,4 +1,4 @@
-Imports System.Linq
+ï»¿Imports System.Linq
 Imports iBMSC.Editor
 
 
@@ -74,6 +74,7 @@ Public Class MainWindow
     Dim STOPx1296 As Boolean = False
     Dim AudioLine As Boolean = True
     Dim TemplateSnapToVPosition As Boolean = False
+    Dim PastePatternToVPosition As Boolean = False
 
     Dim IsInitializing As Boolean = True
     Dim FirstMouseEnter As Boolean = True
@@ -323,9 +324,9 @@ Public Class MainWindow
                                        New Keybinding("Disable Vertical Moves", "Disable vertical moves", {"D"}),
                                        New Keybinding("Snap to Grid", "Snap to grid", {"G"}),
                                                                                              _
-                                       New Keybinding("Convert to Long Note", "¨ Long Note", {"L"}),
-                                       New Keybinding("Convert to Short Note", "¨ Short Note", {"S"}),
-                                       New Keybinding("Convert between Long and Short Note", "Long Note ? Short Note", {""}),
+                                       New Keybinding("Convert to Long Note", "â†’ Long Note", {"L"}),
+                                       New Keybinding("Convert to Short Note", "â†’ Short Note", {"S"}),
+                                       New Keybinding("Convert between Long and Short Note", "Long Note â†” Short Note", {""}),
                                        New Keybinding("Auto Long Note (By VPosition)", "Auto Long Note (By VPosition)", {""}),
                                        New Keybinding("Auto Long Note (By Column)", "Auto Long Note (By Column)", {""}),
                                                                                                                         _
@@ -337,6 +338,7 @@ Public Class MainWindow
                                        New Keybinding("Cut", "", {"Ctrl+X"}),
                                        New Keybinding("Copy", "", {"Ctrl+C"}),
                                        New Keybinding("Paste", "", {"Ctrl+V"}),
+                                       New Keybinding("Paste Pattern", "Apply pattern of the notes on the clipboard to the highlighted notes.", {"Ctrl+Shift+V"}),
                                        New Keybinding("Select All", "Select all notes", {"Ctrl+A"}),
                                        New Keybinding("Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"}),
                                                                                                                                                               _ ' All Modifiers
@@ -736,11 +738,9 @@ Public Class MainWindow
 
         Dim xVS As Integer = CInt(PanelVScroll(PanelFocus))
         Dim xTempVP As Double
-        Dim xKbu() As Note = Notes
+        Dim NoteLen As Integer = Notes.Length
 
         If xStrLine(0) = "iBMSC Clipboard Data" Then
-            If NTInput Then ReDim Preserve Notes(0)
-
             'paste
             Dim xStrSub() As String
             For xI1 = 1 To UBound(xStrLine)
@@ -748,7 +748,7 @@ Public Class MainWindow
                 xStrSub = Split(xStrLine(xI1), " ")
                 xTempVP = Val(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
                 If UBound(xStrSub) = 5 And xTempVP >= 0 And xTempVP < GetMaxVPosition() Then
-                    ReDim Preserve Notes(UBound(Notes) + 1)
+                    ReDim Preserve Notes(Notes.Length)
                     With Notes(UBound(Notes))
                         .ColumnIndex = CInt(xStrSub(0))
                         .VPosition = xTempVP
@@ -762,28 +762,8 @@ Public Class MainWindow
             Next
 
             'convert
-            If NTInput Then
-                ConvertBMSE2NT()
-
-                For xI1 = 1 To UBound(Notes)
-                    Notes(xI1 - 1) = Notes(xI1)
-                Next
-                ReDim Preserve Notes(UBound(Notes) - 1)
-
-                Dim xKn() As Note = Notes
-                Notes = xKbu
-
-                Dim xIStart As Integer = Notes.Length
-                ReDim Preserve Notes(UBound(Notes) + xKn.Length)
-
-                For xI1 = xIStart To UBound(Notes)
-                    Notes(xI1) = xKn(xI1 - xIStart)
-                Next
-            End If
-
+            If NTInput Then ConvertBMSE2NT(NoteLen)
         ElseIf xStrLine(0) = "iBMSC Clipboard Data xNT" Then
-            If Not NTInput Then ReDim Preserve Notes(0)
-
             'paste
             Dim xStrSub() As String
             For xI1 = 1 To UBound(xStrLine)
@@ -791,7 +771,7 @@ Public Class MainWindow
                 xStrSub = Split(xStrLine(xI1), " ")
                 xTempVP = Val(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
                 If UBound(xStrSub) = 5 And xTempVP >= 0 And xTempVP < GetMaxVPosition() Then
-                    ReDim Preserve Notes(UBound(Notes) + 1)
+                    ReDim Preserve Notes(Notes.Length)
                     With Notes(UBound(Notes))
                         .ColumnIndex = CInt(xStrSub(0))
                         .VPosition = xTempVP
@@ -805,27 +785,118 @@ Public Class MainWindow
             Next
 
             'convert
-            If Not NTInput Then
-                ConvertNT2BMSE()
-
-                For xI1 = 1 To UBound(Notes)
-                    Notes(xI1 - 1) = Notes(xI1)
-                Next
-                ReDim Preserve Notes(UBound(Notes) - 1)
-
-                Dim xKn() As Note = Notes
-                Notes = xKbu
-
-                Dim xIStart As Integer = Notes.Length
-                ReDim Preserve Notes(UBound(Notes) + xKn.Length)
-
-                For xI1 = xIStart To UBound(Notes)
-                    Notes(xI1) = xKn(xI1 - xIStart)
-                Next
-            End If
-
+            If Not NTInput Then ConvertNT2BMSE(NoteLen)
         ElseIf xStrLine(0) = "BMSE ClipBoard Object Data Format" Then
-            If NTInput Then ReDim Preserve Notes(0)
+            'paste
+            For xI1 = 1 To UBound(xStrLine)
+                ' zdr: holy crap this is obtuse
+                Dim posStr = Mid(xStrLine(xI1), 5, 7)
+                Dim vPos = Val(posStr) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
+
+                Dim bmsIdent = Mid(xStrLine(xI1), 1, 3)
+                Dim lineCol = BMSEChannelToColumnIndex(bmsIdent)
+
+                Dim Value = Val(Mid(xStrLine(xI1), 12)) * 10000
+
+                Dim attribute = Mid(xStrLine(xI1), 4, 1)
+
+                Dim validCol = Len(xStrLine(xI1)) > 11 And lineCol > 0
+                Dim inRange = vPos >= 0 And vPos < GetMaxVPosition()
+                If validCol And inRange Then
+                    ReDim Preserve Notes(Notes.Length)
+
+                    With Notes(UBound(Notes))
+                        .ColumnIndex = lineCol
+                        .VPosition = vPos
+                        .Value = CLng(Value)
+                        .LongNote = attribute = "2"
+                        .Hidden = attribute = "1"
+                        .Selected = xSelected And nEnabled(.ColumnIndex)
+                    End With
+                End If
+            Next
+
+            'convert
+            If NTInput Then ConvertBMSE2NT(NoteLen)
+        End If
+
+        If SortAndUpdatePairing Then SortByVPositionInsertion() : UpdatePairing()
+        CalculateTotalPlayableNotes()
+    End Sub
+
+    Private Function GetNotesFromClipboard() As Note()
+        Dim xStrLine() As String = Split(Clipboard.GetText, vbCrLf)
+
+        Dim xVS As Integer = CInt(PanelVScroll(PanelFocus))
+        Dim xTempVP As Double
+        Dim NoteLen As Integer = Notes.Length
+        Dim NoteCB As Note()
+
+        If xStrLine(0) = "iBMSC Clipboard Data" Then
+            Dim NotesBK As Note() = CType(Notes.Clone(), Note())
+            ReDim Preserve Notes(0)
+
+            'paste
+            Dim xStrSub() As String
+            For xI1 = 1 To UBound(xStrLine)
+                If xStrLine(xI1).Trim = "" Then Continue For
+                xStrSub = Split(xStrLine(xI1), " ")
+                xTempVP = Val(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
+                If UBound(xStrSub) = 5 And xTempVP >= 0 And xTempVP < GetMaxVPosition() Then
+                    ReDim Preserve Notes(Notes.Length)
+                    With Notes(UBound(Notes))
+                        .ColumnIndex = CInt(xStrSub(0))
+                        .VPosition = xTempVP
+                        .Value = CLng(xStrSub(2))
+                        .LongNote = CBool(Val(xStrSub(3)))
+                        .Hidden = CBool(Val(xStrSub(4)))
+                        .Landmine = CBool(Val(xStrSub(5)))
+                    End With
+                End If
+            Next
+
+            'convert
+            ' Wow this code is fucking shit
+            UpdatePairing()
+            If NTInput Then ConvertBMSE2NT()
+            ReDim NoteCB(UBound(Notes) - 1)
+
+            For xI1 = 1 To UBound(Notes)
+                NoteCB(xI1 - 1) = Notes(xI1)
+            Next
+            Notes = NotesBK
+            Return NoteCB
+        ElseIf xStrLine(0) = "iBMSC Clipboard Data xNT" Then
+            'paste
+            Dim xStrSub() As String
+            For xI1 = 1 To UBound(xStrLine)
+                If xStrLine(xI1).Trim = "" Then Continue For
+                xStrSub = Split(xStrLine(xI1), " ")
+                xTempVP = Val(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
+                If UBound(xStrSub) = 5 And xTempVP >= 0 And xTempVP < GetMaxVPosition() Then
+                    ReDim Preserve Notes(Notes.Length)
+                    With Notes(UBound(Notes))
+                        .ColumnIndex = CInt(xStrSub(0))
+                        .VPosition = xTempVP
+                        .Value = CLng(xStrSub(2))
+                        .Length = Val(xStrSub(3))
+                        .Hidden = CBool(Val(xStrSub(4)))
+                        .Landmine = CBool(Val(xStrSub(5)))
+                    End With
+                End If
+            Next
+
+            'convert
+            If Not NTInput Then ConvertNT2BMSE(NoteLen)
+            ReDim NoteCB(UBound(Notes) - NoteLen)
+            For xI1 = NoteLen To UBound(Notes)
+                NoteCB(xI1 - NoteLen) = Notes(xI1)
+            Next
+            ReDim Preserve Notes(NoteLen - 1)
+            Return NoteCB
+        ElseIf xStrLine(0) = "BMSE ClipBoard Object Data Format" Then
+            Dim NotesBK As Note() = CType(Notes.Clone(), Note())
+            If Not NTInput Then ReDim Preserve Notes(0)
 
             'paste
             For xI1 = 1 To UBound(xStrLine)
@@ -843,7 +914,7 @@ Public Class MainWindow
                 Dim validCol = Len(xStrLine(xI1)) > 11 And lineCol > 0
                 Dim inRange = vPos >= 0 And vPos < GetMaxVPosition()
                 If validCol And inRange Then
-                    ReDim Preserve Notes(UBound(Notes) + 1)
+                    ReDim Preserve Notes(Notes.Length)
 
                     With Notes(UBound(Notes))
                         .ColumnIndex = lineCol
@@ -851,35 +922,24 @@ Public Class MainWindow
                         .Value = CLng(Value)
                         .LongNote = attribute = "2"
                         .Hidden = attribute = "1"
-                        .Selected = xSelected And nEnabled(.ColumnIndex)
                     End With
                 End If
             Next
 
             'convert
-            If NTInput Then
-                ConvertBMSE2NT()
+            UpdatePairing()
+            If NTInput Then ConvertBMSE2NT()
+            ReDim NoteCB(UBound(Notes) - 1)
 
-                For xI1 = 1 To UBound(Notes)
-                    Notes(xI1 - 1) = Notes(xI1)
-                Next
-                ReDim Preserve Notes(UBound(Notes) - 1)
-
-                Dim xKn() As Note = Notes
-                Notes = xKbu
-
-                Dim xIStart As Integer = Notes.Length
-                ReDim Preserve Notes(UBound(Notes) + xKn.Length)
-
-                For xI1 = xIStart To UBound(Notes)
-                    Notes(xI1) = xKn(xI1 - xIStart)
-                Next
-            End If
+            For xI1 = 1 To UBound(Notes)
+                NoteCB(xI1 - 1) = Notes(xI1)
+            Next
+            Notes = NotesBK
+            Return NoteCB
         End If
 
-        If SortAndUpdatePairing Then SortByVPositionInsertion() : UpdatePairing()
-        CalculateTotalPlayableNotes()
-    End Sub
+        Return Nothing
+    End Function
 
     Private Sub CopyNotes(Optional ByVal Unselect As Boolean = True)
         Dim xStrAll As String = "iBMSC Clipboard Data" & IIf(NTInput, " xNT", "").ToString()
@@ -2425,6 +2485,64 @@ Public Class MainWindow
         CalculateGreatestVPosition()
     End Sub
 
+    Private Sub TBPastePattern_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnPastePattern.Click, TBPastePattern.Click
+        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+        ' Preferable to work under NT settings
+        Dim NTInputTemp As Boolean = NTInput
+        If Not NTInputTemp Then
+            NTInput = True
+            RedoRemoveNoteAll(False, xUndo, xRedo)
+            ConvertBMSE2NT()
+            RedoAddNoteAll(False, xUndo, xRedo)
+        End If
+
+        Dim NotesCB As Note() = GetNotesFromClipboard()
+        If NotesCB Is Nothing Then
+            If Not NTInputTemp Then ConvertNT2BMSE()
+            Exit Sub
+        End If
+
+        ' Count selected notes
+        Dim xLS As Integer = (From note In Notes Where note.Selected Select note).Count
+
+        If NotesCB.Length <> xLS Then
+            Dim xDiag = MsgBox("Warning: The clipboard note count is different from the highlighted note count. Continue?", MsgBoxStyle.YesNo)
+            If xDiag = MsgBoxResult.No Then Exit Sub
+        End If
+
+        Dim xICB As Integer = -1
+        For xIN = 1 To UBound(Notes)
+            If Not Notes(xIN).Selected OrElse Notes(xIN).Ghost Then Continue For
+
+            xICB = (xICB + 1) Mod NotesCB.Length
+            Dim xCol = NotesCB(xICB).ColumnIndex
+            Dim xVPos = CDbl(IIf(PastePatternToVPosition, NotesCB(xICB).VPosition, Notes(xIN).VPosition))
+            Dim xLen = NotesCB(xICB).Length
+
+            RedoMoveNote(Notes(xIN), xCol, xVPos, xUndo, xRedo)
+            Notes(xIN).ColumnIndex = xCol
+            Notes(xIN).VPosition = xVPos
+
+            RedoLongNoteModify(Notes(xIN), Notes(xIN).VPosition, xLen, xUndo, xRedo)
+            Notes(xIN).Length = xLen
+        Next
+
+        If Not NTInputTemp Then
+            NTInput = False
+            RedoRemoveNoteAll(False, xUndo, xRedo)
+            ConvertNT2BMSE()
+            RedoAddNoteAll(False, xUndo, xRedo)
+        End If
+
+        AddUndo(xUndo, xBaseRedo.Next)
+
+        UpdatePairing()
+        RefreshPanelAll()
+    End Sub
+
     Private Sub LBeatCopyPaste(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PreviewKeyDownEventArgs) Handles LBeat.PreviewKeyDown
         Select Case e.KeyCode
             Case Keys.C
@@ -3550,12 +3668,14 @@ Public Class MainWindow
         CalculateTotalPlayableNotes()
     End Sub
 
-    Private Sub ConvertNT2BMSE()
+    Private Sub ConvertNT2BMSE(Optional xIFrom As Integer = 1)
         ReDim SelectedNotes(-1)
-        Dim xK(0) As Note
-        xK(0) = Notes(0)
+        Dim xK(xIFrom - 1) As Note
+        For xI = 0 To xIFrom - 1
+            xK(xI) = Notes(xI)
+        Next
 
-        For xI1 As Integer = 1 To UBound(Notes)
+        For xI1 As Integer = xIFrom To UBound(Notes)
             ReDim Preserve xK(UBound(xK) + 1)
             With xK(UBound(xK))
                 .ColumnIndex = Notes(xI1).ColumnIndex
@@ -3603,14 +3723,6 @@ Public Class MainWindow
     End Sub
 
     Private Sub TBNTInput_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBNTInput.Click, mnNTInput.Click
-        'Dim xUndo As String = "NT_" & CInt(NTInput) & "_0" & vbCrLf & "KZ" & vbCrLf & sCmdKsAll(False)
-        'Dim xRedo As String = "NT_" & CInt(Not NTInput) & "_1"
-        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
-        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
-        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
-
-        Me.RedoRemoveNoteAll(False, xUndo, xRedo)
-
         If TypeOf sender Is ToolStripButton Then
             Dim senderC As ToolStripButton = CType(sender, ToolStripButton)
             NTInput = senderC.Checked
@@ -3619,16 +3731,16 @@ Public Class MainWindow
             NTInput = senderC.Checked
         End If
 
-        TBNTInput.Checked = NTInput
-        mnNTInput.Checked = NTInput
-        POBLongObjNT.Visible = NTInput
-        POBLongNTObj.Visible = NTInput
-        POBLong.Visible = Not NTInput
-        POBLongShort.Visible = Not NTInput
+        RefreshItemsByNTInput()
 
         bAdjustLength = False
         bAdjustUpper = False
 
+        Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+        Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+        Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+        Me.RedoRemoveNoteAll(False, xUndo, xRedo)
         Me.RedoNT(NTInput, False, xUndo, xRedo)
         If NTInput Then
             ConvertBMSE2NT()
@@ -3639,6 +3751,15 @@ Public Class MainWindow
 
         AddUndo(xUndo, xBaseRedo.Next)
         RefreshPanelAll()
+    End Sub
+
+    Private Sub RefreshItemsByNTInput()
+        TBNTInput.Checked = NTInput
+        mnNTInput.Checked = NTInput
+        POBLongObjNT.Visible = NTInput
+        POBLongNTObj.Visible = NTInput
+        POBLong.Visible = Not NTInput
+        POBLongShort.Visible = Not NTInput
     End Sub
 
     Private Sub THBPM_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles THBPM.ValueChanged
@@ -3809,7 +3930,7 @@ Public Class MainWindow
         End Select
 
         Dim xDiag As New OpGeneral(gWheel, gPgUpDn, MiddleButtonMoveMethod, xTE, CInt(192.0R / BMSGridLimit), ErrorJackBPM, ErrorJackTH, gLNGap,
-            AutoSaveInterval, BeepWhileSaved, BPMx1296, STOPx1296, AudioLine, TemplateSnapToVPosition,
+            AutoSaveInterval, BeepWhileSaved, BPMx1296, STOPx1296, AudioLine, TemplateSnapToVPosition, PastePatternToVPosition,
             AutoFocusMouseEnter, FirstClickDisabled, ClickStopPreview)
 
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
@@ -3830,6 +3951,7 @@ Public Class MainWindow
                 STOPx1296 = .cStop1296.Checked
                 AudioLine = .cAudioLine.Checked
                 TemplateSnapToVPosition = .cTemplateSnapToVPosition.Checked
+                PastePatternToVPosition = .cPastePatternToVPosition.Checked
                 AutoFocusMouseEnter = .cMEnterFocus.Checked
                 FirstClickDisabled = .cMClickFocus.Checked
                 ClickStopPreview = .cMStopPreview.Checked

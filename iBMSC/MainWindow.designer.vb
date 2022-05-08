@@ -25,16 +25,16 @@ Partial Class MainWindow
         Me.TBLangDef = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBLangRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
-        Me.TBLanguage = New System.Windows.Forms.ToolStripDropDownButton()
         Me.mnLanguage = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TBLanguage = New System.Windows.Forms.ToolStripDropDownButton()
         Me.cmnTheme = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.TBThemeDef = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeSave = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBThemeLoadComptability = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
-        Me.mnTheme = New System.Windows.Forms.ToolStripMenuItem()
         Me.TBTheme = New System.Windows.Forms.ToolStripDropDownButton()
+        Me.mnTheme = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Menu1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.MInsert = New System.Windows.Forms.ToolStripMenuItem()
@@ -66,6 +66,7 @@ Partial Class MainWindow
         Me.mnCut = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnCopy = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnPaste = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnPastePattern = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnDelete = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnSelectAll = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnGotoMeasure = New System.Windows.Forms.ToolStripMenuItem()
@@ -161,6 +162,7 @@ Partial Class MainWindow
         Me.TBCut = New System.Windows.Forms.ToolStripButton()
         Me.TBCopy = New System.Windows.Forms.ToolStripButton()
         Me.TBPaste = New System.Windows.Forms.ToolStripButton()
+        Me.TBPastePattern = New System.Windows.Forms.ToolStripButton()
         Me.TBFind = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator24 = New System.Windows.Forms.ToolStripSeparator()
         Me.TBStatistics = New System.Windows.Forms.ToolStripButton()
@@ -473,7 +475,7 @@ Partial Class MainWindow
         '
         Me.cmnLanguage.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBLangDef, Me.TBLangRefresh, Me.ToolStripSeparator9})
         Me.cmnLanguage.Name = "cmnLanguage"
-        Me.cmnLanguage.OwnerItem = Me.mnLanguage
+        Me.cmnLanguage.OwnerItem = Me.TBLanguage
         Me.cmnLanguage.Size = New System.Drawing.Size(121, 54)
         '
         'TBLangDef
@@ -494,6 +496,14 @@ Partial Class MainWindow
         Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
         Me.ToolStripSeparator9.Size = New System.Drawing.Size(117, 6)
         '
+        'mnLanguage
+        '
+        Me.mnLanguage.DropDown = Me.cmnLanguage
+        Me.mnLanguage.Image = Global.iBMSC.My.Resources.Resources.x16Language
+        Me.mnLanguage.Name = "mnLanguage"
+        Me.mnLanguage.Size = New System.Drawing.Size(253, 22)
+        Me.mnLanguage.Text = "&Language"
+        '
         'TBLanguage
         '
         Me.TBLanguage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -504,19 +514,11 @@ Partial Class MainWindow
         Me.TBLanguage.Size = New System.Drawing.Size(29, 22)
         Me.TBLanguage.Text = "Language"
         '
-        'mnLanguage
-        '
-        Me.mnLanguage.DropDown = Me.cmnLanguage
-        Me.mnLanguage.Image = Global.iBMSC.My.Resources.Resources.x16Language
-        Me.mnLanguage.Name = "mnLanguage"
-        Me.mnLanguage.Size = New System.Drawing.Size(253, 22)
-        Me.mnLanguage.Text = "&Language"
-        '
         'cmnTheme
         '
         Me.cmnTheme.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBThemeDef, Me.TBThemeSave, Me.TBThemeRefresh, Me.TBThemeLoadComptability, Me.ToolStripSeparator6})
         Me.cmnTheme.Name = "cmnLanguage"
-        Me.cmnTheme.OwnerItem = Me.TBTheme
+        Me.cmnTheme.OwnerItem = Me.mnTheme
         Me.cmnTheme.Size = New System.Drawing.Size(246, 98)
         '
         'TBThemeDef
@@ -550,14 +552,6 @@ Partial Class MainWindow
         Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
         Me.ToolStripSeparator6.Size = New System.Drawing.Size(242, 6)
         '
-        'mnTheme
-        '
-        Me.mnTheme.DropDown = Me.cmnTheme
-        Me.mnTheme.Image = Global.iBMSC.My.Resources.Resources.x16Theme
-        Me.mnTheme.Name = "mnTheme"
-        Me.mnTheme.Size = New System.Drawing.Size(253, 22)
-        Me.mnTheme.Text = "&Theme"
-        '
         'TBTheme
         '
         Me.TBTheme.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -567,6 +561,14 @@ Partial Class MainWindow
         Me.TBTheme.Name = "TBTheme"
         Me.TBTheme.Size = New System.Drawing.Size(29, 22)
         Me.TBTheme.Text = "Theme"
+        '
+        'mnTheme
+        '
+        Me.mnTheme.DropDown = Me.cmnTheme
+        Me.mnTheme.Image = Global.iBMSC.My.Resources.Resources.x16Theme
+        Me.mnTheme.Name = "mnTheme"
+        Me.mnTheme.Size = New System.Drawing.Size(253, 22)
+        Me.mnTheme.Text = "&Theme"
         '
         'Timer1
         '
@@ -750,7 +752,7 @@ Partial Class MainWindow
         '
         'mnEdit
         '
-        Me.mnEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnUndo, Me.mnRedo, Me.ToolStripSeparator17, Me.mnCut, Me.mnCopy, Me.mnPaste, Me.mnDelete, Me.mnSelectAll, Me.mnGotoMeasure, Me.ToolStripSeparator18, Me.mnFind, Me.mnStatistics, Me.mnStatisticsAdvanced, Me.ToolStripSeparator19, Me.mnTimeSelect, Me.mnSelect, Me.mnWrite, Me.ToolStripSeparator23, Me.mnMyO2})
+        Me.mnEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnUndo, Me.mnRedo, Me.ToolStripSeparator17, Me.mnCut, Me.mnCopy, Me.mnPaste, Me.mnPastePattern, Me.mnDelete, Me.mnSelectAll, Me.mnGotoMeasure, Me.ToolStripSeparator18, Me.mnFind, Me.mnStatistics, Me.mnStatisticsAdvanced, Me.ToolStripSeparator19, Me.mnTimeSelect, Me.mnSelect, Me.mnWrite, Me.ToolStripSeparator23, Me.mnMyO2})
         Me.mnEdit.Name = "mnEdit"
         Me.mnEdit.Size = New System.Drawing.Size(39, 19)
         Me.mnEdit.Text = "&Edit"
@@ -801,6 +803,14 @@ Partial Class MainWindow
         Me.mnPaste.ShortcutKeyDisplayString = "Ctrl+V"
         Me.mnPaste.Size = New System.Drawing.Size(256, 22)
         Me.mnPaste.Text = "&Paste"
+        '
+        'mnPastePattern
+        '
+        Me.mnPastePattern.Image = Global.iBMSC.My.Resources.Resources.x16PastePattern
+        Me.mnPastePattern.Name = "mnPastePattern"
+        Me.mnPastePattern.ShortcutKeyDisplayString = "Ctrl+Shift+V"
+        Me.mnPastePattern.Size = New System.Drawing.Size(256, 22)
+        Me.mnPastePattern.Text = "Paste Patter&n"
         '
         'mnDelete
         '
@@ -1183,6 +1193,7 @@ Partial Class MainWindow
         '
         Me.cmnConversion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.POBLong, Me.POBShort, Me.POBLongShort, Me.POBLongObjNT, Me.POBLongNTObj, Me.ToolStripSeparator25, Me.POBAutoLongVPosition, Me.POBAutoLongColumn, Me.ToolStripSeparator10, Me.POBHidden, Me.POBVisible, Me.POBHiddenVisible, Me.ToolStripSeparator11, Me.POBModify, Me.POBMirror, Me.POBFlip, Me.POBRandom, Me.POBRRandom, Me.POBSRandom, Me.POBHRandom, Me.POBSort})
         Me.cmnConversion.Name = "cmnLanguage"
+        Me.cmnConversion.OwnerItem = Me.POConvert
         Me.cmnConversion.Size = New System.Drawing.Size(237, 418)
         '
         'POBLong
@@ -1401,10 +1412,10 @@ Partial Class MainWindow
         Me.TBMain.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar
         Me.TBMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.TBMain.Dock = System.Windows.Forms.DockStyle.None
-        Me.TBMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBNew, Me.TBOpen, Me.TBSave, Me.ToolStripSeparator1, Me.TBCut, Me.TBCopy, Me.TBPaste, Me.TBFind, Me.ToolStripSeparator24, Me.TBStatistics, Me.POConvert, Me.TBMyO2, Me.ToolStripSeparator4, Me.TBErrorCheck, Me.TBPreviewOnClick, Me.TBShowFileName, Me.TBShowWaveform, Me.ToolStripSeparator8, Me.TBNTInput, Me.TBWavIncrease, Me.ToolStripSeparator2, Me.TBUndo, Me.TBRedo, Me.ToolStripSeparator5, Me.TBTimeSelect, Me.TBSelect, Me.TBWrite, Me.ToolStripSeparator3, Me.TBPlayB, Me.TBPlay, Me.TBStop, Me.TBPOptions, Me.ToolStripSeparator7, Me.TBGOptions, Me.TBKOptions, Me.TBVOptions, Me.TBLanguage, Me.TBTheme, Me.POBStorm, Me.TBTotalValue})
+        Me.TBMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TBNew, Me.TBOpen, Me.TBSave, Me.ToolStripSeparator1, Me.TBCut, Me.TBCopy, Me.TBPaste, Me.TBPastePattern, Me.TBFind, Me.ToolStripSeparator24, Me.TBStatistics, Me.POConvert, Me.TBMyO2, Me.ToolStripSeparator4, Me.TBErrorCheck, Me.TBPreviewOnClick, Me.TBShowFileName, Me.TBShowWaveform, Me.ToolStripSeparator8, Me.TBNTInput, Me.TBWavIncrease, Me.ToolStripSeparator2, Me.TBUndo, Me.TBRedo, Me.ToolStripSeparator5, Me.TBTimeSelect, Me.TBSelect, Me.TBWrite, Me.ToolStripSeparator3, Me.TBPlayB, Me.TBPlay, Me.TBStop, Me.TBPOptions, Me.ToolStripSeparator7, Me.TBGOptions, Me.TBKOptions, Me.TBVOptions, Me.TBLanguage, Me.TBTheme, Me.POBStorm, Me.TBTotalValue})
         Me.TBMain.Location = New System.Drawing.Point(3, 23)
         Me.TBMain.Name = "TBMain"
-        Me.TBMain.Size = New System.Drawing.Size(939, 25)
+        Me.TBMain.Size = New System.Drawing.Size(1016, 25)
         Me.TBMain.TabIndex = 64
         Me.TBMain.Text = "Main Toolbar"
         '
@@ -1541,6 +1552,15 @@ Partial Class MainWindow
         Me.TBPaste.Name = "TBPaste"
         Me.TBPaste.Size = New System.Drawing.Size(23, 22)
         Me.TBPaste.Text = "Paste (Ctrl+V)"
+        '
+        'TBPastePattern
+        '
+        Me.TBPastePattern.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.TBPastePattern.Image = Global.iBMSC.My.Resources.Resources.x16PastePattern
+        Me.TBPastePattern.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.TBPastePattern.Name = "TBPastePattern"
+        Me.TBPastePattern.Size = New System.Drawing.Size(23, 22)
+        Me.TBPastePattern.Text = "Paste Pattern (Ctrl+Shift+V)"
         '
         'TBFind
         '
@@ -4828,4 +4848,6 @@ Partial Class MainWindow
     Friend WithEvents TimerExternalExpansion As Timer
     Friend WithEvents Label6 As Label
     Friend WithEvents THPlayLevel As TextBox
+    Friend WithEvents mnPastePattern As ToolStripMenuItem
+    Friend WithEvents TBPastePattern As ToolStripButton
 End Class

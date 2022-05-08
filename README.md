@@ -49,6 +49,7 @@ Listed in the order added.
 * Added support to move notes to their template position.
 * Added ability to convert notes to Long notes in a series by VPosition or by column.
 * Added ability to convert between LNObj's and NT LN's.
+* Added ability to copy and paste patterns to highlighted notes. Accessible via Ctrl+Shift+V.
 
 ## Keyboard shortcuts
 * While rebinding keys is now supported, the default keybinding has also been changed to allow note placement between D1 and D8 or only on PMS lanes in PMS mode:
@@ -84,7 +85,7 @@ Listed in the order added.
 * Added shortcut for inserting/removing space with Time Selection Tool (Ctrl+Insert for measure only, Shift+Insert for notes only, and Ctrl+Shift+Insert for both)
 * Added shortcut for techincal error check (Ctrl+Alt+E by default)
 * Added shortcut for keybinding options (Shift+F10)
-* Added experimental feature shortcuts (Preview highlighted notes - Shift+F4)
+* Added shortcut for an experimental feature (Preview highlighted notes - Shift+F4)
 
 ## New dialog/option boxes
 

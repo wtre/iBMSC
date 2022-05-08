@@ -149,6 +149,8 @@ Partial Public Class MainWindow
                 TBCopy_Click(TBCopy, New EventArgs)
             Case "Paste"
                 TBPaste_Click(TBPaste, New EventArgs)
+            Case "Paste Pattern"
+                TBPastePattern_Click(mnPastePattern, New EventArgs)
             Case "Select All"
                 mnSelectAll_Click(mnSelectAll, New EventArgs)
             Case "Select All with Hovered Note Label"

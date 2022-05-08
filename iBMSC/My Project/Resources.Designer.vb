@@ -768,6 +768,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property x16PastePattern() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("x16PastePattern", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property x16Pen() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("x16Pen", resourceCulture)

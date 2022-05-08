@@ -100,6 +100,7 @@ Partial Public Class MainWindow
                 .WriteAttributeString("gLNGap", gLNGap.ToString())
                 .WriteAttributeString("COverridesSaveOption", COverridesSaveOption.ToString())
                 .WriteAttributeString("TemplateSnapToVPosition", TemplateSnapToVPosition.ToString())
+                .WriteAttributeString("PastePatternToVPosition", PastePatternToVPosition.ToString())
                 .WriteEndElement()
 
                 .WriteStartElement("Save")
@@ -464,6 +465,7 @@ Partial Public Class MainWindow
                     XMLLoadAttribute(.GetAttribute("gLNGap"), gLNGap)
                     XMLLoadAttribute(.GetAttribute("COverridesSaveOption"), COverridesSaveOption)
                     XMLLoadAttribute(.GetAttribute("TemplateSnapToVPosition"), TemplateSnapToVPosition)
+                    XMLLoadAttribute(.GetAttribute("PastePatternToVPosition"), PastePatternToVPosition)
                 End With
             End If
 

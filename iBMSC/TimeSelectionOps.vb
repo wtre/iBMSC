@@ -846,7 +846,9 @@ Partial Public Class MainWindow
 
         ' Change to NTInput because easier to code
         If Not NTInput Then
+            RedoRemoveNoteAll(False, xUndo, xRedo)
             ConvertBMSE2NT()
+            RedoAddNoteAll(False, xUndo, xRedo)
         End If
 
         If vSelLength < 0 Then ' Remove space
@@ -913,7 +915,9 @@ Partial Public Class MainWindow
         End If
 
         If Not NTInput Then
+            RedoRemoveNoteAll(False, xUndo, xRedo)
             ConvertNT2BMSE()
+            RedoAddNoteAll(False, xUndo, xRedo)
         End If
     End Sub
 End Class
