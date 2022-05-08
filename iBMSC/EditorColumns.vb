@@ -135,7 +135,7 @@ Partial Public Class MainWindow
     End Function
 
     Private Function BMSEChannelToColumnIndex(ByVal I As String) As Integer
-        Dim Ivalue = Val(I)
+        Dim Ivalue = CInt(I)
         If Ivalue > 100 Then
             Return CInt(niB + Ivalue - 101)
         ElseIf Ivalue < 100 And Ivalue > 0 Then

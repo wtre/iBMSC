@@ -398,14 +398,14 @@ Partial Public Class MainWindow
             Dim eForm As XmlElement = Root.Item("Form")
             If eForm IsNot Nothing Then
                 With eForm
-                    Select Case Val(.GetAttribute("WindowState"))
-                        Case FormWindowState.Normal
+                    Select Case .GetAttribute("WindowState")
+                        Case FormWindowState.Normal.ToString()
                             Me.WindowState = FormWindowState.Normal
                             XMLLoadAttribute(.GetAttribute("Width"), Me.Width)
                             XMLLoadAttribute(.GetAttribute("Height"), Me.Height)
                             XMLLoadAttribute(.GetAttribute("Top"), Me.Top)
                             XMLLoadAttribute(.GetAttribute("Left"), Me.Left)
-                        Case FormWindowState.Maximized
+                        Case FormWindowState.Maximized.ToString()
                             Me.WindowState = FormWindowState.Maximized
                     End Select
                 End With

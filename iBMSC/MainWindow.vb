@@ -61,7 +61,7 @@ Public Class MainWindow
 
     'Dim SortingMethod As Integer = 1
     Dim MiddleButtonMoveMethod As Integer = 0
-    Dim TextEncoding As System.Text.Encoding = System.Text.Encoding.UTF8
+    Dim TextEncoding As System.Text.Encoding = System.Text.Encoding.GetEncoding("Shift-JIS")
     Dim DispLang As String = ""     'Display Language
     Dim Recent() As String = {"", "", "", "", ""}
     Dim NTInput As Boolean = True
@@ -746,16 +746,16 @@ Public Class MainWindow
             For xI1 = 1 To UBound(xStrLine)
                 If xStrLine(xI1).Trim = "" Then Continue For
                 xStrSub = Split(xStrLine(xI1), " ")
-                xTempVP = Val(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
+                xTempVP = CDbl(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
                 If UBound(xStrSub) = 5 And xTempVP >= 0 And xTempVP < GetMaxVPosition() Then
                     ReDim Preserve Notes(Notes.Length)
                     With Notes(UBound(Notes))
                         .ColumnIndex = CInt(xStrSub(0))
                         .VPosition = xTempVP
                         .Value = CLng(xStrSub(2))
-                        .LongNote = CBool(Val(xStrSub(3)))
-                        .Hidden = CBool(Val(xStrSub(4)))
-                        .Landmine = CBool(Val(xStrSub(5)))
+                        .LongNote = CBool(xStrSub(3))
+                        .Hidden = CBool(xStrSub(4))
+                        .Landmine = CBool(xStrSub(5))
                         .Selected = xSelected
                     End With
                 End If
@@ -769,16 +769,16 @@ Public Class MainWindow
             For xI1 = 1 To UBound(xStrLine)
                 If xStrLine(xI1).Trim = "" Then Continue For
                 xStrSub = Split(xStrLine(xI1), " ")
-                xTempVP = Val(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
+                xTempVP = CDbl(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
                 If UBound(xStrSub) = 5 And xTempVP >= 0 And xTempVP < GetMaxVPosition() Then
                     ReDim Preserve Notes(Notes.Length)
                     With Notes(UBound(Notes))
                         .ColumnIndex = CInt(xStrSub(0))
                         .VPosition = xTempVP
                         .Value = CLng(xStrSub(2))
-                        .Length = Val(xStrSub(3))
-                        .Hidden = CBool(Val(xStrSub(4)))
-                        .Landmine = CBool(Val(xStrSub(5)))
+                        .Length = CDbl(xStrSub(3))
+                        .Hidden = CBool(xStrSub(4))
+                        .Landmine = CBool(xStrSub(5))
                         .Selected = xSelected
                     End With
                 End If
@@ -791,12 +791,12 @@ Public Class MainWindow
             For xI1 = 1 To UBound(xStrLine)
                 ' zdr: holy crap this is obtuse
                 Dim posStr = Mid(xStrLine(xI1), 5, 7)
-                Dim vPos = Val(posStr) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
+                Dim vPos = CDbl(posStr) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
 
                 Dim bmsIdent = Mid(xStrLine(xI1), 1, 3)
                 Dim lineCol = BMSEChannelToColumnIndex(bmsIdent)
 
-                Dim Value = Val(Mid(xStrLine(xI1), 12)) * 10000
+                Dim Value = CDbl(Mid(xStrLine(xI1), 12)) * 10000
 
                 Dim attribute = Mid(xStrLine(xI1), 4, 1)
 
@@ -841,16 +841,16 @@ Public Class MainWindow
             For xI1 = 1 To UBound(xStrLine)
                 If xStrLine(xI1).Trim = "" Then Continue For
                 xStrSub = Split(xStrLine(xI1), " ")
-                xTempVP = Val(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
+                xTempVP = CDbl(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
                 If UBound(xStrSub) = 5 And xTempVP >= 0 And xTempVP < GetMaxVPosition() Then
                     ReDim Preserve Notes(Notes.Length)
                     With Notes(UBound(Notes))
                         .ColumnIndex = CInt(xStrSub(0))
                         .VPosition = xTempVP
                         .Value = CLng(xStrSub(2))
-                        .LongNote = CBool(Val(xStrSub(3)))
-                        .Hidden = CBool(Val(xStrSub(4)))
-                        .Landmine = CBool(Val(xStrSub(5)))
+                        .LongNote = CBool(xStrSub(3))
+                        .Hidden = CBool(xStrSub(4))
+                        .Landmine = CBool(xStrSub(5))
                     End With
                 End If
             Next
@@ -872,16 +872,16 @@ Public Class MainWindow
             For xI1 = 1 To UBound(xStrLine)
                 If xStrLine(xI1).Trim = "" Then Continue For
                 xStrSub = Split(xStrLine(xI1), " ")
-                xTempVP = Val(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
+                xTempVP = CDbl(xStrSub(1)) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
                 If UBound(xStrSub) = 5 And xTempVP >= 0 And xTempVP < GetMaxVPosition() Then
                     ReDim Preserve Notes(Notes.Length)
                     With Notes(UBound(Notes))
                         .ColumnIndex = CInt(xStrSub(0))
                         .VPosition = xTempVP
                         .Value = CLng(xStrSub(2))
-                        .Length = Val(xStrSub(3))
-                        .Hidden = CBool(Val(xStrSub(4)))
-                        .Landmine = CBool(Val(xStrSub(5)))
+                        .Length = CDbl(xStrSub(3))
+                        .Hidden = CBool(xStrSub(4))
+                        .Landmine = CBool(xStrSub(5))
                     End With
                 End If
             Next
@@ -902,12 +902,12 @@ Public Class MainWindow
             For xI1 = 1 To UBound(xStrLine)
                 ' zdr: holy crap this is obtuse
                 Dim posStr = Mid(xStrLine(xI1), 5, 7)
-                Dim vPos = Val(posStr) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
+                Dim vPos = CDbl(posStr) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
 
                 Dim bmsIdent = Mid(xStrLine(xI1), 1, 3)
                 Dim lineCol = BMSEChannelToColumnIndex(bmsIdent)
 
-                Dim Value = Val(Mid(xStrLine(xI1), 12)) * 10000
+                Dim Value = CDbl(Mid(xStrLine(xI1), 12)) * 10000
 
                 Dim attribute = Mid(xStrLine(xI1), 4, 1)
 
@@ -3281,8 +3281,13 @@ Public Class MainWindow
 
     Private Sub TVCM_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TVCM.KeyDown
         If e.KeyCode = Keys.Enter Then
-            TVCM.Text = Val(TVCM.Text).ToString()
-            If Val(TVCM.Text) <= 0 Then
+            Dim xTP As Double
+            If Not Double.TryParse(TVCM.Text, xTP) Then
+                TVCM.Text = 1.ToString()
+            Else
+                TVCM.Text = xTP.ToString()
+            End If
+            If CDbl(TVCM.Text) <= 0 Then
                 MsgBox(Strings.Messages.NegativeFactorError, MsgBoxStyle.Critical, Strings.Messages.Err)
                 TVCM.Text = 1.ToString()
                 TVCM.Focus()
@@ -3294,8 +3299,13 @@ Public Class MainWindow
     End Sub
 
     Private Sub TVCM_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles TVCM.LostFocus
-        TVCM.Text = Val(TVCM.Text).ToString()
-        If Val(TVCM.Text) <= 0 Then
+        Dim xTP As Double
+        If Not Double.TryParse(TVCM.Text, xTP) Then
+            TVCM.Text = 0.ToString()
+        Else
+            TVCM.Text = xTP.ToString()
+        End If
+        If CDbl(TVCM.Text) <= 0 Then
             MsgBox(Strings.Messages.NegativeFactorError, MsgBoxStyle.Critical, Strings.Messages.Err)
             TVCM.Text = 1.ToString()
             TVCM.Focus()
@@ -3305,8 +3315,13 @@ Public Class MainWindow
 
     Private Sub TVCD_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TVCD.KeyDown
         If e.KeyCode = Keys.Enter Then
-            TVCD.Text = Val(TVCD.Text).ToString()
-            If Val(TVCD.Text) <= 0 Then
+            Dim xTP As Double
+            If Not Double.TryParse(TVCD.Text, xTP) Then
+                TVCD.Text = 0.ToString()
+            Else
+                TVCD.Text = xTP.ToString()
+            End If
+            If CDbl(TVCD.Text) <= 0 Then
                 MsgBox(Strings.Messages.NegativeDivisorError, MsgBoxStyle.Critical, Strings.Messages.Err)
                 TVCD.Text = 1.ToString()
                 TVCD.Focus()
@@ -3318,8 +3333,13 @@ Public Class MainWindow
     End Sub
 
     Private Sub TVCD_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles TVCD.LostFocus
-        TVCD.Text = Val(TVCD.Text).ToString()
-        If Val(TVCD.Text) <= 0 Then
+        Dim xTP As Double
+        If Not Double.TryParse(TVCD.Text, xTP) Then
+            TVCD.Text = 0.ToString()
+        Else
+            TVCD.Text = xTP.ToString()
+        End If
+        If CDbl(TVCD.Text) <= 0 Then
             MsgBox(Strings.Messages.NegativeDivisorError, MsgBoxStyle.Critical, Strings.Messages.Err)
             TVCD.Text = 1.ToString()
             TVCD.Focus()
@@ -3329,8 +3349,13 @@ Public Class MainWindow
 
     Private Sub TVCBPM_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles TVCBPM.KeyDown
         If e.KeyCode = Keys.Enter Then
-            TVCBPM.Text = Val(TVCBPM.Text).ToString()
-            If Val(TVCBPM.Text) <= 0 Then
+            Dim xTP As Double
+            If Not Double.TryParse(TVCBPM.Text, xTP) Then
+                TVCBPM.Text = 0.ToString()
+            Else
+                TVCBPM.Text = xTP.ToString()
+            End If
+            If CDbl(TVCBPM.Text) <= 0 Then
                 MsgBox(Strings.Messages.NegativeDivisorError, MsgBoxStyle.Critical, Strings.Messages.Err)
                 TVCBPM.Text = (Notes(0).Value / 10000).ToString()
                 TVCBPM.Focus()
@@ -3342,8 +3367,13 @@ Public Class MainWindow
     End Sub
 
     Private Sub TVCBPM_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles TVCBPM.LostFocus
-        TVCBPM.Text = Val(TVCBPM.Text).ToString()
-        If Val(TVCBPM.Text) <= 0 Then
+        Dim xTP As Double
+        If Not Double.TryParse(TVCBPM.Text, xTP) Then
+            TVCBPM.Text = 0.ToString()
+        Else
+            TVCBPM.Text = xTP.ToString()
+        End If
+        If CDbl(TVCBPM.Text) <= 0 Then
             MsgBox(Strings.Messages.NegativeDivisorError, MsgBoxStyle.Critical, Strings.Messages.Err)
             TVCBPM.Text = (Notes(0).Value / 10000).ToString()
             TVCBPM.Focus()
@@ -5044,7 +5074,7 @@ Public Class MainWindow
         Dim xStr As String = InputBox(Prompt, Title, DefaultResponse)
         If xStr = "" Then Return Double.PositiveInfinity
 
-        InputBoxDouble = Val(xStr)
+        If Not Double.TryParse(xStr, InputBoxDouble) Then Return Double.PositiveInfinity
         If InputBoxDouble > UBound Then InputBoxDouble = UBound
         If InputBoxDouble < LBound Then InputBoxDouble = LBound
     End Function

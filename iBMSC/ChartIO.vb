@@ -66,8 +66,8 @@ Partial Public Class MainWindow
             If Not xGhost AndAlso Not xComment Then ' Load header if not ghost notes and not comment notes
 
                 If sLineTrim.StartsWith("#") And Mid(sLineTrim, 5, 3) = "02:" Then
-                    Dim xIndex As Integer = CInt(Mid(sLineTrim, 2, 3))
-                    Dim xRatio As Double = Val(Mid(sLineTrim, 8))
+                    Dim xIndex As Integer = Integer.Parse(Mid(sLineTrim, 2, 3))
+                    Dim xRatio As Double = Double.Parse(Mid(sLineTrim, 8))
                     Dim xxD As Long = GetDenominator(xRatio)
                     MeasureLength(xIndex) = xRatio * 192.0R
                     LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ").ToString()
@@ -170,7 +170,7 @@ Partial Public Class MainWindow
 
                 ElseIf SWIC(sLineTrim, "#LNTYPE") Then
                     'THLnType.Text = Mid(sLineTrim, Len("#LNTYPE") + 1).Trim
-                    If Val(Mid(sLineTrim, Len("#LNTYPE") + 1).Trim) = 1 Then CHLnObj.SelectedIndex = 0
+                    If Integer.Parse(Mid(sLineTrim, Len("#LNTYPE") + 1).Trim) = 1 Then CHLnObj.SelectedIndex = 0
                     Continue For
 
                 ElseIf SWIC(sLineTrim, "#LNOBJ") Then
@@ -337,7 +337,7 @@ Partial Public Class MainWindow
 
             If sLineTrim.StartsWith("#") And Mid(sLineTrim, 5, 3) = "02:" Then
                 Dim xIndex As Integer = CInt(Mid(sLineTrim, 2, 3))
-                Dim xRatio As Double = Val(Mid(sLineTrim, 8))
+                Dim xRatio As Double = CDbl(Mid(sLineTrim, 8))
                 MeasureLength(xIndex) = xRatio * 192.0R
                 Continue For
 

@@ -39,14 +39,14 @@
         TotalOption = Array.IndexOf(Of RadioButton)(CTotalList, RadioS)
     End Sub
 
-    Private Sub TMultiplier_TextChanged(sender As Object, e As EventArgs) Handles NGlobalMultiplier.TextChanged
+    Private Sub NGlobalMultiplier_TextChanged(sender As Object, e As EventArgs) Handles NGlobalMultiplier.TextChanged, NDecimal.TextChanged
         CalculateTotal()
     End Sub
 
     Private Sub CalculateTotal()
         Dim Dec = CInt(NDecimal.Value)
         LTotalIIDX1.Text = Math.Round(NoteCount * 7.605 / (0.01 * NoteCount + 6.5) * NGlobalMultiplier.Value, Dec).ToString()
-        LTotalIIDX2.Text = Math.Round(CDbl(IIf(NoteCount < 400, 200 + NoteCount / 5, IIf(NoteCount < 600, 280 + (NoteCount - 400) / 2.5, 360 + (NoteCount - 600) / 5))) * Val(NGlobalMultiplier.Text), Dec).ToString()
-        LTotalMultiplier.Text = Math.Round(NoteCount * Val(NMultiplier.Text) * Val(NGlobalMultiplier.Text), Dec).ToString()
+        LTotalIIDX2.Text = Math.Round(CDbl(IIf(NoteCount < 400, 200 + NoteCount / 5, IIf(NoteCount < 600, 280 + (NoteCount - 400) / 2.5, 360 + (NoteCount - 600) / 5))) * CDbl(NGlobalMultiplier.Text), Dec).ToString()
+        LTotalMultiplier.Text = Math.Round(NoteCount * CDbl(NMultiplier.Text) * CDbl(NGlobalMultiplier.Text), Dec).ToString()
     End Sub
 End Class

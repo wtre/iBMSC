@@ -76,12 +76,12 @@ Namespace Editor
         End Function
 
         Public Function IdentifiertoLongNote(ByVal I As String) As Boolean
-            Dim xI As Integer = CInt(Val(I))
+            Dim xI As Integer = CInt(I)
             Return xI >= 50 And xI < 90
         End Function
 
         Public Function IdentifiertoHidden(ByVal I As String) As Boolean
-            Dim xI As Integer = CInt(Val(I))
+            Dim xI As Integer = CInt(I)
             Return (xI >= 30 And xI < 50) Or (xI >= 70 And xI < 90)
         End Function
 
@@ -144,7 +144,7 @@ Namespace Editor
             Dim xLine() As String = Split(xStr, ",")
             If UBound(xLine) = 2 Then
                 Dim xFontStyle As System.Drawing.FontStyle = CType(xLine(2), FontStyle)
-                Return New Font(xLine(0), CSng(Val(xLine(1))), xFontStyle, GraphicsUnit.Pixel)
+                Return New Font(xLine(0), CSng(xLine(1)), xFontStyle, GraphicsUnit.Pixel)
             Else
                 Return xDefault
             End If
@@ -187,7 +187,7 @@ Namespace Editor
             Dim xL() As String = Split(xStr, ",")
             Dim xBool(UBound(xL)) As Boolean
             For xI1 As Integer = 0 To UBound(xBool)
-                xBool(xI1) = CBool(Val(xL(xI1)))
+                xBool(xI1) = CBool(xL(xI1))
             Next
             Return xBool
         End Function

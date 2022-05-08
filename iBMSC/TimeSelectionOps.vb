@@ -7,7 +7,7 @@ Partial Public Class MainWindow
         If Not TBTimeSelect.Checked Then Exit Sub
 
         SortByVPositionInsertion()
-        BPMChangeByValue(CInt(Val(TVCBPM.Text) * 10000))
+        BPMChangeByValue(CInt(TVCBPM.Text) * 10000)
 
         SortByVPositionInsertion()
         UpdatePairing()
@@ -22,7 +22,7 @@ Partial Public Class MainWindow
         If Not TBTimeSelect.Checked Then Exit Sub
 
         SortByVPositionInsertion()
-        BPMChangeTop(Val(TVCM.Text) / Val(TVCD.Text))
+        BPMChangeTop(CDbl(TVCM.Text) / CDbl(TVCD.Text))
 
         SortByVPositionInsertion()
         UpdatePairing()
