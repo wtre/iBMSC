@@ -38,10 +38,25 @@ Partial Public Class MainWindow
         ' Determine
         Dim keybindOptionName As String = ""
 
+        Dim HasSelectedNotes As Boolean = False
+        For Each note In Notes
+            If note.Selected Then
+                HasSelectedNotes = True
+                Exit For
+            End If
+        Next
+
         ' Check for specific categories first
         For Each P In KbCategory
-            If (P = KbCategoryPMS AndAlso gXKeyMode <> "PMS") OrElse
-                (P = KbCategoryDP AndAlso gXKeyMode <> "DP") Then Continue For
+            ' Check which categories to skip
+            Select Case P
+                Case KbCategorySP
+                    If Not HasSelectedNotes Then Continue For
+                Case KbCategoryPMS
+                    If Not HasSelectedNotes OrElse gXKeyMode <> "PMS" Then Continue For
+                Case KbCategoryDP
+                    If Not HasSelectedNotes OrElse gXKeyMode <> "DP" Then Continue For
+            End Select
 
             Dim keybindOptions = From k In Keybindings
                                  Where k.Category = P
