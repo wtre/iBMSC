@@ -571,8 +571,8 @@ Partial Public Class MainWindow
             If Not IsColumnSound(Notes(xINote).ColumnIndex) Then Continue For
 
             If -PanelVScroll(PanelFocus) > GetVPositionFromTime(GetTimeFromVPosition(Notes(xINote).VPosition) + wLWAV(CInt(Notes(xINote).Value / 10000)).Duration) Then Exit For ' If note waveform is not lower than window
-            If Not (-PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition) AndAlso ' If note is higher than window
-                   Not Notes(xINote).Comment Then  ' Note is not comment
+            ' Not (-PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition) AndAlso ' Boolean for if note is higher than window, if ever needed
+            If Not Notes(xINote).Comment Then  ' Note is not comment
                 DrawWaveform(e1, xTHeight, xHS, xVSR, xINote)
             End If
         Next
