@@ -4276,7 +4276,7 @@ Public Class MainWindow
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
         For xI1 As Integer = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
+            If Not Notes(xI1).Selected OrElse Notes(xI1).Landmine OrElse Notes(xI1).Ghost Then Continue For
 
             Me.RedoHiddenNoteModify(Notes(xI1), True, True, xUndo, xRedo)
             Notes(xI1).Hidden = True
@@ -4310,7 +4310,7 @@ Public Class MainWindow
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
         For xI1 As Integer = 1 To UBound(Notes)
-            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
+            If Not Notes(xI1).Selected OrElse Notes(xI1).Landmine OrElse Notes(xI1).Ghost Then Continue For
 
             Me.RedoHiddenNoteModify(Notes(xI1), Not Notes(xI1).Hidden, True, xUndo, xRedo)
             Notes(xI1).Hidden = Not Notes(xI1).Hidden
@@ -4705,9 +4705,13 @@ Public Class MainWindow
 
 
     Private Sub TBFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBFind.Click, mnFind.Click
-        Dim xDiag As New dgFind(gColumns, Strings.Messages.Err, Strings.Messages.InvalidLabel)
+        Dim xDiag As New dgFind(gColumns)
         xDiag.Show()
     End Sub
+
+    ''' <Summary>
+    ''' Checks if the note satisfies the input measure, label, and value ranges.
+    ''' </Summary>
 
     Private Function fdrCheck(ByVal xNote As Note) As Boolean
         Return xNote.VPosition >= MeasureBottom(fdriMesL) And xNote.VPosition < MeasureBottom(fdriMesU) + MeasureLength(fdriMesU) AndAlso
@@ -4742,6 +4746,10 @@ Public Class MainWindow
         Dim xbLong As Boolean = iRange(3)
         Dim xbHidden As Boolean = iRange(4)
         Dim xbVisible As Boolean = iRange(5)
+        Dim xbNoError As Boolean = iRange(6)
+        Dim xbError As Boolean = iRange(7)
+        Dim xbNotComment As Boolean = iRange(8)
+        Dim xbComment As Boolean = iRange(9)
 
         Select Case fdrFunction
             Case "TBSelect"
@@ -4754,7 +4762,12 @@ Public Class MainWindow
                 For xI1 As Integer = 1 To UBound(Notes)
                     With Notes(xI1)
                         If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
-                            nEnabled(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) And fdrRangeS(xbVisible, xbHidden, .Hidden) Then
+                            nEnabled(.ColumnIndex) AndAlso
+                            fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) AndAlso
+                            fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
+                            fdrRangeS(xbNoError, xbError, .HasError) AndAlso
+                            fdrRangeS(xbNotComment, xbComment, .Comment) Then
+
                             .Selected = fdrCheck(Notes(xI1))
                         End If
                     End With
@@ -4769,7 +4782,12 @@ Public Class MainWindow
                 For xI1 As Integer = 1 To UBound(Notes)
                     With Notes(xI1)
                         If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
-                            nEnabled(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) And fdrRangeS(xbVisible, xbHidden, .Hidden) Then
+                            nEnabled(.ColumnIndex) AndAlso
+                            fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) AndAlso
+                            fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
+                            fdrRangeS(xbNoError, xbError, .HasError) AndAlso
+                            fdrRangeS(xbNotComment, xbComment, .Comment) Then
+
                             .Selected = Not fdrCheck(Notes(xI1))
                         End If
                     End With
@@ -4784,9 +4802,14 @@ Public Class MainWindow
                 For xI1 = UBound(Notes) To 1 Step -1
                     With Notes(xI1)
                         If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
-                            nEnabled(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) And fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
+                            nEnabled(.ColumnIndex) AndAlso
+                            fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) AndAlso
+                            fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
+                            fdrRangeS(xbNoError, xbError, .HasError) AndAlso
+                            fdrRangeS(xbNotComment, xbComment, .Comment) AndAlso
                             fdrCheck(Notes(xI1)) AndAlso
                             .VPosition < -PanelVScroll(PanelFocus) Then
+
                             PanelVScroll(PanelFocus) = - .VPosition
                             .Selected = True
                             Exit For
@@ -4803,9 +4826,14 @@ Public Class MainWindow
                 For xI1 = 1 To UBound(Notes)
                     With Notes(xI1)
                         If ((xbSel And xSel(xI1)) Or (xbUnsel And Not xSel(xI1))) AndAlso
-                            nEnabled(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) And fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
+                            nEnabled(.ColumnIndex) AndAlso
+                            fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) AndAlso
+                            fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
+                            fdrRangeS(xbNoError, xbError, .HasError) AndAlso
+                            fdrRangeS(xbNotComment, xbComment, .Comment) AndAlso
                             fdrCheck(Notes(xI1)) AndAlso
                             .VPosition > -PanelVScroll(PanelFocus) Then
+
                             PanelVScroll(PanelFocus) = - .VPosition
                             .Selected = True
                             Exit For
@@ -4821,8 +4849,15 @@ Public Class MainWindow
                 Dim xI1 As Integer = 1
                 Do While xI1 <= UBound(Notes)
                     With Notes(xI1)
-                        If (Not .Ghost) AndAlso ((xbSel And .Selected) Or (xbUnsel And Not .Selected)) AndAlso
-                                fdrCheck(Notes(xI1)) AndAlso nEnabled(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) And fdrRangeS(xbVisible, xbHidden, .Hidden) Then
+                        If (Not .Ghost) AndAlso
+                            ((xbSel And .Selected) Or (xbUnsel And Not .Selected)) AndAlso
+                            fdrCheck(Notes(xI1)) AndAlso
+                            nEnabled(.ColumnIndex) AndAlso
+                            fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) AndAlso
+                            fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
+                            fdrRangeS(xbNoError, xbError, .HasError) AndAlso
+                            fdrRangeS(xbNotComment, xbComment, .Comment) Then
+
                             RedoRemoveNote(Notes(xI1), xUndo, xRedo)
                             RemoveNote(xI1, False)
                         Else
@@ -4845,8 +4880,16 @@ Public Class MainWindow
                 'Main process
                 For xI1 As Integer = 1 To UBound(Notes)
                     With Notes(xI1)
-                        If (Not .Ghost) AndAlso ((xbSel And .Selected) Or (xbUnsel And Not .Selected)) AndAlso
-                            fdrCheck(Notes(xI1)) AndAlso nEnabled(.ColumnIndex) And Not IsColumnNumeric(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) And fdrRangeS(xbVisible, xbHidden, .Hidden) Then
+                        If (Not .Ghost) AndAlso
+                            ((xbSel And .Selected) Or (xbUnsel And Not .Selected)) AndAlso
+                            fdrCheck(Notes(xI1)) AndAlso
+                            nEnabled(.ColumnIndex) AndAlso
+                            Not IsColumnNumeric(.ColumnIndex) AndAlso
+                            fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) AndAlso
+                            fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
+                            fdrRangeS(xbNoError, xbError, .HasError) AndAlso
+                            fdrRangeS(xbNotComment, xbComment, .Comment) Then
+
                             Me.RedoRelabelNote(Notes(xI1), xxLbl, xUndo, xRedo)
                             .Value = xxLbl
                         End If
@@ -4862,8 +4905,16 @@ Public Class MainWindow
                 'Main process
                 For xI1 As Integer = 1 To UBound(Notes)
                     With Notes(xI1)
-                        If (Not .Ghost) AndAlso ((xbSel And .Selected) Or (xbUnsel And Not .Selected)) AndAlso
-                            fdrCheck(Notes(xI1)) AndAlso nEnabled(.ColumnIndex) And IsColumnNumeric(.ColumnIndex) AndAlso fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) And fdrRangeS(xbVisible, xbHidden, .Hidden) Then
+                        If (Not .Ghost) AndAlso
+                            ((xbSel And .Selected) Or (xbUnsel And Not .Selected)) AndAlso
+                            fdrCheck(Notes(xI1)) AndAlso
+                            nEnabled(.ColumnIndex) AndAlso
+                            IsColumnNumeric(.ColumnIndex) AndAlso
+                            fdrRangeS(xbShort, xbLong, CBool(IIf(NTInput, .Length, .LongNote))) AndAlso
+                            fdrRangeS(xbVisible, xbHidden, .Hidden) AndAlso
+                            fdrRangeS(xbNoError, xbError, .HasError) AndAlso
+                            fdrRangeS(xbNotComment, xbComment, .Comment) Then
+
                             Me.RedoRelabelNote(Notes(xI1), xReplaceVal, xUndo, xRedo)
                             .Value = xReplaceVal
                         End If

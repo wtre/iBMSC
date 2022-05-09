@@ -3,11 +3,9 @@ Public Class dgFind
     Dim msg1 As String = "Error"
     Dim msg2 As String = "Invalid label."
 
-    Public Sub New(ByVal xbCol As Integer, ByVal xmsg1 As String, ByVal xmsg2 As String)
+    Public Sub New(ByVal xbCol As Integer)
         InitializeComponent()
         bCol = xbCol
-        msg1 = xmsg1
-        msg2 = xmsg2
     End Sub
 
     Private Sub CloseDialog(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBClose.Click
@@ -41,6 +39,9 @@ Public Class dgFind
         'Dim xS() As String = Form1.lpfdr
         Me.Text = MainWindow.TBFind.Text
 
+        msg1 = Strings.Messages.Err
+        msg2 = Strings.Messages.InvalidLabel
+
         Label1.Text = Strings.fFind.NoteRange
         Label2.Text = Strings.fFind.MeasureRange
         Label3.Text = Strings.fFind.LabelRange
@@ -49,12 +50,12 @@ Public Class dgFind
         Label6.Text = Strings.fFind.to_
         Label7.Text = Strings.fFind.to_
 
-        cbx1.Text = Strings.fFind.Selected
-        cbx2.Text = Strings.fFind.UnSelected
-        cbx3.Text = Strings.fFind.ShortNote
-        cbx4.Text = Strings.fFind.LongNote
-        cbx5.Text = Strings.fFind.Hidden
-        cbx6.Text = Strings.fFind.Visible
+        CBSelected.Text = Strings.fFind.Selected
+        CBUnselected.Text = Strings.fFind.UnSelected
+        CBShort.Text = Strings.fFind.ShortNote
+        CBLong.Text = Strings.fFind.LongNote
+        CBHidden.Text = Strings.fFind.Hidden
+        CBVisible.Text = Strings.fFind.Visible
 
         Label8.Text = Strings.fFind.Column
         BSAll.Text = Strings.fFind.SelectAll
@@ -69,7 +70,7 @@ Public Class dgFind
         TBDelete.Text = Strings.fFind.Delete_
         TBClose.Text = Strings.fFind.Close_
 
-        For xI1 As Integer = 27 To bCol
+        For xI1 As Integer = MainWindow.niB To bCol
             Dim xCB As New CheckBox
             With xCB
                 .Appearance = Appearance.Button
@@ -135,9 +136,10 @@ Public Class dgFind
             End If
         Next
 
-        Dim ArrCB() As CheckBox = {cbx1, cbx2, cbx3, cbx4, cbx5, cbx6}
+        ' Make an array of Note Range checkboxes manually
+        Dim ArrCB() As CheckBox = {CBSelected, CBUnselected, CBShort, CBLong, CBHidden, CBVisible, CBNoError, CBError, CBNotComment, CBComment}
         Dim xRange(UBound(ArrCB)) As Boolean
-        For i = 0 To UBound(ArrCB)
+        For i = 0 To UBound(xRange)
             xRange(i) = ArrCB(i).Checked
         Next
 

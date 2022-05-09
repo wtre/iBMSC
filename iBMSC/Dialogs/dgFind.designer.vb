@@ -74,15 +74,20 @@ Partial Class dgFind
         Me.PictureBox3 = New System.Windows.Forms.PictureBox()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.cbx1 = New System.Windows.Forms.CheckBox()
-        Me.cbx2 = New System.Windows.Forms.CheckBox()
-        Me.cbx3 = New System.Windows.Forms.CheckBox()
+        Me.CBSelected = New System.Windows.Forms.CheckBox()
+        Me.CBUnselected = New System.Windows.Forms.CheckBox()
+        Me.CBShort = New System.Windows.Forms.CheckBox()
         Me.TBUnselect = New System.Windows.Forms.Button()
-        Me.cbx4 = New System.Windows.Forms.CheckBox()
-        Me.cbx5 = New System.Windows.Forms.CheckBox()
-        Me.cbx6 = New System.Windows.Forms.CheckBox()
+        Me.CBLong = New System.Windows.Forms.CheckBox()
+        Me.CBHidden = New System.Windows.Forms.CheckBox()
+        Me.CBVisible = New System.Windows.Forms.CheckBox()
         Me.FNotePrevious = New System.Windows.Forms.Button()
         Me.FNoteNext = New System.Windows.Forms.Button()
+        Me.TLNoteRange = New System.Windows.Forms.TableLayoutPanel()
+        Me.CBError = New System.Windows.Forms.CheckBox()
+        Me.CBNoError = New System.Windows.Forms.CheckBox()
+        Me.CBComment = New System.Windows.Forms.CheckBox()
+        Me.CBNotComment = New System.Windows.Forms.CheckBox()
         CType(Me.mr1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.mr2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.vr2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,46 +97,47 @@ Partial Class dgFind
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TLNoteRange.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label1
         '
-        Me.Label1.Location = New System.Drawing.Point(26, 20)
+        Me.Label1.Location = New System.Drawing.Point(8, 31)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(120, 17)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Note Range"
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Note Type"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label2
         '
-        Me.Label2.Location = New System.Drawing.Point(26, 73)
+        Me.Label2.Location = New System.Drawing.Point(8, 73)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(120, 17)
-        Me.Label2.TabIndex = 4
+        Me.Label2.TabIndex = 2
         Me.Label2.Text = "Measure Range"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'mr1
         '
-        Me.mr1.Location = New System.Drawing.Point(152, 72)
+        Me.mr1.Location = New System.Drawing.Point(134, 72)
         Me.mr1.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
         Me.mr1.Name = "mr1"
         Me.mr1.Size = New System.Drawing.Size(70, 23)
-        Me.mr1.TabIndex = 5
+        Me.mr1.TabIndex = 3
         '
         'mr2
         '
-        Me.mr2.Location = New System.Drawing.Point(258, 72)
+        Me.mr2.Location = New System.Drawing.Point(240, 72)
         Me.mr2.Maximum = New Decimal(New Integer() {999, 0, 0, 0})
         Me.mr2.Name = "mr2"
         Me.mr2.Size = New System.Drawing.Size(70, 23)
-        Me.mr2.TabIndex = 6
+        Me.mr2.TabIndex = 5
         Me.mr2.Value = New Decimal(New Integer() {999, 0, 0, 0})
         '
         'lr1
         '
-        Me.lr1.Location = New System.Drawing.Point(152, 101)
+        Me.lr1.Location = New System.Drawing.Point(134, 101)
         Me.lr1.MaxLength = 2
         Me.lr1.Name = "lr1"
         Me.lr1.Size = New System.Drawing.Size(70, 23)
@@ -140,33 +146,33 @@ Partial Class dgFind
         '
         'lr2
         '
-        Me.lr2.Location = New System.Drawing.Point(258, 101)
+        Me.lr2.Location = New System.Drawing.Point(240, 101)
         Me.lr2.MaxLength = 2
         Me.lr2.Name = "lr2"
         Me.lr2.Size = New System.Drawing.Size(70, 23)
-        Me.lr2.TabIndex = 8
+        Me.lr2.TabIndex = 9
         Me.lr2.Text = "ZZ"
         '
         'vr2
         '
         Me.vr2.DecimalPlaces = 4
-        Me.vr2.Location = New System.Drawing.Point(258, 130)
+        Me.vr2.Location = New System.Drawing.Point(240, 130)
         Me.vr2.Maximum = New Decimal(New Integer() {655359999, 0, 0, 262144})
         Me.vr2.Minimum = New Decimal(New Integer() {1, 0, 0, 262144})
         Me.vr2.Name = "vr2"
         Me.vr2.Size = New System.Drawing.Size(100, 23)
-        Me.vr2.TabIndex = 10
+        Me.vr2.TabIndex = 13
         Me.vr2.Value = New Decimal(New Integer() {655359999, 0, 0, 262144})
         '
         'vr1
         '
         Me.vr1.DecimalPlaces = 4
-        Me.vr1.Location = New System.Drawing.Point(152, 130)
+        Me.vr1.Location = New System.Drawing.Point(134, 130)
         Me.vr1.Maximum = New Decimal(New Integer() {655359999, 0, 0, 262144})
         Me.vr1.Minimum = New Decimal(New Integer() {1, 0, 0, 262144})
         Me.vr1.Name = "vr1"
         Me.vr1.Size = New System.Drawing.Size(70, 23)
-        Me.vr1.TabIndex = 9
+        Me.vr1.TabIndex = 11
         Me.vr1.Value = New Decimal(New Integer() {1, 0, 0, 262144})
         '
         'cb1
@@ -527,7 +533,7 @@ Partial Class dgFind
         Me.Panel1.Location = New System.Drawing.Point(26, 186)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(302, 131)
-        Me.Panel1.TabIndex = 22
+        Me.Panel1.TabIndex = 14
         '
         'BSAll
         '
@@ -535,7 +541,7 @@ Partial Class dgFind
         Me.BSAll.Location = New System.Drawing.Point(334, 189)
         Me.BSAll.Name = "BSAll"
         Me.BSAll.Size = New System.Drawing.Size(120, 23)
-        Me.BSAll.TabIndex = 23
+        Me.BSAll.TabIndex = 15
         Me.BSAll.Text = "Select All"
         Me.BSAll.UseVisualStyleBackColor = True
         '
@@ -545,7 +551,7 @@ Partial Class dgFind
         Me.BSInv.Location = New System.Drawing.Point(334, 218)
         Me.BSInv.Name = "BSInv"
         Me.BSInv.Size = New System.Drawing.Size(120, 23)
-        Me.BSInv.TabIndex = 24
+        Me.BSInv.TabIndex = 16
         Me.BSInv.Text = "Select Inverse"
         Me.BSInv.UseVisualStyleBackColor = True
         '
@@ -555,25 +561,25 @@ Partial Class dgFind
         Me.BSNone.Location = New System.Drawing.Point(334, 247)
         Me.BSNone.Name = "BSNone"
         Me.BSNone.Size = New System.Drawing.Size(120, 23)
-        Me.BSNone.TabIndex = 25
+        Me.BSNone.TabIndex = 17
         Me.BSNone.Text = "Unselect All"
         Me.BSNone.UseVisualStyleBackColor = True
         '
         'Label3
         '
-        Me.Label3.Location = New System.Drawing.Point(26, 103)
+        Me.Label3.Location = New System.Drawing.Point(8, 103)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(120, 17)
-        Me.Label3.TabIndex = 26
+        Me.Label3.TabIndex = 6
         Me.Label3.Text = "Label Range"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label4
         '
-        Me.Label4.Location = New System.Drawing.Point(26, 131)
+        Me.Label4.Location = New System.Drawing.Point(8, 131)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(120, 17)
-        Me.Label4.TabIndex = 27
+        Me.Label4.TabIndex = 10
         Me.Label4.Text = "Value Range"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -582,7 +588,7 @@ Partial Class dgFind
         Me.TBSelect.Location = New System.Drawing.Point(298, 354)
         Me.TBSelect.Name = "TBSelect"
         Me.TBSelect.Size = New System.Drawing.Size(75, 23)
-        Me.TBSelect.TabIndex = 28
+        Me.TBSelect.TabIndex = 40
         Me.TBSelect.Text = "Select"
         Me.TBSelect.UseVisualStyleBackColor = True
         '
@@ -592,7 +598,7 @@ Partial Class dgFind
         Me.TBClose.Location = New System.Drawing.Point(379, 412)
         Me.TBClose.Name = "TBClose"
         Me.TBClose.Size = New System.Drawing.Size(75, 23)
-        Me.TBClose.TabIndex = 29
+        Me.TBClose.TabIndex = 45
         Me.TBClose.Text = "Close"
         Me.TBClose.UseVisualStyleBackColor = True
         '
@@ -601,7 +607,7 @@ Partial Class dgFind
         Me.TBDelete.Location = New System.Drawing.Point(298, 412)
         Me.TBDelete.Name = "TBDelete"
         Me.TBDelete.Size = New System.Drawing.Size(75, 23)
-        Me.TBDelete.TabIndex = 30
+        Me.TBDelete.TabIndex = 44
         Me.TBDelete.Text = "Delete"
         Me.TBDelete.UseVisualStyleBackColor = True
         '
@@ -610,7 +616,7 @@ Partial Class dgFind
         Me.TBrl.Location = New System.Drawing.Point(26, 354)
         Me.TBrl.Name = "TBrl"
         Me.TBrl.Size = New System.Drawing.Size(178, 23)
-        Me.TBrl.TabIndex = 33
+        Me.TBrl.TabIndex = 30
         Me.TBrl.Text = "Replace with Label:"
         Me.TBrl.UseVisualStyleBackColor = True
         '
@@ -619,34 +625,34 @@ Partial Class dgFind
         Me.TBrv.Location = New System.Drawing.Point(26, 383)
         Me.TBrv.Name = "TBrv"
         Me.TBrv.Size = New System.Drawing.Size(178, 23)
-        Me.TBrv.TabIndex = 35
+        Me.TBrv.TabIndex = 32
         Me.TBrv.Text = "Replace with Value:"
         Me.TBrv.UseVisualStyleBackColor = True
         '
         'Label5
         '
-        Me.Label5.Location = New System.Drawing.Point(221, 103)
+        Me.Label5.Location = New System.Drawing.Point(203, 103)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(39, 16)
-        Me.Label5.TabIndex = 50
+        Me.Label5.TabIndex = 8
         Me.Label5.Text = "to"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label6
         '
-        Me.Label6.Location = New System.Drawing.Point(221, 74)
+        Me.Label6.Location = New System.Drawing.Point(203, 74)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(39, 16)
-        Me.Label6.TabIndex = 51
+        Me.Label6.TabIndex = 4
         Me.Label6.Text = "to"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label7
         '
-        Me.Label7.Location = New System.Drawing.Point(221, 132)
+        Me.Label7.Location = New System.Drawing.Point(203, 132)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(39, 16)
-        Me.Label7.TabIndex = 52
+        Me.Label7.TabIndex = 12
         Me.Label7.Text = "to"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -658,7 +664,7 @@ Partial Class dgFind
         Me.Ttv.Minimum = New Decimal(New Integer() {1, 0, 0, 262144})
         Me.Ttv.Name = "Ttv"
         Me.Ttv.Size = New System.Drawing.Size(70, 23)
-        Me.Ttv.TabIndex = 34
+        Me.Ttv.TabIndex = 33
         Me.Ttv.Value = New Decimal(New Integer() {120, 0, 0, 0})
         '
         'Ttl
@@ -667,7 +673,7 @@ Partial Class dgFind
         Me.Ttl.MaxLength = 2
         Me.Ttl.Name = "Ttl"
         Me.Ttl.Size = New System.Drawing.Size(70, 23)
-        Me.Ttl.TabIndex = 32
+        Me.Ttl.TabIndex = 31
         Me.Ttl.Text = "01"
         '
         'Label8
@@ -715,111 +721,117 @@ Partial Class dgFind
         Me.PictureBox1.TabIndex = 48
         Me.PictureBox1.TabStop = False
         '
-        'cbx1
+        'CBSelected
         '
-        Me.cbx1.Appearance = System.Windows.Forms.Appearance.Button
-        Me.cbx1.Checked = True
-        Me.cbx1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbx1.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.cbx1.Location = New System.Drawing.Point(152, 16)
-        Me.cbx1.Name = "cbx1"
-        Me.cbx1.Size = New System.Drawing.Size(100, 25)
-        Me.cbx1.TabIndex = 58
-        Me.cbx1.Tag = "1"
-        Me.cbx1.Text = "Selected"
-        Me.cbx1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.cbx1.UseVisualStyleBackColor = False
+        Me.CBSelected.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBSelected.Checked = True
+        Me.CBSelected.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBSelected.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CBSelected.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CBSelected.Location = New System.Drawing.Point(3, 3)
+        Me.CBSelected.Name = "CBSelected"
+        Me.CBSelected.Size = New System.Drawing.Size(64, 21)
+        Me.CBSelected.TabIndex = 0
+        Me.CBSelected.Tag = "1"
+        Me.CBSelected.Text = "Selected"
+        Me.CBSelected.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBSelected.UseVisualStyleBackColor = False
         '
-        'cbx2
+        'CBUnselected
         '
-        Me.cbx2.Appearance = System.Windows.Forms.Appearance.Button
-        Me.cbx2.Checked = True
-        Me.cbx2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbx2.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.cbx2.Location = New System.Drawing.Point(152, 41)
-        Me.cbx2.Name = "cbx2"
-        Me.cbx2.Size = New System.Drawing.Size(100, 25)
-        Me.cbx2.TabIndex = 59
-        Me.cbx2.Tag = "1"
-        Me.cbx2.Text = "Unselected"
-        Me.cbx2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.cbx2.UseVisualStyleBackColor = False
+        Me.CBUnselected.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBUnselected.Checked = True
+        Me.CBUnselected.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBUnselected.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CBUnselected.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CBUnselected.Location = New System.Drawing.Point(3, 30)
+        Me.CBUnselected.Name = "CBUnselected"
+        Me.CBUnselected.Size = New System.Drawing.Size(64, 21)
+        Me.CBUnselected.TabIndex = 1
+        Me.CBUnselected.Tag = "1"
+        Me.CBUnselected.Text = "Unselected"
+        Me.CBUnselected.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBUnselected.UseVisualStyleBackColor = False
         '
-        'cbx3
+        'CBShort
         '
-        Me.cbx3.Appearance = System.Windows.Forms.Appearance.Button
-        Me.cbx3.Checked = True
-        Me.cbx3.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbx3.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.cbx3.Location = New System.Drawing.Point(258, 16)
-        Me.cbx3.Name = "cbx3"
-        Me.cbx3.Size = New System.Drawing.Size(70, 25)
-        Me.cbx3.TabIndex = 60
-        Me.cbx3.Tag = "1"
-        Me.cbx3.Text = "Short"
-        Me.cbx3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.cbx3.UseVisualStyleBackColor = False
+        Me.CBShort.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBShort.Checked = True
+        Me.CBShort.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBShort.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CBShort.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CBShort.Location = New System.Drawing.Point(73, 3)
+        Me.CBShort.Name = "CBShort"
+        Me.CBShort.Size = New System.Drawing.Size(38, 21)
+        Me.CBShort.TabIndex = 2
+        Me.CBShort.Tag = "1"
+        Me.CBShort.Text = "Short"
+        Me.CBShort.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBShort.UseVisualStyleBackColor = False
         '
         'TBUnselect
         '
         Me.TBUnselect.Location = New System.Drawing.Point(379, 354)
         Me.TBUnselect.Name = "TBUnselect"
         Me.TBUnselect.Size = New System.Drawing.Size(75, 23)
-        Me.TBUnselect.TabIndex = 31
+        Me.TBUnselect.TabIndex = 41
         Me.TBUnselect.Text = "Unselect"
         Me.TBUnselect.UseVisualStyleBackColor = True
         '
-        'cbx4
+        'CBLong
         '
-        Me.cbx4.Appearance = System.Windows.Forms.Appearance.Button
-        Me.cbx4.Checked = True
-        Me.cbx4.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbx4.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.cbx4.Location = New System.Drawing.Point(258, 41)
-        Me.cbx4.Name = "cbx4"
-        Me.cbx4.Size = New System.Drawing.Size(70, 25)
-        Me.cbx4.TabIndex = 61
-        Me.cbx4.Tag = "1"
-        Me.cbx4.Text = "Long"
-        Me.cbx4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.cbx4.UseVisualStyleBackColor = False
+        Me.CBLong.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBLong.Checked = True
+        Me.CBLong.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBLong.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CBLong.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CBLong.Location = New System.Drawing.Point(73, 30)
+        Me.CBLong.Name = "CBLong"
+        Me.CBLong.Size = New System.Drawing.Size(38, 21)
+        Me.CBLong.TabIndex = 3
+        Me.CBLong.Tag = "1"
+        Me.CBLong.Text = "Long"
+        Me.CBLong.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBLong.UseVisualStyleBackColor = False
         '
-        'cbx5
+        'CBHidden
         '
-        Me.cbx5.Appearance = System.Windows.Forms.Appearance.Button
-        Me.cbx5.Checked = True
-        Me.cbx5.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbx5.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.cbx5.Location = New System.Drawing.Point(334, 16)
-        Me.cbx5.Name = "cbx5"
-        Me.cbx5.Size = New System.Drawing.Size(80, 25)
-        Me.cbx5.TabIndex = 62
-        Me.cbx5.Tag = "1"
-        Me.cbx5.Text = "Hidden"
-        Me.cbx5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.cbx5.UseVisualStyleBackColor = False
+        Me.CBHidden.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBHidden.Checked = True
+        Me.CBHidden.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBHidden.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CBHidden.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CBHidden.Location = New System.Drawing.Point(117, 3)
+        Me.CBHidden.Name = "CBHidden"
+        Me.CBHidden.Size = New System.Drawing.Size(49, 21)
+        Me.CBHidden.TabIndex = 4
+        Me.CBHidden.Tag = "1"
+        Me.CBHidden.Text = "Hidden"
+        Me.CBHidden.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBHidden.UseVisualStyleBackColor = False
         '
-        'cbx6
+        'CBVisible
         '
-        Me.cbx6.Appearance = System.Windows.Forms.Appearance.Button
-        Me.cbx6.Checked = True
-        Me.cbx6.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbx6.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.cbx6.Location = New System.Drawing.Point(334, 41)
-        Me.cbx6.Name = "cbx6"
-        Me.cbx6.Size = New System.Drawing.Size(80, 25)
-        Me.cbx6.TabIndex = 63
-        Me.cbx6.Tag = "1"
-        Me.cbx6.Text = "Visible"
-        Me.cbx6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.cbx6.UseVisualStyleBackColor = False
+        Me.CBVisible.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBVisible.Checked = True
+        Me.CBVisible.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBVisible.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CBVisible.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CBVisible.Location = New System.Drawing.Point(117, 30)
+        Me.CBVisible.Name = "CBVisible"
+        Me.CBVisible.Size = New System.Drawing.Size(49, 21)
+        Me.CBVisible.TabIndex = 5
+        Me.CBVisible.Tag = "1"
+        Me.CBVisible.Text = "Visible"
+        Me.CBVisible.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBVisible.UseVisualStyleBackColor = False
         '
         'FNotePrevious
         '
         Me.FNotePrevious.Location = New System.Drawing.Point(298, 383)
         Me.FNotePrevious.Name = "FNotePrevious"
         Me.FNotePrevious.Size = New System.Drawing.Size(75, 23)
-        Me.FNotePrevious.TabIndex = 64
+        Me.FNotePrevious.TabIndex = 42
         Me.FNotePrevious.Text = "Previous"
         Me.FNotePrevious.UseVisualStyleBackColor = True
         '
@@ -829,24 +841,117 @@ Partial Class dgFind
         Me.FNoteNext.Location = New System.Drawing.Point(379, 383)
         Me.FNoteNext.Name = "FNoteNext"
         Me.FNoteNext.Size = New System.Drawing.Size(75, 23)
-        Me.FNoteNext.TabIndex = 65
+        Me.FNoteNext.TabIndex = 43
         Me.FNoteNext.Text = "Next"
         Me.FNoteNext.UseVisualStyleBackColor = True
         '
-        'diagFind
+        'TLNoteRange
+        '
+        Me.TLNoteRange.ColumnCount = 5
+        Me.TLNoteRange.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70.0!))
+        Me.TLNoteRange.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44.0!))
+        Me.TLNoteRange.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55.0!))
+        Me.TLNoteRange.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70.0!))
+        Me.TLNoteRange.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50.0!))
+        Me.TLNoteRange.Controls.Add(Me.CBError, 3, 1)
+        Me.TLNoteRange.Controls.Add(Me.CBSelected, 0, 0)
+        Me.TLNoteRange.Controls.Add(Me.CBUnselected, 0, 1)
+        Me.TLNoteRange.Controls.Add(Me.CBShort, 1, 0)
+        Me.TLNoteRange.Controls.Add(Me.CBVisible, 2, 1)
+        Me.TLNoteRange.Controls.Add(Me.CBLong, 1, 1)
+        Me.TLNoteRange.Controls.Add(Me.CBHidden, 2, 0)
+        Me.TLNoteRange.Controls.Add(Me.CBNoError, 3, 0)
+        Me.TLNoteRange.Controls.Add(Me.CBComment, 4, 1)
+        Me.TLNoteRange.Controls.Add(Me.CBNotComment, 4, 0)
+        Me.TLNoteRange.Location = New System.Drawing.Point(134, 12)
+        Me.TLNoteRange.Name = "TLNoteRange"
+        Me.TLNoteRange.RowCount = 2
+        Me.TLNoteRange.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TLNoteRange.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TLNoteRange.Size = New System.Drawing.Size(328, 54)
+        Me.TLNoteRange.TabIndex = 1
+        '
+        'CBError
+        '
+        Me.CBError.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBError.BackColor = System.Drawing.SystemColors.Control
+        Me.CBError.Checked = True
+        Me.CBError.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBError.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CBError.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CBError.ForeColor = System.Drawing.SystemColors.ButtonShadow
+        Me.CBError.Location = New System.Drawing.Point(172, 30)
+        Me.CBError.Name = "CBError"
+        Me.CBError.Size = New System.Drawing.Size(64, 21)
+        Me.CBError.TabIndex = 7
+        Me.CBError.Tag = "1"
+        Me.CBError.Text = "Error"
+        Me.CBError.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBError.UseVisualStyleBackColor = False
+        '
+        'CBNoError
+        '
+        Me.CBNoError.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBNoError.BackColor = System.Drawing.SystemColors.Control
+        Me.CBNoError.Checked = True
+        Me.CBNoError.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBNoError.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CBNoError.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CBNoError.ForeColor = System.Drawing.SystemColors.ButtonShadow
+        Me.CBNoError.Location = New System.Drawing.Point(172, 3)
+        Me.CBNoError.Name = "CBNoError"
+        Me.CBNoError.Size = New System.Drawing.Size(64, 21)
+        Me.CBNoError.TabIndex = 6
+        Me.CBNoError.Tag = "1"
+        Me.CBNoError.Text = "No Error"
+        Me.CBNoError.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBNoError.UseVisualStyleBackColor = False
+        '
+        'CBComment
+        '
+        Me.CBComment.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBComment.BackColor = System.Drawing.SystemColors.Control
+        Me.CBComment.Checked = True
+        Me.CBComment.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBComment.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CBComment.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CBComment.ForeColor = System.Drawing.SystemColors.ButtonShadow
+        Me.CBComment.Location = New System.Drawing.Point(242, 30)
+        Me.CBComment.Name = "CBComment"
+        Me.CBComment.Size = New System.Drawing.Size(83, 21)
+        Me.CBComment.TabIndex = 9
+        Me.CBComment.Tag = "1"
+        Me.CBComment.Text = "Comment"
+        Me.CBComment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBComment.UseVisualStyleBackColor = False
+        '
+        'CBNotComment
+        '
+        Me.CBNotComment.Appearance = System.Windows.Forms.Appearance.Button
+        Me.CBNotComment.BackColor = System.Drawing.SystemColors.Control
+        Me.CBNotComment.Checked = True
+        Me.CBNotComment.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CBNotComment.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CBNotComment.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.CBNotComment.ForeColor = System.Drawing.SystemColors.ButtonShadow
+        Me.CBNotComment.Location = New System.Drawing.Point(242, 3)
+        Me.CBNotComment.Name = "CBNotComment"
+        Me.CBNotComment.Size = New System.Drawing.Size(83, 21)
+        Me.CBNotComment.TabIndex = 8
+        Me.CBNotComment.Tag = "1"
+        Me.CBNotComment.Text = "Not Comment"
+        Me.CBNotComment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.CBNotComment.UseVisualStyleBackColor = False
+        '
+        'dgFind
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.CancelButton = Me.TBClose
         Me.ClientSize = New System.Drawing.Size(474, 451)
+        Me.Controls.Add(Me.TLNoteRange)
         Me.Controls.Add(Me.FNoteNext)
         Me.Controls.Add(Me.FNotePrevious)
-        Me.Controls.Add(Me.cbx6)
-        Me.Controls.Add(Me.cbx5)
-        Me.Controls.Add(Me.cbx4)
         Me.Controls.Add(Me.TBUnselect)
-        Me.Controls.Add(Me.cbx3)
-        Me.Controls.Add(Me.cbx2)
-        Me.Controls.Add(Me.cbx1)
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.PictureBox3)
@@ -881,7 +986,7 @@ Partial Class dgFind
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "diagFind"
+        Me.Name = "dgFind"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Find / Delete / Replace"
         Me.TopMost = True
@@ -894,6 +999,7 @@ Partial Class dgFind
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TLNoteRange.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -949,13 +1055,18 @@ Partial Class dgFind
     Friend WithEvents PictureBox3 As System.Windows.Forms.PictureBox
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents cbx1 As System.Windows.Forms.CheckBox
-    Friend WithEvents cbx2 As System.Windows.Forms.CheckBox
-    Friend WithEvents cbx3 As System.Windows.Forms.CheckBox
+    Friend WithEvents CBSelected As System.Windows.Forms.CheckBox
+    Friend WithEvents CBUnselected As System.Windows.Forms.CheckBox
+    Friend WithEvents CBShort As System.Windows.Forms.CheckBox
     Friend WithEvents TBUnselect As System.Windows.Forms.Button
-    Friend WithEvents cbx4 As System.Windows.Forms.CheckBox
-    Friend WithEvents cbx5 As System.Windows.Forms.CheckBox
-    Friend WithEvents cbx6 As System.Windows.Forms.CheckBox
+    Friend WithEvents CBLong As System.Windows.Forms.CheckBox
+    Friend WithEvents CBHidden As System.Windows.Forms.CheckBox
+    Friend WithEvents CBVisible As System.Windows.Forms.CheckBox
     Friend WithEvents FNotePrevious As Button
     Friend WithEvents FNoteNext As Button
+    Friend WithEvents TLNoteRange As TableLayoutPanel
+    Friend WithEvents CBNoError As CheckBox
+    Friend WithEvents CBNotComment As CheckBox
+    Friend WithEvents CBComment As CheckBox
+    Friend WithEvents CBError As CheckBox
 End Class

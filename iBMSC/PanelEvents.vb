@@ -48,7 +48,7 @@ Partial Public Class MainWindow
 
         ' Check for specific categories first
         For Each P In KbCategory
-            ' Check which categories to skip
+            ' Check if category should be ignored
             Select Case P
                 Case KbCategorySP
                     If Not HasSelectedNotes Then Continue For
