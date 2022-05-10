@@ -104,7 +104,7 @@ Partial Public Class MainWindow
                     Continue For
 
                 ElseIf SWIC(sLineTrim, "#BPM") Then  'If BPM ####
-                    Notes(0).Value = CLng(CDbl(Mid(sLineTrim, Len("#BPM") + 1).Trim)) * 10000
+                    Notes(0).Value = CLng(CDbl(Mid(sLineTrim, Len("#BPM") + 1).Trim) * 10000)
                     THBPM.Value = CDec(Notes(0).Value / 10000)
                     Continue For
 
