@@ -566,12 +566,11 @@ Partial Public Class MainWindow
     ''' </summary>
 
     Private Sub DrawWaveformNotes(e1 As BufferedGraphics, xTHeight As Integer, xHS As Integer, xVSR As Integer)
-        ' Optimized
-        For xINote = LastNoteToDraw To 1 Step -1
+        ' Turns out I don't know how to optimize it
+        For xINote = 1 To UBound(Notes)
+            If -PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition Then Exit For ' if note is higher than window
             If Not IsColumnSound(Notes(xINote).ColumnIndex) Then Continue For
 
-            If -PanelVScroll(PanelFocus) > GetVPositionFromTime(GetTimeFromVPosition(Notes(xINote).VPosition) + wLWAV(CInt(Notes(xINote).Value / 10000)).Duration) Then Exit For ' If note waveform is not lower than window
-            ' Not (-PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition) AndAlso ' Boolean for if note is higher than window, if ever needed
             If Not Notes(xINote).Comment Then  ' Note is not comment
                 DrawWaveform(e1, xTHeight, xHS, xVSR, xINote)
             End If

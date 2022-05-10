@@ -68,6 +68,7 @@ Public Class MainWindow
     Dim ShowFileName As Boolean = False
     Dim ShowWaveform As Boolean = False
     Dim WaveformLoaded As Boolean = False
+    Dim WaveformLoadId As Integer = 1
 
     Dim BeepWhileSaved As Boolean = True
     Dim BPMx1296 As Boolean = False
@@ -2431,13 +2432,20 @@ Public Class MainWindow
         mnShowWaveform.Checked = ShowWaveform
         TBShowWaveform.Image = CType(IIf(ShowWaveform, My.Resources.x16ShowWaveform, My.Resources.x16ShowWaveformN), Image)
         mnShowWaveform.Image = CType(IIf(ShowWaveform, My.Resources.x16ShowWaveform, My.Resources.x16ShowWaveformN), Image)
-        If Not WaveformLoaded AndAlso ShowWaveform Then
-            For xI1 = 1 To UBound(wLWAV)
-                If hWAV(xI1) <> "" Then wLWAV(xI1) = LoadWaveForm(ExcludeFileName(FileName) & "\" & hWAV(xI1))
-            Next
+        If Not WaveformLoaded AndAlso ShowWaveform Then TimerLoadWaveform.Enabled = True
+    End Sub
+
+    Private Sub TimerLoadWaveform_Tick(sender As Object, e As EventArgs) Handles TimerLoadWaveform.Tick
+        Console.WriteLine(WaveformLoadId)
+        If hWAV(WaveformLoadId) <> "" Then wLWAV(WaveformLoadId) = LoadWaveForm(ExcludeFileName(FileName) & "\" & hWAV(WaveformLoadId))
+        If WaveformLoadId = UBound(wLWAV) Then
+            WaveformLoadId = 1
+            TimerLoadWaveform.Enabled = False
             WaveformLoaded = True
+            Exit Sub
         End If
-        RefreshPanelAll()
+
+        WaveformLoadId += 1
     End Sub
 
     Private Sub TBCut_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBCut.Click, mnCut.Click
