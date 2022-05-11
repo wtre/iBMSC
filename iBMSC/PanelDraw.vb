@@ -567,14 +567,26 @@ Partial Public Class MainWindow
 
     Private Sub DrawWaveformNotes(e1 As BufferedGraphics, xTHeight As Integer, xHS As Integer, xVSR As Integer)
         ' Turns out I don't know how to optimize it
-        For xINote = 1 To UBound(Notes)
-            If -PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition Then Exit For ' if note is higher than window
-            If Not IsColumnSound(Notes(xINote).ColumnIndex) Then Continue For
+        If IsNothing(NoteWVPosEnd) OrElse Notes.Length = 1 Then Exit Sub
+
+        For xINote = 1 To UBound(NoteWVPosEnd)
+            If Not IsColumnSound(Notes(xINote).ColumnIndex) OrElse NoteWVPosEnd(xINote) < -PanelVScroll(PanelFocus) Then Continue For
+            If -PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition Then Exit For
 
             If Not Notes(xINote).Comment Then  ' Note is not comment
                 DrawWaveform(e1, xTHeight, xHS, xVSR, xINote)
             End If
         Next
+
+        ' Naive method
+        ' For xINote = 1 To UBound(Notes)
+        '     If -PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight < Notes(xINote).VPosition Then Exit For ' if note is higher than window
+        '     If Not IsColumnSound(Notes(xINote).ColumnIndex) Then Continue For
+        ' 
+        '     If Not Notes(xINote).Comment Then  ' Note is not comment
+        '         DrawWaveform(e1, xTHeight, xHS, xVSR, xINote)
+        '     End If
+        ' Next
     End Sub
 
     ''' <summary>

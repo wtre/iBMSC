@@ -172,6 +172,7 @@ Public Class MainWindow
     Dim gXKeyCol() As Integer
     Dim gLNGap As Double = 16
     Dim wLWAV(1295) As WavSample
+    Dim NoteWVPosEnd() As Double
 
     '----AutoSave Options
     Dim PreviousAutoSavedFileName As String = ""
@@ -2432,7 +2433,14 @@ Public Class MainWindow
         mnShowWaveform.Checked = ShowWaveform
         TBShowWaveform.Image = CType(IIf(ShowWaveform, My.Resources.x16ShowWaveform, My.Resources.x16ShowWaveformN), Image)
         mnShowWaveform.Image = CType(IIf(ShowWaveform, My.Resources.x16ShowWaveform, My.Resources.x16ShowWaveformN), Image)
-        If Not WaveformLoaded AndAlso ShowWaveform Then TimerLoadWaveform.Enabled = True
+        If ShowWaveform Then
+
+            If Not WaveformLoaded Then
+                TimerLoadWaveform.Enabled = True
+            Else
+                LoadNoteWVPosEnd()
+            End If
+        End If
     End Sub
 
     Private Sub TimerLoadWaveform_Tick(sender As Object, e As EventArgs) Handles TimerLoadWaveform.Tick
@@ -2442,10 +2450,24 @@ Public Class MainWindow
             WaveformLoadId = 1
             TimerLoadWaveform.Enabled = False
             WaveformLoaded = True
+
+            LoadNoteWVPosEnd()
+            RefreshPanelAll()
             Exit Sub
         End If
 
         WaveformLoadId += 1
+    End Sub
+
+    Private Sub LoadNoteWVPosEnd()
+        ReDim NoteWVPosEnd(UBound(Notes))
+        For i = 0 To UBound(Notes)
+            If IsColumnSound(Notes(i).ColumnIndex) Then
+                NoteWVPosEnd(i) = GetVPositionFromTime(GetTimeFromVPosition(Notes(i).VPosition) + wLWAV(CInt(Notes(i).Value / 10000)).Duration)
+            Else
+                NoteWVPosEnd(i) = -1
+            End If
+        Next
     End Sub
 
     Private Sub TBCut_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBCut.Click, mnCut.Click
