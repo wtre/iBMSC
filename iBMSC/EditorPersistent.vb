@@ -313,23 +313,17 @@ Partial Public Class MainWindow
     End Sub
 
     Private Sub XMLLoadKeybinding(ByVal n As XmlElement)
-        Dim InOption As Boolean = False
-        Dim xI As Integer = 0
-        For i = 0 To UBound(Keybindings)
-            If Keybindings(i).OpName = n.GetAttribute("Name") Then
-                xI = i
-                InOption = True
-                Exit For
+        For xI = 0 To UBound(Keybindings)
+            If Keybindings(xI).OpName = n.GetAttribute("Name") Then
+                XMLLoadAttribute(n.GetAttribute("Name"), Keybindings(xI).OpName)
+                XMLLoadAttribute(n.GetAttribute("Description"), Keybindings(xI).Description)
+                Keybindings(xI).Combo = Split(n.GetAttribute("Combos"), ", ")
+                XMLLoadAttribute(n.GetAttribute("Category"), Keybindings(xI).Category)
+
+                RenameShortcuts(Keybindings(xI))
+                Exit Sub
             End If
         Next
-        If Not InOption Then Exit Sub
-
-        XMLLoadAttribute(n.GetAttribute("Name"), Keybindings(xI).OpName)
-        XMLLoadAttribute(n.GetAttribute("Description"), Keybindings(xI).Description)
-        Keybindings(xI).Combo = Split(n.GetAttribute("Combos"), ", ")
-        XMLLoadAttribute(n.GetAttribute("Category"), Keybindings(xI).Category)
-
-        RenameShortcuts(Keybindings(xI))
     End Sub
 
     Private Sub XMLLoadColumn(ByVal n As XmlElement)
