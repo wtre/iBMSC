@@ -268,7 +268,7 @@ Partial Public Class MainWindow
             For xI1 = 1 To 1295
                 LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
                 ' Add waveforms to wLWAV
-                If hWAV(xI1) <> "" AndAlso ShowWaveform Then wLWAV(xI1) = LoadWaveForm(ExcludeFileName(FileName) & "\" & hWAV(xI1))
+                If hWAV(xI1) <> "" AndAlso ShowWaveform Then WaveformLoadId = 1 : TimerLoadWaveform.Enabled = True
             Next
             LWAV.SelectedIndex = 0
             LWAV.Visible = True

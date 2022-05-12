@@ -2433,13 +2433,15 @@ Public Class MainWindow
         mnShowWaveform.Checked = ShowWaveform
         TBShowWaveform.Image = CType(IIf(ShowWaveform, My.Resources.x16ShowWaveform, My.Resources.x16ShowWaveformN), Image)
         mnShowWaveform.Image = CType(IIf(ShowWaveform, My.Resources.x16ShowWaveform, My.Resources.x16ShowWaveformN), Image)
-        If ShowWaveform Then
 
+        If ShowWaveform Then
             If Not WaveformLoaded Then
                 TimerLoadWaveform.Enabled = True
             Else
                 LoadNoteWVPosEnd()
             End If
+        Else
+            TimerLoadWaveform.Enabled = False
         End If
     End Sub
 
