@@ -91,6 +91,7 @@ Public Class MainWindow
 
     'IO
     Dim FileName As String = "Untitled.bms"
+    Dim TempFileName As String = "___TempBMS.bmsc"
     Dim RandomTempFileName As String = "___TempRandom" & GenerateRandomString(6, False) & ".bmsc"
     Public ExpansionSplit(2) As String
     'Dim TitlePath As New Drawing2D.GraphicsPath
@@ -653,7 +654,7 @@ Public Class MainWindow
         Dim xFileName As String = IIf(Not PathIsValid(FileName),
                                         IIf(InitPath = "", My.Application.Info.DirectoryPath, InitPath),
                                         ExcludeFileName(FileName)).ToString() _
-                                        & "\___TempBMS.bmsc"
+                                        & "\" & TempFileName
         Dim xMeasure As Integer = MeasureAtDisplacement(Math.Abs(PanelVScroll(PanelFocus)))
         Dim xS1 As String = Replace(InitStr, "<apppath>", My.Application.Info.DirectoryPath)
         Dim xS2 As String = Replace(xS1, "<measure>", xMeasure.ToString())
@@ -2757,7 +2758,7 @@ Public Class MainWindow
         Dim xStrAll As String = SaveBMS()
         Dim xFileName As String = IIf(Not PathIsValid(FileName),
                                       IIf(InitPath = "", My.Application.Info.DirectoryPath, InitPath),
-                                      ExcludeFileName(FileName)).ToString() & "\___TempBMS.bmsc"
+                                      ExcludeFileName(FileName)).ToString() & "\" & TempFileName
         My.Computer.FileSystem.WriteAllText(xFileName, xStrAll, False, TextEncoding)
 
         AddTempFileList(xFileName)
@@ -2780,7 +2781,7 @@ Public Class MainWindow
         Dim xStrAll As String = SaveBMS()
         Dim xFileName As String = IIf(Not PathIsValid(FileName),
                                       IIf(InitPath = "", My.Application.Info.DirectoryPath, InitPath),
-                                      ExcludeFileName(FileName)).ToString() & "\___TempBMS.bmsc"
+                                      ExcludeFileName(FileName)).ToString() & "\" & TempFileName
         My.Computer.FileSystem.WriteAllText(xFileName, xStrAll, False, TextEncoding)
 
         AddTempFileList(xFileName)
@@ -3992,7 +3993,7 @@ Public Class MainWindow
             Case Else : xTE = 0
         End Select
 
-        Dim xDiag As New OpGeneral(gWheel, gPgUpDn, MiddleButtonMoveMethod, xTE, CInt(192.0R / BMSGridLimit), ErrorJackBPM, ErrorJackTH, gLNGap,
+        Dim xDiag As New OpGeneral(gWheel, gPgUpDn, MiddleButtonMoveMethod, xTE, CInt(192.0R / BMSGridLimit), ErrorJackBPM, ErrorJackTH, gLNGap, TempFileName,
             AutoSaveInterval, BeepWhileSaved, BPMx1296, STOPx1296, AudioLine, TemplateSnapToVPosition, PastePatternToVPosition,
             AutoFocusMouseEnter, FirstClickDisabled, ClickStopPreview)
 
@@ -4009,6 +4010,7 @@ Public Class MainWindow
                 ErrorJackTH = .nJackTH.Value
                 ErrorJackSpeed = 60 * 4 / .nJackBPM.Value / .nJackTH.Value
                 gLNGap = .NLNGap.Value
+                TempFileName = .TTemp.Text
                 BeepWhileSaved = .cBeep.Checked
                 BPMx1296 = .cBpm1296.Checked
                 STOPx1296 = .cStop1296.Checked

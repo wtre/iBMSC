@@ -54,7 +54,7 @@ Public Class OpGeneral
         Me.Close()
     End Sub
 
-    Public Sub New(ByVal xMsWheel As Integer, ByVal xPgUpDn As Integer, ByVal xMiddleButton As Integer, ByVal xTextEncoding As Integer, ByVal xGridPartition As Integer, ByVal xJackBPM As Double, ByVal xJackTH As Double, ByVal xLNGap As Double,
+    Public Sub New(ByVal xMsWheel As Integer, ByVal xPgUpDn As Integer, ByVal xMiddleButton As Integer, ByVal xTextEncoding As Integer, ByVal xGridPartition As Integer, ByVal xJackBPM As Double, ByVal xJackTH As Double, ByVal xLNGap As Double, ByVal xTemp As String,
                    ByVal xAutoSave As Integer, ByVal xBeep As Boolean, ByVal xBPMx As Boolean, ByVal xSTOPx As Boolean, ByVal xAudioLine As Boolean, ByVal xTemplateSnapToVPosition As Boolean, ByVal xPastePatternToVPosition As Boolean,
                    ByVal xMFEnter As Boolean, ByVal xMFClick As Boolean, ByVal xMStopPreview As Boolean)
         InitializeComponent()
@@ -83,6 +83,7 @@ Public Class OpGeneral
         nJackBPM.Value = CDec(xJackBPM)
         nJackTH.Value = CDec(xJackTH)
         NLNGap.Value = CDec(xLNGap)
+        TTemp.Text = xTemp
 
         If xMiddleButton = 0 Then rMiddleAuto.Checked = True _
                              Else rMiddleDrag.Checked = True
