@@ -2,10 +2,22 @@
 Imports iBMSC.Editor
 
 Partial Public Class MainWindow
+
     ' BMS File tabs
+    ''' <summary>
+    ''' Everything related to file tabs are put here.
+    ''' 
+    ''' BMSFileStructs is to an array of BMSStruct with each BMSStruct referring to each BMS file in the tab list.
+    ''' BMSFileIndex is the current BMS file index in the tab list.
+    ''' BMSFileList is the list of BMS files in the tab list.
+    ''' BMSFileTSBList is the list of ToolStripButtons in the tab list.
+    ''' 
+    ''' Currently, Untitled.bms must be at the last of the tab list.
+    ''' </summary>
+
     Dim BMSFileStructs As BMSStruct()
     Dim BMSFileIndex As Integer = 0
-    Dim BMSFileList(-1) As String ' {"G:\LR2Making\Zekk_MEJIRUSHI_V2_ogg\MEJIRUSHI_14GLITCH - Copy.bms", "G:\LR2Making\Zekk_MEJIRUSHI_V2_ogg\MEJIRUSHI_14GLITCH.bms", "G:\LR2Making\[NoE]間隙を縫う\_kanngekiAnother.bms"}
+    Dim BMSFileList(-1) As String
     Dim BMSFileTSBList As ToolStripButton()
 
     Structure BMSStruct
@@ -84,16 +96,6 @@ Partial Public Class MainWindow
         Dim TSBS As ToolStripButton = CType(sender, ToolStripButton)
         If TSBS.Checked Then Exit Sub
 
-        ' If Not IsSaved Then
-        '     Dim xResult As MsgBoxResult = MsgBox(Strings.Messages.SaveOnExit, MsgBoxStyle.YesNoCancel Or MsgBoxStyle.Question, Me.Text)
-        '     If xResult = MsgBoxResult.Yes Then
-        '         TBSave_ButtonClick(Nothing, Nothing)
-        '     ElseIf xResult = MsgBoxResult.No Then
-        '         SetIsSaved(True)
-        '     Else
-        '         Exit Sub
-        '     End If
-        ' End If
         SaveBMSStruct()
 
         SetBMSFileIndex(Array.IndexOf(BMSFileTSBList, TSBS))
@@ -108,17 +110,6 @@ Partial Public Class MainWindow
                 ReadFile(BMSFileList(BMSFileIndex))
             End If
         End If
-
-        ' If BMSFileList(BMSFileIndex) = FileNameInit Then
-        '     TBNew_Click(Nothing, Nothing)
-        ' Else
-        '     If BMSFileStructs(BMSFileIndex).Notes IsNot Nothing Then
-        '         SetFileName(BMSFileList(BMSFileIndex))
-        '         LoadBMSStruct()
-        '     Else
-        '         ReadFile(BMSFileList(BMSFileIndex))
-        '     End If
-        ' End If
     End Sub
 
     Private Sub TBTab_MouseDown(sender As Object, e As MouseEventArgs)
