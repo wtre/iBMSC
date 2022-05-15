@@ -356,6 +356,7 @@ Public Class MainWindow
                                        New Keybinding("PageUp", "*HIDDEN*", {"PageUp"}, KbCategoryAllMod),
                                        New Keybinding("PageDown", "*HIDDEN*", {"PageDown"}, KbCategoryAllMod),
                                        New Keybinding("Tab", "*HIDDEN*", {"Tab"}, KbCategoryAllMod),
+                                       New Keybinding("Tab", "*HIDDEN*", {"Capital"}, KbCategoryAllMod),
                                        New Keybinding("Decrease Division", "*HIDDEN*", {"Oemcomma"}, KbCategoryAllMod),
                                        New Keybinding("Increase Division", "*HIDDEN*", {"OemPeriod"}, KbCategoryAllMod),
                                                                                                                         _ ' Hidden / Experimental

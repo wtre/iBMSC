@@ -2147,6 +2147,7 @@ Partial Class MainWindow
         Me.PMain.Name = "PMain"
         Me.PMain.Size = New System.Drawing.Size(1257, 661)
         Me.PMain.TabIndex = 58
+        Me.PMain.TabStop = True
         Me.PMain.Tag = "1"
         '
         'PMainIn
@@ -2324,7 +2325,7 @@ Partial Class MainWindow
         Me.TBTab.Dock = System.Windows.Forms.DockStyle.None
         Me.TBTab.Location = New System.Drawing.Point(3, 48)
         Me.TBTab.Name = "TBTab"
-        Me.TBTab.Size = New System.Drawing.Size(43, 25)
+        Me.TBTab.Size = New System.Drawing.Size(111, 25)
         Me.TBTab.TabIndex = 65
         '
         'POptionsResizer

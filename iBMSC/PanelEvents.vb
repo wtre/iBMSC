@@ -39,9 +39,19 @@ Partial Public Class MainWindow
         Dim keybindOptionName As String = ""
 
         Dim HasSelectedNotes As Boolean = False
-        For Each note In Notes
-            If note.Selected Then
+        Dim FirstSelectedNote As Integer
+        Dim LastSelectedNote As Integer
+        For xI = 1 To UBound(Notes)
+            If Notes(xI).Selected Then
                 HasSelectedNotes = True
+
+                FirstSelectedNote = xI
+                For xI2 = UBound(Notes) To xI Step -1
+                    If Notes(xI2).Selected Then
+                        LastSelectedNote = xI2
+                        Exit For
+                    End If
+                Next
                 Exit For
             End If
         Next
@@ -195,7 +205,7 @@ Partial Public Class MainWindow
                     xVPos = Notes(xI1).VPosition + xVPosition - muVPosition
                     Me.RedoMoveNote(Notes(xI1), Notes(xI1).ColumnIndex, xVPos, xUndo, xRedo)
                     Notes(xI1).VPosition = xVPos
-                    IsNoteInPanel(xVPos, Notes(xI1).Length)
+                    ScrollPanelToNote(xVPos, Notes(xI1).Length)
                 Next
 
                 If xVPosition - muVPosition <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
@@ -226,7 +236,7 @@ Partial Public Class MainWindow
                     xVPos = Notes(xI1).VPosition + xVPosition - mVPosition
                     Me.RedoMoveNote(Notes(xI1), Notes(xI1).ColumnIndex, xVPos, xUndo, xRedo)
                     Notes(xI1).VPosition = xVPos
-                    IsNoteInPanel(xVPos, Notes(xI1).Length)
+                    ScrollPanelToNote(xVPos, Notes(xI1).Length)
                 Next
 
                 If xVPosition - mVPosition <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
@@ -255,7 +265,7 @@ Partial Public Class MainWindow
                     xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) - 1 - mLeft)
                     Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
                     Notes(xI1).ColumnIndex = xCol
-                    IsNoteInPanel(Notes(xI1).VPosition, Notes(xI1).Length)
+                    ScrollPanelToNote(Notes(xI1).VPosition, Notes(xI1).Length)
                 Next
 
                 If -1 - mLeft <> 0 Then AddUndo(xUndo, xBaseRedo.Next)
@@ -270,7 +280,7 @@ Partial Public Class MainWindow
                     xCol = EnabledColumnIndexToColumnArrayIndex(ColumnArrayIndexToEnabledColumnIndex(Notes(xI1).ColumnIndex) + 1)
                     Me.RedoMoveNote(Notes(xI1), xCol, Notes(xI1).VPosition, xUndo, xRedo)
                     Notes(xI1).ColumnIndex = xCol
-                    IsNoteInPanel(Notes(xI1).VPosition, Notes(xI1).Length)
+                    ScrollPanelToNote(Notes(xI1).VPosition, Notes(xI1).Length)
                 Next
 
                 AddUndo(xUndo, xBaseRedo.Next)
@@ -338,15 +348,52 @@ Partial Public Class MainWindow
                 If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value + gPgUpDn < 0, RightPanelScroll.Value + gPgUpDn, 0))
 
             Case "Tab"
-                ' TODO: Add Ctrl+Tab, etc.
                 If Not e.Control AndAlso Not e.Shift Then
+                    If Not HasSelectedNotes Then
+                        For xIN = 1 To UBound(Notes)
+                            If Notes(xIN).VPosition >= -PanelVScroll(PanelFocus) Then
+                                FirstSelectedNote = xIN - 1
+                                Exit For
+                            End If
+                        Next
+                    End If
 
-                ElseIf e.Control AndAlso Not e.Shift Then
+                    For xIN = 1 To UBound(Notes)
+                        Notes(xIN).Selected = False
+                    Next
+                    FirstSelectedNote += 1
+                    Notes(FirstSelectedNote).Selected = True
+                    ScrollPanelToNote(Notes(FirstSelectedNote).VPosition, Notes(FirstSelectedNote).Length)
+                    ' Cannot prevent the tab key from focusing on other things
 
                 ElseIf Not e.Control AndAlso e.Shift Then
+                    If Not HasSelectedNotes Then
+                        For xIN = UBound(Notes) To 1 Step -1
+                            If Notes(xIN).VPosition >= -PanelVScroll(PanelFocus) Then
+                                LastSelectedNote = xIN + 1
+                                Exit For
+                            End If
+                        Next
+                    End If
 
+                    For xIN = 1 To UBound(Notes)
+                        Notes(xIN).Selected = False
+                    Next
+                    LastSelectedNote -= 1
+                    Notes(LastSelectedNote).Selected = True
+                    ScrollPanelToNote(Notes(LastSelectedNote).VPosition, Notes(LastSelectedNote).Length)
+                    ' Cannot prevent the tab key from focusing on other things
+
+                ElseIf e.Control AndAlso Not e.Shift Then
+                    If BMSFileIndex = UBound(BMSFileList) Then Exit Sub
+
+                    Dim xIBMS As Integer = BMSFileIndex + 1
+                    TBTab_Click(BMSFileTSBList(xIBMS), New EventArgs)
                 Else
+                    If BMSFileIndex = 0 Then Exit Sub
 
+                    Dim xIBMS As Integer = BMSFileIndex - 1
+                    TBTab_Click(BMSFileTSBList(xIBMS), New EventArgs)
                 End If
 
             Case "Set CGDivision"
@@ -513,7 +560,7 @@ Partial Public Class MainWindow
         RefreshPanelAll()
     End Sub
 
-    Private Function FindNoteTemplatePosition(ByVal Note As Note) As double()
+    Private Function FindNoteTemplatePosition(ByVal Note As Note) As Double()
         Dim VPosDiff As Double = 192 * 999
         Dim VPosition As Double
         Dim xTargetColumn As Integer = 0
@@ -1792,7 +1839,7 @@ Partial Public Class MainWindow
         e1.Dispose()
     End Sub
 
-    Private Sub IsNoteInPanel(xVPos As Double, xLength As Double)
+    Private Sub ScrollPanelToNote(xVPos As Double, Optional xLength As Double = 0)
         If -PanelVScroll(PanelFocus) > xVPos Then ' If notes are moved lower than the window
             PanelVScroll(PanelFocus) = -xVPos
         ElseIf -PanelVScroll(PanelFocus) + spMain(PanelFocus).Height / gxHeight * 0.95 < xVPos + xLength Then ' If notes are moved higher than the window
