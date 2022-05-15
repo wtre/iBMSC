@@ -40,7 +40,6 @@ Public Class MainWindow
     Public Sub New()
         InitializeComponent()
         Audio.Initialize()
-        SupportedAudioExtension = GetSupportedExtensions() ' I don't think this line is good but it's all I've got.
     End Sub
 
     Dim MeasureLength(999) As Double
@@ -90,7 +89,8 @@ Public Class MainWindow
     Dim LnObj As Integer = 0    '0 for none, 1-1295 for 01-ZZ
 
     'IO
-    Dim FileName As String = "Untitled.bms"
+    Dim FileNameInit As String = "Untitled.bms"
+    Dim FileName As String = FileNameInit
     Dim TempFileName As String = "___TempBMS.bmsc"
     Dim RandomTempFileName As String = "___TempRandom" & GenerateRandomString(6, False) & ".bmsc"
     Public ExpansionSplit(2) As String
@@ -355,6 +355,7 @@ Public Class MainWindow
                                        New Keybinding("End", "*HIDDEN*", {"End"}, KbCategoryAllMod),
                                        New Keybinding("PageUp", "*HIDDEN*", {"PageUp"}, KbCategoryAllMod),
                                        New Keybinding("PageDown", "*HIDDEN*", {"PageDown"}, KbCategoryAllMod),
+                                       New Keybinding("Tab", "*HIDDEN*", {"Tab"}, KbCategoryAllMod),
                                        New Keybinding("Decrease Division", "*HIDDEN*", {"Oemcomma"}, KbCategoryAllMod),
                                        New Keybinding("Increase Division", "*HIDDEN*", {"OemPeriod"}, KbCategoryAllMod),
                                                                                                                         _ ' Hidden / Experimental
@@ -675,6 +676,14 @@ Public Class MainWindow
                              IIf(My.Application.Info.Version.Build = 0, "", "." & My.Application.Info.Version.Build).ToString()
         Text = IIf(isSaved, "", "*").ToString() & GetFileName(FileName) & " - " & My.Application.Info.Title & " " & xVersion
         Me.IsSaved = isSaved
+
+        If BMSFileTSBList IsNot Nothing Then
+            If Not isSaved Then
+                BMSFileTSBList(BMSFileIndex).Image = My.Resources.x16New
+            Else
+                BMSFileTSBList(BMSFileIndex).Image = My.Resources.x16Blank
+            End If
+        End If
     End Sub
 
     Private Sub PreviewNote(ByVal xFileLocation As String, ByVal bStop As Boolean)
@@ -1061,6 +1070,7 @@ Public Class MainWindow
     End Sub
 
     Private Sub Form1_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        ' TODO: SaveAll
         Dim xStrAll As String
         Dim xRandomFile As Boolean = GetFileName(FileName).StartsWith("___TempRandom")
         If Not IsSaved Then
@@ -1174,11 +1184,16 @@ Public Class MainWindow
 
         TExpansion.Text = ""
 
+        LWAV.Items.Clear()
+        For xI1 = 1 To 1295
+            LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
+        Next
+
         LBeat.Items.Clear()
         For xI1 As Integer = 0 To 999
             MeasureLength(xI1) = 192.0R
             MeasureBottom(xI1) = xI1 * 192.0R
-            LBeat.Items.Add(Add3Zeros(xI1) & ": 1 ( 4 / 4 )")
+            LBeat.Items.Add(Add3Zeros(xI1) & ": 1 ( " & CInt(nBeatD.Value) & " / 4" & CInt(nBeatD.Value) & " )")
         Next
     End Sub
 
@@ -1203,6 +1218,9 @@ Public Class MainWindow
     End Sub
 
     Private Sub Form1_DragDrop(ByVal sender As Object, ByVal e As DragEventArgs) Handles Me.DragDrop
+
+        If ClosingPopSave() Then Exit Sub
+
         ReDim DDFileName(-1)
         ' If Not e.Data.GetDataPresent(DataFormats.FileDrop) Then Return
 
@@ -1271,7 +1289,7 @@ Public Class MainWindow
                 SetIsSaved(True)
 
             Case ".sm"
-                SetFileName("Untitled.bms")
+                SetFileName(FileNameInit)
                 If OpenSM(My.Computer.FileSystem.ReadAllText(xPath, TextEncoding)) Then Return
                 InitPath = ExcludeFileName(xPath)
                 ClearUndo()
@@ -1321,6 +1339,8 @@ Public Class MainWindow
     End Sub
 
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SupportedAudioExtension = GetSupportedExtensions()
+
         'On Error Resume Next
         Me.TopMost = True
         Me.SuspendLayout()
@@ -1362,18 +1382,12 @@ Public Class MainWindow
 
         spMain = New Panel() {PMainInL, PMainIn, PMainInR}
 
-        Dim xI1 As Integer
-
         sUndo(0) = New UndoRedo.NoOperation
         sUndo(1) = New UndoRedo.NoOperation
         sRedo(0) = New UndoRedo.NoOperation
         sRedo(1) = New UndoRedo.NoOperation
         sI = 0
 
-        LWAV.Items.Clear()
-        For xI1 = 1 To 1295
-            LWAV.Items.Add(C10to36(xI1) & ":")
-        Next
         LWAV.SelectedIndex = 0
         CHPlayer.SelectedIndex = 0
 
@@ -1396,42 +1410,58 @@ Public Class MainWindow
         LoadColorOverride(FileName)
         SetIsSaved(True)
 
-        Dim xStr() As String = Environment.GetCommandLineArgs
-        'Dim xStr() As String = {Application.ExecutablePath, "C:\Users\User\Desktop\yang run xuan\SoFtwArES\Games\O2Mania\music\SHOOT!\shoot! -NM-.bms"}
+        Dim BMSFileListCheck(UBound(BMSFileList)) As String
+        Dim i = -1
+        For Each file In BMSFileList
+            If My.Computer.FileSystem.FileExists(file) Then
+                i += 1
+                BMSFileListCheck(i) = file
+            End If
+        Next
+        BMSFileList = CType(BMSFileListCheck.Clone(), String())
+        ReDim Preserve BMSFileList(i)
+        AddUntitledBMSFileToList()
 
-        Dim L1000 As Boolean = False
-
-        If xStr.Length = 2 Then
-            ReadFile(xStr(1))
-            If LCase(Path.GetExtension(xStr(1))) = ".ibmsc" AndAlso GetFileName(xStr(1)).StartsWith("AutoSave_", True, Nothing) Then L1000 = True
-        End If
+        ReDim BMSFileTSBList(UBound(BMSFileList))
+        ReDim BMSFileStructs(UBound(BMSFileList))
+        For xI = 0 To UBound(BMSFileList)
+            Dim xTSB As ToolStripButton = NewBMSTab(BMSFileList(xI))
+            BMSFileTSBList(xI) = xTSB
+            ' AddHandler xTSB.Click, AddressOf TBTab_Click
+            TBTab.Items.Add(xTSB)
+        Next
+        SetBMSFileIndex(BMSFileIndex)
 
         'pIsSaved.Visible = Not IsSaved
         IsInitializing = False
 
-        If Not L1000 Then
-            If Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length <= 1 Then
+        If Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length <= 1 Then
 
-                Dim xFiles() As FileInfo = My.Computer.FileSystem.GetDirectoryInfo(My.Application.Info.DirectoryPath).GetFiles("AutoSave_*.IBMSC")
-                If xFiles IsNot Nothing AndAlso xFiles.Length > 0 Then
+            Dim xFiles() As FileInfo = My.Computer.FileSystem.GetDirectoryInfo(My.Application.Info.DirectoryPath).GetFiles("AutoSave_*.IBMSC")
+            If xFiles IsNot Nothing AndAlso xFiles.Length > 0 Then
 
-                    'Me.TopMost = True
-                    If MsgBox(Replace(Strings.Messages.RestoreAutosavedFile, "{}", xFiles.Length.ToString()), MsgBoxStyle.YesNo Or MsgBoxStyle.MsgBoxSetForeground) = MsgBoxResult.Yes Then
-                        For Each xF As FileInfo In xFiles
-                            'MsgBox(xF.FullName)
-                            System.Diagnostics.Process.Start(Application.ExecutablePath, """" & xF.FullName & """")
-                        Next
-                    End If
-
-                    For Each xF As FileInfo In xFiles
-                        ReDim Preserve pTempFileNames(UBound(pTempFileNames) + 1)
-                        pTempFileNames(UBound(pTempFileNames)) = xF.FullName
+                'Me.TopMost = True
+                If MsgBox(Replace(Strings.Messages.RestoreAutosavedFile, "{}", xFiles.Length.ToString()), MsgBoxStyle.YesNo Or MsgBoxStyle.MsgBoxSetForeground) = MsgBoxResult.Yes Then
+                    Dim xFUB = UBound(xFiles)
+                    Dim xFilesPaths(xFUB) As String
+                    For xI = 0 To xFUB
+                        xFilesPaths(xI) = xFiles(xI).FullName
                     Next
+                    SetBMSFileIndex(UBound(BMSFileList) - 1)
+                    AddBMSFiles(xFilesPaths)
+                    ' For Each xF As FileInfo In xFiles
+                    '     'MsgBox(xF.FullName)
+                    '     System.Diagnostics.Process.Start(Application.ExecutablePath, """" & xF.FullName & """")
+                    ' Next
                 End If
+
+                For Each xF As FileInfo In xFiles
+                    ReDim Preserve pTempFileNames(UBound(pTempFileNames) + 1)
+                    pTempFileNames(UBound(pTempFileNames)) = xF.FullName
+                Next
             End If
         End If
 
-        IsInitializing = False
         POStatusRefresh()
         Me.ResumeLayout()
 
@@ -1440,6 +1470,19 @@ Public Class MainWindow
         Me.WindowState = CType(tempResize, FormWindowState)
 
         Me.Visible = True
+
+        Dim xStr() As String = Environment.GetCommandLineArgs
+
+        If xStr.Length > 1 Then
+            Dim xStrFiles(UBound(xStr) - 1) As String
+            For xI = 0 To UBound(xStrFiles)
+                xStrFiles(xI) = xStr(xI + 1)
+            Next
+            SetBMSFileIndex(UBound(BMSFileList) - 1)
+            AddBMSFiles(xStrFiles)
+        End If
+
+        If BMSFileIndex <> UBound(BMSFileList) Then ReadFile(BMSFileList(BMSFileIndex))
     End Sub
 
     Private Sub UpdatePairing()
@@ -1771,10 +1814,10 @@ Public Class MainWindow
         'KMouseDown = -1
         ReDim SelectedNotes(-1)
         KMouseOver = -1
-        If ClosingPopSave() Then Exit Sub
+        ' If ClosingPopSave() Then Exit Sub
 
         ClearUndo()
-        SetFileName("Untitled.bms")
+        SetFileName(FileNameInit)
         InitializeNewBMS()
 
         ReDim Notes(0)
@@ -1797,17 +1840,14 @@ Public Class MainWindow
         End With
         THBPM.Value = 120
 
-        LWAV.Items.Clear()
-        Dim xI1 As Integer
-        For xI1 = 1 To 1295
-            LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
-        Next
+        LWAVRefresh()
         LWAV.SelectedIndex = 0
 
         SetIsSaved(True)
+        SetBMSFileIndex(UBound(BMSFileList))
         'pIsSaved.Visible = Not IsSaved
 
-        CalculateTotalPlayableNotes()
+        CalculateTotalPlayableNotes(False)
         CalculateGreatestVPosition()
         RefreshPanelAll()
         POStatusRefresh()
@@ -1841,7 +1881,7 @@ Public Class MainWindow
         End With
         THBPM.Value = 120
 
-        SetFileName("Untitled.bms")
+        SetFileName(FileNameInit)
         SetIsSaved(True)
         'pIsSaved.Visible = Not IsSaved
 
@@ -1853,7 +1893,7 @@ Public Class MainWindow
         'KMouseDown = -1
         ReDim SelectedNotes(-1)
         KMouseOver = -1
-        If ClosingPopSave() Then Exit Sub
+        ' If ClosingPopSave() Then Exit Sub
 
         Dim xDOpen As New OpenFileDialog
         xDOpen.Filter = Strings.FileType._bms & "|*.bms;*.bme;*.bml;*.pms;*.txt|" &
@@ -1865,14 +1905,14 @@ Public Class MainWindow
                             Strings.FileType._all & "|*.*"
         xDOpen.DefaultExt = "bms"
         xDOpen.InitialDirectory = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName)).ToString()
+        xDOpen.Multiselect = True
 
         If xDOpen.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
-        InitPath = ExcludeFileName(xDOpen.FileName)
-        SetFileName(xDOpen.FileName)
-        OpenBMS(My.Computer.FileSystem.ReadAllText(xDOpen.FileName, TextEncoding))
-        ClearUndo()
-        NewRecent(FileName)
-        SetIsSaved(True)
+
+        Dim xProg As New fLoadFileProgress(xDOpen.FileNames, IsSaved)
+        xProg.ShowDialog(Me)
+
+        RefreshPanelAll()
         'pIsSaved.Visible = Not IsSaved
     End Sub
 
@@ -1905,8 +1945,8 @@ Public Class MainWindow
         xDOpen.InitialDirectory = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName)).ToString()
 
         If xDOpen.ShowDialog = Windows.Forms.DialogResult.Cancel Then Return
-        InitPath = ExcludeFileName(xDOpen.FileName)
         SetFileName("Imported_" & GetFileName(xDOpen.FileName))
+        InitPath = ExcludeFileName(xDOpen.FileName)
         OpeniBMSC(xDOpen.FileName)
         NewRecent(xDOpen.FileName)
         SetIsSaved(False)
@@ -1926,8 +1966,8 @@ Public Class MainWindow
 
         If xDOpen.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
         If OpenSM(My.Computer.FileSystem.ReadAllText(xDOpen.FileName, TextEncoding)) Then Exit Sub
+        SetFileName(FileNameInit)
         InitPath = ExcludeFileName(xDOpen.FileName)
-        SetFileName("Untitled.bms")
         ClearUndo()
         SetIsSaved(False)
         'pIsSaved.Visible = Not IsSaved
@@ -1951,7 +1991,6 @@ Public Class MainWindow
             xDSave.InitialDirectory = InitPath
 
             If xDSave.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
-            InitPath = ExcludeFileName(xDSave.FileName)
             SetFileName(xDSave.FileName)
         End If
         Dim xStrAll As String = SaveBMS()
@@ -1980,7 +2019,6 @@ Public Class MainWindow
         xDSave.InitialDirectory = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName)).ToString()
 
         If xDSave.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
-        InitPath = ExcludeFileName(xDSave.FileName)
         SetFileName(xDSave.FileName)
         Dim xStrAll As String = SaveBMS()
         My.Computer.FileSystem.WriteAllText(FileName, xStrAll, False, TextEncoding)
@@ -2369,6 +2407,21 @@ Public Class MainWindow
                 Next
                 If IsSaved Then SetIsSaved(False)
         End Select
+    End Sub
+
+    Private Sub LWAVRefresh()
+        For xI1 = 1 To 1295
+            Dim xIL = xI1 - 1
+            LWAV.Items(xIL) = C10to36(xI1) & ": " & hWAV(xI1)
+        Next
+    End Sub
+
+    Private Sub LBeatRefresh()
+        For xILB = 0 To 999
+            Dim a As Double = MeasureLength(xILB) / 192.0R
+            Dim xxD = GetDenominator(a)
+            LBeat.Items(xILB) = Add3Zeros(xILB) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ").ToString()
+        Next
     End Sub
 
     Private Sub TBErrorCheck_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TBErrorCheck.Click, mnErrorCheck.Click
@@ -2989,7 +3042,7 @@ Public Class MainWindow
     ''' Remark: Pls sort and updatepairing before this process.
     ''' </summary>
 
-    Private Sub CalculateTotalPlayableNotes()
+    Private Sub CalculateTotalPlayableNotes(Optional ModifyTotal As Boolean = True)
         Dim xI1 As Integer
         Dim xIAll As Integer = 0
         Dim xITemp As Integer = 0
@@ -3031,7 +3084,7 @@ Public Class MainWindow
             TBTotalValue.Text = ""
         End If
         TBStatistics.Text = xIAll.ToString()
-        If TotalAutofill Then THTotal.Text = Math.Round(TotalValue, TotalDecimal).ToString()
+        If ModifyTotal AndAlso TotalAutofill Then THTotal.Text = Math.Round(TotalValue, TotalDecimal).ToString()
     End Sub
 
     Public Function GetMouseVPosition(Optional snap As Boolean = True) As Double
@@ -6123,6 +6176,7 @@ case2:              Dim xI0 As Integer
     End Sub
 
     Public Sub Expand_ModifySection()
+        ' TODO: Revise to the now available tab style
         RemoveGhostNotes()
         GhostMode = 0
         Dim RandomTempFilePath = ExcludeFileName(FileName) & "\" & RandomTempFileName

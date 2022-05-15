@@ -369,7 +369,7 @@ Public Class UndoRedo
         Public Overrides Function toBytes() As Byte()
             Dim xToBytes() As Byte = {opChangeMeasure}
             Dim bitDouble = 8
-            ReDim Preserve xToBytes(1 + bitDouble * MeasureLength.Length)
+            ReDim Preserve xToBytes(bitDouble * MeasureLength.Length)
             For xI1 As Integer = 1 To UBound(xToBytes) Step bitDouble
                 Dim xId() As Byte = BitConverter.GetBytes(MeasureLength((xI1 - 1) \ bitDouble))
                 For xIb = 0 To bitDouble - 1

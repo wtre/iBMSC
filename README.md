@@ -50,6 +50,7 @@ Listed in the order added.
 * Added ability to convert notes to Long notes in a series by VPosition or by column.
 * Added ability to convert between LNObj's and NT LN's.
 * Added ability to copy and paste patterns to highlighted notes. Accessible via Ctrl+Shift+V.
+* Added BMS file tabs. See below for details.
 
 ## Keyboard shortcuts
 * While rebinding keys is now supported, the default keybinding has also been changed to allow note placement between D1 and D8 or only on PMS lanes in PMS mode:
@@ -112,3 +113,13 @@ Listed in the order added.
 ### #TOTAL Options
 * Allows you to set a recommended #TOTAL value based on either IIDX supposition 1, IIDX supposition 2, or a multiplier.
 * Allows you to auto-set the #TOTAL value for the chart.
+
+## BMS File Tabs
+* Allows multiple files to be opened simultaneously.
+* Saves a list of the opened files on exiting application and reopens them on relaunching application.
+
+### Unavailable features
+* Autosaving all files. Currently it behaves the same as previously, which is autosaving the active BMS file.
+* Integration with Modify Section in Select Expansion Code.
+* Moving file tabs. Not sure if this will be doable with the current arrangement.
+* Saving all files on exiting application. Unsaved changes will be gone upon closing.

@@ -3,6 +3,9 @@
         Dim xAlreadyExists As Boolean = False
         Dim xI1 As Integer
 
+        ' Check if it's ___TempRandom.bms
+        If xFileName.StartsWith("___TempRandom") Then Exit Sub
+
         For xI1 = 0 To 4
             If Recent(xI1) = xFileName Then
                 xAlreadyExists = True
@@ -61,22 +64,26 @@
 
         Select Case LCase(Path.GetExtension(xFileName))
             Case ".bms", ".bme", ".bml", ".pms", ".txt"
-                InitPath = ExcludeFileName(xFileName)
                 SetFileName(xFileName)
                 ClearUndo()
                 OpenBMS(My.Computer.FileSystem.ReadAllText(xFileName, TextEncoding))
                 SetIsSaved(True)
+                AddBMSFileToListAndTBTabAndStruct(xFileName)
+
             Case ".ibmsc"
-                InitPath = ExcludeFileName(xFileName)
                 SetFileName("Imported_" & GetFileName(xFileName))
                 OpeniBMSC(xFileName)
-                SetIsSaved(False)
-            Case Else
                 InitPath = ExcludeFileName(xFileName)
+                SetIsSaved(False)
+                AddBMSFileToListAndTBTabAndStruct(xFileName)
+
+            Case Else
                 SetFileName(xFileName)
                 ClearUndo()
                 OpenBMS(My.Computer.FileSystem.ReadAllText(xFileName, TextEncoding))
                 SetIsSaved(True)
+                AddBMSFileToListAndTBTabAndStruct(xFileName)
+
         End Select
     End Sub
 

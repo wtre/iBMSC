@@ -2,12 +2,14 @@
 
 Module BMS
     Public Function IsChannelLongNote(ByVal I As String) As Boolean
-        Dim xI As Integer = Integer.Parse(I)
+        Dim xI As Integer
+        If Not Integer.TryParse(I, xI) Then Return False
         Return xI >= 50 And xI < 90
     End Function
 
     Public Function IsChannelHidden(ByVal I As String) As Boolean
-        Dim xI As Integer = Integer.Parse(I)
+        Dim xI As Integer
+        If Not Integer.TryParse(I, xI) Then Return False
         Return (xI >= 30 And xI < 50) Or (xI >= 70 And xI < 90)
     End Function
 

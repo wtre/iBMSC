@@ -82,7 +82,6 @@ Public Class OpKeybinding
     Private Sub BAdd_Click(sender As Object, e As EventArgs) Handles BAdd.Click
         If TComboInput.Text <> "" Then
             keyComboOK = True
-            ' TODO: Check existing keybindings
             CheckConflictWithOtherFunctions()
             CheckConflictWithOtherKeybindings()
             If Not keyComboOK Then Exit Sub
@@ -150,7 +149,7 @@ Public Class OpKeybinding
         End If
 
         ' Check with other key combos
-        Dim OtherFunctionKeyCombos() As String = {"Ctrl+N", "Ctrl+O", "Ctrl+Alt+O", "Ctrl+S", "Ctrl+Alt+S", "Ctrl+Shift+E", "Alt+D1", "Alt+D2", "Alt+D3", "Alt+D4", "Alt+D5",
+        Dim OtherFunctionKeyCombos() As String = {"Ctrl+N", "Ctrl+O", "Ctrl+Alt+O", "Ctrl+S", "Ctrl+Alt+S", "Ctrl+Shift+E", "Ctrl+W", "Alt+D1", "Alt+D2", "Alt+D3", "Alt+D4", "Alt+D5",
                                                   "Ctrl+F", "Ctrl+G", "Ctrl+T", "Ctrl+Shift+T",
                                                   "Alt+B", "Alt+S", "Alt+R", "Alt+G"}
         If OtherFunctionKeyCombos.Contains(TComboInput.Text) Then
@@ -214,7 +213,7 @@ Public Class OpKeybinding
         Dim KeybindsBackup As MainWindow.Keybinding() = CType(Keybinds.Clone(), MainWindow.Keybinding())
         ReDim KeybindsHidden(UBound(KeybindsBackup))
         Dim i As Integer = -1
-        Dim j As Integer = -1 ' TODO: Setup another array for hidden keybinds, and create sub CheckConflictWithHiddenFunctions
+        Dim j As Integer = -1
         For Each keybind In KeybindsBackup
             If keybind.Category <> MainWindow.KbCategoryAllMod AndAlso
                 keybind.Category <> MainWindow.KbCategoryHidden Then

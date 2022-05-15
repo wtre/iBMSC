@@ -336,6 +336,19 @@ Partial Public Class MainWindow
                 If PanelFocus = 0 Then LeftPanelScroll.Value = CInt(IIf(LeftPanelScroll.Value + gPgUpDn < 0, LeftPanelScroll.Value + gPgUpDn, 0))
                 If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value + gPgUpDn < 0, MainPanelScroll.Value + gPgUpDn, 0))
                 If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value + gPgUpDn < 0, RightPanelScroll.Value + gPgUpDn, 0))
+
+            Case "Tab"
+                ' TODO: Add Ctrl+Tab, etc.
+                If Not e.Control AndAlso Not e.Shift Then
+
+                ElseIf e.Control AndAlso Not e.Shift Then
+
+                ElseIf Not e.Control AndAlso e.Shift Then
+
+                Else
+
+                End If
+
             Case "Set CGDivision"
                 'Dim xTempSwap As Integer = gSlash
                 'gSlash = CGDivide.Value

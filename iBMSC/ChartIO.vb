@@ -68,9 +68,7 @@ Partial Public Class MainWindow
                 If sLineTrim.StartsWith("#") And Mid(sLineTrim, 5, 3) = "02:" Then
                     Dim xIndex As Integer = Integer.Parse(Mid(sLineTrim, 2, 3))
                     Dim xRatio As Double = Double.Parse(Mid(sLineTrim, 8))
-                    Dim xxD As Long = GetDenominator(xRatio)
                     MeasureLength(xIndex) = xRatio * 192.0R
-                    LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ").ToString()
                     Continue For
 
                 ElseIf SWIC(sLineTrim, "#WAV") Then
@@ -213,7 +211,9 @@ Partial Public Class MainWindow
                 AddToExpansion(xExpansion, xStack, sLine)
             End If
         Next
+
         UpdateMeasureBottom()
+        LBeatRefresh()
 
         ' BPM must be updated before loading notes, do not combine loops
         ' xStrLine2 should contain only # lines for notes
@@ -264,12 +264,9 @@ Partial Public Class MainWindow
             If NTInput Then ConvertBMSE2NT()
 
             LWAV.Visible = False
-            LWAV.Items.Clear()
-            For xI1 = 1 To 1295
-                LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
-                ' Add waveforms to wLWAV
-                If hWAV(xI1) <> "" AndAlso ShowWaveform Then WaveformLoadId = 1 : TimerLoadWaveform.Enabled = True
-            Next
+            LWAVRefresh()
+            ' Add waveforms to wLWAV
+            If ShowWaveform Then WaveformLoadId = 1 : TimerLoadWaveform.Enabled = True
             LWAV.SelectedIndex = 0
             LWAV.Visible = True
             If ShowWaveform Then WaveformLoaded = True
@@ -453,7 +450,6 @@ Partial Public Class MainWindow
 
         Dim xNTInput As Boolean = NTInput
         If GhostMode = 2 Then SwapGhostNotes() ' Revert main notes back to non-ghost notes
-        ' TODO: Fix Ghost mode 1 and 2 not saving BPMs, STOPs and SCROLLs
         Dim xNotesBackup() As Note = CType(Notes.Clone(), Note()) 'All notes
 
         If xNTInput Then
@@ -1036,10 +1032,7 @@ Partial Public Class MainWindow
         If NTInput Then ConvertBMSE2NT()
 
         LWAV.Visible = False
-        LWAV.Items.Clear()
-        For xI1 As Integer = 1 To 1295
-            LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
-        Next
+        LWAVRefresh()
         LWAV.SelectedIndex = 0
         LWAV.Visible = True
 
@@ -1194,9 +1187,6 @@ Partial Public Class MainWindow
                             For xxi As Integer = 1 To xBeatCount
                                 Dim xIndex As Integer = br.ReadInt16
                                 MeasureLength(xIndex) = br.ReadDouble
-                                Dim xRatio As Double = MeasureLength(xIndex) / 192.0R
-                                Dim xxD As Long = GetDenominator(xRatio)
-                                LBeat.Items(xIndex) = Add3Zeros(xIndex) & ": " & xRatio & IIf(xxD > 10000, "", " ( " & CLng(xRatio * xxD) & " / " & xxD & " ) ").ToString()
                             Next
 
                         Case &H6E707845     'Expansion Code
@@ -1251,11 +1241,9 @@ Partial Public Class MainWindow
         mnUndo.Enabled = sUndo(sI).ofType <> UndoRedo.opNoOperation
         mnRedo.Enabled = sRedo(sIA).ofType <> UndoRedo.opNoOperation
 
+        LBeatRefresh()
         LWAV.Visible = False
-        LWAV.Items.Clear()
-        For xI1 As Integer = 1 To 1295
-            LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
-        Next
+        LWAVRefresh()
         LWAV.SelectedIndex = 0
         LWAV.Visible = True
 
@@ -1270,6 +1258,7 @@ Partial Public Class MainWindow
     End Sub
 
     Private Sub SaveiBMSC(ByVal Path As String)
+        ' TODO: Save multiple BMSes instead of just the active one.
         CalculateGreatestVPosition()
         SortByVPositionInsertion()
         UpdatePairing()

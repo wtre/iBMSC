@@ -799,12 +799,7 @@ Partial Public Class MainWindow
             End If
         Next
 
-        For xILB = 0 To 999
-            Dim a As Double = MeasureLength(xILB) / 192.0R
-            Dim xxD = GetDenominator(a)
-            LBeat.Items(xILB) = Add3Zeros(xILB) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ").ToString()
-        Next
-
+        LBeatRefresh()
         UpdateMeasureBottom()
     End Sub
 
@@ -815,12 +810,7 @@ Partial Public Class MainWindow
         Next
         MeasureLength(UBound(MeasureLength)) = 192.0R
 
-        For xILB = 0 To 999
-            Dim a As Double = MeasureLength(xILB) / 192.0R
-            Dim xxD = GetDenominator(a)
-            LBeat.Items(xILB) = Add3Zeros(xILB) & ": " & a & IIf(xxD > 10000, "", " ( " & CLng(a * xxD) & " / " & xxD & " ) ").ToString()
-        Next
-
+        LBeatRefresh()
         UpdateMeasureBottom()
     End Sub
 

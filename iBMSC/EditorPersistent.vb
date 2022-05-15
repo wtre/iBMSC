@@ -31,16 +31,6 @@ Partial Public Class MainWindow
         w.WriteEndElement()
     End Sub
 
-    Private Sub XMLWritePlayerArguments(ByVal w As XmlTextWriter, ByVal I As Integer)
-        w.WriteStartElement("Player")
-        w.WriteAttributeString("Index", I.ToString())
-        w.WriteAttributeString("Path", pArgs(I).Path)
-        w.WriteAttributeString("FromBeginning", pArgs(I).aBegin)
-        w.WriteAttributeString("FromHere", pArgs(I).aHere)
-        w.WriteAttributeString("Stop", pArgs(I).aStop)
-        w.WriteEndElement()
-    End Sub
-
     Private Sub XMLWriteKeybindings(ByVal w As XmlTextWriter, ByVal I As Integer)
         w.WriteStartElement("Option")
         w.WriteAttributeString("Index", I.ToString())
@@ -48,6 +38,23 @@ Partial Public Class MainWindow
         w.WriteAttributeString("Description", Keybindings(I).Description)
         w.WriteAttributeString("Combos", Join(Keybindings(I).Combo, ", "))
         w.WriteAttributeString("Category", Keybindings(I).Category.ToString())
+        w.WriteEndElement()
+    End Sub
+
+    Private Sub XMLWriteOpenedFiles(ByVal w As XmlTextWriter, ByVal I As Integer)
+        w.WriteStartElement("File")
+        w.WriteAttributeString("Index", I.ToString())
+        w.WriteAttributeString("File", BMSFileList(I))
+        w.WriteEndElement()
+    End Sub
+
+    Private Sub XMLWritePlayerArguments(ByVal w As XmlTextWriter, ByVal I As Integer)
+        w.WriteStartElement("Player")
+        w.WriteAttributeString("Index", I.ToString())
+        w.WriteAttributeString("Path", pArgs(I).Path)
+        w.WriteAttributeString("FromBeginning", pArgs(I).aBegin)
+        w.WriteAttributeString("FromHere", pArgs(I).aHere)
+        w.WriteAttributeString("Stop", pArgs(I).aStop)
         w.WriteEndElement()
     End Sub
 
@@ -80,6 +87,14 @@ Partial Public Class MainWindow
                 .WriteAttributeString("Recent3", Recent(3))
                 .WriteAttributeString("Recent4", Recent(4))
                 .WriteEndElement()
+
+                .WriteStartElement("OpenedFiles")
+                .WriteAttributeString("Count", UBound(BMSFileList).ToString())
+                .WriteAttributeString("BMSFileIndex", BMSFileIndex.ToString())
+                For i = 0 To UBound(BMSFileList)
+                    XMLWriteOpenedFiles(w, i) : Next
+                .WriteEndElement()
+
 
                 .WriteStartElement("Edit")
                 .WriteAttributeString("NTInput", NTInput.ToString())
@@ -277,56 +292,6 @@ Partial Public Class MainWindow
         End Select
     End Function
 
-    Private Sub XMLLoadElementValue(ByVal n As XmlElement, ByRef v As Integer)
-        If n Is Nothing Then Exit Sub
-        XMLLoadAttribute(n.GetAttribute("Value"), v)
-    End Sub
-    Private Sub XMLLoadElementValue(ByVal n As XmlElement, ByRef v As Single)
-        If n Is Nothing Then Exit Sub
-        XMLLoadAttribute(n.GetAttribute("Value"), v)
-    End Sub
-    Private Sub XMLLoadElementValue(ByVal n As XmlElement, ByRef v As Color)
-        If n Is Nothing Then Exit Sub
-        XMLLoadAttribute(n.GetAttribute("Value"), v)
-    End Sub
-
-    Private Sub XMLLoadElementValue(ByVal n As XmlElement, ByRef v As Font)
-        If n Is Nothing Then Exit Sub
-
-        Dim xName As String = Me.Font.FontFamily.Name
-        Dim xSize As Integer = CInt(Me.Font.Size)
-        Dim xStyle As Integer = Me.Font.Style
-        XMLLoadAttribute(n.GetAttribute("Name"), xName)
-        XMLLoadAttribute(n.GetAttribute("Size"), xSize)
-        XMLLoadAttribute(n.GetAttribute("Style"), xStyle)
-        v = New Font(xName, xSize, CType(xStyle, System.Drawing.FontStyle))
-    End Sub
-
-    Private Sub XMLLoadPlayer(ByVal n As XmlElement)
-        Dim i As Integer = -1
-        XMLLoadAttribute(n.GetAttribute("Index"), i)
-        If i < 0 Or i > UBound(pArgs) Then Exit Sub
-
-        XMLLoadAttribute(n.GetAttribute("Path"), pArgs(i).Path)
-        XMLLoadAttribute(n.GetAttribute("FromBeginning"), pArgs(i).aBegin)
-        XMLLoadAttribute(n.GetAttribute("FromHere"), pArgs(i).aHere)
-        XMLLoadAttribute(n.GetAttribute("Stop"), pArgs(i).aStop)
-    End Sub
-
-    Private Sub XMLLoadKeybinding(ByVal n As XmlElement)
-        For xI = 0 To UBound(Keybindings)
-            If Keybindings(xI).OpName = n.GetAttribute("Name") Then
-                XMLLoadAttribute(n.GetAttribute("Name"), Keybindings(xI).OpName)
-                XMLLoadAttribute(n.GetAttribute("Description"), Keybindings(xI).Description)
-                Keybindings(xI).Combo = Split(n.GetAttribute("Combos"), ", ")
-                XMLLoadAttribute(n.GetAttribute("Category"), Keybindings(xI).Category)
-
-                RenameShortcuts(Keybindings(xI))
-                Exit Sub
-            End If
-        Next
-    End Sub
-
     Private Sub XMLLoadColumn(ByVal n As XmlElement)
         Dim i As Integer = -1
         XMLLoadAttribute(n.GetAttribute("Index"), i)
@@ -353,6 +318,62 @@ Partial Public Class MainWindow
             XMLLoadAttribute(n.GetAttribute("LongTextColor"), .cLText)
             XMLLoadAttribute(n.GetAttribute("BG"), .cBG)
         End With
+    End Sub
+
+    Private Sub XMLLoadElementValue(ByVal n As XmlElement, ByRef v As Integer)
+        If n Is Nothing Then Exit Sub
+        XMLLoadAttribute(n.GetAttribute("Value"), v)
+    End Sub
+    Private Sub XMLLoadElementValue(ByVal n As XmlElement, ByRef v As Single)
+        If n Is Nothing Then Exit Sub
+        XMLLoadAttribute(n.GetAttribute("Value"), v)
+    End Sub
+    Private Sub XMLLoadElementValue(ByVal n As XmlElement, ByRef v As Color)
+        If n Is Nothing Then Exit Sub
+        XMLLoadAttribute(n.GetAttribute("Value"), v)
+    End Sub
+
+    Private Sub XMLLoadElementValue(ByVal n As XmlElement, ByRef v As Font)
+        If n Is Nothing Then Exit Sub
+
+        Dim xName As String = Me.Font.FontFamily.Name
+        Dim xSize As Integer = CInt(Me.Font.Size)
+        Dim xStyle As Integer = Me.Font.Style
+        XMLLoadAttribute(n.GetAttribute("Name"), xName)
+        XMLLoadAttribute(n.GetAttribute("Size"), xSize)
+        XMLLoadAttribute(n.GetAttribute("Style"), xStyle)
+        v = New Font(xName, xSize, CType(xStyle, System.Drawing.FontStyle))
+    End Sub
+
+    Private Sub XMLLoadKeybinding(ByVal n As XmlElement)
+        For xI = 0 To UBound(Keybindings)
+            If Keybindings(xI).OpName = n.GetAttribute("Name") Then
+                XMLLoadAttribute(n.GetAttribute("Name"), Keybindings(xI).OpName)
+                XMLLoadAttribute(n.GetAttribute("Description"), Keybindings(xI).Description)
+                Keybindings(xI).Combo = Split(n.GetAttribute("Combos"), ", ")
+                XMLLoadAttribute(n.GetAttribute("Category"), Keybindings(xI).Category)
+
+                RenameShortcuts(Keybindings(xI))
+                Exit Sub
+            End If
+        Next
+    End Sub
+
+    Private Sub XMLLoadOpenedFiles(ByVal n As XmlElement)
+        Dim i As Integer
+        XMLLoadAttribute(n.GetAttribute("Index"), i)
+        XMLLoadAttribute(n.GetAttribute("File"), BMSFileList(i))
+    End Sub
+
+    Private Sub XMLLoadPlayer(ByVal n As XmlElement)
+        Dim i As Integer = -1
+        XMLLoadAttribute(n.GetAttribute("Index"), i)
+        If i < 0 Or i > UBound(pArgs) Then Exit Sub
+
+        XMLLoadAttribute(n.GetAttribute("Path"), pArgs(i).Path)
+        XMLLoadAttribute(n.GetAttribute("FromBeginning"), pArgs(i).aBegin)
+        XMLLoadAttribute(n.GetAttribute("FromHere"), pArgs(i).aHere)
+        XMLLoadAttribute(n.GetAttribute("Stop"), pArgs(i).aStop)
     End Sub
 
     Private Sub LoadSettings(ByVal Path As String)
@@ -415,6 +436,20 @@ Partial Public Class MainWindow
                     XMLLoadAttribute(.GetAttribute("Recent2"), Recent(2)) : SetRecent(2, Recent(2))
                     XMLLoadAttribute(.GetAttribute("Recent3"), Recent(3)) : SetRecent(3, Recent(3))
                     XMLLoadAttribute(.GetAttribute("Recent4"), Recent(4)) : SetRecent(4, Recent(4))
+                End With
+            End If
+
+            Dim eOpenedFiles As XmlElement = Root.Item("OpenedFiles")
+            If eOpenedFiles IsNot Nothing Then
+                With eOpenedFiles
+                    Dim iL As Integer
+                    XMLLoadAttribute(.GetAttribute("Count"), iL)
+                    XMLLoadAttribute(.GetAttribute("BMSFileIndex"), BMSFileIndex)
+                    ReDim Preserve BMSFileList(iL)
+
+                    For Each eeFile As XmlElement In .ChildNodes
+                        XMLLoadOpenedFiles(eeFile)
+                    Next
                 End With
             End If
 
