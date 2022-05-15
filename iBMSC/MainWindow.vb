@@ -1219,7 +1219,7 @@ Public Class MainWindow
 
     Private Sub Form1_DragDrop(ByVal sender As Object, ByVal e As DragEventArgs) Handles Me.DragDrop
 
-        If ClosingPopSave() Then Exit Sub
+        ' If ClosingPopSave() Then Exit Sub
 
         ReDim DDFileName(-1)
         ' If Not e.Data.GetDataPresent(DataFormats.FileDrop) Then Return

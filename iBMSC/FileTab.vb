@@ -122,9 +122,19 @@ Partial Public Class MainWindow
     End Sub
 
     Private Sub TBTab_MouseDown(sender As Object, e As MouseEventArgs)
+        Dim xITemp = BMSFileIndex
+        Dim xExit As Boolean = False
+
         If e.Button = MouseButtons.Middle Then
             Dim xIClicked = Array.IndexOf(BMSFileTSBList, CType(sender, ToolStripButton))
             If xIClicked < BMSFileIndex Then
+                If Not BMSStructIsSaved(xIClicked) Then
+                    TBTab_Click(BMSFileTSBList(xIClicked), New EventArgs)
+                    ' If ClosingPopSave() Then Exit Sub
+                    xExit = ClosingPopSave()
+                    TBTab_Click(BMSFileTSBList(xITemp), New EventArgs)
+                    If xExit Then Exit Sub
+                End If
                 RemoveBMSFile(xIClicked)
                 SetBMSFileIndex(BMSFileIndex - 1)
 
@@ -132,6 +142,14 @@ Partial Public Class MainWindow
                 TBClose_Click(sender, New EventArgs)
 
             ElseIf xIClicked <> UBound(BMSFileList) Then
+                If Not BMSStructIsSaved(xIClicked) Then
+                    TBTab_Click(BMSFileTSBList(xIClicked), New EventArgs)
+                    ' If ClosingPopSave() Then Exit Sub
+                    ClosingPopSave()
+                    xExit = ClosingPopSave()
+                    TBTab_Click(BMSFileTSBList(xITemp), New EventArgs)
+                    If xExit Then Exit Sub
+                End If
                 RemoveBMSFile(xIClicked)
 
             End If
@@ -320,4 +338,20 @@ Partial Public Class MainWindow
         Next
         ReDim Preserve BMSFileStructs(UBound(BMSFileStructs) - 1)
     End Sub
+
+    Private Function BMSStructInitialized(Optional xI As Integer = -1) As Boolean
+        If xI = -1 Then xI = BMSFileIndex
+
+        Return BMSFileStructs(xI).Notes IsNot Nothing
+    End Function
+
+    Private Function BMSStructIsSaved(Optional xI As Integer = -1) As Boolean
+        If xI = -1 Then xI = BMSFileIndex
+
+        If BMSStructInitialized(xI) Then
+            Return BMSFileStructs(xI).IsSaved
+        Else
+            Return True
+        End If
+    End Function
 End Class

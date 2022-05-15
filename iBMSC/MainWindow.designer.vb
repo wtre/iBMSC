@@ -2130,9 +2130,9 @@ Partial Class MainWindow
         '
         'ToolStripContainer1.TopToolStripPanel
         '
+        Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.TBTab)
         Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.mnMain)
         Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.TBMain)
-        Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.TBTab)
         '
         'PMain
         '
@@ -2324,7 +2324,7 @@ Partial Class MainWindow
         Me.TBTab.Dock = System.Windows.Forms.DockStyle.None
         Me.TBTab.Location = New System.Drawing.Point(3, 48)
         Me.TBTab.Name = "TBTab"
-        Me.TBTab.Size = New System.Drawing.Size(111, 25)
+        Me.TBTab.Size = New System.Drawing.Size(43, 25)
         Me.TBTab.TabIndex = 65
         '
         'POptionsResizer
