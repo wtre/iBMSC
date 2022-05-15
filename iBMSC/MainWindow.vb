@@ -3674,7 +3674,7 @@ Public Class MainWindow
     Private Sub THGenre_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _
     THGenre.TextChanged, THTitle.TextChanged, THArtist.TextChanged, THPlayLevel.TextChanged, CHRank.SelectedIndexChanged,
     THSubTitle.TextChanged, THSubArtist.TextChanged, THStageFile.TextChanged, THBanner.TextChanged, THBackBMP.TextChanged,
-    CHDifficulty.SelectedIndexChanged, THExRank.TextChanged, THTotal.TextChanged, THComment.TextChanged
+    CHDifficulty.SelectedIndexChanged, THExRank.TextChanged, THTotal.TextChanged, THComment.TextChanged, TExpansion.TextChanged
         If IsSaved Then SetIsSaved(False)
     End Sub
 
@@ -4205,12 +4205,20 @@ Public Class MainWindow
     End Sub
 
     Private Sub POBAutoLongVPosition_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBAutoLongVPosition.Click
-        ' TODO: Make it applicable to notes with the same VPosition, not just one note at a time
-        If Not NTInput Then ConvertBMSE2NT()
-
         Dim xUndo As UndoRedo.LinkedURCmd = Nothing
         Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+        ' Change to NTInput because easier to code
+        If Not NTInput Then
+            RedoRemoveNoteAll(False, xUndo, xRedo)
+            ConvertBMSE2NT()
+            RedoAddNoteAll(False, xUndo, xRedo)
+        End If
+
+        For i = 1 To UBound(Notes)
+            If Notes(i).Selected Then Console.WriteLine(i)
+        Next
 
         Dim xIPrev(-1) As Integer
         Dim xI1 = 1
@@ -4238,21 +4246,25 @@ Public Class MainWindow
             xI1 = xIPrev(UBound(xIPrev)) + 1
         Loop
 
-        If xIPrev.Length <> 0 Then
-            For Each xIPrevIndv In xIPrev
-                Dim xWLWAV As Integer = CInt(Notes(xIPrevIndv).Value / 10000)
-                If wLWAV(xWLWAV).Duration = 0 Then wLWAV(xWLWAV) = LoadDuration(ExcludeFileName(FileName) & "\" & hWAV(xWLWAV))
+        ' If xIPrev.Length <> 0 Then
+        '     For Each xIPrevIndv In xIPrev
+        '         Dim xWLWAV As Integer = CInt(Notes(xIPrevIndv).Value / 10000)
+        '         If wLWAV(xWLWAV).Duration = 0 Then wLWAV(xWLWAV) = LoadDuration(ExcludeFileName(FileName) & "\" & hWAV(xWLWAV))
+        ' 
+        '         Dim xLen As Double = Math.Max(GetVPositionFromTime(GetTimeFromVPosition(Notes(xIPrevIndv).VPosition) +
+        '                                                            wLWAV(xWLWAV).Duration) -
+        '                                       Notes(xIPrevIndv).VPosition - gLNGap * 192 / 4, 0)
+        ' 
+        '         RedoLongNoteModify(Notes(xIPrevIndv), Notes(xIPrevIndv).VPosition, xLen, xUndo, xRedo)
+        '         Notes(xIPrevIndv).Length = xLen
+        '     Next
+        ' End If
 
-                Dim xLen As Double = Math.Max(GetVPositionFromTime(GetTimeFromVPosition(Notes(xIPrevIndv).VPosition) +
-                                                                   wLWAV(xWLWAV).Duration) -
-                                              Notes(xIPrevIndv).VPosition - gLNGap * 192 / 4, 0)
-
-                RedoLongNoteModify(Notes(xIPrevIndv), Notes(xIPrevIndv).VPosition, xLen, xUndo, xRedo)
-                Notes(xIPrevIndv).Length = xLen
-            Next
+        If Not NTInput Then
+            RedoRemoveNoteAll(False, xUndo, xRedo)
+            ConvertNT2BMSE()
+            RedoAddNoteAll(False, xUndo, xRedo)
         End If
-
-        If Not NTInput Then ConvertNT2BMSE()
 
         AddUndo(xUndo, xBaseRedo.Next)
         SortByVPositionInsertion()
@@ -4261,12 +4273,16 @@ Public Class MainWindow
     End Sub
 
     Private Sub POBAutoLongColumn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBAutoLongColumn.Click
-        ' TODO: Make it
-        If Not NTInput Then ConvertBMSE2NT()
-
         Dim xUndo As UndoRedo.LinkedURCmd = Nothing
         Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+        ' Change to NTInput because easier to code
+        If Not NTInput Then
+            RedoRemoveNoteAll(False, xUndo, xRedo)
+            ConvertBMSE2NT()
+            RedoAddNoteAll(False, xUndo, xRedo)
+        End If
 
         Dim xIPrev(UBound(gXKeyCol)) As Integer
         For xI1 As Integer = 1 To UBound(Notes)
@@ -4282,21 +4298,25 @@ Public Class MainWindow
             xIPrev(xICol) = xI1
         Next
 
-        For Each xIPrevIndv In xIPrev
-            If xIPrevIndv <> 0 Then
-                Dim xWLWAV As Integer = CInt(Notes(xIPrevIndv).Value / 10000)
-                If wLWAV(xWLWAV).Duration = 0 Then wLWAV(xWLWAV) = LoadDuration(ExcludeFileName(FileName) & "\" & hWAV(xWLWAV))
+        ' For Each xIPrevIndv In xIPrev
+        '     If xIPrevIndv <> 0 Then
+        '         Dim xWLWAV As Integer = CInt(Notes(xIPrevIndv).Value / 10000)
+        '         If wLWAV(xWLWAV).Duration = 0 Then wLWAV(xWLWAV) = LoadDuration(ExcludeFileName(FileName) & "\" & hWAV(xWLWAV))
+        ' 
+        '         Dim xLen As Double = Math.Max(GetVPositionFromTime(GetTimeFromVPosition(Notes(xIPrevIndv).VPosition) +
+        '                                                            wLWAV(xWLWAV).Duration) -
+        '                                       Notes(xIPrevIndv).VPosition - gLNGap * 192 / 4, 0)
+        ' 
+        '         RedoLongNoteModify(Notes(xIPrevIndv), Notes(xIPrevIndv).VPosition, xLen, xUndo, xRedo)
+        '         Notes(xIPrevIndv).Length = xLen
+        '     End If
+        ' Next
 
-                Dim xLen As Double = Math.Max(GetVPositionFromTime(GetTimeFromVPosition(Notes(xIPrevIndv).VPosition) +
-                                                                   wLWAV(xWLWAV).Duration) -
-                                              Notes(xIPrevIndv).VPosition - gLNGap * 192 / 4, 0)
-
-                RedoLongNoteModify(Notes(xIPrevIndv), Notes(xIPrevIndv).VPosition, xLen, xUndo, xRedo)
-                Notes(xIPrevIndv).Length = xLen
-            End If
-        Next
-
-        If Not NTInput Then ConvertNT2BMSE()
+        If Not NTInput Then
+            RedoRemoveNoteAll(False, xUndo, xRedo)
+            ConvertNT2BMSE()
+            RedoAddNoteAll(False, xUndo, xRedo)
+        End If
 
         AddUndo(xUndo, xBaseRedo.Next)
         SortByVPositionInsertion()
