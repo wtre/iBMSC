@@ -1203,7 +1203,7 @@ Partial Public Class MainWindow
                             Dim URCount As Integer = br.ReadInt32   'Should be 100
                             sI = br.ReadInt32
 
-                            For xI As Integer = 0 To 99
+                            For xI As Integer = 0 To UndoRedoCount
                                 Dim xUndoCount As Integer = br.ReadInt32
                                 Dim xBaseUndo As New UndoRedo.Void
                                 Dim xIteratorUndo As UndoRedo.LinkedURCmd = xBaseUndo
