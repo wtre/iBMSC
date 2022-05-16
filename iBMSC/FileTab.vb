@@ -156,7 +156,10 @@ Partial Public Class MainWindow
         Dim xITab = Array.IndexOf(BMSFileTSBList, TSBS)
         If Not BMSStructInitialized(xITab) Then Exit Sub
         Dim BannerDir = ExcludeFileName(BMSFileList(xITab)) & "\" & BMSFileStructs(xITab).HeaderT(8)
-        If Not My.Computer.FileSystem.FileExists(BannerDir) Then Exit Sub
+        If Not My.Computer.FileSystem.FileExists(BannerDir) Then
+            BannerDir = ExcludeFileName(BMSFileList(xITab)) & "\" & BMSFileStructs(xITab).HeaderT(7)
+            If Not My.Computer.FileSystem.FileExists(BannerDir) Then Exit Sub
+        End If
 
         With PBOnTabHover
             .Image = New Bitmap(BannerDir)
