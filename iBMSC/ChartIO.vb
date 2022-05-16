@@ -1401,7 +1401,7 @@ Partial Public Class MainWindow
             bw.Write(100)
             bw.Write(sI)
 
-            For i As Integer = 0 To 99
+            For i As Integer = 0 To UndoRedoCount
                 'UndoCommandsCount
                 Dim countUndo As Integer = 0
                 Dim pUndo As UndoRedo.LinkedURCmd = sUndo(i)
