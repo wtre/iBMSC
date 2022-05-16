@@ -34,6 +34,7 @@ Partial Public Class MainWindow
         Public HeaderI() As Integer ' Integer
         Public Expansion As String
         Public MeasureLength() As Double
+        Public FileNameTemplate As String
 
         Public ExpansionSplit() As String
         Public GhostMode As Integer
@@ -42,16 +43,17 @@ Partial Public Class MainWindow
         Public sRedo() As UndoRedo.LinkedURCmd
         Public sI As Integer
 
-        Public IsSaved As Boolean
-        Public WaveformLoaded As Boolean
         Public ExpansionEnabled As Boolean
+        Public IsSaved As Boolean
+        Public NTInput As Boolean
+        Public WaveformLoaded As Boolean
 
         Public Sub New(xNotes() As Note, xNotesTemplate() As Note,
                        xWAV() As String, xBPM() As Long, xSTOP() As Long, xBMSCROLL() As Long, xCOM() As String, xLWAV() As WavSample,
-                       xHeaderT() As String, xHeaderN() As Decimal, xHeaderI() As Integer, xExpansion As String, xMeasureLength() As Double,
+                       xHeaderT() As String, xHeaderN() As Decimal, xHeaderI() As Integer, xExpansion As String, xMeasureLength() As Double, xFileNameTemplate As String,
                        xExpansionSplit() As String, xGhostMode As Integer,
                        xUndo() As UndoRedo.LinkedURCmd, xRedo() As UndoRedo.LinkedURCmd, xSI As Integer,
-                       xIsSaved As Boolean, xWaveformLoaded As Boolean, xExpansionEnabled As Boolean)
+                       xExpansionEnabled As Boolean, xIsSaved As Boolean, xNTInput As Boolean, xWaveformLoaded As Boolean)
 
             Notes = xNotes
             NotesTemplate = xNotesTemplate
@@ -66,6 +68,7 @@ Partial Public Class MainWindow
             HeaderI = xHeaderI
             Expansion = xExpansion
             MeasureLength = xMeasureLength
+            FileNameTemplate = xFileNameTemplate
 
             ExpansionSplit = xExpansionSplit
             GhostMode = xGhostMode
@@ -74,9 +77,10 @@ Partial Public Class MainWindow
             sRedo = xRedo
             sI = xSI
 
-            IsSaved = xIsSaved
-            WaveformLoaded = xWaveformLoaded
             ExpansionEnabled = xExpansionEnabled
+            IsSaved = xIsSaved
+            NTInput = xNTInput
+            WaveformLoaded = xWaveformLoaded
         End Sub
     End Structure
 
@@ -147,6 +151,26 @@ Partial Public Class MainWindow
         End If
     End Sub
 
+    Private Sub TBTab_MouseMove(sender As Object, e As MouseEventArgs)
+        Dim TSBS = CType(sender, ToolStripButton)
+        Dim xITab = Array.IndexOf(BMSFileTSBList, TSBS)
+        If Not BMSStructInitialized(xITab) Then Exit Sub
+        Dim BannerDir = ExcludeFileName(BMSFileList(xITab)) & "\" & BMSFileStructs(xITab).HeaderT(8)
+        If Not My.Computer.FileSystem.FileExists(BannerDir) Then Exit Sub
+
+        With PBOnTabHover
+            .Image = New Bitmap(BannerDir)
+            .Size = .Image.Size
+            ' .Location = e.Location
+            ' .Parent = Me
+            .Visible = True
+        End With
+    End Sub
+
+    Private Sub TBTab_MouseLeave(sender As Object, e As EventArgs)
+        PBOnTabHover.Visible = False
+    End Sub
+
     Private Sub AddUntitledBMSFileToList()
         Dim ub As Integer = UBound(BMSFileList)
         If ub <> -1 AndAlso BMSFileList(ub) = FileNameInit Then Exit Sub
@@ -203,6 +227,8 @@ Partial Public Class MainWindow
         End With
         AddHandler xTSB.Click, AddressOf TBTab_Click
         AddHandler xTSB.MouseDown, AddressOf TBTab_MouseDown
+        AddHandler xTSB.MouseMove, AddressOf TBTab_MouseMove
+        AddHandler xTSB.MouseLeave, AddressOf TBTab_MouseLeave
         Return xTSB
     End Function
 
@@ -238,11 +264,18 @@ Partial Public Class MainWindow
 
         BMSFileStructs(xI) = New BMSStruct(Notes, NotesTemplate,
                                            hWAV, hBPM, hSTOP, hBMSCROLL, hCOM, wLWAV,
-                                           HeaderT, HeaderN, HeaderI, TExpansion.Text, MeasureLength,
+                                           HeaderT, HeaderN, HeaderI, TExpansion.Text, MeasureLength, FileNameTemplate,
                                            ExpansionSplit, GhostMode,
                                            sUndo, sRedo, sI,
-                                           IsSaved, WaveformLoaded, TExpansion.Enabled)
+                                           TExpansion.Enabled, IsSaved, NTInput, WaveformLoaded)
 
+    End Sub
+
+    Private Sub SaveAllBMSStruct()
+        For i = 0 To UBound(BMSFileList) - 1
+            ReadFile(BMSFileList(i), False)
+            SaveBMSStruct(i)
+        Next
     End Sub
 
     Private Sub LoadBMSStruct(Optional xI As Integer = -1)
@@ -280,8 +313,8 @@ Partial Public Class MainWindow
             CHLnObj.SelectedIndex = .HeaderI(3)
 
             TExpansion.Text = .Expansion
-
             MeasureLength = .MeasureLength
+            FileNameTemplate = .FileNameTemplate
 
             ExpansionSplit = .ExpansionSplit
             GhostMode = .GhostMode
@@ -290,20 +323,21 @@ Partial Public Class MainWindow
             sRedo = .sRedo
             sI = .sI
 
+            TExpansion.Enabled = .ExpansionEnabled
             IsSaved = .IsSaved
+            NTInput = .NTInput
             WaveformLoaded = .WaveformLoaded
         End With
 
         If Not WaveformLoaded AndAlso ShowWaveform Then WaveformLoadId = 1 : TimerLoadWaveform.Enabled = True
         SetIsSaved(IsSaved)
 
-        LWAVRefresh()
+        LWAVRefresh() ' Wow why does refreshing this list take so damn long
         LBeatRefresh()
+        RefreshItemsByNTInput()
 
         LoadColorOverride(FileName)
-        SortByVPositionQuick(0, UBound(Notes))
         UpdateMeasureBottom()
-        UpdatePairing()
         CalculateTotalPlayableNotes()
         CalculateGreatestVPosition()
         RefreshPanelAll()

@@ -66,8 +66,6 @@ Public Class MainWindow
     Dim NTInput As Boolean = True
     Dim ShowFileName As Boolean = False
     Dim ShowWaveform As Boolean = False
-    Dim WaveformLoaded As Boolean = False
-    Dim WaveformLoadId As Integer = 1
 
     Dim BeepWhileSaved As Boolean = True
     Dim BPMx1296 As Boolean = False
@@ -105,7 +103,6 @@ Public Class MainWindow
     Dim DDFileName() As String = {}
     Dim SupportedFileExtension() As String = {".bms", ".bme", ".bml", ".pms", ".txt", ".sm", ".ibmsc"}
     Dim SupportedAudioExtension() As String = {}
-
 
     'Variables for theme
     'Dim SaveTheme As Boolean = True
@@ -173,7 +170,10 @@ Public Class MainWindow
     Dim gXKeyCol() As Integer
     Dim gLNGap As Double = 16
     Dim wLWAV(1295) As WavSample
+    Dim WaveformLoaded As Boolean = False
+    Dim WaveformLoadId As Integer = 1
     Dim NoteWVPosEnd() As Double
+    Dim LWAVRefreshId As Integer = 1
 
     '----AutoSave Options
     Dim PreviousAutoSavedFileName As String = ""
@@ -355,8 +355,8 @@ Public Class MainWindow
                                        New Keybinding("End", "*HIDDEN*", {"End"}, KbCategoryAllMod),
                                        New Keybinding("PageUp", "*HIDDEN*", {"PageUp"}, KbCategoryAllMod),
                                        New Keybinding("PageDown", "*HIDDEN*", {"PageDown"}, KbCategoryAllMod),
-                                       New Keybinding("Tab", "*HIDDEN*", {"Tab"}, KbCategoryAllMod),
-                                       New Keybinding("Tab", "*HIDDEN*", {"Capital"}, KbCategoryAllMod),
+                                       New Keybinding("TabBetweenFiles", "*HIDDEN*", {"Tab"}, KbCategoryAllMod),
+                                       New Keybinding("TabBetweenNotes", "*HIDDEN*", {"Capital"}, KbCategoryAllMod),
                                        New Keybinding("Decrease Division", "*HIDDEN*", {"Oemcomma"}, KbCategoryAllMod),
                                        New Keybinding("Increase Division", "*HIDDEN*", {"OemPeriod"}, KbCategoryAllMod),
                                                                                                                         _ ' Hidden / Experimental
@@ -1280,13 +1280,13 @@ Public Class MainWindow
         POStatusRefresh()
     End Sub
 
-    Friend Sub ReadFile(ByVal xPath As String)
+    Friend Sub ReadFile(ByVal xPath As String, Optional xAddRecent As Boolean = True)
         Select Case LCase(Path.GetExtension(xPath))
             Case ".bms", ".bme", ".bml", ".pms", ".txt"
                 SetFileName(xPath)
                 OpenBMS(My.Computer.FileSystem.ReadAllText(xPath, TextEncoding))
                 ClearUndo()
-                NewRecent(xPath)
+                If xAddRecent Then NewRecent(xPath)
                 SetIsSaved(True)
 
             Case ".sm"
@@ -1300,14 +1300,14 @@ Public Class MainWindow
                 SetFileName("Imported_" & GetFileName(xPath))
                 OpeniBMSC(xPath)
                 InitPath = ExcludeFileName(xPath)
-                NewRecent(xPath)
+                If xAddRecent Then NewRecent(xPath)
                 SetIsSaved(False)
 
             Case Else
                 SetFileName(xPath)
                 OpenBMS(My.Computer.FileSystem.ReadAllText(xPath, TextEncoding))
                 ClearUndo()
-                NewRecent(xPath)
+                If xAddRecent Then NewRecent(xPath)
                 SetIsSaved(True)
 
         End Select
@@ -1482,6 +1482,8 @@ Public Class MainWindow
             SetBMSFileIndex(UBound(BMSFileList) - 1)
             AddBMSFiles(xStrFiles)
         End If
+
+        SaveAllBMSStruct()
 
         If BMSFileIndex <> UBound(BMSFileList) Then ReadFile(BMSFileList(BMSFileIndex))
     End Sub
@@ -2411,10 +2413,17 @@ Public Class MainWindow
     End Sub
 
     Private Sub LWAVRefresh()
-        For xI1 = 1 To 1295
-            Dim xIL = xI1 - 1
-            LWAV.Items(xIL) = C10to36(xI1) & ": " & hWAV(xI1)
-        Next
+        LWAVRefreshId = 1
+        TimerLWAVRefresh.Enabled = True
+    End Sub
+
+    Private Sub TimerLWAVRefresh_Tick(sender As Object, e As EventArgs) Handles TimerLWAVRefresh.Tick
+        Dim xIL = LWAVRefreshId - 1
+        LWAV.Items(xIL) = C10to36(LWAVRefreshId) & ": " & hWAV(LWAVRefreshId)
+        Console.WriteLine(LWAVRefreshId)
+
+        If LWAVRefreshId = 1295 Then LWAVRefreshId = 1 : TimerLWAVRefresh.Enabled = False : Exit Sub
+        LWAVRefreshId += 1
     End Sub
 
     Private Sub LBeatRefresh()

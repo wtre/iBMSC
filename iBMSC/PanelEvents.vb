@@ -347,8 +347,23 @@ Partial Public Class MainWindow
                 If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value + gPgUpDn < 0, MainPanelScroll.Value + gPgUpDn, 0))
                 If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value + gPgUpDn < 0, RightPanelScroll.Value + gPgUpDn, 0))
 
-            Case "Tab"
-                If Not e.Control AndAlso Not e.Shift Then
+            Case "TabBetweenFiles"
+                If e.Control AndAlso Not e.Shift Then
+                    If BMSFileIndex = UBound(BMSFileList) Then Exit Sub
+
+                    Dim xIBMS As Integer = BMSFileIndex + 1
+                    TBTab_Click(BMSFileTSBList(xIBMS), New EventArgs)
+
+                Else
+                    If BMSFileIndex = 0 Then Exit Sub
+
+                    Dim xIBMS As Integer = BMSFileIndex - 1
+                    TBTab_Click(BMSFileTSBList(xIBMS), New EventArgs)
+
+                End If
+            Case "TabBetweenNotes"
+                ' Cannot prevent the tab key from focusing on other things so I opted to use the capital key
+                If Not e.Shift Then
                     If Not HasSelectedNotes Then
                         For xIN = 1 To UBound(Notes)
                             If Notes(xIN).VPosition >= -PanelVScroll(PanelFocus) Then
@@ -364,9 +379,8 @@ Partial Public Class MainWindow
                     FirstSelectedNote += 1
                     Notes(FirstSelectedNote).Selected = True
                     ScrollPanelToNote(Notes(FirstSelectedNote).VPosition, Notes(FirstSelectedNote).Length)
-                    ' Cannot prevent the tab key from focusing on other things
 
-                ElseIf Not e.Control AndAlso e.Shift Then
+                Else
                     If Not HasSelectedNotes Then
                         For xIN = UBound(Notes) To 1 Step -1
                             If Notes(xIN).VPosition >= -PanelVScroll(PanelFocus) Then
@@ -382,18 +396,7 @@ Partial Public Class MainWindow
                     LastSelectedNote -= 1
                     Notes(LastSelectedNote).Selected = True
                     ScrollPanelToNote(Notes(LastSelectedNote).VPosition, Notes(LastSelectedNote).Length)
-                    ' Cannot prevent the tab key from focusing on other things
 
-                ElseIf e.Control AndAlso Not e.Shift Then
-                    If BMSFileIndex = UBound(BMSFileList) Then Exit Sub
-
-                    Dim xIBMS As Integer = BMSFileIndex + 1
-                    TBTab_Click(BMSFileTSBList(xIBMS), New EventArgs)
-                Else
-                    If BMSFileIndex = 0 Then Exit Sub
-
-                    Dim xIBMS As Integer = BMSFileIndex - 1
-                    TBTab_Click(BMSFileTSBList(xIBMS), New EventArgs)
                 End If
 
             Case "Set CGDivision"
