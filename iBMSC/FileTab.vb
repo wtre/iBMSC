@@ -259,7 +259,9 @@ Partial Public Class MainWindow
 
     Private Sub SaveBMSStruct(Optional xI As Integer = -1)
         If xI = -1 Then xI = BMSFileIndex
-
+        ' Console.WriteLine(FileName)
+        ' Console.WriteLine(MeasureLength(0))
+        ' If BMSFileStructs(0).MeasureLength IsNot Nothing Then Console.WriteLine("BMSStruct 0, MeasureLength 0: " & BMSFileStructs(0).MeasureLength(0))
         Dim HeaderT() As String = {THTitle.Text, THArtist.Text, THGenre.Text, THPlayLevel.Text, THTotal.Text,
                                    THSubTitle.Text, THSubArtist.Text, THStageFile.Text, THBanner.Text, THBackBMP.Text, THExRank.Text, THComment.Text}
         Dim HeaderN() As Decimal = {THBPM.Value}

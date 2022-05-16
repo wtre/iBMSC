@@ -1195,17 +1195,19 @@ Public Class MainWindow
         WaveformLoaded = False
 
         TExpansion.Text = ""
+        ReDim ExpansionSplit(2)
 
         LWAV.Items.Clear()
         For xI1 = 1 To 1295
             LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
         Next
 
+        ReDim MeasureLength(999)
         LBeat.Items.Clear()
         For xI1 As Integer = 0 To 999
             MeasureLength(xI1) = 192.0R
             MeasureBottom(xI1) = xI1 * 192.0R
-            LBeat.Items.Add(Add3Zeros(xI1) & ": 1 ( " & CInt(nBeatD.Value) & " / 4" & CInt(nBeatD.Value) & " )")
+            LBeat.Items.Add(Add3Zeros(xI1) & ": 1 ( " & CInt(nBeatD.Value) & " / " & CInt(nBeatD.Value) & " )")
         Next
     End Sub
 
@@ -1239,6 +1241,8 @@ Public Class MainWindow
         Dim xOrigPath() As String = CType(e.Data.GetData(DataFormats.FileDrop), String())
         ' Dim xPath() As String = FilterFileBySupported(xOrigPath, SupportedFileExtension)
         ' If xPath.Length > 0 Then
+
+        SaveBMSStruct()
         Dim xProg As New fLoadFileProgress(xOrigPath, IsSaved)
         xProg.ShowDialog(Me)
         ' End If
@@ -1824,6 +1828,8 @@ Public Class MainWindow
     End Function
 
     Private Sub TBNew_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles TBNew.Click, mnNew.Click
+        SaveBMSStruct()
+        SetBMSFileIndex(UBound(BMSFileList))
 
         'KMouseDown = -1
         ReDim SelectedNotes(-1)
@@ -1858,7 +1864,6 @@ Public Class MainWindow
         LWAV.SelectedIndex = 0
 
         SetIsSaved(True)
-        SetBMSFileIndex(UBound(BMSFileList))
         'pIsSaved.Visible = Not IsSaved
 
         CalculateTotalPlayableNotes(False)
@@ -1923,6 +1928,7 @@ Public Class MainWindow
 
         If xDOpen.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
 
+        SaveBMSStruct()
         Dim xProg As New fLoadFileProgress(xDOpen.FileNames, IsSaved)
         xProg.ShowDialog(Me)
 
@@ -2432,7 +2438,7 @@ Public Class MainWindow
     Private Sub TimerLWAVRefresh_Tick(sender As Object, e As EventArgs) Handles TimerLWAVRefresh.Tick
         Dim xIL = LWAVRefreshId - 1
         LWAV.Items(xIL) = C10to36(LWAVRefreshId) & ": " & hWAV(LWAVRefreshId)
-        Console.WriteLine(LWAVRefreshId)
+        ' Console.WriteLine(LWAVRefreshId)
 
         If LWAVRefreshId = 1295 Then
             LWAVRefreshId = 1
