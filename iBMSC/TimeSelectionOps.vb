@@ -7,7 +7,7 @@ Partial Public Class MainWindow
         If Not TBTimeSelect.Checked Then Exit Sub
 
         SortByVPositionInsertion()
-        BPMChangeByValue(CInt(TVCBPM.Text) * 10000)
+        BPMChangeByValue(CLng(TVCBPM.Text) * 10000)
 
         SortByVPositionInsertion()
         UpdatePairing()
@@ -125,13 +125,13 @@ Partial Public Class MainWindow
             If xVLower < 0 Then xVLower = 0
             If xVUpper >= GetMaxVPosition() Then xVUpper = GetMaxVPosition() - 1
 
-            Dim xBPM As Integer = CInt(Notes(0).Value)
+            Dim xBPM As Long = Notes(0).Value
             Dim xI1 As Integer
             Dim xI2 As Integer
             Dim xI3 As Integer
 
-            Dim xValueL As Integer = xBPM
-            Dim xValueU As Integer = xBPM
+            Dim xValueL As Long = xBPM
+            Dim xValueU As Long = xBPM
 
             'Save undo
             'For xI3 = 1 To UBound(K)
@@ -148,7 +148,7 @@ Partial Public Class MainWindow
                 'Below Selection
                 For xI1 = 1 To UBound(Notes)
                     If Notes(xI1).VPosition > xVLower Then Exit For
-                    If Notes(xI1).ColumnIndex = niBPM Then xBPM = CInt(Notes(xI1).Value)
+                    If Notes(xI1).ColumnIndex = niBPM Then xBPM = Notes(xI1).Value
                 Next
                 xValueL = xBPM
                 xI2 = xI1
@@ -157,7 +157,7 @@ Partial Public Class MainWindow
                 For xI1 = xI2 To UBound(Notes)
                     If Notes(xI1).VPosition > xVUpper Then Exit For
                     If Notes(xI1).ColumnIndex = niBPM Then
-                        xBPM = CInt(Notes(xI1).Value)
+                        xBPM = Notes(xI1).Value
                         Notes(xI1).Value = CLng(Notes(xI1).Value * xRatio)
                     End If
                     Notes(xI1).VPosition = (Notes(xI1).VPosition - xVLower) * xRatio + xVLower
@@ -183,8 +183,8 @@ Partial Public Class MainWindow
                     If Notes(xI1).VPosition <= xVLower Then
                         'check BPM
                         If Notes(xI1).ColumnIndex = niBPM Then
-                            xValueL = CInt(Notes(xI1).Value)
-                            xValueU = CInt(Notes(xI1).Value)
+                            xValueL = Notes(xI1).Value
+                            xValueU = Notes(xI1).Value
                             If Notes(xI1).VPosition = xVLower Then xAddBPML = False : Notes(xI1).Value = CLng(IIf(Notes(xI1).Value * xRatio <= 655359999, Notes(xI1).Value * xRatio, 655359999))
                         End If
 
@@ -196,7 +196,7 @@ Partial Public Class MainWindow
                     ElseIf Notes(xI1).VPosition <= xVUpper Then
                         'check BPM
                         If Notes(xI1).ColumnIndex = niBPM Then
-                            xValueU = CInt(Notes(xI1).Value)
+                            xValueU = Notes(xI1).Value
                             If Notes(xI1).VPosition = xVUpper Then xAddBPMU = False Else Notes(xI1).Value = CLng(IIf(Notes(xI1).Value * xRatio <= 655359999, Notes(xI1).Value * xRatio, 655359999))
                         End If
 
@@ -228,8 +228,8 @@ Partial Public Class MainWindow
             Dim pSelLength As Double = vSelLength
             Dim pSelHalf As Double = vSelHalf
             If vSelLength < 0 Then vSelStart += (xRatio - 1) * (xVUpper - xVLower)
-            vSelLength = vSelLength * xRatio
-            vSelHalf = vSelHalf * xRatio
+            vSelLength *= xRatio
+            vSelHalf *= xRatio
             ValidateSelection()
             Me.RedoChangeTimeSelection(pSelStart, pSelLength, pSelHalf, vSelStart, vSelLength, vSelHalf, True, xUndo, xRedo)
 
@@ -277,14 +277,14 @@ Partial Public Class MainWindow
                 If xVHalf > xVUpper Then xVHalf = xVUpper
                 If xVHalf < xVLower Then xVHalf = xVLower
 
-                Dim xBPM As Integer = CInt(Notes(0).Value)
+                Dim xBPM As Long = Notes(0).Value
                 Dim xI1 As Integer
                 Dim xI2 As Integer
                 Dim xI3 As Integer
 
-                Dim xValueL As Integer = xBPM
-                Dim xValueM As Integer = xBPM
-                Dim xValueU As Integer = xBPM
+                Dim xValueL As Long = xBPM
+                Dim xValueM As Long = xBPM
+                Dim xValueU As Long = xBPM
 
                 Dim xRatio1 As Double = (xVHalf - xVLower + dVPosition) / (xVHalf - xVLower)
                 Dim xRatio2 As Double = (xVUpper - xVHalf - dVPosition) / (xVUpper - xVHalf)
@@ -303,7 +303,7 @@ Partial Public Class MainWindow
                     'Below Selection
                     For xI1 = 1 To UBound(Notes)
                         If Notes(xI1).VPosition > xVLower Then Exit For
-                        If Notes(xI1).ColumnIndex = niBPM Then xBPM = CInt(Notes(xI1).Value)
+                        If Notes(xI1).ColumnIndex = niBPM Then xBPM = Notes(xI1).Value
                     Next
                     xValueL = xBPM
                     xI2 = xI1
@@ -312,7 +312,7 @@ Partial Public Class MainWindow
                     For xI1 = xI2 To UBound(Notes)
                         If Notes(xI1).VPosition > xVHalf Then Exit For
                         If Notes(xI1).ColumnIndex = niBPM Then
-                            xBPM = CInt(Notes(xI1).Value)
+                            xBPM = Notes(xI1).Value
                             Notes(xI1).Value = CLng(Notes(xI1).Value * xRatio1)
                         End If
                         Notes(xI1).VPosition = (Notes(xI1).VPosition - xVLower) * xRatio1 + xVLower
@@ -324,7 +324,7 @@ Partial Public Class MainWindow
                     For xI1 = xI2 To UBound(Notes)
                         If Notes(xI1).VPosition > xVUpper Then Exit For
                         If Notes(xI1).ColumnIndex = niBPM Then
-                            xBPM = CInt(Notes(xI1).Value)
+                            xBPM = Notes(xI1).Value
                             Notes(xI1).Value = CLng(IIf(Notes(xI1).Value * xRatio2 <= 655359999, Notes(xI1).Value * xRatio2, 655359999))
                         End If
                         Notes(xI1).VPosition = (Notes(xI1).VPosition - xVHalf) * xRatio2 + xVHalf + dVPosition
@@ -356,9 +356,9 @@ Partial Public Class MainWindow
                         If Notes(xI1).VPosition <= xVLower Then
                             'check BPM
                             If Notes(xI1).ColumnIndex = niBPM Then
-                                xValueL = CInt(Notes(xI1).Value)
-                                xValueM = CInt(Notes(xI1).Value)
-                                xValueU = CInt(Notes(xI1).Value)
+                                xValueL = Notes(xI1).Value
+                                xValueM = Notes(xI1).Value
+                                xValueU = Notes(xI1).Value
                                 If Notes(xI1).VPosition = xVLower Then
                                     xAddBPML = False
 
@@ -380,8 +380,8 @@ Partial Public Class MainWindow
                         ElseIf Notes(xI1).VPosition <= xVHalf Then
                             'check BPM
                             If Notes(xI1).ColumnIndex = niBPM Then
-                                xValueM = CInt(Notes(xI1).Value)
-                                xValueU = CInt(Notes(xI1).Value)
+                                xValueM = Notes(xI1).Value
+                                xValueU = Notes(xI1).Value
                                 If Notes(xI1).VPosition = xVHalf Then
                                     xAddBPMM = False
                                     ' az: cond. remove
@@ -410,7 +410,7 @@ Partial Public Class MainWindow
                         ElseIf Notes(xI1).VPosition <= xVUpper Then
                             'check BPM
                             If Notes(xI1).ColumnIndex = niBPM Then
-                                xValueU = CInt(Notes(xI1).Value)
+                                xValueU = Notes(xI1).Value
                                 If Notes(xI1).VPosition = xVUpper Then xAddBPMU = False Else Notes(xI1).Value = CLng(IIf(Notes(xI1).Value * xRatio2 <= 655359999, Notes(xI1).Value * xRatio2, 655359999))
                             End If
 
@@ -476,7 +476,7 @@ Partial Public Class MainWindow
         If bAddUndo Then AddUndo(xUndo, xBaseRedo.Next, bOverWriteUndo)
     End Sub
 
-    Private Sub BPMChangeByValue(ByVal xValue As Integer)
+    Private Sub BPMChangeByValue(ByVal xValue As Long)
         'Dim xUndo As String = vbCrLf
         'Dim xRedo As String = vbCrLf
         Dim xUndo As UndoRedo.LinkedURCmd = Nothing

@@ -810,8 +810,6 @@ Partial Public Class MainWindow
                 Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
                 Dim valstr As String = InputBox(xMessage, Text)
-                Dim value As Long = 0
-                If Not valstr.StartsWith("-c ") Then value = CLng(CDbl(valstr) * 10000)
                 If valstr.StartsWith("-c ") Then ' Input comment notes
                     If valstr = "-c " Then valstr &= " "
                     For xI1 = 1 To UBound(Notes)
@@ -826,18 +824,24 @@ Partial Public Class MainWindow
 
                     AddNote(n)
                     AddUndo(xUndo, xBaseRedo.Next)
-                ElseIf (xColumn = niSCROLL And valstr = "0") Or value <> 0 Then ' Input normal notes
-                    If xColumn <> niSCROLL And value <= 0 Then value = 1
-                    For xI1 = 1 To UBound(Notes)
-                        If Notes(xI1).VPosition = xVPosition AndAlso Notes(xI1).ColumnIndex = xColumn Then _
-                            RedoRemoveNote(Notes(xI1), xUndo, xRedo)
-                    Next
+                Else
+                    Dim valstrDbl As Double
+                    If Double.TryParse(valstr, valstrDbl) Then
+                        Dim PromptValue As Long = CLng(valstrDbl * 10000)
+                        If (xColumn = niSCROLL And valstr = "0") Or PromptValue <> 0 Then ' Input normal notes
+                            If xColumn <> niSCROLL And PromptValue <= 0 Then PromptValue = 1
+                            For xI1 = 1 To UBound(Notes)
+                                If Notes(xI1).VPosition = xVPosition AndAlso Notes(xI1).ColumnIndex = xColumn Then _
+                                    RedoRemoveNote(Notes(xI1), xUndo, xRedo)
+                            Next
 
-                    Dim n = New Note(xColumn, xVPosition, value, 0, Hidden)
-                    RedoAddNote(n, xUndo, xRedo)
+                            Dim n = New Note(xColumn, xVPosition, PromptValue, 0, Hidden)
+                            RedoAddNote(n, xUndo, xRedo)
 
-                    AddNote(n)
-                    AddUndo(xUndo, xBaseRedo.Next)
+                            AddNote(n)
+                            AddUndo(xUndo, xBaseRedo.Next)
+                        End If
+                    End If
                 End If
 
                 ShouldDrawTempNote = True
@@ -1091,24 +1095,26 @@ Partial Public Class MainWindow
             If NoteColumn = niSTOP Then xMessage = Strings.Messages.PromptEnterSTOP
             If NoteColumn = niSCROLL Then xMessage = Strings.Messages.PromptEnterSCROLL
 
-
             Dim valstr As String = InputBox(xMessage, Me.Text)
-            Dim PromptValue As Long = CLng(CDbl(valstr) * 10000)
-            If (NoteColumn = niSCROLL And valstr = "0") Or PromptValue <> 0 Then
+            Dim valstrDbl As Double
+            If Double.TryParse(valstr, valstrDbl) Then
+                Dim PromptValue As Long = CLng(valstrDbl * 10000)
+                If (NoteColumn = niSCROLL And valstr = "0") Or PromptValue <> 0 Then
 
-                Dim xUndo As UndoRedo.LinkedURCmd = Nothing
-                Dim xRedo As UndoRedo.LinkedURCmd = Nothing
-                RedoRelabelNote(Note, PromptValue, xUndo, xRedo)
-                If NoteIndex = 0 Then
-                    THBPM.Value = CDec(PromptValue / 10000)
-                Else
-                    Notes(NoteIndex).Value = PromptValue
+                    Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+                    Dim xRedo As UndoRedo.LinkedURCmd = Nothing
+                    RedoRelabelNote(Note, PromptValue, xUndo, xRedo)
+                    If NoteIndex = 0 Then
+                        THBPM.Value = CDec(PromptValue / 10000)
+                    Else
+                        Notes(NoteIndex).Value = PromptValue
+                    End If
+                    AddUndo(xUndo, xRedo)
                 End If
-                AddUndo(xUndo, xRedo)
             End If
         Else
-            'Label prompt
-            Dim xStr As String = UCase(Trim(InputBox(Strings.Messages.PromptEnter, Me.Text)))
+                'Label prompt
+                Dim xStr As String = UCase(Trim(InputBox(Strings.Messages.PromptEnter, Me.Text)))
 
             If Len(xStr) = 0 Then Return
 
@@ -1940,8 +1946,6 @@ Partial Public Class MainWindow
                         If xColumn = niSCROLL Then xMessage = Strings.Messages.PromptEnterSCROLL
 
                         Dim valstr As String = InputBox(xMessage, Me.Text)
-                        Dim value As Long = 0
-                        If Not valstr.StartsWith("-c ") Then value = CLng(CDbl(valstr) * 10000)
                         If valstr.StartsWith("-c ") Then ' Input comment notes
                             If valstr = "-c " Then valstr &= " "
                             For xI1 = 1 To UBound(Notes)
@@ -1956,17 +1960,24 @@ Partial Public Class MainWindow
 
                             AddNote(n)
                             AddUndo(xUndo, xBaseRedo.Next)
-                        ElseIf (xColumn = niSCROLL And valstr = "0") Or value <> 0 Then
-                            For xI1 = 1 To UBound(Notes)
-                                If Notes(xI1).VPosition = xVPosition AndAlso Notes(xI1).ColumnIndex = xColumn Then _
-                            RedoRemoveNote(Notes(xI1), xUndo, xRedo)
-                            Next
+                        Else
+                            Dim valstrDbl As Double
+                            If Double.TryParse(valstr, valstrDbl) Then
+                                Dim PromptValue As Long = CLng(valstrDbl * 10000)
 
-                            Dim n = New Note(xColumn, xVPosition, value, LongNote, HiddenNote)
-                            RedoAddNote(n, xUndo, xRedo)
-                            AddNote(n)
+                                If (xColumn = niSCROLL And valstr = "0") Or PromptValue <> 0 Then
+                                    For xI1 = 1 To UBound(Notes)
+                                        If Notes(xI1).VPosition = xVPosition AndAlso Notes(xI1).ColumnIndex = xColumn Then _
+                                    RedoRemoveNote(Notes(xI1), xUndo, xRedo)
+                                    Next
 
-                            AddUndo(xUndo, xBaseRedo.Next)
+                                    Dim n = New Note(xColumn, xVPosition, PromptValue, LongNote, HiddenNote)
+                                    RedoAddNote(n, xUndo, xRedo)
+                                    AddNote(n)
+
+                                    AddUndo(xUndo, xBaseRedo.Next)
+                                End If
+                            End If
                         End If
 
                     Else
