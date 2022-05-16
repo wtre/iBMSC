@@ -286,7 +286,7 @@ Partial Public Class MainWindow
                 If Not System.IO.Directory.Exists("Colors") Then My.Computer.FileSystem.CreateDirectory("Colors")
                 Return "Colors\" + GetFileName(Path) + ".xml"
             Case 2
-                Return ExcludeFileName(Path) & "\Colors.xml"
+                Return ExcludeFileName(Path) & "\_Colors.xml"
             Case Else
                 Return ""
         End Select
