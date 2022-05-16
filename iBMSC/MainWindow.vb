@@ -802,6 +802,7 @@ Public Class MainWindow
         ElseIf xStrLine(0) = "BMSE ClipBoard Object Data Format" Then
             'paste
             For xI1 = 1 To UBound(xStrLine)
+                If xStrLine(xI1).Trim = "" Then Continue For
                 ' zdr: holy crap this is obtuse
                 Dim posStr = Mid(xStrLine(xI1), 5, 7)
                 Dim vPos = CDbl(posStr) + MeasureBottom(MeasureAtDisplacement(-xVS) + 1)
