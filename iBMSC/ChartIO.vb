@@ -786,8 +786,8 @@ Partial Public Class MainWindow
             Next
 
             For i = 0 To UBound(relativeMeasurePos)        'assign K texts
-                Dim CBMSCI As Integer = CInt(CurrentBMSChannel)
                 If CInt(relativeMeasurePos(i) / xGCD) > UBound(xStrKey) Then
+                    Dim CBMSCI As Integer = CInt(CurrentBMSChannel)
                     ReDim Preserve xprevNotes(UBound(xprevNotes) + 1)
                     With xprevNotes(UBound(xprevNotes))
                         .ColumnIndex = BMSChannelToColumn(BMSChannelList(CBMSCI))
