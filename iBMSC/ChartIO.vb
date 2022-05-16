@@ -1082,11 +1082,7 @@ Partial Public Class MainWindow
                             Dim xPref As Integer = br.ReadInt32
 
                             NTInput = CBool(xPref And &H1)
-                            TBNTInput.Checked = NTInput
-                            POBLongObjNT.Visible = NTInput
-                            POBLongNTObj.Visible = NTInput
-                            POBLong.Visible = Not NTInput
-                            POBLongShort.Visible = Not NTInput
+                            RefreshItemsByNTInput()
 
                             ErrorCheck = CBool(xPref And &H2)
                             TBErrorCheck.Checked = ErrorCheck
