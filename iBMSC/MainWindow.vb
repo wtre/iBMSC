@@ -1114,6 +1114,15 @@ Public Class MainWindow
             If BeepWhileSaved Then Beep()
         End If
 
+        For i = 0 To UBound(BMSFileList)
+            If Not BMSStructIsSaved(i) Then
+                Dim xStr As String = Strings.Messages.SaveOnExitOther
+                Dim xResult As MsgBoxResult = MsgBox(xStr, MsgBoxStyle.OkCancel Or MsgBoxStyle.Question, Me.Text)
+                If xResult = MsgBoxResult.Cancel Then e.Cancel = True : Exit Sub
+                Exit For
+            End If
+        Next
+
         If Not e.Cancel Then
             'If SaveTheme Then
             '    My.Computer.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "\Skin.cff", SaveSkinCFF, False, System.Text.Encoding.Unicode)

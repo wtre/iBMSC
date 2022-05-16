@@ -22,6 +22,7 @@ Public Class Strings
         Public Shared SaveOnExit As String = "Do you want to save changes?"
         Public Shared SaveOnExit1 As String = "You should tell me if you want to save changes before closing the computer. -_,-"
         Public Shared SaveOnExit2 As String = "You still need to tell me if you want to save changes even though you are closing the application with task manager. -_,-"
+        Public Shared SaveOnExitOther As String = "There are unsaved files. Discard changes and close the application?"
         Public Shared PromptEnter As String = "Please enter a label."
         Public Shared PromptEnterNumeric As String = "Please enter a value."
         Public Shared PromptEnterMeasure As String = "Please enter a measure (0-999)."

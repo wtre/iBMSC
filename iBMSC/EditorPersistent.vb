@@ -1161,6 +1161,7 @@ Partial Public Class MainWindow
                 XMLLoadLocale(eMessages.Item("SaveOnExit"), Strings.Messages.SaveOnExit)
                 XMLLoadLocale(eMessages.Item("SaveOnExit1"), Strings.Messages.SaveOnExit1)
                 XMLLoadLocale(eMessages.Item("SaveOnExit2"), Strings.Messages.SaveOnExit2)
+                XMLLoadLocale(eMessages.Item("SaveOnExitOther"), Strings.Messages.SaveOnExitOther)
                 XMLLoadLocale(eMessages.Item("PromptEnter"), Strings.Messages.PromptEnter)
                 XMLLoadLocale(eMessages.Item("PromptEnterNumeric"), Strings.Messages.PromptEnterNumeric)
                 XMLLoadLocale(eMessages.Item("PromptEnterBPM"), Strings.Messages.PromptEnterBPM)

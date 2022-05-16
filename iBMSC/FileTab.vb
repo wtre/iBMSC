@@ -154,7 +154,7 @@ Partial Public Class MainWindow
     Private Sub TBTab_MouseMove(sender As Object, e As MouseEventArgs)
         Dim TSBS = CType(sender, ToolStripButton)
         Dim xITab = Array.IndexOf(BMSFileTSBList, TSBS)
-        If Not BMSStructInitialized(xITab) Then Exit Sub
+        If Not BMSStructIsInitialized(xITab) Then Exit Sub
         Dim BannerDir = ExcludeFileName(BMSFileList(xITab)) & "\" & BMSFileStructs(xITab).HeaderT(8)
         If Not My.Computer.FileSystem.FileExists(BannerDir) Then
             BannerDir = ExcludeFileName(BMSFileList(xITab)) & "\" & BMSFileStructs(xITab).HeaderT(7)
@@ -367,7 +367,7 @@ Partial Public Class MainWindow
         ReDim Preserve BMSFileStructs(UBound(BMSFileStructs) - 1)
     End Sub
 
-    Private Function BMSStructInitialized(Optional xI As Integer = -1) As Boolean
+    Private Function BMSStructIsInitialized(Optional xI As Integer = -1) As Boolean
         If xI = -1 Then xI = BMSFileIndex
 
         Return BMSFileStructs(xI).Notes IsNot Nothing
@@ -376,7 +376,7 @@ Partial Public Class MainWindow
     Private Function BMSStructIsSaved(Optional xI As Integer = -1) As Boolean
         If xI = -1 Then xI = BMSFileIndex
 
-        If BMSStructInitialized(xI) Then
+        If BMSStructIsInitialized(xI) Then
             Return BMSFileStructs(xI).IsSaved
         Else
             Return True
