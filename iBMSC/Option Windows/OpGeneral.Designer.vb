@@ -64,12 +64,13 @@ Partial Class OpGeneral
         Me.NLNGap = New System.Windows.Forms.NumericUpDown()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.TableLayoutPanel4 = New System.Windows.Forms.TableLayoutPanel()
         Me.LabelTHLN = New System.Windows.Forms.Label()
+        Me.TTemp = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
         Me.cPastePatternToVPosition = New System.Windows.Forms.CheckBox()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.TTemp = New System.Windows.Forms.TextBox()
+        Me.cPreloadBMSStruct = New System.Windows.Forms.CheckBox()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NAutoSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,7 +93,7 @@ Partial Class OpGeneral
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(229, 655)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(229, 669)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -125,7 +126,7 @@ Partial Class OpGeneral
         Me.CWheel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CWheel.FormattingEnabled = True
         Me.CWheel.Items.AddRange(New Object() {"1", "1 / 2", "1 / 3", "1 / 4"})
-        Me.CWheel.Location = New System.Drawing.Point(154, 461)
+        Me.CWheel.Location = New System.Drawing.Point(154, 475)
         Me.CWheel.Name = "CWheel"
         Me.CWheel.Size = New System.Drawing.Size(237, 23)
         Me.CWheel.TabIndex = 101
@@ -144,7 +145,7 @@ Partial Class OpGeneral
         '
         Me.Label1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label1.Location = New System.Drawing.Point(12, 463)
+        Me.Label1.Location = New System.Drawing.Point(12, 477)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(136, 17)
         Me.Label1.TabIndex = 100
@@ -185,9 +186,9 @@ Partial Class OpGeneral
         Me.cBeep.CheckState = System.Windows.Forms.CheckState.Checked
         Me.TableLayoutPanel5.SetColumnSpan(Me.cBeep, 3)
         Me.cBeep.Dock = System.Windows.Forms.DockStyle.Left
-        Me.cBeep.Location = New System.Drawing.Point(3, 29)
+        Me.cBeep.Location = New System.Drawing.Point(3, 28)
         Me.cBeep.Name = "cBeep"
-        Me.cBeep.Size = New System.Drawing.Size(116, 20)
+        Me.cBeep.Size = New System.Drawing.Size(116, 19)
         Me.cBeep.TabIndex = 12
         Me.cBeep.Text = "Beep while saved"
         Me.cBeep.UseVisualStyleBackColor = True
@@ -197,7 +198,7 @@ Partial Class OpGeneral
         Me.PictureBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PictureBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.PictureBox1.Location = New System.Drawing.Point(20, 445)
+        Me.PictureBox1.Location = New System.Drawing.Point(20, 459)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(375, 1)
         Me.PictureBox1.TabIndex = 47
@@ -208,9 +209,9 @@ Partial Class OpGeneral
         Me.cBpm1296.AutoSize = True
         Me.TableLayoutPanel5.SetColumnSpan(Me.cBpm1296, 3)
         Me.cBpm1296.Dock = System.Windows.Forms.DockStyle.Left
-        Me.cBpm1296.Location = New System.Drawing.Point(3, 55)
+        Me.cBpm1296.Location = New System.Drawing.Point(3, 78)
         Me.cBpm1296.Name = "cBpm1296"
-        Me.cBpm1296.Size = New System.Drawing.Size(254, 20)
+        Me.cBpm1296.Size = New System.Drawing.Size(254, 19)
         Me.cBpm1296.TabIndex = 13
         Me.cBpm1296.Text = "Extend number of multi-byte BPMs to 1296"
         Me.cBpm1296.UseVisualStyleBackColor = True
@@ -220,9 +221,9 @@ Partial Class OpGeneral
         Me.cStop1296.AutoSize = True
         Me.TableLayoutPanel5.SetColumnSpan(Me.cStop1296, 3)
         Me.cStop1296.Dock = System.Windows.Forms.DockStyle.Left
-        Me.cStop1296.Location = New System.Drawing.Point(3, 81)
+        Me.cStop1296.Location = New System.Drawing.Point(3, 103)
         Me.cStop1296.Name = "cStop1296"
-        Me.cStop1296.Size = New System.Drawing.Size(197, 20)
+        Me.cStop1296.Size = New System.Drawing.Size(197, 19)
         Me.cStop1296.TabIndex = 14
         Me.cStop1296.Text = "Extend number of STOPs to 1296"
         Me.cStop1296.UseVisualStyleBackColor = True
@@ -232,7 +233,7 @@ Partial Class OpGeneral
         Me.cMEnterFocus.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cMEnterFocus.AutoSize = True
-        Me.cMEnterFocus.Location = New System.Drawing.Point(34, 571)
+        Me.cMEnterFocus.Location = New System.Drawing.Point(34, 585)
         Me.cMEnterFocus.Name = "cMEnterFocus"
         Me.cMEnterFocus.Size = New System.Drawing.Size(322, 19)
         Me.cMEnterFocus.TabIndex = 106
@@ -244,7 +245,7 @@ Partial Class OpGeneral
         Me.cMClickFocus.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cMClickFocus.AutoSize = True
-        Me.cMClickFocus.Location = New System.Drawing.Point(34, 596)
+        Me.cMClickFocus.Location = New System.Drawing.Point(34, 610)
         Me.cMClickFocus.Name = "cMClickFocus"
         Me.cMClickFocus.Size = New System.Drawing.Size(293, 19)
         Me.cMClickFocus.TabIndex = 107
@@ -273,7 +274,7 @@ Partial Class OpGeneral
         '
         Me.Label5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label5.Location = New System.Drawing.Point(12, 492)
+        Me.Label5.Location = New System.Drawing.Point(12, 506)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(136, 17)
         Me.Label5.TabIndex = 102
@@ -287,7 +288,7 @@ Partial Class OpGeneral
         Me.CPgUpDn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CPgUpDn.FormattingEnabled = True
         Me.CPgUpDn.Items.AddRange(New Object() {"8", "6", "4", "3", "2", "1", "1 / 2"})
-        Me.CPgUpDn.Location = New System.Drawing.Point(154, 490)
+        Me.CPgUpDn.Location = New System.Drawing.Point(154, 504)
         Me.CPgUpDn.Name = "CPgUpDn"
         Me.CPgUpDn.Size = New System.Drawing.Size(237, 23)
         Me.CPgUpDn.TabIndex = 103
@@ -310,7 +311,7 @@ Partial Class OpGeneral
         Me.Label7.Dock = System.Windows.Forms.DockStyle.Left
         Me.Label7.Location = New System.Drawing.Point(285, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(73, 26)
+        Me.Label7.Size = New System.Drawing.Size(73, 25)
         Me.Label7.TabIndex = 59
         Me.Label7.Text = "minutes"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -323,7 +324,7 @@ Partial Class OpGeneral
         Me.cAutoSave.Dock = System.Windows.Forms.DockStyle.Left
         Me.cAutoSave.Location = New System.Drawing.Point(3, 3)
         Me.cAutoSave.Name = "cAutoSave"
-        Me.cAutoSave.Size = New System.Drawing.Size(76, 20)
+        Me.cAutoSave.Size = New System.Drawing.Size(76, 19)
         Me.cAutoSave.TabIndex = 10
         Me.cAutoSave.Text = "AutoSave"
         Me.cAutoSave.UseVisualStyleBackColor = True
@@ -335,7 +336,7 @@ Partial Class OpGeneral
         Me.cMStopPreview.AutoSize = True
         Me.cMStopPreview.Checked = True
         Me.cMStopPreview.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cMStopPreview.Location = New System.Drawing.Point(34, 621)
+        Me.cMStopPreview.Location = New System.Drawing.Point(34, 635)
         Me.cMStopPreview.Name = "cMStopPreview"
         Me.cMStopPreview.Size = New System.Drawing.Size(253, 19)
         Me.cMStopPreview.TabIndex = 108
@@ -384,7 +385,7 @@ Partial Class OpGeneral
         '
         Me.Label3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label3.Location = New System.Drawing.Point(12, 520)
+        Me.Label3.Location = New System.Drawing.Point(12, 534)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(136, 17)
         Me.Label3.TabIndex = 104
@@ -400,7 +401,7 @@ Partial Class OpGeneral
         Me.FlowLayoutPanel1.Controls.Add(Me.rMiddleAuto)
         Me.FlowLayoutPanel1.Controls.Add(Me.rMiddleDrag)
         Me.FlowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(154, 519)
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(154, 533)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
         Me.FlowLayoutPanel1.Size = New System.Drawing.Size(141, 38)
         Me.FlowLayoutPanel1.TabIndex = 105
@@ -503,9 +504,9 @@ Partial Class OpGeneral
         Me.cAudioLine.AutoSize = True
         Me.TableLayoutPanel5.SetColumnSpan(Me.cAudioLine, 3)
         Me.cAudioLine.Dock = System.Windows.Forms.DockStyle.Left
-        Me.cAudioLine.Location = New System.Drawing.Point(3, 107)
+        Me.cAudioLine.Location = New System.Drawing.Point(3, 128)
         Me.cAudioLine.Name = "cAudioLine"
-        Me.cAudioLine.Size = New System.Drawing.Size(233, 20)
+        Me.cAudioLine.Size = New System.Drawing.Size(233, 19)
         Me.cAudioLine.TabIndex = 14
         Me.cAudioLine.Text = "Display audio lines during note preview"
         Me.cAudioLine.UseVisualStyleBackColor = True
@@ -515,9 +516,9 @@ Partial Class OpGeneral
         Me.cTemplateSnapToVPosition.AutoSize = True
         Me.TableLayoutPanel5.SetColumnSpan(Me.cTemplateSnapToVPosition, 3)
         Me.cTemplateSnapToVPosition.Dock = System.Windows.Forms.DockStyle.Left
-        Me.cTemplateSnapToVPosition.Location = New System.Drawing.Point(3, 133)
+        Me.cTemplateSnapToVPosition.Location = New System.Drawing.Point(3, 153)
         Me.cTemplateSnapToVPosition.Name = "cTemplateSnapToVPosition"
-        Me.cTemplateSnapToVPosition.Size = New System.Drawing.Size(326, 20)
+        Me.cTemplateSnapToVPosition.Size = New System.Drawing.Size(326, 19)
         Me.cTemplateSnapToVPosition.TabIndex = 111
         Me.cTemplateSnapToVPosition.Text = "Snap to Vertical Position for Moving to Template Position"
         Me.cTemplateSnapToVPosition.UseVisualStyleBackColor = True
@@ -565,6 +566,16 @@ Partial Class OpGeneral
         Me.TableLayoutPanel3.Size = New System.Drawing.Size(376, 133)
         Me.TableLayoutPanel3.TabIndex = 112
         '
+        'Label11
+        '
+        Me.Label11.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Label11.Location = New System.Drawing.Point(3, 99)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(188, 34)
+        Me.Label11.TabIndex = 115
+        Me.Label11.Text = "Temporary BMS Filename"
+        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
         'TableLayoutPanel4
         '
         Me.TableLayoutPanel4.ColumnCount = 2
@@ -589,6 +600,15 @@ Partial Class OpGeneral
         Me.LabelTHLN.Text = "bars"
         Me.LabelTHLN.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'TTemp
+        '
+        Me.TTemp.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TTemp.Location = New System.Drawing.Point(197, 102)
+        Me.TTemp.Name = "TTemp"
+        Me.TTemp.Size = New System.Drawing.Size(176, 23)
+        Me.TTemp.TabIndex = 116
+        Me.TTemp.Text = "___TempBMS.bmsc"
+        '
         'TableLayoutPanel5
         '
         Me.TableLayoutPanel5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
@@ -599,24 +619,26 @@ Partial Class OpGeneral
         Me.TableLayoutPanel5.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.0!))
         Me.TableLayoutPanel5.Controls.Add(Me.cAutoSave, 0, 0)
         Me.TableLayoutPanel5.Controls.Add(Me.NAutoSave, 1, 0)
-        Me.TableLayoutPanel5.Controls.Add(Me.cTemplateSnapToVPosition, 0, 5)
+        Me.TableLayoutPanel5.Controls.Add(Me.cTemplateSnapToVPosition, 0, 6)
         Me.TableLayoutPanel5.Controls.Add(Me.Label7, 2, 0)
         Me.TableLayoutPanel5.Controls.Add(Me.cBeep, 0, 1)
-        Me.TableLayoutPanel5.Controls.Add(Me.cBpm1296, 0, 2)
-        Me.TableLayoutPanel5.Controls.Add(Me.cStop1296, 0, 3)
-        Me.TableLayoutPanel5.Controls.Add(Me.cAudioLine, 0, 4)
-        Me.TableLayoutPanel5.Controls.Add(Me.cPastePatternToVPosition, 0, 6)
-        Me.TableLayoutPanel5.Location = New System.Drawing.Point(15, 250)
+        Me.TableLayoutPanel5.Controls.Add(Me.cBpm1296, 0, 3)
+        Me.TableLayoutPanel5.Controls.Add(Me.cStop1296, 0, 4)
+        Me.TableLayoutPanel5.Controls.Add(Me.cAudioLine, 0, 5)
+        Me.TableLayoutPanel5.Controls.Add(Me.cPastePatternToVPosition, 0, 7)
+        Me.TableLayoutPanel5.Controls.Add(Me.cPreloadBMSStruct, 0, 2)
+        Me.TableLayoutPanel5.Location = New System.Drawing.Point(15, 246)
         Me.TableLayoutPanel5.Name = "TableLayoutPanel5"
-        Me.TableLayoutPanel5.RowCount = 7
-        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571!))
-        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571!))
-        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571!))
-        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571!))
-        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571!))
-        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571!))
-        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571!))
-        Me.TableLayoutPanel5.Size = New System.Drawing.Size(376, 183)
+        Me.TableLayoutPanel5.RowCount = 8
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5!))
+        Me.TableLayoutPanel5.Size = New System.Drawing.Size(376, 201)
         Me.TableLayoutPanel5.TabIndex = 113
         '
         'cPastePatternToVPosition
@@ -624,38 +646,29 @@ Partial Class OpGeneral
         Me.cPastePatternToVPosition.AutoSize = True
         Me.TableLayoutPanel5.SetColumnSpan(Me.cPastePatternToVPosition, 3)
         Me.cPastePatternToVPosition.Dock = System.Windows.Forms.DockStyle.Left
-        Me.cPastePatternToVPosition.Location = New System.Drawing.Point(3, 159)
+        Me.cPastePatternToVPosition.Location = New System.Drawing.Point(3, 178)
         Me.cPastePatternToVPosition.Name = "cPastePatternToVPosition"
-        Me.cPastePatternToVPosition.Size = New System.Drawing.Size(259, 21)
+        Me.cPastePatternToVPosition.Size = New System.Drawing.Size(259, 20)
         Me.cPastePatternToVPosition.TabIndex = 111
         Me.cPastePatternToVPosition.Text = "Snap to Vertical Position for Pasting Patterns"
         Me.cPastePatternToVPosition.UseVisualStyleBackColor = True
         '
-        'Label11
+        'cPreloadBMSStruct
         '
-        Me.Label11.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Label11.Location = New System.Drawing.Point(3, 99)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(188, 34)
-        Me.Label11.TabIndex = 115
-        Me.Label11.Text = "Temporary BMS Filename"
-        Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'TTemp
-        '
-        Me.TTemp.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TTemp.Location = New System.Drawing.Point(197, 102)
-        Me.TTemp.Name = "TTemp"
-        Me.TTemp.Size = New System.Drawing.Size(176, 23)
-        Me.TTemp.TabIndex = 116
-        Me.TTemp.Text = "___TempBMS.bmsc"
+        Me.cPreloadBMSStruct.AutoSize = True
+        Me.cPreloadBMSStruct.Location = New System.Drawing.Point(3, 53)
+        Me.cPreloadBMSStruct.Name = "cPreloadBMSStruct"
+        Me.cPreloadBMSStruct.Size = New System.Drawing.Size(182, 19)
+        Me.cPreloadBMSStruct.TabIndex = 112
+        Me.cPreloadBMSStruct.Text = "Preload all files in the files tab"
+        Me.cPreloadBMSStruct.UseVisualStyleBackColor = True
         '
         'OpGeneral
         '
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.CancelButton = Me.Cancel_Button
-        Me.ClientSize = New System.Drawing.Size(413, 702)
+        Me.ClientSize = New System.Drawing.Size(413, 716)
         Me.Controls.Add(Me.TableLayoutPanel5)
         Me.Controls.Add(Me.TableLayoutPanel3)
         Me.Controls.Add(Me.FlowLayoutPanel1)
@@ -752,4 +765,5 @@ Partial Class OpGeneral
     Friend WithEvents cPastePatternToVPosition As CheckBox
     Friend WithEvents Label11 As Label
     Friend WithEvents TTemp As TextBox
+    Friend WithEvents cPreloadBMSStruct As CheckBox
 End Class

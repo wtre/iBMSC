@@ -68,6 +68,7 @@ Public Class MainWindow
     Dim ShowWaveform As Boolean = False
 
     Dim BeepWhileSaved As Boolean = True
+    Dim PreloadBMSStruct As Boolean = False
     Dim BPMx1296 As Boolean = False
     Dim STOPx1296 As Boolean = False
     Dim AudioLine As Boolean = True
@@ -1484,7 +1485,7 @@ Public Class MainWindow
             AddBMSFiles(xStrFiles)
         End If
 
-        SaveAllBMSStruct()
+        If PreloadBMSStruct Then SaveAllBMSStruct()
 
         If BMSFileIndex <> UBound(BMSFileList) Then ReadFile(BMSFileList(BMSFileIndex))
     End Sub
@@ -2415,6 +2416,7 @@ Public Class MainWindow
 
     Private Sub LWAVRefresh()
         LWAVRefreshId = 1
+        LWAV.Enabled = False
         TimerLWAVRefresh.Enabled = True
     End Sub
 
@@ -2423,7 +2425,12 @@ Public Class MainWindow
         LWAV.Items(xIL) = C10to36(LWAVRefreshId) & ": " & hWAV(LWAVRefreshId)
         Console.WriteLine(LWAVRefreshId)
 
-        If LWAVRefreshId = 1295 Then LWAVRefreshId = 1 : TimerLWAVRefresh.Enabled = False : Exit Sub
+        If LWAVRefreshId = 1295 Then
+            LWAVRefreshId = 1
+            LWAV.Enabled = True
+            TimerLWAVRefresh.Enabled = False
+            Exit Sub
+        End If
         LWAVRefreshId += 1
     End Sub
 
@@ -4058,7 +4065,7 @@ Public Class MainWindow
         End Select
 
         Dim xDiag As New OpGeneral(gWheel, gPgUpDn, MiddleButtonMoveMethod, xTE, CInt(192.0R / BMSGridLimit), ErrorJackBPM, ErrorJackTH, gLNGap, TempFileName,
-            AutoSaveInterval, BeepWhileSaved, BPMx1296, STOPx1296, AudioLine, TemplateSnapToVPosition, PastePatternToVPosition,
+            AutoSaveInterval, BeepWhileSaved, PreloadBMSStruct, BPMx1296, STOPx1296, AudioLine, TemplateSnapToVPosition, PastePatternToVPosition,
             AutoFocusMouseEnter, FirstClickDisabled, ClickStopPreview)
 
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
@@ -4076,6 +4083,7 @@ Public Class MainWindow
                 gLNGap = .NLNGap.Value
                 TempFileName = .TTemp.Text
                 BeepWhileSaved = .cBeep.Checked
+                PreloadBMSStruct = .cPreloadBMSStruct.Checked
                 BPMx1296 = .cBpm1296.Checked
                 STOPx1296 = .cStop1296.Checked
                 AudioLine = .cAudioLine.Checked

@@ -123,6 +123,7 @@ Partial Public Class MainWindow
                 .WriteAttributeString("TextEncoding", EncodingToString(TextEncoding))
                 .WriteAttributeString("BMSGridLimit", BMSGridLimit.ToString())
                 .WriteAttributeString("BeepWhileSaved", BeepWhileSaved.ToString())
+                .WriteAttributeString("PreloadBMSStruct", PreloadBMSStruct.ToString())
                 .WriteAttributeString("BPMx1296", BPMx1296.ToString())
                 .WriteAttributeString("STOPx1296", STOPx1296.ToString())
                 .WriteAttributeString("AudioLine", AudioLine.ToString())
@@ -520,6 +521,7 @@ Partial Public Class MainWindow
 
                     XMLLoadAttribute(.GetAttribute("BMSGridLimit"), BMSGridLimit)
                     XMLLoadAttribute(.GetAttribute("BeepWhileSaved"), BeepWhileSaved)
+                    XMLLoadAttribute(.GetAttribute("PreloadBMSStruct"), PreloadBMSStruct)
                     XMLLoadAttribute(.GetAttribute("BPMx1296"), BPMx1296)
                     XMLLoadAttribute(.GetAttribute("STOPx1296"), STOPx1296)
                     XMLLoadAttribute(.GetAttribute("AudioLine"), AudioLine)

@@ -55,7 +55,7 @@ Public Class OpGeneral
     End Sub
 
     Public Sub New(ByVal xMsWheel As Integer, ByVal xPgUpDn As Integer, ByVal xMiddleButton As Integer, ByVal xTextEncoding As Integer, ByVal xGridPartition As Integer, ByVal xJackBPM As Double, ByVal xJackTH As Double, ByVal xLNGap As Double, ByVal xTemp As String,
-                   ByVal xAutoSave As Integer, ByVal xBeep As Boolean, ByVal xBPMx As Boolean, ByVal xSTOPx As Boolean, ByVal xAudioLine As Boolean, ByVal xTemplateSnapToVPosition As Boolean, ByVal xPastePatternToVPosition As Boolean,
+                   ByVal xAutoSave As Integer, ByVal xBeep As Boolean, ByVal xPreloadBMSStruct As Boolean, ByVal xBPMx As Boolean, ByVal xSTOPx As Boolean, ByVal xAudioLine As Boolean, ByVal xTemplateSnapToVPosition As Boolean, ByVal xPastePatternToVPosition As Boolean,
                    ByVal xMFEnter As Boolean, ByVal xMFClick As Boolean, ByVal xMStopPreview As Boolean)
         InitializeComponent()
 
@@ -95,6 +95,7 @@ Public Class OpGeneral
         End If
 
         cBeep.Checked = xBeep
+        cPreloadBMSStruct.Checked = xPreloadBMSStruct
         cBpm1296.Checked = xBPMx
         cStop1296.Checked = xSTOPx
         cAudioLine.Checked = xAudioLine
