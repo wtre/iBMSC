@@ -544,7 +544,7 @@ Public Class MainWindow
         If xMin >= xMax Then Exit Sub
 
         ' Pick the dividing value.
-        xI1 = CInt((xMax - xMin) / 2) + xMin
+        xI1 = CInt((xMax + xMin) / 2)
         xNote = Notes(xI1)
 
         ' Swap it to the front.
@@ -554,7 +554,7 @@ Public Class MainWindow
         iHi = xMax
         Do
             ' Look down from hi for a value < med_value.
-            Do While Notes(iHi).VPosition >= xNote.VPosition
+            Do While Notes(iHi).VPosition > xNote.VPosition OrElse (Notes(iHi).VPosition = xNote.VPosition AndAlso Notes(iHi).ColumnIndex > xNote.ColumnIndex)
                 iHi = iHi - 1
                 If iHi <= iLo Then Exit Do
             Loop
