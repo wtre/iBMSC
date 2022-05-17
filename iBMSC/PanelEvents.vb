@@ -75,7 +75,7 @@ Partial Public Class MainWindow
             For Each keybind In keybindOptions
                 Dim keyComboString = Join(keyComboEvent, "+")
                 ' Category SP/PMS/DP: Account for per-note assignment using shift
-                If P = KbCategorySP Or P = KbCategoryPMS Or P = KbCategoryDP Then keyComboString = keyComboString.Replace("Shift+", "")
+                If P = KbCategorySP OrElse P = KbCategoryPMS OrElse P = KbCategoryDP OrElse P = KbCategoryBGM Then keyComboString = keyComboString.Replace("Shift+", "")
                 ' Category AllMod: Ignore modifiers
                 If P = KbCategoryAllMod Then keyComboString = e.KeyCode.ToString()
 
@@ -346,6 +346,10 @@ Partial Public Class MainWindow
                 If PanelFocus = 0 Then LeftPanelScroll.Value = CInt(IIf(LeftPanelScroll.Value + gPgUpDn < 0, LeftPanelScroll.Value + gPgUpDn, 0))
                 If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value + gPgUpDn < 0, MainPanelScroll.Value + gPgUpDn, 0))
                 If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value + gPgUpDn < 0, RightPanelScroll.Value + gPgUpDn, 0))
+            Case "Next" ' Same as PageDown
+                If PanelFocus = 0 Then LeftPanelScroll.Value = CInt(IIf(LeftPanelScroll.Value + gPgUpDn < 0, LeftPanelScroll.Value + gPgUpDn, 0))
+                If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value + gPgUpDn < 0, MainPanelScroll.Value + gPgUpDn, 0))
+                If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value + gPgUpDn < 0, RightPanelScroll.Value + gPgUpDn, 0))
 
             Case "TabBetweenFiles"
                 If e.Control AndAlso Not e.Shift Then
@@ -474,6 +478,8 @@ Partial Public Class MainWindow
     Private Sub MoveToBGM(xUndo As UndoRedo.LinkedURCmd, xRedo As UndoRedo.LinkedURCmd)
         Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
 
+        Dim bMoveAndDeselectFirstNote = My.Computer.Keyboard.ShiftKeyDown
+
         For xI2 As Integer = 1 To UBound(Notes)
             If Not Notes(xI2).Selected Then Continue For
 
@@ -499,8 +505,28 @@ Partial Public Class MainWindow
 
                 Me.RedoMoveNote(Notes(xI2), currentBGMColumn, .VPosition, xUndo, xRedo)
                 .ColumnIndex = currentBGMColumn
+
+                If bMoveAndDeselectFirstNote Then
+                    Notes(xI2).Selected = False
+                    PanelPreviewNoteIndex(xI2)
+
+                    ' az: Add selected notes to undo
+                    ' to preserve selection status
+                    ' this works because the note find
+                    ' does not account for selection status
+                    ' when checking equality! (equalsBMSE, equalsNT)
+                    For xI3 As Integer = 1 To UBound(Notes)
+                        If xI3 = xI2 Then Continue For
+                        If Notes(xI3).Selected Then
+                            RedoMoveNote(Notes(xI3), Notes(xI3).ColumnIndex, Notes(xI3).VPosition, xUndo, xRedo)
+                        End If
+                    Next
+
+                    Exit For
+                End If
             End With
         Next
+
         AddUndo(xUndo, xBaseRedo.Next)
         UpdatePairing()
         CalculateTotalPlayableNotes()

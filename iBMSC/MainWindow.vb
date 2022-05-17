@@ -291,9 +291,10 @@ Public Class MainWindow
     Public KbCategorySP As Integer = 1
     Public KbCategoryPMS As Integer = 2
     Public KbCategoryDP As Integer = 3
+    Public KbCategoryBGM As Integer = 4
     Public KbCategoryAllMod As Integer = 10 ' AllMod meaning all modifiers included
     Public KbCategoryHidden As Integer = 0
-    Public KbCategory() As Integer = {KbCategoryPMS, KbCategoryDP, KbCategorySP, KbCategoryAllMod, KbCategoryHidden, -1} ' Order matters
+    Public KbCategory() As Integer = {KbCategoryPMS, KbCategoryDP, KbCategorySP, KbCategoryBGM, KbCategoryAllMod, KbCategoryHidden, -1} ' Order matters
     Public KeybindingsInit() As Keybinding = { ' SP Note Assignments
                                        New Keybinding("Move to A2", "Move note to 1P Lane 1", {"D1", "NumPad1"}, KbCategorySP),
                                        New Keybinding("Move to A3", "Move note to 1P Lane 2", {"D2", "NumPad2"}, KbCategorySP),
@@ -323,7 +324,7 @@ Public Class MainWindow
                                        New Keybinding("Move to P8", "Move note to PMS Lane 8", {"D8", "NumPad8"}, KbCategoryPMS),
                                        New Keybinding("Move to P9", "Move note to PMS Lane 9", {"D9", "NumPad9"}, KbCategoryPMS),
                                                                                                                                  _ ' Miscellaneous BMS
-                                       New Keybinding("Move to BGM", "Move note to BGM Lane", {"D0", "NumPad0"}),
+                                       New Keybinding("Move to BGM", "Move note to BGM Lane", {"D0", "NumPad0"}, KbCategoryBGM),
                                        New Keybinding("Move to Template Position", "Move note to Template Position if available", {"P"}),
                                        New Keybinding("Disable Vertical Moves", "Disable vertical moves", {"D"}),
                                        New Keybinding("Snap to Grid", "Snap to grid", {"G"}),
@@ -356,6 +357,7 @@ Public Class MainWindow
                                        New Keybinding("End", "*HIDDEN*", {"End"}, KbCategoryAllMod),
                                        New Keybinding("PageUp", "*HIDDEN*", {"PageUp"}, KbCategoryAllMod),
                                        New Keybinding("PageDown", "*HIDDEN*", {"PageDown"}, KbCategoryAllMod),
+                                       New Keybinding("Next", "*HIDDEN*", {"Next"}, KbCategoryAllMod), ' ???
                                        New Keybinding("TabBetweenFiles", "*HIDDEN*", {"Tab"}, KbCategoryAllMod),
                                        New Keybinding("TabBetweenNotes", "*HIDDEN*", {"Capital"}, KbCategoryAllMod),
                                        New Keybinding("Decrease Division", "*HIDDEN*", {"Oemcomma"}, KbCategoryAllMod),
@@ -4770,6 +4772,7 @@ Public Class MainWindow
 
         ' Array 1: Unmodified array
         Dim xniArray1() As Integer = gXKeyCol
+        Dim niBMax As Integer = niB
 
         Dim xniArrayLen = xniArray1.Length
 
@@ -4783,25 +4786,33 @@ Public Class MainWindow
         Dim xI1Arr(-1) As Integer
         ' Find the first index of selected notes
         Do While xI1 <= UBound(Notes)
-            If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
-            ' Begin building array until vPosition changes
+            If Not Notes(xI1).Selected OrElse Notes(xI1).Ghost OrElse Not IsColumnSound(Notes(xI1).ColumnIndex) Then xI1 += 1 : Continue Do
+            ' Begin building array until vPosition changes too much
             vPos = Notes(xI1).VPosition
             Do While xI1 <= UBound(Notes) AndAlso Math.Abs(GetTimeFromVPosition(Notes(xI1).VPosition) - GetTimeFromVPosition(vPos)) <= ErrorJackSpeed
-                If Not Notes(xI1).Selected Or Notes(xI1).Ghost Or Notes(xI1).ColumnIndex < xniArray1(0) Or Notes(xI1).ColumnIndex > xniArray1(UBound(xniArray1)) Then xI1 += 1 : Continue Do
+                If Not Notes(xI1).Selected OrElse Notes(xI1).Ghost OrElse Not IsColumnSound(Notes(xI1).ColumnIndex) Then xI1 += 1 : Continue Do
                 ReDim Preserve xI1Arr(xI1Arr.Length)
                 xI1Arr(UBound(xI1Arr)) = xI1
                 xI1 += 1
             Loop
 
+            ' Extend xniArray1 if need be
+            If xI1Arr.Length > xniArray1.Length Then
+                Dim xUB0 As Integer = UBound(xniArray1)
+                ReDim Preserve xniArray1(UBound(xI1Arr))
+                For i = xUB0 + 1 To UBound(xniArray1)
+                    xniArray1(i) = niBMax
+                    niBMax += 1
+                Next
+            End If
+
             ' Sort columns, insertion sort
             For xI2 = 1 To UBound(xI1Arr)
                 For xI3 = xI2 To 1 Step -1
-                    If Notes(xI1Arr(xI2 - 1)).Value > Notes(xI1Arr(xI2)).Value Then
-                        xITemp = xI1Arr(xI2 - 1)
-                        xI1Arr(xI2 - 1) = xI1Arr(xI2)
-                        xI1Arr(xI2) = xITemp
-                    Else
-                        Exit For
+                    If Notes(xI1Arr(xI3 - 1)).Value > Notes(xI1Arr(xI3)).Value Then
+                        xITemp = xI1Arr(xI3 - 1)
+                        xI1Arr(xI3 - 1) = xI1Arr(xI3)
+                        xI1Arr(xI3) = xITemp
                     End If
                 Next
             Next
@@ -4809,13 +4820,14 @@ Public Class MainWindow
             ' Move notes
             For xI2 = 0 To UBound(xI1Arr)
                 Dim xI2I = xI1Arr(xI2)
-                Me.RedoMoveNote(Notes(xI2I), xniArray1(xI2), Notes(xI2I).VPosition, xUndo, xRedo)
+                RedoMoveNote(Notes(xI2I), xniArray1(xI2), Notes(xI2I).VPosition, xUndo, xRedo)
                 Notes(xI2I).ColumnIndex = xniArray1(xI2)
             Next
             ReDim xI1Arr(-1)
         Loop
 
         AddUndo(xUndo, xBaseRedo.Next)
+        SortByVPositionQuick(0, UBound(Notes))
         UpdatePairing()
         RefreshPanelAll()
     End Sub

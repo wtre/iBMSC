@@ -35,9 +35,9 @@ Partial Public Class MainWindow
         w.WriteStartElement("Option")
         w.WriteAttributeString("Index", I.ToString())
         w.WriteAttributeString("Name", Keybindings(I).OpName)
-        w.WriteAttributeString("Description", Keybindings(I).Description)
+        ' w.WriteAttributeString("Description", Keybindings(I).Description)
         w.WriteAttributeString("Combos", Join(Keybindings(I).Combo, ", "))
-        w.WriteAttributeString("Category", Keybindings(I).Category.ToString())
+        ' w.WriteAttributeString("Category", Keybindings(I).Category.ToString())
         w.WriteEndElement()
     End Sub
 
@@ -350,9 +350,9 @@ Partial Public Class MainWindow
         For xI = 0 To UBound(Keybindings)
             If Keybindings(xI).OpName = n.GetAttribute("Name") Then
                 XMLLoadAttribute(n.GetAttribute("Name"), Keybindings(xI).OpName)
-                XMLLoadAttribute(n.GetAttribute("Description"), Keybindings(xI).Description)
+                ' XMLLoadAttribute(n.GetAttribute("Description"), Keybindings(xI).Description)
                 Keybindings(xI).Combo = Split(n.GetAttribute("Combos"), ", ")
-                XMLLoadAttribute(n.GetAttribute("Category"), Keybindings(xI).Category)
+                ' XMLLoadAttribute(n.GetAttribute("Category"), Keybindings(xI).Category)
 
                 RenameShortcuts(Keybindings(xI))
                 Exit Sub

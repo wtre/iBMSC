@@ -161,7 +161,7 @@ Public Class OpKeybinding
         ' Check for category restrictions
         Select Case Keybinds(LVKeybinding.FocusedItem.Index).Category
             ' If note assignment option, check if there is shift
-            Case MainWindow.KbCategorySP, MainWindow.KbCategoryDP, MainWindow.KbCategoryPMS
+            Case MainWindow.KbCategorySP, MainWindow.KbCategoryDP, MainWindow.KbCategoryPMS, MainWindow.KbCategoryBGM
                 If keyComboEvent.Contains("Shift") Then
                     keyComboOK = False
                     MsgBox("Error: Shift cannot be used for note assignment keybindings.")
