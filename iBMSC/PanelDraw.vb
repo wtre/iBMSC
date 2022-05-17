@@ -928,21 +928,22 @@ Partial Public Class MainWindow
     End Function
 
     Private Function GetNoteLabel(ByVal sNote As Note) As String
-        Dim xLabel As String = C10to36(sNote.Value \ 10000)
+        Dim xIC10 As Integer = CInt(sNote.Value \ 10000)
         ' If note is a comment note
         If sNote.Comment Then
             ' If it is an LN and it is the lower note in its LN pair, display nothing
             If sNote.LNPair > 0 AndAlso Notes(sNote.LNPair).VPosition > sNote.VPosition Then
-                xLabel = ""
+                GetNoteLabel = ""
             Else
-                xLabel = WordWrapConvert(hCOM(C36to10(xLabel)))
+                GetNoteLabel = WordWrapConvert(hCOM(xIC10))
             End If
         ElseIf IsColumnNumeric(sNote.ColumnIndex) Then ' IIf(IsColumnNumeric(sNote.ColumnIndex) AndAlso Not sNote.Comment, sNote.Value / 10000, xLabel)
-            xLabel = (sNote.Value / 10000).ToString()
-        ElseIf ShowFileName AndAlso hWAV(C36to10(xLabel)) <> "" Then
-            xLabel = Path.GetFileNameWithoutExtension(hWAV(C36to10(xLabel)))
+            GetNoteLabel = (sNote.Value / 10000).ToString()
+        ElseIf ShowFileName AndAlso hWAV(xIC10) <> "" Then
+            GetNoteLabel = Path.GetFileNameWithoutExtension(hWAV(xIC10))
+        Else
+            GetNoteLabel = C10to36(xIC10)
         End If
-        Return xLabel
     End Function
 
     Private Sub DrawPlayLines(e1 As BufferedGraphics, xTHeight As Integer, xTHWidth As Integer, xHS As Integer, xVS As Integer)
