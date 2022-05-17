@@ -269,8 +269,8 @@ Public Class MainWindow
             NoteColorU = xNoteColorU
         End Sub
     End Structure
-    Dim COverridesFull(-1) As ColorOverride
-    Dim COverridesActive(-1) As ColorOverride
+    Dim COverrides(-1) As ColorOverride
+    Dim COverridesColors(1295) As Color
     Dim COverridesSaveOption As Integer = 1
 
     '----Keybinding Options
@@ -1190,7 +1190,7 @@ Public Class MainWindow
         FileNameTemplate = ""
         ReDim hCOM(1295)
         hCOMNum = 0
-        COverridesFull = Nothing
+        COverrides = Nothing
         ReDim wLWAV(1295)
         WaveformLoaded = False
 
@@ -3606,16 +3606,16 @@ Public Class MainWindow
     End Sub
 
     Private Sub TBVCOptions_Click(sender As Object, e As EventArgs) Handles mnVCOptions.Click, BWAVColorOverride.Click
-        Dim xDiag As New OpVisualOverride(COverridesFull, hWAV, COverridesSaveOption)
+        Dim xDiag As New OpVisualOverride(COverrides, hWAV, COverridesSaveOption)
         ' Save settings
         If xDiag.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            COverridesFull = CType(xDiag.COverrides.Clone(), ColorOverride())
+            COverrides = CType(xDiag.COverrides.Clone(), ColorOverride())
             If COverridesSaveOption <> xDiag.CoBSave.SelectedIndex Then
                 COverridesSaveOption = xDiag.CoBSave.SelectedIndex
 
-                If Not IsNothing(COverridesFull) Then If COverridesFull.Length > 0 Then SaveColorOverride(FileName, True)
+                If Not IsNothing(COverrides) Then If COverrides.Length > 0 Then SaveColorOverride(FileName, True)
             Else
-                If Not IsNothing(COverridesFull) Then If COverridesFull.Length > 0 Then SaveColorOverride(FileName, False)
+                If Not IsNothing(COverrides) Then If COverrides.Length > 0 Then SaveColorOverride(FileName, False)
 
             End If
         End If

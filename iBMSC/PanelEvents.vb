@@ -1840,7 +1840,7 @@ Partial Public Class MainWindow
         Dim e1 As BufferedGraphics = BufferedGraphicsManager.Current.Allocate(spMain(iI).CreateGraphics, New Rectangle(xDispX, xDispY, xDispW, xDispH))
         e1.Graphics.FillRectangle(vo.Bg, New Rectangle(xDispX, xDispY, xDispW, xDispH))
 
-        If NTInput Then DrawNoteNT(Notes(foundNoteIndex), e1, xHS, xVS, xHeight, COverridesActive) Else DrawNote(Notes(foundNoteIndex), e1, xHS, xVS, xHeight, COverridesActive)
+        If NTInput Then DrawNoteNT(Notes(foundNoteIndex), e1, xHS, xVS, xHeight) Else DrawNote(Notes(foundNoteIndex), e1, xHS, xVS, xHeight)
 
         e1.Graphics.DrawRectangle(CType(IIf(bAdjustLength, vo.kMouseOverE, vo.kMouseOver), Pen), xDispX, xDispY, xDispW - 1, xDispH - 1)
 

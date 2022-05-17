@@ -257,18 +257,18 @@ Partial Public Class MainWindow
             .Indentation = 4
 
             .WriteStartElement("ColorOverride")
-            .WriteAttributeString("Count", UBound(COverridesFull).ToString())
+            .WriteAttributeString("Count", UBound(COverrides).ToString())
 
-            For i = 0 To UBound(COverridesFull)
+            For i = 0 To UBound(COverrides)
                 .WriteStartElement("Color")
                 .WriteAttributeString("Index", i.ToString())
-                .WriteAttributeString("Name", COverridesFull(i).Name.ToString())
-                .WriteAttributeString("Enabled", COverridesFull(i).Enabled.ToString())
-                .WriteAttributeString("ColorOption", COverridesFull(i).ColorOption.ToString())
-                .WriteAttributeString("RangeL", COverridesFull(i).RangeL.ToString())
-                .WriteAttributeString("RangeU", COverridesFull(i).RangeU.ToString())
-                .WriteAttributeString("NoteColor", COverridesFull(i).NoteColor.ToString())
-                .WriteAttributeString("NoteColorU", COverridesFull(i).NoteColorU.ToString())
+                .WriteAttributeString("Name", COverrides(i).Name.ToString())
+                .WriteAttributeString("Enabled", COverrides(i).Enabled.ToString())
+                .WriteAttributeString("ColorOption", COverrides(i).ColorOption.ToString())
+                .WriteAttributeString("RangeL", COverrides(i).RangeL.ToString())
+                .WriteAttributeString("RangeU", COverrides(i).RangeU.ToString())
+                .WriteAttributeString("NoteColor", COverrides(i).NoteColor.ToString())
+                .WriteAttributeString("NoteColorU", COverrides(i).NoteColorU.ToString())
                 .WriteEndElement()
             Next
 
@@ -1526,38 +1526,56 @@ Partial Public Class MainWindow
             Dim Root As XmlElement = Doc.Item("ColorOverride")
 
             Dim n As Integer = CInt(Root.GetAttribute("Count"))
-            ReDim COverridesFull(n)
+            ReDim COverrides(n)
             Dim i As Integer
             For Each eColor As XmlElement In Root.ChildNodes
                 With eColor
                     XMLLoadAttribute(.GetAttribute("Index"), i)
-                    XMLLoadAttribute(.GetAttribute("Name"), COverridesFull(i).Name)
-                    XMLLoadAttribute(.GetAttribute("Enabled"), COverridesFull(i).Enabled)
-                    XMLLoadAttribute(.GetAttribute("ColorOption"), COverridesFull(i).ColorOption)
-                    XMLLoadAttribute(.GetAttribute("RangeL"), COverridesFull(i).RangeL)
-                    XMLLoadAttribute(.GetAttribute("RangeU"), COverridesFull(i).RangeU)
-                    XMLLoadAttribute(.GetAttribute("NoteColor"), COverridesFull(i).NoteColor)
-                    XMLLoadAttribute(.GetAttribute("NoteColorU"), COverridesFull(i).NoteColorU)
+                    XMLLoadAttribute(.GetAttribute("Name"), COverrides(i).Name)
+                    XMLLoadAttribute(.GetAttribute("Enabled"), COverrides(i).Enabled)
+                    XMLLoadAttribute(.GetAttribute("ColorOption"), COverrides(i).ColorOption)
+                    XMLLoadAttribute(.GetAttribute("RangeL"), COverrides(i).RangeL)
+                    XMLLoadAttribute(.GetAttribute("RangeU"), COverrides(i).RangeU)
+                    XMLLoadAttribute(.GetAttribute("NoteColor"), COverrides(i).NoteColor)
+                    XMLLoadAttribute(.GetAttribute("NoteColorU"), COverrides(i).NoteColorU)
                 End With
             Next
             FileStream.Close()
         Else
-            ReDim COverridesFull(-1)
+            ReDim COverrides(-1)
         End If
         LoadColorOverrideActive()
     End Sub
 
     Private Sub LoadColorOverrideActive()
-        Dim i As Integer = -1
-        If COverridesFull IsNot Nothing Then
-            ReDim COverridesActive(UBound(COverridesFull))
-            For Each COverride In COverridesFull
-                If COverride.Enabled Then
-                    i += 1
-                    COverridesActive(i) = COverride
+        For xIN = 1 To UBound(COverridesColors)
+            COverridesColors(xIN) = Color.Empty
+            For xICO = 0 To UBound(COverrides)
+                If Not COverrides(xICO).Enabled Then Continue For
+                Dim CORangeL = COverrides(xICO).RangeL
+                Dim CORangeU = COverrides(xICO).RangeU
+                Dim CONoteColor = COverrides(xICO).NoteColor
+                Dim CONoteColorU = COverrides(xICO).NoteColorU
+                If xIN >= CORangeL AndAlso xIN <= CORangeU Then
+                    Select Case COverrides(xICO).ColorOption
+                        Case 0
+                            COverridesColors(xIN) = Color.FromArgb(CONoteColor)
+                            Exit For
+                        Case 1
+                            Dim CORange = Math.Max(1, CORangeU - CORangeL)
+                            COverridesColors(xIN) = InterpolateColorARGB(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (xIN - CORangeL) / CORange)
+                            Exit For
+                        Case 2
+                            Dim CORange = Math.Max(1, CORangeU - CORangeL)
+                            COverridesColors(xIN) = InterpolateColorAHSL(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (xIN - CORangeL) / CORange)
+                            Exit For
+                        Case 3
+                            Dim CORange = Math.Max(1, CORangeU - CORangeL)
+                            COverridesColors(xIN) = InterpolateColorAHSL(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (xIN - CORangeL) / CORange, , 0)
+                            Exit For
+                    End Select
                 End If
             Next
-        End If
-        ReDim Preserve COverridesActive(i)
+        Next
     End Sub
 End Class

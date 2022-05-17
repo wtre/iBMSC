@@ -340,9 +340,9 @@ Partial Public Class MainWindow
             If Notes(xI1).VPosition > xUpperBorder Then LastNoteToDraw = xI1 - 1 : Exit For
             If Not IsNoteVisible(xI1, xTHeight, xVS) Then Continue For
             If NTInput Then
-                DrawNoteNT(Notes(xI1), e1, xHS, xVS, xTHeight, COverridesActive)
+                DrawNoteNT(Notes(xI1), e1, xHS, xVS, xTHeight)
             Else
-                DrawNote(Notes(xI1), e1, xHS, xVS, xTHeight, COverridesActive)
+                DrawNote(Notes(xI1), e1, xHS, xVS, xTHeight)
             End If
         Next
     End Sub
@@ -371,9 +371,9 @@ Partial Public Class MainWindow
 
     Private Sub DrawMouseOver(e1 As BufferedGraphics, xTHeight As Integer, xHS As Integer, xVS As Integer)
         If NTInput Then
-            If Not bAdjustLength Then DrawNoteNT(Notes(KMouseOver), e1, xHS, xVS, xTHeight, COverridesActive)
+            If Not bAdjustLength Then DrawNoteNT(Notes(KMouseOver), e1, xHS, xVS, xTHeight)
         Else
-            DrawNote(Notes(KMouseOver), e1, xHS, xVS, xTHeight, COverridesActive)
+            DrawNote(Notes(KMouseOver), e1, xHS, xVS, xTHeight)
         End If
 
         Dim rect = GetNoteRectangle(KMouseOver, xTHeight, xHS, xVS)
@@ -598,7 +598,7 @@ Partial Public Class MainWindow
     ''' <param name="xVS">VS.Value.</param>
     ''' <param name="xHeight">Display height of the panel. (not ClipRectangle.Height)</param>
 
-    Private Sub DrawNote(ByVal sNote As Note, ByVal e As BufferedGraphics, ByVal xHS As Integer, ByVal xVS As Integer, ByVal xHeight As Integer, Optional CO() As ColorOverride = Nothing) ', Optional ByVal CheckError As Boolean = True) ', Optional ByVal ConnectToIndex As Long = 0)
+    Private Sub DrawNote(ByVal sNote As Note, ByVal e As BufferedGraphics, ByVal xHS As Integer, ByVal xVS As Integer, ByVal xHeight As Integer) ', Optional ByVal CheckError As Boolean = True) ', Optional ByVal ConnectToIndex As Long = 0)
         If Not nEnabled(sNote.ColumnIndex) Then Exit Sub
         Dim xAlpha As Single = 1.0F
         If sNote.Hidden Then xAlpha = vo.kOpacity
@@ -626,15 +626,10 @@ Partial Public Class MainWindow
                            NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) + 10)
 
         ' Color override
-        GetColor(sNote, bright, dark, xAlpha, CO)
+        GetColor(sNote, bright, dark, xAlpha)
 
         If Not sNote.LongNote Then
             xPen = New Pen(GetColumn(sNote.ColumnIndex).getBright(xAlpha))
-
-            If sNote.Landmine Then
-                bright = Color.Red
-                dark = Color.Red
-            End If
 
             xBrush2 = New SolidBrush(GetColumn(sNote.ColumnIndex).cText)
         Else
@@ -725,7 +720,7 @@ Partial Public Class MainWindow
     ''' <param name="xVS">VS.Value.</param>
     ''' <param name="xHeight">Display height of the panel. (not ClipRectangle.Height)</param>
 
-    Private Sub DrawNoteNT(ByVal sNote As Note, ByVal e As BufferedGraphics, ByVal xHS As Integer, ByVal xVS As Integer, ByVal xHeight As Integer, Optional CO() As ColorOverride = Nothing) ', Optional ByVal CheckError As Boolean = True)
+    Private Sub DrawNoteNT(ByVal sNote As Note, ByVal e As BufferedGraphics, ByVal xHS As Integer, ByVal xVS As Integer, ByVal xHeight As Integer) ', Optional ByVal CheckError As Boolean = True)
         If Not nEnabled(sNote.ColumnIndex) Then Exit Sub
         Dim xAlpha As Single = 1.0F
         If sNote.Hidden Then xAlpha = vo.kOpacity
@@ -751,7 +746,7 @@ Partial Public Class MainWindow
         End If
 
         ' Get Color + Color override
-        GetColor(sNote, bright, dark, xAlpha, CO)
+        GetColor(sNote, bright, dark, xAlpha)
 
         If sNote.Length = 0 Then
             p1 = New Point(HorizontalPositiontoDisplay(xnLeft, xHS),
@@ -759,10 +754,6 @@ Partial Public Class MainWindow
             p2 = New Point(HorizontalPositiontoDisplay(xnLeft + xColumnWidth, xHS),
                            NoteRowToPanelHeight(sNote.VPosition, xVS, xHeight) + 10)
 
-            If sNote.Landmine Then
-                bright = Color.Red
-                dark = Color.Red
-            End If
             xBrush2 = New SolidBrush(GetColumn(sNote.ColumnIndex).cText)
         Else
             p1 = New Point(HorizontalPositiontoDisplay(CInt(xnLeft - 0.5 * xColumnWidth), xHS),
@@ -831,43 +822,18 @@ Partial Public Class MainWindow
 
     End Sub
 
-    Private Sub GetColor(ByRef sNote As Note, ByRef Bright As Color, ByRef Dark As Color, ByVal xAlpha As Single, ByVal CO As ColorOverride())
-        If Not IsNothing(CO) Then
-
-            For i = 0 To UBound(CO)
-                If Not CO(i).Enabled Then Continue For
-                Dim CORangeL = CO(i).RangeL * 10000
-                Dim CORangeU = CO(i).RangeU * 10000
-                Dim CONoteColor = CO(i).NoteColor
-                Dim CONoteColorU = CO(i).NoteColorU
-                If sNote.Value >= CORangeL AndAlso sNote.Value <= CORangeU AndAlso Not sNote.Landmine Then
-                    Select Case CO(i).ColorOption
-                        Case 0
-                            Bright = Color.FromArgb(CInt(CONoteColor * xAlpha))
-                            Dark = Bright
-                            Return
-                        Case 1
-                            Dim CORange = Math.Max(1, CORangeU - CORangeL)
-                            Bright = InterpolateColorARGB(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (sNote.Value - CORangeL) / CORange, xAlpha)
-                            Dark = Bright
-                            Return
-                        Case 2
-                            Dim CORange = Math.Max(1, CORangeU - CORangeL)
-                            Bright = InterpolateColorAHSL(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (sNote.Value - CORangeL) / CORange, xAlpha)
-                            Dark = Bright
-                            Return
-                        Case 3
-                            Dim CORange = Math.Max(1, CORangeU - CORangeL)
-                            Bright = InterpolateColorAHSL(Color.FromArgb(CONoteColor), Color.FromArgb(CONoteColorU), (sNote.Value - CORangeL) / CORange, xAlpha, 0)
-                            Dark = Bright
-                            Return
-                    End Select
-                End If
-
-            Next
+    Private Sub GetColor(ByRef sNote As Note, ByRef Bright As Color, ByRef Dark As Color, ByVal xAlpha As Single)
+        Dim xICO = CInt(sNote.Value / 10000)
+        If sNote.Landmine Then
+            Bright = Color.Red
+            Dark = Color.Red
+        ElseIf Not IsColumnNumeric(sNote.ColumnIndex) AndAlso COverridesColors(xICO) <> Color.Empty Then
+            Bright = COverridesColors(xICO)
+            Dark = Bright
+        Else
+            Bright = GetColumn(sNote.ColumnIndex).getBright(xAlpha)
+            Dark = GetColumn(sNote.ColumnIndex).getDark(xAlpha)
         End If
-        Bright = GetColumn(sNote.ColumnIndex).getBright(xAlpha)
-        Dark = GetColumn(sNote.ColumnIndex).getDark(xAlpha)
     End Sub
 
     Private Function InterpolateColorARGB(ColorL As Color, ColorU As Color, Ratio As Double, Optional xAlpha As Single = 1) As Color
