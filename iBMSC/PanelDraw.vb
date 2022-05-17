@@ -828,7 +828,9 @@ Partial Public Class MainWindow
             Bright = Color.Red
             Dark = Color.Red
         ElseIf Not IsColumnNumeric(sNote.ColumnIndex) AndAlso COverridesColors(xICO) <> Color.Empty Then
-            Bright = COverridesColors(xICO)
+            With COverridesColors(xICO)
+                Bright = Color.FromArgb(Convert.ToByte(Convert.ToInt32(.A) * xAlpha), .R, .G, .B)
+            End With
             Dark = Bright
         Else
             Bright = GetColumn(sNote.ColumnIndex).getBright(xAlpha)
