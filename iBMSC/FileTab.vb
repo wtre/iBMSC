@@ -18,6 +18,7 @@ Partial Public Class MainWindow
     Dim BMSFileStructs As BMSStruct()
     Dim BMSFileIndex As Integer = 0
     Dim BMSFileList(-1) As String
+    Dim BMSFileColor(-1) As Color
     Dim BMSFileTSBList As ToolStripButton()
 
     Structure BMSStruct
@@ -118,10 +119,11 @@ Partial Public Class MainWindow
 
     Private Sub TBTab_MouseDown(sender As Object, e As MouseEventArgs)
         Dim xITemp = BMSFileIndex
-        Dim xExit As Boolean = False
+        Dim xTSB = CType(sender, ToolStripButton)
+        Dim xIClicked = Array.IndexOf(BMSFileTSBList, xTSB)
 
         If e.Button = MouseButtons.Middle Then
-            Dim xIClicked = Array.IndexOf(BMSFileTSBList, CType(sender, ToolStripButton))
+            Dim xExit As Boolean
             If xIClicked < BMSFileIndex Then
                 If Not BMSStructIsSaved(xIClicked) Then
                     TBTab_Click(BMSFileTSBList(xIClicked), New EventArgs)
@@ -148,6 +150,12 @@ Partial Public Class MainWindow
                 RemoveBMSFile(xIClicked)
 
             End If
+        ElseIf e.Button = MouseButtons.Right Then
+            Dim xColorPicker As New ColorPicker
+            xColorPicker.SetOrigColor(xTSB.BackColor)
+            If xColorPicker.ShowDialog(Me) = Windows.Forms.DialogResult.Cancel Then Exit Sub
+            ColorTSBChange(xTSB, xColorPicker.NewColor)
+            BMSFileColor(xIClicked) = xColorPicker.NewColor
         End If
     End Sub
 
@@ -221,12 +229,23 @@ Partial Public Class MainWindow
         End If
     End Sub
 
+    Private Sub ColorTSBChange(ByVal xTSB As ToolStripButton, ByVal c As Color) ' Copied from OpPlayer
+        xTSB.BackColor = c
+        xTSB.ForeColor = CType(IIf(CInt(c.GetBrightness * 255) + 255 - c.A >= 128, Color.Black, Color.White), Color)
+    End Sub
+
     Private Function NewBMSTab(xPath As String) As ToolStripButton
         Dim xTSB As New ToolStripButton
         With xTSB
             .Image = My.Resources.x16Blank
             .Name = GetFileName(xPath)
             .Text = GetFileName(xPath)
+            For i = 0 To UBound(BMSFileColor)
+                If BMSFileList(i) = xPath Then
+                    .BackColor = BMSFileColor(i)
+                    .ForeColor = CType(IIf(CInt(.BackColor.GetBrightness * 255) + 255 - .BackColor.A >= 128, Color.Black, Color.White), Color)
+                End If
+            Next
         End With
         AddHandler xTSB.Click, AddressOf TBTab_Click
         AddHandler xTSB.MouseDown, AddressOf TBTab_MouseDown
@@ -238,9 +257,11 @@ Partial Public Class MainWindow
     Private Sub RemoveBMSFile(xI As Integer)
         For i = xI To UBound(BMSFileList) - 1
             BMSFileList(i) = BMSFileList(i + 1)
+            BMSFileColor(i) = BMSFileColor(i + 1)
             BMSFileTSBList(i) = BMSFileTSBList(i + 1)
         Next
         ReDim Preserve BMSFileList(UBound(BMSFileList) - 1)
+        ReDim Preserve BMSFileColor(UBound(BMSFileColor) - 1)
         ReDim Preserve BMSFileTSBList(UBound(BMSFileTSBList) - 1)
         TBTab.Items.RemoveAt(xI)
         RemoveBMSStruct(xI)

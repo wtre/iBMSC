@@ -45,6 +45,7 @@ Partial Public Class MainWindow
         w.WriteStartElement("File")
         w.WriteAttributeString("Index", I.ToString())
         w.WriteAttributeString("File", BMSFileList(I))
+        w.WriteAttributeString("Color", BMSFileColor(I).ToArgb.ToString())
         w.WriteEndElement()
     End Sub
 
@@ -364,6 +365,7 @@ Partial Public Class MainWindow
         Dim i As Integer
         XMLLoadAttribute(n.GetAttribute("Index"), i)
         XMLLoadAttribute(n.GetAttribute("File"), BMSFileList(i))
+        XMLLoadAttribute(n.GetAttribute("Color"), BMSFileColor(i))
     End Sub
 
     Private Sub XMLLoadPlayer(ByVal n As XmlElement)
@@ -447,6 +449,7 @@ Partial Public Class MainWindow
                     XMLLoadAttribute(.GetAttribute("Count"), iL)
                     XMLLoadAttribute(.GetAttribute("BMSFileIndex"), BMSFileIndex)
                     ReDim Preserve BMSFileList(iL)
+                    ReDim Preserve BMSFileColor(iL)
 
                     For Each eeFile As XmlElement In .ChildNodes
                         XMLLoadOpenedFiles(eeFile)
