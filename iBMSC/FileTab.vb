@@ -142,7 +142,6 @@ Partial Public Class MainWindow
                 If Not BMSStructIsSaved(xIClicked) Then
                     TBTab_Click(BMSFileTSBList(xIClicked), New EventArgs)
                     ' If ClosingPopSave() Then Exit Sub
-                    ClosingPopSave()
                     xExit = ClosingPopSave()
                     TBTab_Click(BMSFileTSBList(xITemp), New EventArgs)
                     If xExit Then Exit Sub
@@ -150,6 +149,7 @@ Partial Public Class MainWindow
                 RemoveBMSFile(xIClicked)
 
             End If
+
         ElseIf e.Button = MouseButtons.Right Then
             Dim xColorPicker As New ColorPicker
             xColorPicker.SetOrigColor(xTSB.BackColor)

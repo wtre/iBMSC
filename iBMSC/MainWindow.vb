@@ -1125,7 +1125,7 @@ Public Class MainWindow
             End If
         Next
 
-        If Not e.Cancel Then
+        If Not e.Cancel AndAlso Not xRandomFile Then
             'If SaveTheme Then
             '    My.Computer.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "\Skin.cff", SaveSkinCFF, False, System.Text.Encoding.Unicode)
             'Else
