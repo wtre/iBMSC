@@ -117,16 +117,32 @@ Partial Public Class MainWindow
     End Sub
 
     Private Sub DrawTempNote(e1 As BufferedGraphics, xTHeight As Integer, xHS As Integer, xVS As Integer)
-        Dim xValue As Integer = (LWAV.SelectedIndex + 1) * 10000
+        Dim xText As String
+
+        If IsColumnNumeric(SelectedColumn) Then
+            xText = GetColumn(SelectedColumn).Title
+
+        ElseIf IsColumnSound(SelectedColumn) Then
+            Dim xValue = LWAV.SelectedIndex + 1
+            If ShowFileName Then
+                xText = Path.GetFileNameWithoutExtension(hWAV(xValue))
+            Else
+                xText = C10to36(xValue)
+            End If
+
+        Else
+            Dim xValue = LBMP.SelectedIndex + 1
+            If ShowFileName Then
+                xText = Path.GetFileNameWithoutExtension(hBMP(xValue))
+            Else
+                xText = C10to36(xValue)
+            End If
+
+        End If
 
         Dim xAlpha As Single = 1.0F
         If ModifierHiddenActive() Then
             xAlpha = vo.kOpacity
-        End If
-
-        Dim xText As String = C10to36(xValue \ 10000)
-        If IsColumnNumeric(SelectedColumn) Then
-            xText = GetColumn(SelectedColumn).Title
         End If
 
         Dim xPen As Pen
@@ -928,6 +944,7 @@ Partial Public Class MainWindow
     End Function
 
     Private Function GetNoteLabel(ByVal sNote As Note) As String
+
         Dim xIC10 As Integer = CInt(sNote.Value \ 10000)
         ' If note is a comment note
         If sNote.Comment Then
@@ -939,8 +956,10 @@ Partial Public Class MainWindow
             End If
         ElseIf IsColumnNumeric(sNote.ColumnIndex) Then ' IIf(IsColumnNumeric(sNote.ColumnIndex) AndAlso Not sNote.Comment, sNote.Value / 10000, xLabel)
             GetNoteLabel = (sNote.Value / 10000).ToString()
-        ElseIf ShowFileName AndAlso hWAV(xIC10) <> "" Then
+        ElseIf ShowFileName AndAlso IsColumnSound(sNote.ColumnIndex) AndAlso hWAV(xIC10) <> "" Then
             GetNoteLabel = Path.GetFileNameWithoutExtension(hWAV(xIC10))
+        ElseIf ShowFileName AndAlso hBMP(xIC10) <> "" Then
+            GetNoteLabel = Path.GetFileNameWithoutExtension(hBMP(xIC10))
         Else
             GetNoteLabel = C10to36(xIC10)
         End If

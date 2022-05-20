@@ -1,5 +1,5 @@
 Public Class Strings
-
+    ' TODO: Add all strings for new features here...
     Public Shared OK As String = "OK"
     Public Shared Cancel As String = "Cancel"
     Public Shared None As String = "None"

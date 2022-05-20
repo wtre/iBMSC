@@ -552,6 +552,20 @@ Partial Public Class MainWindow
                 End With
             End If
 
+            'BMP
+            Dim eBMP As XmlElement = Root.Item("BMP")
+            If eBMP IsNot Nothing Then
+                With eBMP
+                    XMLLoadAttribute(.GetAttribute("BMPMultiSelect"), BMPMultiSelect)
+                    CBMPMultiSelect.Checked = BMPMultiSelect
+                    CBMPMultiSelect_CheckedChanged(CBMPMultiSelect, New EventArgs)
+
+                    XMLLoadAttribute(.GetAttribute("BMPChangeLabel"), BMPChangeLabel)
+                    CBMPChangeLabel.Checked = BMPChangeLabel
+                    CBMPChangeLabel_CheckedChanged(CBMPChangeLabel, New EventArgs)
+                End With
+            End If
+
             'ShowHide
             Dim eShowHide As XmlElement = Root.Item("ShowHide")
             If eShowHide IsNot Nothing Then
@@ -1150,6 +1164,17 @@ Partial Public Class MainWindow
                     XMLLoadLocaleToolTipUniversal(eWAV.Item("MoveDown"), BWAVDown)
                     XMLLoadLocaleToolTipUniversal(eWAV.Item("Browse"), BWAVBrowse)
                     XMLLoadLocaleToolTipUniversal(eWAV.Item("Remove"), BWAVRemove)
+                    XMLLoadLocaleToolTipUniversal(eWAV.Item("Duplicate"), BWAVDuplicate)
+                    XMLLoadLocaleToolTipUniversal(eWAV.Item("OverrideColor"), BWAVColorOverride)
+                End If
+
+                Dim eBMP As XmlElement = eOptionsPanel.Item("BMP")
+                If eBMP IsNot Nothing Then
+                    XMLLoadLocale(eBMP.Item("Title"), POBMPSwitch.Text)
+                    XMLLoadLocaleToolTipUniversal(eBMP.Item("MoveUp"), BBMPUp)
+                    XMLLoadLocaleToolTipUniversal(eBMP.Item("MoveDown"), BBMPDown)
+                    XMLLoadLocaleToolTipUniversal(eBMP.Item("Browse"), BBMPBrowse)
+                    XMLLoadLocaleToolTipUniversal(eBMP.Item("Remove"), BBMPRemove)
                 End If
 
                 XMLLoadLocale(eOptionsPanel.Item("Beat"), POBeatSwitch.Text)

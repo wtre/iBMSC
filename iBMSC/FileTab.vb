@@ -25,6 +25,7 @@ Partial Public Class MainWindow
         Public Notes() As Note
         Public NotesTemplate() As Note
         Public hWAV() As String
+        Public hBMP() As String
         Public hBPM() As Long
         Public hSTOP() As Long
         Public hBMSCROLL() As Long
@@ -37,6 +38,7 @@ Partial Public Class MainWindow
         Public MeasureLength() As Double
         Public FileNameTemplate As String
 
+        Public RandomSource As String
         Public ExpansionSplit() As String
         Public GhostMode As Integer
 
@@ -50,7 +52,7 @@ Partial Public Class MainWindow
         Public WaveformLoaded As Boolean
 
         Public Sub New(xNotes() As Note, xNotesTemplate() As Note,
-                       xWAV() As String, xBPM() As Long, xSTOP() As Long, xBMSCROLL() As Long, xCOM() As String, xLWAV() As WavSample,
+                       xWAV() As String, xBMP() As String, xBPM() As Long, xSTOP() As Long, xBMSCROLL() As Long, xCOM() As String, xLWAV() As WavSample,
                        xHeaderT() As String, xHeaderN() As Decimal, xHeaderI() As Integer, xExpansion As String, xMeasureLength() As Double, xFileNameTemplate As String,
                        xExpansionSplit() As String, xGhostMode As Integer,
                        xUndo() As UndoRedo.LinkedURCmd, xRedo() As UndoRedo.LinkedURCmd, xSI As Integer,
@@ -59,6 +61,7 @@ Partial Public Class MainWindow
             Notes = xNotes
             NotesTemplate = xNotesTemplate
             hWAV = xWAV
+            hBMP = xBMP
             hBPM = xBPM
             hSTOP = xSTOP
             hBMSCROLL = xBMSCROLL
@@ -82,6 +85,10 @@ Partial Public Class MainWindow
             IsSaved = xIsSaved
             NTInput = xNTInput
             WaveformLoaded = xWaveformLoaded
+        End Sub
+
+        Public Sub AddRandomSource(xPath As String)
+            RandomSource = xPath
         End Sub
     End Structure
 
@@ -289,7 +296,7 @@ Partial Public Class MainWindow
         Dim HeaderI() As Integer = {CHPlayer.SelectedIndex, CHRank.SelectedIndex, CHDifficulty.SelectedIndex, CHLnObj.SelectedIndex}
 
         BMSFileStructs(xI) = New BMSStruct(Notes, NotesTemplate,
-                                           hWAV, hBPM, hSTOP, hBMSCROLL, hCOM, wLWAV,
+                                           hWAV, hBMP, hBPM, hSTOP, hBMSCROLL, hCOM, wLWAV,
                                            HeaderT, HeaderN, HeaderI, TExpansion.Text, MeasureLength, FileNameTemplate,
                                            ExpansionSplit, GhostMode,
                                            sUndo, sRedo, sI,
@@ -312,6 +319,7 @@ Partial Public Class MainWindow
             NotesTemplate = .NotesTemplate
 
             hWAV = .hWAV
+            hBMP = .hBMP
             hBPM = .hBPM
             hSTOP = .hSTOP
             hBMSCROLL = .hBMSCROLL
@@ -358,7 +366,8 @@ Partial Public Class MainWindow
         If Not WaveformLoaded AndAlso ShowWaveform Then WaveformLoadId = 1 : TimerLoadWaveform.Enabled = True
         SetIsSaved(IsSaved)
 
-        LWAVRefresh() ' Wow why does refreshing this list take so damn long
+        LWAVRefresh() ' P: Wow why does refreshing this list take so damn long
+        LBMPRefresh() ' P: Likely this too
         LBeatRefresh()
         RefreshItemsByNTInput()
 

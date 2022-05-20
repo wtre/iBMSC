@@ -417,9 +417,9 @@ Partial Public Class MainWindow
                     .Value += CDec(IIf(.Value > .Maximum - .Increment, .Maximum - .Value, .Increment))
                 End With
             Case "DecreaseCurrentWav"
-                DecreaseCurrentWav()
+                DecreaseCurrentWAV()
             Case "IncreaseCurrentWav"
-                IncreaseCurrentWav()
+                IncreaseCurrentWAV()
             Case "TBPreviewHighlighted_Click"
                 TBPreviewHighlighted_Click(sender, New EventArgs)
             Case "GetVPositionFromTime" ' Currently not accessible
@@ -452,7 +452,7 @@ Partial Public Class MainWindow
         Return False
     End Function
 
-    Private Sub DecreaseCurrentWav()
+    Private Sub DecreaseCurrentWAV()
         If LWAV.SelectedIndex = -1 Then
             LWAV.SelectedIndex = 0
         Else
@@ -463,7 +463,7 @@ Partial Public Class MainWindow
         End If
     End Sub
 
-    Private Sub IncreaseCurrentWav()
+    Private Sub IncreaseCurrentWAV()
         If LWAV.SelectedIndex = -1 Then
             LWAV.SelectedIndex = 0
         Else
@@ -471,7 +471,30 @@ Partial Public Class MainWindow
             If newIndex > LWAV.Items.Count - 1 Then newIndex = LWAV.Items.Count - 1
             LWAV.SelectedIndices.Clear()
             LWAV.SelectedIndex = newIndex
-            ValidateWavListView()
+            ValidateWAVListView()
+        End If
+    End Sub
+
+    Private Sub DecreaseCurrentBMP()
+        If LBMP.SelectedIndex = -1 Then
+            LBMP.SelectedIndex = 0
+        Else
+            Dim newIndex As Integer = LBMP.SelectedIndex - 1
+            If newIndex < 0 Then newIndex = 0
+            LBMP.SelectedIndices.Clear()
+            LBMP.SelectedIndex = newIndex
+        End If
+    End Sub
+
+    Private Sub IncreaseCurrentBMP()
+        If LBMP.SelectedIndex = -1 Then
+            LBMP.SelectedIndex = 0
+        Else
+            Dim newIndex As Integer = LBMP.SelectedIndex + 1
+            If newIndex > LBMP.Items.Count - 1 Then newIndex = LBMP.Items.Count - 1
+            LBMP.SelectedIndices.Clear()
+            LBMP.SelectedIndex = newIndex
+            ValidateBMPListView()
         End If
     End Sub
 
@@ -481,7 +504,7 @@ Partial Public Class MainWindow
         Dim bMoveAndDeselectFirstNote = My.Computer.Keyboard.ShiftKeyDown
 
         For xI2 As Integer = 1 To UBound(Notes)
-            If Not Notes(xI2).Selected Then Continue For
+            If Not Notes(xI2).Selected OrElse Not IsColumnSound(Notes(xI2).ColumnIndex) Then Continue For
 
             With Notes(xI2)
                 Dim currentBGMColumn As Integer = niB
@@ -713,7 +736,7 @@ Partial Public Class MainWindow
                     If My.Computer.Keyboard.ShiftKeyDown Then
                         LWAV.SelectedIndices.Clear()
                         LWAV.SelectedIndex = C36to10(C10to36(Notes(xI1).Value \ 10000)) - 1
-                        ValidateWavListView()
+                        ValidateWAVListView()
 
                     Else
                         Dim xUndo As UndoRedo.LinkedURCmd = Nothing
@@ -872,7 +895,7 @@ Partial Public Class MainWindow
 
                 ShouldDrawTempNote = True
 
-            Else
+            ElseIf IsColumnSound(xColumn) Then
                 Dim xLbl As Integer = (LWAV.SelectedIndex + 1) * 10000
 
                 Dim Landmine As Boolean = ModifierLandmineActive()
@@ -892,7 +915,7 @@ Partial Public Class MainWindow
                 SelectedNotes(0).LNPair = -1
 
                 If TBWavIncrease.Checked Then
-                    IncreaseCurrentWav()
+                    IncreaseCurrentWAV()
                 End If
 
                 'KMouseDown = 1
@@ -904,6 +927,33 @@ Partial Public Class MainWindow
                 Dim xUndo As UndoRedo.LinkedURCmd = Nothing
                 Dim xRedo As UndoRedo.LinkedURCmd = Nothing
                 RedoAddNote(Notes(UBound(Notes)), xUndo, xRedo, TBWavIncrease.Checked)
+                AddUndo(xUndo, xRedo)
+
+            Else ' Column is image
+                Dim xLbl As Integer = (LBMP.SelectedIndex + 1) * 10000
+
+                ReDim Preserve Notes(UBound(Notes) + 1)
+                With Notes(UBound(Notes))
+                    .VPosition = xVPosition
+                    .ColumnIndex = xColumn
+                    .Value = xLbl
+                    .Hidden = False
+                    .Landmine = False
+                    .TempMouseDown = True
+                End With
+
+                ReDim SelectedNotes(0)
+                SelectedNotes(0) = Notes(UBound(Notes))
+                SelectedNotes(0).LNPair = -1
+
+                ' If TBWavIncrease.Checked Then
+                '     IncreaseCurrentWAV()
+                ' End If
+                uAdded = False
+
+                Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+                Dim xRedo As UndoRedo.LinkedURCmd = Nothing
+                RedoAddNote(Notes(UBound(Notes)), xUndo, xRedo, False)
                 AddUndo(xUndo, xRedo)
             End If
 
@@ -1139,8 +1189,8 @@ Partial Public Class MainWindow
                 End If
             End If
         Else
-                'Label prompt
-                Dim xStr As String = UCase(Trim(InputBox(Strings.Messages.PromptEnter, Me.Text)))
+            'Label prompt
+            Dim xStr As String = UCase(Trim(InputBox(Strings.Messages.PromptEnter, Me.Text)))
 
             If Len(xStr) = 0 Then Return
 
@@ -1902,13 +1952,18 @@ Partial Public Class MainWindow
 
     ' az: Handle zoom in/out. Should work with any of the three splitters.
     Private Sub PMain_Scroll(sender As Object, e As MouseEventArgs) Handles PMainIn.MouseWheel, PMainInL.MouseWheel, PMainInR.MouseWheel
+
         With My.Computer.Keyboard
-            If .CtrlKeyDown Then
+            If .ShiftKeyDown Then
+                If .CtrlKeyDown Then
+                    If Math.Sign(e.Delta) = -1 Then IncreaseCurrentBMP() Else DecreaseCurrentBMP()
+                Else
+                    If Math.Sign(e.Delta) = -1 Then IncreaseCurrentWAV() Else DecreaseCurrentWAV()
+                End If
+            ElseIf .CtrlKeyDown Then
                 Dim dv = Math.Round(CGHeight2.Value + e.Delta / 120)
                 CGHeight2.Value = CInt(Math.Min(CGHeight2.Maximum, Math.Max(CGHeight2.Minimum, dv)))
                 CGHeight.Value = CDec(CGHeight2.Value / 4)
-            ElseIf .ShiftKeyDown Then
-                If Math.Sign(e.Delta) = -1 Then IncreaseCurrentWav() Else DecreaseCurrentWav()
             End If
         End With
     End Sub
@@ -2006,7 +2061,7 @@ Partial Public Class MainWindow
                             End If
                         End If
 
-                    Else
+                    ElseIf IsColumnSound(xColumn) Then
                         Dim xValue As Integer = (LWAV.SelectedIndex + 1) * 10000
 
                         For xI1 = 1 To UBound(Notes)
@@ -2021,8 +2076,25 @@ Partial Public Class MainWindow
                         AddNote(n)
 
                         AddUndo(xUndo, xRedo)
+                    Else ' Column is image
+                        Dim xValue As Integer = (LBMP.SelectedIndex + 1) * 10000
+
+                        For xI1 = 1 To UBound(Notes)
+                            If Notes(xI1).VPosition = xVPosition AndAlso Notes(xI1).ColumnIndex = xColumn Then _
+                            RedoRemoveNote(Notes(xI1), xUndo, xRedo)
+                        Next
+
+                        Dim n = New Note(xColumn, xVPosition, xValue,
+                                         LongNote, False, True, False)
+
+                        RedoAddNote(n, xUndo, xRedo)
+                        AddNote(n)
+
+                        AddUndo(xUndo, xRedo)
                     End If
                 End If
+            Else
+
             End If
 
             If Not ShouldDrawTempNote Then ShouldDrawTempNote = True

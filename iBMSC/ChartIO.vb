@@ -27,6 +27,7 @@ Partial Public Class MainWindow
             ReDim NotesTemplate(0)
             ReDim mColumn(999)
             ReDim hWAV(1295)
+            ReDim hBMP(1295)
             ReDim hBPM(1295)    'x10000
             ReDim hSTOP(1295)
             ReDim hBMSCROLL(1295)
@@ -73,6 +74,10 @@ Partial Public Class MainWindow
 
                 ElseIf SWIC(sLineTrim, "#WAV") Then
                     hWAV(C36to10(Mid(sLineTrim, Len("#WAV") + 1, 2))) = Mid(sLineTrim, Len("#WAV") + 4)
+                    Continue For
+
+                ElseIf SWIC(sLineTrim, "#BMP") Then
+                    hBMP(C36to10(Mid(sLineTrim, Len("#BMP") + 1, 2))) = Mid(sLineTrim, Len("#BMP") + 4)
                     Continue For
 
                 ElseIf SWIC(sLineTrim, "#BPM") And Not Mid(sLineTrim, Len("#BPM") + 1, 1).Trim = "" Then  'If BPM##
@@ -263,13 +268,12 @@ Partial Public Class MainWindow
         Else
             If NTInput Then ConvertBMSE2NT()
 
-            LWAV.Visible = False
-            LWAVRefresh()
             ' Add waveforms to wLWAV
             If ShowWaveform Then WaveformLoadId = 1 : TimerLoadWaveform.Enabled = True
+            LWAVRefresh()
             LWAV.SelectedIndex = 0
-            LWAV.Visible = True
-            If ShowWaveform Then WaveformLoaded = True
+            LBMPRefresh()
+            LBMP.SelectedIndex = 0
 
             TExpansion.Text = xExpansion
         End If
@@ -309,6 +313,7 @@ Partial Public Class MainWindow
         Dim Notes(0) As Note
         Dim mColumn(999) As Integer
         Dim hWAV(1295) As String
+        Dim hBMP(1295) As String
         Dim hBPM(1295) As Long 'x10000
         Dim hSTOP(1295) As Long
         Dim hBMSCROLL(1295) As Long
@@ -668,6 +673,10 @@ Partial Public Class MainWindow
         For i = 1 To UBound(hWAV)
             If Not hWAV(i) = "" Then xStrHeader &= "#WAV" & C10to36(i) &
                                                     " " & hWAV(i) & vbCrLf
+        Next
+        For i = 1 To UBound(hBMP)
+            If Not hBMP(i) = "" Then xStrHeader &= "#BMP" & C10to36(i) &
+                                                    " " & hBMP(i) & vbCrLf
         Next
         For i = 1 To UBound(hBPM)
             xStrHeader &= "#BPM" &
@@ -1031,10 +1040,10 @@ Partial Public Class MainWindow
 
         If NTInput Then ConvertBMSE2NT()
 
-        LWAV.Visible = False
         LWAVRefresh()
         LWAV.SelectedIndex = 0
-        LWAV.Visible = True
+        LBMPRefresh()
+        LBMP.SelectedIndex = 0
 
         THBPM.Value = CDec(Notes(0).Value / 10000)
         SortByVPositionQuick(0, UBound(Notes))
@@ -1062,6 +1071,7 @@ Partial Public Class MainWindow
                 ReDim Notes(0)
                 ReDim mColumn(999)
                 ReDim hWAV(1295)
+                ReDim hBMP(1295)
                 Me.InitializeNewBMS()
                 Me.InitializeOpenBMS()
 
@@ -1169,6 +1179,21 @@ Partial Public Class MainWindow
                                 hWAV(xI) = br.ReadString
                             Next
 
+                        Case &H504D42       'BMP List
+                            Dim xBMPOptions As Integer = br.ReadByte
+                            BMPMultiSelect = CBool(xBMPOptions And &H1)
+                            CBMPMultiSelect.Checked = BMPMultiSelect
+                            CBMPMultiSelect_CheckedChanged(CBMPMultiSelect, New EventArgs)
+                            BMPChangeLabel = CBool(xBMPOptions And &H2)
+                            CBMPChangeLabel.Checked = BMPChangeLabel
+                            CBMPChangeLabel_CheckedChanged(CBMPChangeLabel, New EventArgs)
+
+                            Dim xBMPCount As Integer = br.ReadInt32
+                            For xxi As Integer = 1 To xBMPCount
+                                Dim xI As Integer = br.ReadInt16
+                                hBMP(xI) = br.ReadString
+                            Next
+
                         Case &H74616542     'Beat
                             nBeatN.Value = br.ReadInt16
                             nBeatD.Value = br.ReadInt16
@@ -1237,11 +1262,11 @@ Partial Public Class MainWindow
         mnUndo.Enabled = sUndo(sI).ofType <> UndoRedo.opNoOperation
         mnRedo.Enabled = sRedo(sIA).ofType <> UndoRedo.opNoOperation
 
-        LBeatRefresh()
-        LWAV.Visible = False
         LWAVRefresh()
         LWAV.SelectedIndex = 0
-        LWAV.Visible = True
+        LBMPRefresh()
+        LBMP.SelectedIndex = 0
+        LBeatRefresh()
 
         THBPM.Value = CDec(Notes(0).Value / 10000)
         SortByVPositionQuick(0, UBound(Notes))
@@ -1254,7 +1279,8 @@ Partial Public Class MainWindow
     End Sub
 
     Private Sub SaveiBMSC(ByVal Path As String)
-        ' TODO: Save multiple BMSes instead of just the active one.
+        ' TODO: Save unsaved BMSes instead of just the active one.
+        ' TODO: Save all the added features: ShowWaveform, Keybinding options, #TOTAL Tool
         CalculateGreatestVPosition()
         SortByVPositionInsertion()
         UpdatePairing()
@@ -1354,6 +1380,26 @@ Partial Public Class MainWindow
                 If hWAV(i) = "" Then Continue For
                 bw.Write(CShort(i))
                 bw.Write(hWAV(i))
+            Next
+
+            'BMP List
+            bw.Write(&H504D42)
+
+            Dim xBMPOptions As Integer = 0
+            If BMPMultiSelect Then xBMPOptions = xBMPOptions Or &H1
+            If BMPChangeLabel Then xBMPOptions = xBMPOptions Or &H2
+            bw.Write(CByte(xBMPOptions))
+
+            Dim xBMPCount As Integer = 0
+            For i As Integer = 1 To UBound(hBMP)
+                If hBMP(i) <> "" Then xBMPCount += 1
+            Next
+            bw.Write(xBMPCount)
+
+            For i As Integer = 1 To UBound(hBMP)
+                If hBMP(i) = "" Then Continue For
+                bw.Write(CShort(i))
+                bw.Write(hBMP(i))
             Next
 
             'Beat

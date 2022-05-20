@@ -18,7 +18,7 @@ Partial Public Class MainWindow
                     Notes(UBound(Notes)) = xCmd.note
 
                     If TBWavIncrease.Checked Then
-                        IncreaseCurrentWav()
+                        IncreaseCurrentWAV()
                     End If
                 Case UndoRedo.opRemoveNote
                     Dim xCmd As UndoRedo.RemoveNote = CType(sCmd, UndoRedo.RemoveNote)
@@ -32,7 +32,7 @@ Partial Public Class MainWindow
                     End If
 
                     If TBWavIncrease.Checked Then
-                        DecreaseCurrentWav()
+                        DecreaseCurrentWAV()
                     End If
 
                 Case UndoRedo.opChangeNote
