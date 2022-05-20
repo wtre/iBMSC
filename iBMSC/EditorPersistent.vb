@@ -1240,7 +1240,9 @@ Partial Public Class MainWindow
                 XMLLoadLocale(eFileType.Item("OGG"), Strings.FileType.OGG)
                 XMLLoadLocale(eFileType.Item("MP3"), Strings.FileType.MP3)
                 XMLLoadLocale(eFileType.Item("MID"), Strings.FileType.MID)
+                XMLLoadLocale(eFileType.Item("_im"), Strings.FileType._im)
                 XMLLoadLocale(eFileType.Item("_image"), Strings.FileType._image)
+                XMLLoadLocale(eFileType.Item("_movie"), Strings.FileType._movie)
                 XMLLoadLocale(eFileType.Item("EXE"), Strings.FileType.EXE)
             End If
 

@@ -107,6 +107,7 @@ Public Class MainWindow
     Dim DDFileName() As String = {}
     Dim SupportedFileExtension() As String = {".bms", ".bme", ".bml", ".pms", ".txt", ".sm", ".ibmsc"}
     Dim SupportedAudioExtension() As String = {}
+    Dim SupportedImageExtension() As String = {".bmp", ".png", ".jpg", ".jpeg", ".gif", ".mpg", ".mpeg", ".avi", ".m1v", ".m2v", ".m4v", ".mp4", ".webm", ".wmv"}
 
     'Variables for theme
     'Dim SaveTheme As Boolean = True
@@ -1205,12 +1206,9 @@ Public Class MainWindow
         ReDim ExpansionSplit(2)
 
         LWAV.Items.Clear()
-        For xI1 = 1 To 1295
-            LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
-        Next
-
         LBMP.Items.Clear()
         For xI1 = 1 To 1295
+            LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
             LBMP.Items.Add(C10to36(xI1) & ": " & hBMP(xI1))
         Next
 
@@ -3826,7 +3824,7 @@ Public Class MainWindow
         If Not e.Data.GetDataPresent(DataFormats.FileDrop) Then Return
 
         Dim xOrigPath() As String = CType(e.Data.GetData(DataFormats.FileDrop), String())
-        Dim xPath() As String = FilterFileBySupported(xOrigPath, SupportedAudioExtension)
+        Dim xPath() As String = FilterFileBySupported(xOrigPath, SupportedImageExtension)
         Array.Sort(xPath)
         If xPath.Length = 0 Then
             RefreshPanelAll()
@@ -3839,7 +3837,7 @@ Public Class MainWindow
     Private Sub POBMP_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles POBMP.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.Copy
-            DDFileName = FilterFileBySupported(CType(e.Data.GetData(DataFormats.FileDrop), String()), SupportedAudioExtension)
+            DDFileName = FilterFileBySupported(CType(e.Data.GetData(DataFormats.FileDrop), String()), SupportedImageExtension)
         Else
             e.Effect = DragDropEffects.None
         End If
@@ -5807,7 +5805,9 @@ Public Class MainWindow
 
     Private Sub BBMPBrowse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BBMPBrowse.Click
         Dim xDBMP As New OpenFileDialog
-        xDBMP.Filter = Strings.FileType._image & "|*.bmp;*.png;*.jpg;*.gif|" &
+        xDBMP.Filter = Strings.FileType._im & "|*.bmp;*.png;*.jpg;*.gif;*.mpg;*.mpeg;*.avi;*.m1v;*.m2v;*.m4v;*.mp4;*.webm;*.wmv|" &
+                       Strings.FileType._image & "|*.bmp;*.png;*.jpg;*.gif|" &
+                       Strings.FileType._movie & "|*.mpg;*.mpeg;*.avi;*.m1v;*.m2v;*.m4v;*.mp4;*.webm;*.wmv|" &
                        Strings.FileType._all & "|*.*"
         xDBMP.InitialDirectory = IIf(ExcludeFileName(FileName) = "", InitPath, ExcludeFileName(FileName)).ToString()
         xDBMP.DefaultExt = "png"

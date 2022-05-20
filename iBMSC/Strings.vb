@@ -77,7 +77,9 @@ Public Class Strings
         Public Shared MP3 As String = "MPEG Layer-3 Audio (*.mp3)"
         Public Shared MID As String = "MIDI (*.mid)"
 
+        Public Shared _im As String = "Supported Image and Movie Format (*.png, *.bmp, *.jpg, *.gif, *.mpg, *.mpeg, *.avi, *.m1v, *.m2v, *.m4v, *.mp4, *.webm, *.wmv)"
         Public Shared _image As String = "Supported Image Format (*.png, *.bmp, *.jpg, *.gif)"
+        Public Shared _movie As String = "Supported Movie Format (*.mpg, *.mpeg, *.avi, *.m1v, *.m2v, *.m4v, *.mp4, *.webm, *.wmv)"
 
         Public Shared EXE As String = "Executable file (*.exe)"
     End Class
