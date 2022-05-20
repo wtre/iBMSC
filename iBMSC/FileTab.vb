@@ -200,11 +200,11 @@ Partial Public Class MainWindow
     Public Sub AddBMSFiles(xPaths As String())
         For xI = 0 To UBound(xPaths)
             NewRecent(xPaths(xI))
-            AddBMSFileToListAndTBTabAndStruct(xPaths(xI))
+            AddBMSFileToListAndColorAndTBTabAndStruct(xPaths(xI))
         Next
     End Sub
 
-    Private Sub AddBMSFileToListAndTBTabAndStruct(xPath As String)
+    Private Sub AddBMSFileToListAndColorAndTBTabAndStruct(xPath As String)
         If BMSFileList.Contains(xPath) Then
             SetBMSFileIndex(Array.IndexOf(BMSFileList, xPath))
 
@@ -212,15 +212,19 @@ Partial Public Class MainWindow
             If BMSFileIndex = UBound(BMSFileList) Then BMSFileIndex -= 1
             ReDim Preserve BMSFileList(BMSFileList.Length)
             ReDim Preserve BMSFileTSBList(BMSFileTSBList.Length)
+            ReDim Preserve BMSFileColor(BMSFileColor.Length)
 
             For xI = UBound(BMSFileList) - 1 To BMSFileIndex + 1 Step -1
                 BMSFileList(xI + 1) = BMSFileList(xI)
+                BMSFileColor(xI + 1) = BMSFileColor(xI)
                 BMSFileTSBList(xI + 1) = BMSFileTSBList(xI)
             Next
 
             BMSFileIndex += 1
             ' Add to BMSFileList
             BMSFileList(BMSFileIndex) = xPath
+            ' Add to BMSFileColor
+            BMSFileColor(BMSFileIndex) = System.Drawing.SystemColors.Control
             ' Add to BMSFileTSBList
             BMSFileTSBList(BMSFileIndex) = NewBMSTab(xPath)
 

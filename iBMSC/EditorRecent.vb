@@ -68,21 +68,21 @@
                 ClearUndo()
                 OpenBMS(My.Computer.FileSystem.ReadAllText(xFileName, TextEncoding))
                 SetIsSaved(True)
-                AddBMSFileToListAndTBTabAndStruct(xFileName)
+                AddBMSFileToListAndColorAndTBTabAndStruct(xFileName)
 
             Case ".ibmsc"
                 SetFileName("Imported_" & GetFileName(xFileName))
                 OpeniBMSC(xFileName)
                 InitPath = ExcludeFileName(xFileName)
                 SetIsSaved(False)
-                AddBMSFileToListAndTBTabAndStruct(xFileName)
+                AddBMSFileToListAndColorAndTBTabAndStruct(xFileName)
 
             Case Else
                 SetFileName(xFileName)
                 ClearUndo()
                 OpenBMS(My.Computer.FileSystem.ReadAllText(xFileName, TextEncoding))
                 SetIsSaved(True)
-                AddBMSFileToListAndTBTabAndStruct(xFileName)
+                AddBMSFileToListAndColorAndTBTabAndStruct(xFileName)
 
         End Select
     End Sub
