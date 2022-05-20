@@ -421,7 +421,6 @@ Partial Class MainWindow
         Me.FStatus2.SuspendLayout()
         Me.FStatus.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
-        Me.ToolStripContainer1.LeftToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.PMain.SuspendLayout()
@@ -2144,12 +2143,8 @@ Partial Class MainWindow
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SpL)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.PMainR)
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.PMainL)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1241, 711)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(1267, 661)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        '
-        'ToolStripContainer1.LeftToolStripPanel
-        '
-        Me.ToolStripContainer1.LeftToolStripPanel.Controls.Add(Me.TBTab)
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
         Me.ToolStripContainer1.Size = New System.Drawing.Size(1267, 759)
@@ -2158,6 +2153,7 @@ Partial Class MainWindow
         '
         'ToolStripContainer1.TopToolStripPanel
         '
+        Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.TBTab)
         Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.mnMain)
         Me.ToolStripContainer1.TopToolStripPanel.Controls.Add(Me.TBMain)
         '
@@ -2172,7 +2168,7 @@ Partial Class MainWindow
         Me.PMain.ForeColor = System.Drawing.Color.White
         Me.PMain.Location = New System.Drawing.Point(5, 0)
         Me.PMain.Name = "PMain"
-        Me.PMain.Size = New System.Drawing.Size(1231, 711)
+        Me.PMain.Size = New System.Drawing.Size(1257, 661)
         Me.PMain.TabIndex = 58
         Me.PMain.TabStop = True
         Me.PMain.Tag = "1"
@@ -2186,7 +2182,7 @@ Partial Class MainWindow
         Me.PMainIn.ForeColor = System.Drawing.Color.White
         Me.PMainIn.Location = New System.Drawing.Point(0, 0)
         Me.PMainIn.Name = "PMainIn"
-        Me.PMainIn.Size = New System.Drawing.Size(1214, 694)
+        Me.PMainIn.Size = New System.Drawing.Size(1240, 644)
         Me.PMainIn.TabIndex = 0
         Me.PMainIn.TabStop = True
         Me.PMainIn.Tag = "1"
@@ -2205,11 +2201,11 @@ Partial Class MainWindow
         Me.MainPanelScroll.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar
         Me.MainPanelScroll.Dock = System.Windows.Forms.DockStyle.Right
         Me.MainPanelScroll.LargeChange = 592
-        Me.MainPanelScroll.Location = New System.Drawing.Point(1214, 0)
+        Me.MainPanelScroll.Location = New System.Drawing.Point(1240, 0)
         Me.MainPanelScroll.Maximum = 591
         Me.MainPanelScroll.Minimum = -10000
         Me.MainPanelScroll.Name = "MainPanelScroll"
-        Me.MainPanelScroll.Size = New System.Drawing.Size(17, 694)
+        Me.MainPanelScroll.Size = New System.Drawing.Size(17, 644)
         Me.MainPanelScroll.SmallChange = 12
         Me.MainPanelScroll.TabIndex = 2
         Me.MainPanelScroll.Tag = "1"
@@ -2219,10 +2215,10 @@ Partial Class MainWindow
         Me.HS.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar
         Me.HS.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.HS.LargeChange = 777
-        Me.HS.Location = New System.Drawing.Point(0, 694)
+        Me.HS.Location = New System.Drawing.Point(0, 644)
         Me.HS.Maximum = 1233
         Me.HS.Name = "HS"
-        Me.HS.Size = New System.Drawing.Size(1231, 17)
+        Me.HS.Size = New System.Drawing.Size(1257, 17)
         Me.HS.TabIndex = 3
         Me.HS.Tag = "1"
         '
@@ -2231,9 +2227,9 @@ Partial Class MainWindow
         Me.SpR.Dock = System.Windows.Forms.DockStyle.Right
         Me.SpR.FlatAppearance.BorderSize = 0
         Me.SpR.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.SpR.Location = New System.Drawing.Point(1236, 0)
+        Me.SpR.Location = New System.Drawing.Point(1262, 0)
         Me.SpR.Name = "SpR"
-        Me.SpR.Size = New System.Drawing.Size(5, 711)
+        Me.SpR.Size = New System.Drawing.Size(5, 661)
         Me.SpR.TabIndex = 59
         Me.SpR.TabStop = False
         Me.SpR.UseVisualStyleBackColor = True
@@ -2246,7 +2242,7 @@ Partial Class MainWindow
         Me.SpL.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.SpL.Location = New System.Drawing.Point(0, 0)
         Me.SpL.Name = "SpL"
-        Me.SpL.Size = New System.Drawing.Size(5, 711)
+        Me.SpL.Size = New System.Drawing.Size(5, 661)
         Me.SpL.TabIndex = 60
         Me.SpL.TabStop = False
         Me.SpL.UseVisualStyleBackColor = True
@@ -2261,9 +2257,9 @@ Partial Class MainWindow
         Me.PMainR.Dock = System.Windows.Forms.DockStyle.Right
         Me.PMainR.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PMainR.ForeColor = System.Drawing.Color.White
-        Me.PMainR.Location = New System.Drawing.Point(1241, 0)
+        Me.PMainR.Location = New System.Drawing.Point(1267, 0)
         Me.PMainR.Name = "PMainR"
-        Me.PMainR.Size = New System.Drawing.Size(0, 711)
+        Me.PMainR.Size = New System.Drawing.Size(0, 661)
         Me.PMainR.TabIndex = 56
         Me.PMainR.Tag = "2"
         '
@@ -2275,7 +2271,7 @@ Partial Class MainWindow
         Me.PMainInR.ForeColor = System.Drawing.Color.White
         Me.PMainInR.Location = New System.Drawing.Point(0, 0)
         Me.PMainInR.Name = "PMainInR"
-        Me.PMainInR.Size = New System.Drawing.Size(0, 694)
+        Me.PMainInR.Size = New System.Drawing.Size(0, 644)
         Me.PMainInR.TabIndex = 0
         Me.PMainInR.TabStop = True
         Me.PMainInR.Tag = "2"
@@ -2288,7 +2284,7 @@ Partial Class MainWindow
         Me.RightPanelScroll.Maximum = 591
         Me.RightPanelScroll.Minimum = -10000
         Me.RightPanelScroll.Name = "RightPanelScroll"
-        Me.RightPanelScroll.Size = New System.Drawing.Size(17, 694)
+        Me.RightPanelScroll.Size = New System.Drawing.Size(17, 644)
         Me.RightPanelScroll.SmallChange = 12
         Me.RightPanelScroll.TabIndex = 2
         Me.RightPanelScroll.Tag = "2"
@@ -2297,7 +2293,7 @@ Partial Class MainWindow
         '
         Me.HSR.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.HSR.LargeChange = 777
-        Me.HSR.Location = New System.Drawing.Point(0, 694)
+        Me.HSR.Location = New System.Drawing.Point(0, 644)
         Me.HSR.Maximum = 1233
         Me.HSR.Name = "HSR"
         Me.HSR.Size = New System.Drawing.Size(0, 17)
@@ -2315,7 +2311,7 @@ Partial Class MainWindow
         Me.PMainL.ForeColor = System.Drawing.Color.White
         Me.PMainL.Location = New System.Drawing.Point(0, 0)
         Me.PMainL.Name = "PMainL"
-        Me.PMainL.Size = New System.Drawing.Size(0, 711)
+        Me.PMainL.Size = New System.Drawing.Size(0, 661)
         Me.PMainL.TabIndex = 54
         Me.PMainL.Tag = "0"
         '
@@ -2327,7 +2323,7 @@ Partial Class MainWindow
         Me.PMainInL.ForeColor = System.Drawing.Color.White
         Me.PMainInL.Location = New System.Drawing.Point(0, 0)
         Me.PMainInL.Name = "PMainInL"
-        Me.PMainInL.Size = New System.Drawing.Size(0, 694)
+        Me.PMainInL.Size = New System.Drawing.Size(0, 644)
         Me.PMainInL.TabIndex = 0
         Me.PMainInL.TabStop = True
         Me.PMainInL.Tag = "0"
@@ -2340,7 +2336,7 @@ Partial Class MainWindow
         Me.LeftPanelScroll.Maximum = 591
         Me.LeftPanelScroll.Minimum = -10000
         Me.LeftPanelScroll.Name = "LeftPanelScroll"
-        Me.LeftPanelScroll.Size = New System.Drawing.Size(17, 694)
+        Me.LeftPanelScroll.Size = New System.Drawing.Size(17, 644)
         Me.LeftPanelScroll.SmallChange = 12
         Me.LeftPanelScroll.TabIndex = 2
         Me.LeftPanelScroll.Tag = "0"
@@ -2349,7 +2345,7 @@ Partial Class MainWindow
         '
         Me.HSL.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.HSL.LargeChange = 777
-        Me.HSL.Location = New System.Drawing.Point(0, 694)
+        Me.HSL.Location = New System.Drawing.Point(0, 644)
         Me.HSL.Maximum = 1233
         Me.HSL.Name = "HSL"
         Me.HSL.Size = New System.Drawing.Size(0, 17)
@@ -2360,9 +2356,9 @@ Partial Class MainWindow
         '
         Me.TBTab.BackColor = System.Drawing.SystemColors.Control
         Me.TBTab.Dock = System.Windows.Forms.DockStyle.None
-        Me.TBTab.Location = New System.Drawing.Point(0, 3)
+        Me.TBTab.Location = New System.Drawing.Point(3, 48)
         Me.TBTab.Name = "TBTab"
-        Me.TBTab.Size = New System.Drawing.Size(26, 111)
+        Me.TBTab.Size = New System.Drawing.Size(43, 25)
         Me.TBTab.TabIndex = 65
         '
         'POptionsResizer
@@ -4654,8 +4650,6 @@ Partial Class MainWindow
         Me.FStatus.ResumeLayout(False)
         Me.FStatus.PerformLayout()
         Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.LeftToolStripPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.LeftToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ResumeLayout(False)
