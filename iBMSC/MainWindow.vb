@@ -1449,6 +1449,7 @@ Public Class MainWindow
         ReDim Preserve BMSFileList(i)
         AddUntitledBMSFileToList()
 
+        ReDim BMSFileColor(UBound(BMSFileList))
         ReDim BMSFileTSBList(UBound(BMSFileList))
         ReDim BMSFileStructs(UBound(BMSFileList))
         For xI = 0 To UBound(BMSFileList)
