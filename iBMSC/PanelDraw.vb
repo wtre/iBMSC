@@ -124,7 +124,7 @@ Partial Public Class MainWindow
 
         ElseIf IsColumnSound(SelectedColumn) Then
             Dim xValue = LWAV.SelectedIndex + 1
-            If ShowFileName Then
+            If ShowFileName AndAlso hWAV(xValue) <> "" Then
                 xText = Path.GetFileNameWithoutExtension(hWAV(xValue))
             Else
                 xText = C10to36(xValue)
@@ -132,7 +132,7 @@ Partial Public Class MainWindow
 
         Else
             Dim xValue = LBMP.SelectedIndex + 1
-            If ShowFileName Then
+            If ShowFileName AndAlso hBMP(xValue) <> "" Then
                 xText = Path.GetFileNameWithoutExtension(hBMP(xValue))
             Else
                 xText = C10to36(xValue)
