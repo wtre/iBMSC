@@ -51,6 +51,8 @@ Listed in the order added.
 * Added ability to convert between LNObj's and NT LN's.
 * Added ability to copy and paste patterns to highlighted notes. Accessible via Ctrl+Shift+V.
 * Added BMS file tabs. See below for details.
+* Added #BMP list.
+* Added "brush" tool to BMP notes. Select a range of BMP files in the #BMP list then create a long note in NTInput mode, and the BMP notes will be added correspondingly.
 
 ## Keyboard shortcuts
 * While rebinding keys is now supported, the default keybinding has also been changed to allow note placement between D1 and D8 or only on PMS lanes in PMS mode:

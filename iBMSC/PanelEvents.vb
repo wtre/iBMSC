@@ -1978,6 +1978,50 @@ Partial Public Class MainWindow
         HSValue = -1
         Timer1.Enabled = False
         'KMouseDown = -1
+
+        ' Faux Brush Tool for notes
+        If SelectedNotes.Length = 1 AndAlso IsColumnImage(SelectedNotes(0).ColumnIndex) Then
+            ' Dim VLen = SelectedNotes(0).Length
+            ' P: This line above doesn't work so yeah, only way to find it is with the Undo list LOL
+            Dim VPosStart As Double
+            Dim VLen As Double
+            Dim xColumn As Integer
+            With CType(sRedo(sI), UndoRedo.AddNote).note
+                VLen = .Length
+                VPosStart = .VPosition
+                xColumn = .ColumnIndex
+            End With
+
+            If VLen <> 0 Then
+                TBUndo_Click(Nothing, Nothing)
+
+                Dim xUndo As UndoRedo.LinkedURCmd = Nothing
+                Dim xRedo As UndoRedo.LinkedURCmd = New UndoRedo.Void
+                Dim xBaseRedo As UndoRedo.LinkedURCmd = xRedo
+
+                Dim n = New Note(xColumn, VPosStart, (LBMP.SelectedIndices(0) + 1) * 10000,
+                                         False, False, True, False)
+                RedoAddNote(n, xUndo, xRedo)
+                AddNote(n)
+
+                For xI = 1 To LBMP.SelectedIndices.Count - 1
+                    n = New Note(xColumn, VPosStart + VLen * xI / (LBMP.SelectedIndices.Count - 1), (LBMP.SelectedIndices(xI) + 1) * 10000,
+                                         False, False, True, False)
+
+                    RedoAddNote(n, xUndo, xRedo)
+                    AddNote(n)
+                Next
+                AddUndo(xUndo, xBaseRedo.Next)
+
+                If Not ShouldDrawTempNote Then ShouldDrawTempNote = True
+
+                CalculateGreatestVPosition()
+                RefreshPanelAll()
+                ReDim SelectedNotes(-1)
+                Exit Sub
+            End If
+        End If
+
         ReDim SelectedNotes(-1)
 
         Dim PanelS As Panel = CType(sender, Panel)
