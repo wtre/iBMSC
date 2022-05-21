@@ -136,6 +136,11 @@ Partial Public Class MainWindow
                 .WriteAttributeString("BeatChangeMode", BeatChangeMode.ToString())
                 .WriteEndElement()
 
+                .WriteStartElement("BMP")
+                .WriteAttributeString("BMPMultiSelect", BMPMultiSelect.ToString())
+                .WriteAttributeString("BMPChangeLabel", BMPChangeLabel.ToString())
+                .WriteEndElement()
+
                 .WriteStartElement("ShowHide")
                 .WriteAttributeString("showMenu", mnSMenu.Checked.ToString())
                 .WriteAttributeString("showTB", mnSTB.Checked.ToString())
