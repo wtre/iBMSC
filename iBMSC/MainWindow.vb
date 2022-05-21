@@ -76,7 +76,7 @@ Public Class MainWindow
     Dim TemplateSnapToVPosition As Boolean = False
     Dim PastePatternToVPosition As Boolean = False
 
-    Dim IsInitializing As Boolean = True
+    Dim IsApplicationInitializing As Boolean = True
     Dim FirstMouseEnter As Boolean = True
 
     Dim WAVMultiSelect As Boolean = True
@@ -1205,12 +1205,6 @@ Public Class MainWindow
         TExpansion.Text = ""
         ReDim ExpansionSplit(2)
 
-        LWAV.Items.Clear()
-        LBMP.Items.Clear()
-        For xI1 = 1 To 1295
-            LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
-            LBMP.Items.Add(C10to36(xI1) & ": " & hBMP(xI1))
-        Next
 
         ReDim MeasureLength(999)
         LBeat.Items.Clear()
@@ -1381,7 +1375,6 @@ Public Class MainWindow
         'Me.ShowCaption = False
         'SetWindowText(Me.Handle.ToInt32, FileName)
 
-        InitializeNewBMS()
         'nBeatD.SelectedIndex = 4
 
         Try
@@ -1415,7 +1408,16 @@ Public Class MainWindow
         sRedo(1) = New UndoRedo.NoOperation
         sI = 0
 
+
+        LWAV.Items.Clear()
+        LBMP.Items.Clear()
+        For xI1 = 1 To 1295
+            LWAV.Items.Add(C10to36(xI1) & ": " & hWAV(xI1))
+            LBMP.Items.Add(C10to36(xI1) & ": " & hBMP(xI1))
+        Next
+
         LWAV.SelectedIndex = 0
+        LBMP.SelectedIndex = 0
         CHPlayer.SelectedIndex = 0
 
         CalculateGreatestVPosition()
@@ -1434,8 +1436,6 @@ Public Class MainWindow
             '-----------------------------------------------------------------------------------------------------------------
         End If
         'On Error GoTo 0
-        LoadColorOverride(FileName)
-        SetIsSaved(True)
 
         Dim BMSFileListCheck(UBound(BMSFileList)) As String
         Dim i = -1
@@ -1461,7 +1461,6 @@ Public Class MainWindow
         SetBMSFileIndex(BMSFileIndex)
 
         'pIsSaved.Visible = Not IsSaved
-        IsInitializing = False
 
         If Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length <= 1 Then
 
@@ -1490,8 +1489,6 @@ Public Class MainWindow
             End If
         End If
 
-        POStatusRefresh()
-        Me.ResumeLayout()
 
         tempResize = Me.WindowState
         Me.TopMost = False
@@ -1512,7 +1509,15 @@ Public Class MainWindow
 
         If PreloadBMSStruct Then SaveAllBMSStruct()
 
-        If BMSFileIndex <> UBound(BMSFileList) Then ReadFile(BMSFileList(BMSFileIndex))
+        IsApplicationInitializing = False
+
+        If BMSFileIndex <> UBound(BMSFileList) Then ReadFile(BMSFileList(BMSFileIndex)) Else InitializeNewBMS()
+
+        LoadColorOverride(FileName)
+        SetIsSaved(True)
+
+        POStatusRefresh()
+        Me.ResumeLayout()
     End Sub
 
     Private Sub UpdatePairing()
@@ -1874,6 +1879,8 @@ Public Class MainWindow
 
         LWAVRefresh()
         LWAV.SelectedIndex = 0
+        LBMPRefresh()
+        LBMP.SelectedIndex = 0
 
         SetIsSaved(True)
         'pIsSaved.Visible = Not IsSaved
@@ -4175,7 +4182,7 @@ Public Class MainWindow
         'AddUndo(xUndo, xRedo)
         UpdateColumnsX()
 
-        If IsInitializing Then Exit Sub
+        If IsApplicationInitializing Then Exit Sub
         RefreshPanelAll()
     End Sub
 
@@ -5985,7 +5992,7 @@ Public Class MainWindow
         column(niPOOR).isVisible = gDisplayBGAColumn
         column(niS4).isVisible = gDisplayBGAColumn
 
-        If IsInitializing Then Exit Sub
+        If IsApplicationInitializing Then Exit Sub
         For xI1 As Integer = 1 To UBound(Notes)
             Notes(xI1).Selected = Notes(xI1).Selected And nEnabled(Notes(xI1).ColumnIndex)
         Next
@@ -5998,7 +6005,7 @@ Public Class MainWindow
 
         column(niSCROLL).isVisible = gSCROLL
 
-        If IsInitializing Then Exit Sub
+        If IsApplicationInitializing Then Exit Sub
         For xI1 As Integer = 1 To UBound(Notes)
             Notes(xI1).Selected = Notes(xI1).Selected And nEnabled(Notes(xI1).ColumnIndex)
         Next
@@ -6011,7 +6018,7 @@ Public Class MainWindow
 
         column(niSTOP).isVisible = gSTOP
 
-        If IsInitializing Then Exit Sub
+        If IsApplicationInitializing Then Exit Sub
         For xI1 As Integer = 1 To UBound(Notes)
             Notes(xI1).Selected = Notes(xI1).Selected And nEnabled(Notes(xI1).ColumnIndex)
         Next
@@ -6027,7 +6034,7 @@ Public Class MainWindow
 
         column(niBPM).isVisible = gBPM
 
-        If IsInitializing Then Exit Sub
+        If IsApplicationInitializing Then Exit Sub
         For xI1 As Integer = 1 To UBound(Notes)
             Notes(xI1).Selected = Notes(xI1).Selected And nEnabled(Notes(xI1).ColumnIndex)
         Next

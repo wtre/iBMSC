@@ -3,7 +3,7 @@
 Partial Public Class MainWindow
 
     Private Sub RefreshPanelAll()
-        If IsInitializing Then Exit Sub
+        If IsApplicationInitializing Then Exit Sub
         RefreshPanel(0, PMainInL.DisplayRectangle)
         RefreshPanel(1, PMainIn.DisplayRectangle)
         RefreshPanel(2, PMainInR.DisplayRectangle)
@@ -32,8 +32,9 @@ Partial Public Class MainWindow
     End Function
 
     Private Sub RefreshPanel(ByVal xIndex As Integer, ByVal DisplayRect As Rectangle)
-        If Me.WindowState = FormWindowState.Minimized Then Return
-        If DisplayRect.Width <= 0 Or DisplayRect.Height <= 0 Then Return
+        If IsApplicationInitializing OrElse
+            Me.WindowState = FormWindowState.Minimized OrElse
+            DisplayRect.Width <= 0 OrElse DisplayRect.Height <= 0 Then Return
         'If spMain.Count = 0 Then Return
         'Dim currentContext As BufferedGraphicsContext = BufferedGraphicsManager.Current
         Dim e1 As BufferedGraphics = GetBuffer(xIndex, DisplayRect)

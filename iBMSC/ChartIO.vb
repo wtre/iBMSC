@@ -218,7 +218,7 @@ Partial Public Class MainWindow
         Next
 
         UpdateMeasureBottom()
-        LBeatRefresh()
+        If Not IsApplicationInitializing Then LBeatRefresh()
 
         ' BPM must be updated before loading notes, do not combine loops
         ' xStrLine2 should contain only # lines for notes
@@ -268,23 +268,26 @@ Partial Public Class MainWindow
         Else
             If NTInput Then ConvertBMSE2NT()
 
-            ' Add waveforms to wLWAV
-            If ShowWaveform Then WaveformLoadId = 1 : TimerLoadWaveform.Enabled = True
-            LWAVRefresh()
-            LWAV.SelectedIndex = 0
-            LBMPRefresh()
-            LBMP.SelectedIndex = 0
+            If Not IsApplicationInitializing Then
+                ' Add waveforms to wLWAV
+                If ShowWaveform Then WaveformLoadId = 1 : TimerLoadWaveform.Enabled = True
+                LWAVRefresh()
+                LWAV.SelectedIndex = 0
+                LBMPRefresh()
+                LBMP.SelectedIndex = 0
 
-            TExpansion.Text = xExpansion
+                TExpansion.Text = xExpansion
+
+                LoadColorOverride(FileName)
+                SortByVPositionQuick(0, UBound(Notes))
+                UpdatePairing()
+                CalculateTotalPlayableNotes()
+                CalculateGreatestVPosition()
+                RefreshPanelAll()
+                POStatusRefresh()
+
+            End If
         End If
-
-        LoadColorOverride(FileName)
-        SortByVPositionQuick(0, UBound(Notes))
-        UpdatePairing()
-        CalculateTotalPlayableNotes()
-        CalculateGreatestVPosition()
-        RefreshPanelAll()
-        POStatusRefresh()
     End Sub
 
     Private Sub AddToExpansion(ByRef xExpansion As String, ByRef xStack As Integer, ByVal sLine As String)
