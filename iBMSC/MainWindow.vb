@@ -1511,7 +1511,7 @@ Public Class MainWindow
 
         IsApplicationInitializing = False
 
-        If BMSFileIndex <> UBound(BMSFileList) Then ReadFile(BMSFileList(BMSFileIndex)) Else InitializeNewBMS()
+        If BMSFileIndex <> UBound(BMSFileList) Then ReadFile(BMSFileList(BMSFileIndex)) Else TBNew_Click(Nothing, Nothing)
 
         LoadColorOverride(FileName)
         SetIsSaved(True)
@@ -2457,6 +2457,7 @@ Public Class MainWindow
     End Sub
 
     Private Sub LWAVRefresh()
+        LWAV.BeginUpdate()
         LWAVRefreshId = 1
         LWAV.Enabled = False
         TimerLWAVRefresh.Enabled = True
@@ -2471,12 +2472,14 @@ Public Class MainWindow
             LWAVRefreshId = 1
             LWAV.Enabled = True
             TimerLWAVRefresh.Enabled = False
+            LWAV.EndUpdate()
             Exit Sub
         End If
         LWAVRefreshId += 1
     End Sub
 
     Private Sub LBMPRefresh()
+        LBMP.BeginUpdate()
         LBMPRefreshId = 1
         LBMP.Enabled = False
         TimerLBMPRefresh.Enabled = True
@@ -2491,6 +2494,7 @@ Public Class MainWindow
             LBMPRefreshId = 1
             LBMP.Enabled = True
             TimerLBMPRefresh.Enabled = False
+            LBMP.EndUpdate()
             Exit Sub
         End If
         LBMPRefreshId += 1
