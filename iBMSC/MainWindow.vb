@@ -662,15 +662,18 @@ Public Class MainWindow
     End Function
 
     Public Function PrevCodeToReal(ByVal InitStr As String) As String
-        Dim xFileName As String = IIf(Not PathIsValid(FileName),
+        Dim xPath As String = IIf(Not PathIsValid(FileName),
                                         IIf(InitPath = "", My.Application.Info.DirectoryPath, InitPath),
                                         ExcludeFileName(FileName)).ToString() _
-                                        & "\" & TempFileName
+                                        & "\"
+        Dim xFileName As String = xPath & TempFileName
+        Dim xFileNameT As String = xPath & FileNameTemplate
         Dim xMeasure As Integer = MeasureAtDisplacement(Math.Abs(PanelVScroll(PanelFocus)))
-        Dim xS1 As String = Replace(InitStr, "<apppath>", My.Application.Info.DirectoryPath)
-        Dim xS2 As String = Replace(xS1, "<measure>", xMeasure.ToString())
-        Dim xS3 As String = Replace(xS2, "<filename>", xFileName)
-        Return xS3
+        Dim xStr As String = Replace(InitStr, "<apppath>", My.Application.Info.DirectoryPath)
+        xStr = Replace(xStr, "<measure>", xMeasure.ToString())
+        xStr = Replace(xStr, "<filename>", xFileName)
+        xStr = Replace(xStr, "<filenameT>", xFileNameT)
+        Return xStr
     End Function
 
     Private Sub SetFileName(ByVal xFileName As String)

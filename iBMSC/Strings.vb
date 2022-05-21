@@ -135,6 +135,7 @@ Public Class Strings
         Public Shared DirectoryOfApp As String = "Directory of the application"
         Public Shared CurrMeasure As String = "Current measure"
         Public Shared FileName As String = "File Name"
+        Public Shared FileNameTemplate As String = "File Name of Template"
         Public Shared RestoreDefault As String = "Restore Default"
     End Class
 

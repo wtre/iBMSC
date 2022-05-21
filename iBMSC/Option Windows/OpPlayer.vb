@@ -29,10 +29,11 @@ Public Class OpPlayer
         Label4.Text = Strings.fopPlayer.StopPlaying
         BAdd.Text = Strings.fopPlayer.Add
         BRemove.Text = Strings.fopPlayer.Remove
-        Label6.Text = Strings.fopPlayer.References & vbCrLf &
+        LReferences.Text = Strings.fopPlayer.References & vbCrLf &
                       "<apppath> = " & Strings.fopPlayer.DirectoryOfApp & vbCrLf &
                       "<measure> = " & Strings.fopPlayer.CurrMeasure & vbCrLf &
-                      "<filename> = " & Strings.fopPlayer.FileName
+                      "<filename> = " & Strings.fopPlayer.FileName & vbCrLf &
+                      "<filenameT> = " & Strings.fopPlayer.FileNameTemplate
         OK_Button.Text = Strings.OK
         Cancel_Button.Text = Strings.Cancel
         BDefault.Text = Strings.fopPlayer.RestoreDefault
@@ -151,7 +152,7 @@ Public Class OpPlayer
 
     Private Sub ValidateTextBox()
         For Each xT As TextBox In New TextBox() {TPath, TPlayB, TPlay, TStop}
-            Dim xText As String = xT.Text.Replace("<apppath>", "").Replace("<measure>", "").Replace("<filename>", "").Replace("""", "")
+            Dim xText As String = xT.Text.Replace("<apppath>", "").Replace("<measure>", "").Replace("<filename>", "").Replace("<filenameT>", "").Replace("""", "")
             Dim xContainsInvalidChar As Boolean = False
 
             For Each xC As Char In Path.GetInvalidPathChars

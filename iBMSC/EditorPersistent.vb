@@ -1281,6 +1281,7 @@ Partial Public Class MainWindow
                 XMLLoadLocale(ePlayerOptions.Item("DirectoryOfApp"), Strings.fopPlayer.DirectoryOfApp)
                 XMLLoadLocale(ePlayerOptions.Item("CurrMeasure"), Strings.fopPlayer.CurrMeasure)
                 XMLLoadLocale(ePlayerOptions.Item("FileName"), Strings.fopPlayer.FileName)
+                XMLLoadLocale(ePlayerOptions.Item("FileNameTemplate"), Strings.fopPlayer.FileNameTemplate)
                 XMLLoadLocale(ePlayerOptions.Item("RestoreDefault"), Strings.fopPlayer.RestoreDefault)
             End If
 

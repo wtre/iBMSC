@@ -30,7 +30,7 @@ Partial Class OpPlayer
         Me.TPlayB = New System.Windows.Forms.TextBox()
         Me.TPlay = New System.Windows.Forms.TextBox()
         Me.TStop = New System.Windows.Forms.TextBox()
-        Me.Label6 = New System.Windows.Forms.Label()
+        Me.LReferences = New System.Windows.Forms.Label()
         Me.TPath = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.BBrowse = New System.Windows.Forms.Button()
@@ -48,7 +48,7 @@ Partial Class OpPlayer
         '
         Me.OK_Button.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK_Button.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.OK_Button.Location = New System.Drawing.Point(72, 316)
+        Me.OK_Button.Location = New System.Drawing.Point(72, 331)
         Me.OK_Button.Name = "OK_Button"
         Me.OK_Button.Size = New System.Drawing.Size(78, 23)
         Me.OK_Button.TabIndex = 0
@@ -59,7 +59,7 @@ Partial Class OpPlayer
         Me.Cancel_Button.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cancel_Button.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.Cancel_Button.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.Cancel_Button.Location = New System.Drawing.Point(156, 316)
+        Me.Cancel_Button.Location = New System.Drawing.Point(156, 331)
         Me.Cancel_Button.Name = "Cancel_Button"
         Me.Cancel_Button.Size = New System.Drawing.Size(78, 23)
         Me.Cancel_Button.TabIndex = 1
@@ -115,13 +115,13 @@ Partial Class OpPlayer
         '
         'Label6
         '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(14, 244)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(225, 60)
-        Me.Label6.TabIndex = 11
-        Me.Label6.Text = "References (case-sensitive):" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<apppath> = Directory of the application" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<measure>" &
-    " = Current measure" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<filename> = File Name"
+        Me.LReferences.AutoSize = True
+        Me.LReferences.Location = New System.Drawing.Point(14, 244)
+        Me.LReferences.Name = "Label6"
+        Me.LReferences.Size = New System.Drawing.Size(225, 75)
+        Me.LReferences.TabIndex = 11
+        Me.LReferences.Text = "References (case-sensitive):" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<apppath> = Directory of the application" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<measure>" &
+    " = Current measure" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<filename> = File Name" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "<filenameT> = File Name of Template"
         '
         'TPath
         '
@@ -153,7 +153,7 @@ Partial Class OpPlayer
         '
         Me.BDefault.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BDefault.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.BDefault.Location = New System.Drawing.Point(240, 316)
+        Me.BDefault.Location = New System.Drawing.Point(240, 331)
         Me.BDefault.Name = "BDefault"
         Me.BDefault.Size = New System.Drawing.Size(130, 23)
         Me.BDefault.TabIndex = 62
@@ -223,7 +223,7 @@ Partial Class OpPlayer
         Me.AcceptButton = Me.OK_Button
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.CancelButton = Me.Cancel_Button
-        Me.ClientSize = New System.Drawing.Size(382, 351)
+        Me.ClientSize = New System.Drawing.Size(382, 366)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.PictureBox1)
@@ -236,7 +236,7 @@ Partial Class OpPlayer
         Me.Controls.Add(Me.BBrowse)
         Me.Controls.Add(Me.TPath)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.LReferences)
         Me.Controls.Add(Me.TStop)
         Me.Controls.Add(Me.TPlay)
         Me.Controls.Add(Me.TPlayB)
@@ -264,7 +264,7 @@ Partial Class OpPlayer
     Friend WithEvents TPlayB As System.Windows.Forms.TextBox
     Friend WithEvents TPlay As System.Windows.Forms.TextBox
     Friend WithEvents TStop As System.Windows.Forms.TextBox
-    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents LReferences As System.Windows.Forms.Label
     Friend WithEvents TPath As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents BBrowse As System.Windows.Forms.Button
