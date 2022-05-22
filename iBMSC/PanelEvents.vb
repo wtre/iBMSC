@@ -36,7 +36,8 @@ Partial Public Class MainWindow
         keyComboEvent(UBound(keyComboEvent)) = e.KeyCode.ToString()
 
         ' Determine
-        Dim keybindOptionName As String = ""
+        Dim KeybindOptionVar As Integer = -1
+        Dim KeybindOptionName As String = ""
 
         Dim HasSelectedNotes As Boolean = False
         Dim FirstSelectedNote As Integer
@@ -80,108 +81,67 @@ Partial Public Class MainWindow
                 If P = KbCategoryAllMod Then keyComboString = e.KeyCode.ToString()
 
                 If keybind.Combo.Contains(keyComboString) Then
-                    keybindOptionName = keybind.OpName
+                    KeybindOptionVar = keybind.OpVar
+                    KeybindOptionName = keybind.OpName
                     Exit For
                 End If
             Next
-            If keybindOptionName <> "" Then Exit For
+            If KeybindOptionVar <> -1 Then Exit For
         Next
 
-        Select Case keybindOptionName
-            Case "Move to A2"
-                MoveToColumn(niA2, xUndo, xRedo)
-            Case "Move to A3"
-                MoveToColumn(niA3, xUndo, xRedo)
-            Case "Move to A4"
-                MoveToColumn(niA4, xUndo, xRedo)
-            Case "Move to A5"
-                MoveToColumn(niA5, xUndo, xRedo)
-            Case "Move to A6"
-                MoveToColumn(niA6, xUndo, xRedo)
-            Case "Move to A7"
-                MoveToColumn(niA7, xUndo, xRedo)
-            Case "Move to A8"
-                MoveToColumn(niA8, xUndo, xRedo)
-            Case "Move to A1"
-                MoveToColumn(niA1, xUndo, xRedo)
+        Select Case KeybindOptionVar
+            Case 0 : MoveToColumn(niA2, xUndo, xRedo)
+            Case 1 : MoveToColumn(niA3, xUndo, xRedo)
+            Case 2 : MoveToColumn(niA4, xUndo, xRedo)
+            Case 3 : MoveToColumn(niA5, xUndo, xRedo)
+            Case 4 : MoveToColumn(niA6, xUndo, xRedo)
+            Case 5 : MoveToColumn(niA7, xUndo, xRedo)
+            Case 6 : MoveToColumn(niA8, xUndo, xRedo)
+            Case 7 : MoveToColumn(niA1, xUndo, xRedo)
 
-            Case "Move to D1"
-                MoveToColumn(niD1, xUndo, xRedo)
-            Case "Move to D2"
-                MoveToColumn(niD2, xUndo, xRedo)
-            Case "Move to D3"
-                MoveToColumn(niD3, xUndo, xRedo)
-            Case "Move to D4"
-                MoveToColumn(niD4, xUndo, xRedo)
-            Case "Move to D5"
-                MoveToColumn(niD5, xUndo, xRedo)
-            Case "Move to D6"
-                MoveToColumn(niD6, xUndo, xRedo)
-            Case "Move to D7"
-                MoveToColumn(niD7, xUndo, xRedo)
-            Case "Move to D8"
-                MoveToColumn(niD8, xUndo, xRedo)
+            Case 10 : MoveToColumn(niD1, xUndo, xRedo)
+            Case 11 : MoveToColumn(niD2, xUndo, xRedo)
+            Case 12 : MoveToColumn(niD3, xUndo, xRedo)
+            Case 13 : MoveToColumn(niD4, xUndo, xRedo)
+            Case 14 : MoveToColumn(niD5, xUndo, xRedo)
+            Case 15 : MoveToColumn(niD6, xUndo, xRedo)
+            Case 16 : MoveToColumn(niD7, xUndo, xRedo)
+            Case 17 : MoveToColumn(niD8, xUndo, xRedo)
 
-            Case "Move to P1"
-                MoveToColumn(niA2, xUndo, xRedo)
-            Case "Move to P2"
-                MoveToColumn(niA3, xUndo, xRedo)
-            Case "Move to P3"
-                MoveToColumn(niA4, xUndo, xRedo)
-            Case "Move to P4"
-                MoveToColumn(niA5, xUndo, xRedo)
-            Case "Move to P5"
-                MoveToColumn(niA6, xUndo, xRedo)
-            Case "Move to P6"
-                MoveToColumn(niD2, xUndo, xRedo)
-            Case "Move to P7"
-                MoveToColumn(niD3, xUndo, xRedo)
-            Case "Move to P8"
-                MoveToColumn(niD4, xUndo, xRedo)
-            Case "Move to P9"
-                MoveToColumn(niD5, xUndo, xRedo)
+            Case 20 : MoveToColumn(niA2, xUndo, xRedo)
+            Case 21 : MoveToColumn(niA3, xUndo, xRedo)
+            Case 22 : MoveToColumn(niA4, xUndo, xRedo)
+            Case 23 : MoveToColumn(niA5, xUndo, xRedo)
+            Case 24 : MoveToColumn(niA6, xUndo, xRedo)
+            Case 25 : MoveToColumn(niD2, xUndo, xRedo)
+            Case 26 : MoveToColumn(niD3, xUndo, xRedo)
+            Case 27 : MoveToColumn(niD4, xUndo, xRedo)
+            Case 28 : MoveToColumn(niD5, xUndo, xRedo)
 
-            Case "Move to BGM"
-                MoveToBGM(xUndo, xRedo)
-            Case "Move to Template Position"
-                MoveToTemplatePosition(xUndo, xRedo)
-            Case "Disable Vertical Moves"
-                CGDisableVertical.Checked = Not CGDisableVertical.Checked
-            Case "Snap to Grid"
-                CGSnap.Checked = Not gSnap
-            Case "Convert to Long Note"
-                POBLong_Click(Nothing, Nothing)
-            Case "Convert to Short Note"
-                POBNormal_Click(Nothing, Nothing)
-            Case "Convert between Long and Short Note"
-                POBNormalLong_Click(Nothing, Nothing)
-            Case "Auto Long Note (By VPosition)"
-                POBAutoLongVPosition_Click(Nothing, Nothing)
-            Case "Auto Long Note (By Column)"
-                POBAutoLongColumn_Click(Nothing, Nothing)
-            Case "Check Technical Error"
-                CheckTechnicalError(Nothing, Nothing)
-            Case "Select Expansion Section"
-                Expand_Load(Nothing, Nothing)
+            Case 100 : MoveToBGM(xUndo, xRedo)
+            Case 101 : MoveToTemplatePosition(xUndo, xRedo)
+            Case 102 : CGDisableVertical.Checked = Not CGDisableVertical.Checked
+            Case 103 : CGSnap.Checked = Not gSnap
 
-            Case "Undo"
-                TBUndo_Click(TBUndo, New EventArgs)
-            Case "Redo"
-                TBRedo_Click(TBRedo, New EventArgs)
-            Case "Cut"
-                TBCut_Click(TBCut, New EventArgs)
-            Case "Copy"
-                TBCopy_Click(TBCopy, New EventArgs)
-            Case "Paste"
-                TBPaste_Click(TBPaste, New EventArgs)
-            Case "Paste Pattern"
-                TBPastePattern_Click(mnPastePattern, New EventArgs)
-            Case "Select All"
-                mnSelectAll_Click(mnSelectAll, New EventArgs)
-            Case "Select All with Hovered Note Label"
-                If KMouseOver <> -1 Then SelectAllWithHoveredNoteLabel()
+            Case 104 : POBLong_Click(Nothing, Nothing)
+            Case 105 : POBNormal_Click(Nothing, Nothing)
+            Case 106 : POBNormalLong_Click(Nothing, Nothing)
+            Case 107 : POBAutoLongVPosition_Click(Nothing, Nothing)
+            Case 108 : POBAutoLongColumn_Click(Nothing, Nothing)
 
-            Case "Move Note Up"
+            Case 109 : CheckTechnicalError(Nothing, Nothing)
+            Case 110 : Expand_Load(Nothing, Nothing)
+
+            Case 111 : TBUndo_Click(TBUndo, New EventArgs)
+            Case 112 : TBRedo_Click(TBRedo, New EventArgs)
+            Case 113 : TBCut_Click(TBCut, New EventArgs)
+            Case 114 : TBCopy_Click(TBCopy, New EventArgs)
+            Case 115 : TBPaste_Click(TBPaste, New EventArgs)
+            Case 116 : TBPastePattern_Click(mnPastePattern, New EventArgs)
+            Case 117 : mnSelectAll_Click(mnSelectAll, New EventArgs)
+            Case 118 : If KMouseOver <> -1 Then SelectAllWithHoveredNoteLabel()
+
+            Case 200
                 Dim xVPosition As Double = 192 / gDivide
                 If My.Computer.Keyboard.CtrlKeyDown Then xVPosition = 1
 
@@ -214,7 +174,7 @@ Partial Public Class MainWindow
                 CalculateTotalPlayableNotes()
                 CalculateGreatestVPosition()
                 RefreshPanelAll()
-            Case "Move Note Down"
+            Case 201
                 Dim xVPosition As Double = -192 / gDivide
                 If My.Computer.Keyboard.CtrlKeyDown Then xVPosition = -1
 
@@ -245,7 +205,7 @@ Partial Public Class MainWindow
                 CalculateTotalPlayableNotes()
                 CalculateGreatestVPosition()
                 RefreshPanelAll()
-            Case "Move Note Left"
+            Case 202
                 'For xI1 = 1 To UBound(K)
                 '    If K(xI1).Selected Then K(xI1).ColumnIndex = RealColumnToEnabled(K(xI1).ColumnIndex) - 1
                 'Next
@@ -272,7 +232,7 @@ Partial Public Class MainWindow
                 UpdatePairing()
                 CalculateTotalPlayableNotes()
                 RefreshPanelAll()
-            Case "Move Note Right"
+            Case 203
                 Dim xCol As Integer
                 For xI1 = UBound(Notes) To 1 Step -1
                     If Not Notes(xI1).Selected Or Notes(xI1).Ghost Then Continue For
@@ -287,7 +247,7 @@ Partial Public Class MainWindow
                 UpdatePairing()
                 CalculateTotalPlayableNotes()
                 RefreshPanelAll()
-            Case "Insert Space/Define Measure"
+            Case 204
                 If TBTimeSelect.Checked Then
                     With My.Computer.Keyboard
                         If Not .CtrlKeyDown And Not .ShiftKeyDown Then
@@ -301,7 +261,7 @@ Partial Public Class MainWindow
                         End If
                     End With
                 End If
-            Case "Decrease Division"
+            Case 213
                 With My.Computer.Keyboard
                     Dim Modif As Integer = CInt(IIf(.ShiftKeyDown, 3, 2))
                     If Not .CtrlKeyDown And Not .AltKeyDown Then ' Divide CGDivide
@@ -314,7 +274,7 @@ Partial Public Class MainWindow
                         If CGSub.Value - 1 >= CGSub.Minimum Then CGSub.Value -= 1
                     End If
                 End With
-            Case "Increase Division"
+            Case 214
                 With My.Computer.Keyboard
                     Dim Modif As Integer = CInt(IIf(.ShiftKeyDown, 3, 2))
                     If Not .CtrlKeyDown And Not .AltKeyDown Then ' Divide CGDivide
@@ -328,30 +288,30 @@ Partial Public Class MainWindow
                     End If
                 End With
 
-            Case "Delete"
+            Case 205
                 mnDelete_Click(mnDelete, New System.EventArgs)
-            Case "Home"
+            Case 206
                 If PanelFocus = 0 Then LeftPanelScroll.Value = 0
                 If PanelFocus = 1 Then MainPanelScroll.Value = 0
                 If PanelFocus = 2 Then RightPanelScroll.Value = 0
-            Case "End"
+            Case 207
                 If PanelFocus = 0 Then LeftPanelScroll.Value = LeftPanelScroll.Minimum
                 If PanelFocus = 1 Then MainPanelScroll.Value = MainPanelScroll.Minimum
                 If PanelFocus = 2 Then RightPanelScroll.Value = RightPanelScroll.Minimum
-            Case "PageUp"
+            Case 208
                 If PanelFocus = 0 Then LeftPanelScroll.Value = CInt(IIf(LeftPanelScroll.Value - gPgUpDn > LeftPanelScroll.Minimum, LeftPanelScroll.Value - gPgUpDn, LeftPanelScroll.Minimum))
                 If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value - gPgUpDn > MainPanelScroll.Minimum, MainPanelScroll.Value - gPgUpDn, MainPanelScroll.Minimum))
                 If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value - gPgUpDn > RightPanelScroll.Minimum, RightPanelScroll.Value - gPgUpDn, RightPanelScroll.Minimum))
-            Case "PageDown"
+            Case 209
                 If PanelFocus = 0 Then LeftPanelScroll.Value = CInt(IIf(LeftPanelScroll.Value + gPgUpDn < 0, LeftPanelScroll.Value + gPgUpDn, 0))
                 If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value + gPgUpDn < 0, MainPanelScroll.Value + gPgUpDn, 0))
                 If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value + gPgUpDn < 0, RightPanelScroll.Value + gPgUpDn, 0))
-            Case "Next" ' Same as PageDown
+            Case 210 ' Same as PageDown
                 If PanelFocus = 0 Then LeftPanelScroll.Value = CInt(IIf(LeftPanelScroll.Value + gPgUpDn < 0, LeftPanelScroll.Value + gPgUpDn, 0))
                 If PanelFocus = 1 Then MainPanelScroll.Value = CInt(IIf(MainPanelScroll.Value + gPgUpDn < 0, MainPanelScroll.Value + gPgUpDn, 0))
                 If PanelFocus = 2 Then RightPanelScroll.Value = CInt(IIf(RightPanelScroll.Value + gPgUpDn < 0, RightPanelScroll.Value + gPgUpDn, 0))
 
-            Case "TabBetweenFiles"
+            Case 211
                 If e.Control AndAlso Not e.Shift Then
                     If BMSFileIndex = UBound(BMSFileList) Then Exit Sub
 
@@ -365,7 +325,7 @@ Partial Public Class MainWindow
                     TBTab_Click(BMSFileTSBList(xIBMS), New EventArgs)
 
                 End If
-            Case "TabBetweenNotes"
+            Case 212
                 ' Cannot prevent the tab key from focusing on other things so I opted to use the capital key
                 If Not e.Shift Then
                     If Not HasSelectedNotes Then
@@ -403,26 +363,26 @@ Partial Public Class MainWindow
 
                 End If
 
-            Case "Set CGDivision"
+            Case 215
                 'Dim xTempSwap As Integer = gSlash
                 'gSlash = CGDivide.Value
                 'CGDivide.Value = xTempSwap
                 CGDivide.Value = gSlash
-            Case "Decrease CGHeight"
+            Case 216
                 With CGHeight
                     .Value -= CDec(IIf(.Value < .Minimum + .Increment, .Value - .Minimum, .Increment))
                 End With
-            Case "Increase CGHeight"
+            Case 217
                 With CGHeight
                     .Value += CDec(IIf(.Value > .Maximum - .Increment, .Maximum - .Value, .Increment))
                 End With
-            Case "DecreaseCurrentWav"
+            Case 218
                 DecreaseCurrentWAV()
-            Case "IncreaseCurrentWav"
+            Case 219
                 IncreaseCurrentWAV()
-            Case "TBPreviewHighlighted_Click"
+            Case 220
                 TBPreviewHighlighted_Click(sender, New EventArgs)
-            Case "GetVPositionFromTime" ' Currently not accessible
+            Case 222 ' "GetVPositionFromTime" ' Currently not accessible
                 MsgBox("VPosition: " & GetVPositionFromTime(CDbl(InputBox("Enter time"))))
         End Select
 

@@ -281,12 +281,14 @@ Public Class MainWindow
 
     '----Keybinding Options
     Structure Keybinding
+        Public OpVar As Integer
         Public OpName As String
         Public Description As String
         Public Combo() As String
         Public Category As Integer
 
-        Public Sub New(ByVal xOpName As String, Optional xDescription As String = "", Optional xKey() As String = Nothing, Optional xCategory As Integer = -1)
+        Public Sub New(xOpVar As Integer, ByVal xOpName As String, Optional xDescription As String = "", Optional xKey() As String = Nothing, Optional xCategory As Integer = -1)
+            OpVar = xOpVar
             OpName = xOpName
             Description = xDescription
             Combo = xKey
@@ -302,79 +304,79 @@ Public Class MainWindow
     Public KbCategoryHidden As Integer = 0
     Public KbCategory() As Integer = {KbCategoryPMS, KbCategoryDP, KbCategorySP, KbCategoryBGM, KbCategoryAllMod, KbCategoryHidden, -1} ' Order matters
     Public KeybindingsInit() As Keybinding = { ' SP Note Assignments
-                                       New Keybinding("Move to A2", "Move note to 1P Lane 1", {"D1", "NumPad1"}, KbCategorySP),
-                                       New Keybinding("Move to A3", "Move note to 1P Lane 2", {"D2", "NumPad2"}, KbCategorySP),
-                                       New Keybinding("Move to A4", "Move note to 1P Lane 3", {"D3", "NumPad3"}, KbCategorySP),
-                                       New Keybinding("Move to A5", "Move note to 1P Lane 4", {"D4", "NumPad4"}, KbCategorySP),
-                                       New Keybinding("Move to A6", "Move note to 1P Lane 5", {"D5", "NumPad5"}, KbCategorySP),
-                                       New Keybinding("Move to A7", "Move note to 1P Lane 6", {"D6", "NumPad6"}, KbCategorySP),
-                                       New Keybinding("Move to A8", "Move note to 1P Lane 7", {"D7", "NumPad7"}, KbCategorySP),
-                                       New Keybinding("Move to A1", Strings.fopKeybinding.MDesc1PS, {"D8", "NumPad8"}, KbCategorySP),
-                                                                                                                                     _ ' DP Note Assignments
-                                       New Keybinding("Move to D1", "Move note to 2P Lane 1", {"Q", "Ctrl+D1", "NumPad1"}, KbCategoryDP),
-                                       New Keybinding("Move to D2", "Move note to 2P Lane 2", {"W", "Ctrl+D2", "NumPad2"}, KbCategoryDP),
-                                       New Keybinding("Move to D3", "Move note to 2P Lane 3", {"E", "Ctrl+D3", "NumPad3"}, KbCategoryDP),
-                                       New Keybinding("Move to D4", "Move note to 2P Lane 4", {"R", "Ctrl+D4", "NumPad4"}, KbCategoryDP),
-                                       New Keybinding("Move to D5", "Move note to 2P Lane 5", {"T", "Ctrl+D5", "NumPad5"}, KbCategoryDP),
-                                       New Keybinding("Move to D6", "Move note to 2P Lane 6", {"Y", "Ctrl+D6", "NumPad6"}, KbCategoryDP),
-                                       New Keybinding("Move to D7", "Move note to 2P Lane 7", {"U", "Ctrl+D7", "NumPad7"}, KbCategoryDP),
-                                       New Keybinding("Move to D8", Strings.fopKeybinding.MDesc2PS, {"I", "Ctrl+D8", "NumPad8"}, KbCategoryDP),
-                                                                                                                                               _ ' PMS Note Assignments
-                                       New Keybinding("Move to P1", "Move note to PMS Lane 1", {"D1", "NumPad1"}, KbCategoryPMS),
-                                       New Keybinding("Move to P2", "Move note to PMS Lane 2", {"D2", "NumPad2"}, KbCategoryPMS),
-                                       New Keybinding("Move to P3", "Move note to PMS Lane 3", {"D3", "NumPad3"}, KbCategoryPMS),
-                                       New Keybinding("Move to P4", "Move note to PMS Lane 4", {"D4", "NumPad4"}, KbCategoryPMS),
-                                       New Keybinding("Move to P5", "Move note to PMS Lane 5", {"D5", "NumPad5"}, KbCategoryPMS),
-                                       New Keybinding("Move to P6", "Move note to PMS Lane 6", {"D6", "NumPad6"}, KbCategoryPMS),
-                                       New Keybinding("Move to P7", "Move note to PMS Lane 7", {"D7", "NumPad7"}, KbCategoryPMS),
-                                       New Keybinding("Move to P8", "Move note to PMS Lane 8", {"D8", "NumPad8"}, KbCategoryPMS),
-                                       New Keybinding("Move to P9", "Move note to PMS Lane 9", {"D9", "NumPad9"}, KbCategoryPMS),
-                                                                                                                                 _ ' Miscellaneous BMS
-                                       New Keybinding("Move to BGM", "Move note to BGM Lane", {"D0", "NumPad0"}, KbCategoryBGM),
-                                       New Keybinding("Move to Template Position", "Move note to Template Position if available", {"P"}),
-                                       New Keybinding("Disable Vertical Moves", "Disable vertical moves", {"D"}),
-                                       New Keybinding("Snap to Grid", "Snap to grid", {"G"}),
-                                                                                             _
-                                       New Keybinding("Convert to Long Note", "→ Long Note", {"L"}),
-                                       New Keybinding("Convert to Short Note", "→ Short Note", {"S"}),
-                                       New Keybinding("Convert between Long and Short Note", "Long Note ↔ Short Note", {""}),
-                                       New Keybinding("Auto Long Note (By VPosition)", "Auto Long Note (By VPosition)", {""}),
-                                       New Keybinding("Auto Long Note (By Column)", "Auto Long Note (By Column)", {""}),
-                                                                                                                        _
-                                       New Keybinding("Check Technical Error", "Check for technical errors such as impossible scratches in DP or impossible chords in PMS", {"Ctrl+Alt+E"}),
-                                       New Keybinding("Select Expansion Section", "Select #IF sections in the Expansion field", {"Ctrl+Alt+R"}),
-                                                                                                                                                _ ' Miscellaneous Editor
-                                       New Keybinding("Undo", "", {"Ctrl+Z"}),
-                                       New Keybinding("Redo", "", {"Ctrl+Y"}),
-                                       New Keybinding("Cut", "", {"Ctrl+X"}),
-                                       New Keybinding("Copy", "", {"Ctrl+C"}),
-                                       New Keybinding("Paste", "", {"Ctrl+V"}),
-                                       New Keybinding("Paste Pattern", "Apply pattern of the notes on the clipboard to the highlighted notes.", {"Ctrl+Shift+V"}),
-                                       New Keybinding("Select All", "Select all notes", {"Ctrl+A"}),
-                                       New Keybinding("Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"}),
-                                                                                                                                                              _ ' All Modifiers
-                                       New Keybinding("Move Note Up", "*HIDDEN*", {"Up"}, KbCategoryAllMod),
-                                       New Keybinding("Move Note Down", "*HIDDEN*", {"Down"}, KbCategoryAllMod),
-                                       New Keybinding("Move Note Left", "*HIDDEN*", {"Left"}, KbCategoryAllMod),
-                                       New Keybinding("Move Note Right", "*HIDDEN*", {"Right"}, KbCategoryAllMod),
-                                       New Keybinding("Insert Space/Define Measure", "*HIDDEN*", {"Insert"}, KbCategoryAllMod),
-                                       New Keybinding("Delete", "*HIDDEN*", {"Delete"}, KbCategoryAllMod),
-                                       New Keybinding("Home", "*HIDDEN*", {"Home"}, KbCategoryAllMod),
-                                       New Keybinding("End", "*HIDDEN*", {"End"}, KbCategoryAllMod),
-                                       New Keybinding("PageUp", "*HIDDEN*", {"PageUp"}, KbCategoryAllMod),
-                                       New Keybinding("PageDown", "*HIDDEN*", {"PageDown"}, KbCategoryAllMod),
-                                       New Keybinding("Next", "*HIDDEN*", {"Next"}, KbCategoryAllMod), ' ???
-                                       New Keybinding("TabBetweenFiles", "*HIDDEN*", {"Tab"}, KbCategoryAllMod),
-                                       New Keybinding("TabBetweenNotes", "*HIDDEN*", {"Capital"}, KbCategoryAllMod),
-                                       New Keybinding("Decrease Division", "*HIDDEN*", {"Oemcomma"}, KbCategoryAllMod),
-                                       New Keybinding("Increase Division", "*HIDDEN*", {"OemPeriod"}, KbCategoryAllMod),
-                                                                                                                        _ ' Hidden / Experimental
-                                       New Keybinding("Set CGDivision", "*HIDDEN*", {"OemQuestion"}, KbCategoryHidden),
-                                       New Keybinding("Decrease CGHeight", "*HIDDEN*", {"OemMinus"}, KbCategoryHidden),
-                                       New Keybinding("Increase CGHeight", "*HIDDEN*", {"Oemplus"}, KbCategoryHidden),
-                                       New Keybinding("DecreaseCurrentWav", "*HIDDEN*", {"Subtract"}, KbCategoryHidden),
-                                       New Keybinding("IncreaseCurrentWav", "*HIDDEN*", {"Add"}, KbCategoryHidden),
-                                       New Keybinding("TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"}, KbCategoryHidden)
+                                       New Keybinding(0, "Move to A2", "Move note to 1P Lane 1", {"D1", "NumPad1"}, KbCategorySP),
+                                       New Keybinding(1, "Move to A3", "Move note to 1P Lane 2", {"D2", "NumPad2"}, KbCategorySP),
+                                       New Keybinding(2, "Move to A4", "Move note to 1P Lane 3", {"D3", "NumPad3"}, KbCategorySP),
+                                       New Keybinding(3, "Move to A5", "Move note to 1P Lane 4", {"D4", "NumPad4"}, KbCategorySP),
+                                       New Keybinding(4, "Move to A6", "Move note to 1P Lane 5", {"D5", "NumPad5"}, KbCategorySP),
+                                       New Keybinding(5, "Move to A7", "Move note to 1P Lane 6", {"D6", "NumPad6"}, KbCategorySP),
+                                       New Keybinding(6, "Move to A8", "Move note to 1P Lane 7", {"D7", "NumPad7"}, KbCategorySP),
+                                       New Keybinding(7, "Move to A1", Strings.fopKeybinding.MDesc1PS, {"D8", "NumPad8"}, KbCategorySP),
+                                                                                                                                        _ ' DP Note Assignments
+                                       New Keybinding(10, "Move to D1", "Move note to 2P Lane 1", {"Q", "Ctrl+D1", "NumPad1"}, KbCategoryDP),
+                                       New Keybinding(11, "Move to D2", "Move note to 2P Lane 2", {"W", "Ctrl+D2", "NumPad2"}, KbCategoryDP),
+                                       New Keybinding(12, "Move to D3", "Move note to 2P Lane 3", {"E", "Ctrl+D3", "NumPad3"}, KbCategoryDP),
+                                       New Keybinding(13, "Move to D4", "Move note to 2P Lane 4", {"R", "Ctrl+D4", "NumPad4"}, KbCategoryDP),
+                                       New Keybinding(14, "Move to D5", "Move note to 2P Lane 5", {"T", "Ctrl+D5", "NumPad5"}, KbCategoryDP),
+                                       New Keybinding(15, "Move to D6", "Move note to 2P Lane 6", {"Y", "Ctrl+D6", "NumPad6"}, KbCategoryDP),
+                                       New Keybinding(16, "Move to D7", "Move note to 2P Lane 7", {"U", "Ctrl+D7", "NumPad7"}, KbCategoryDP),
+                                       New Keybinding(17, "Move to D8", Strings.fopKeybinding.MDesc2PS, {"I", "Ctrl+D8", "NumPad8"}, KbCategoryDP),
+                                                                                                                                                   _ ' PMS Note Assignments
+                                       New Keybinding(20, "Move to P1", "Move note to PMS Lane 1", {"D1", "NumPad1"}, KbCategoryPMS),
+                                       New Keybinding(21, "Move to P2", "Move note to PMS Lane 2", {"D2", "NumPad2"}, KbCategoryPMS),
+                                       New Keybinding(22, "Move to P3", "Move note to PMS Lane 3", {"D3", "NumPad3"}, KbCategoryPMS),
+                                       New Keybinding(23, "Move to P4", "Move note to PMS Lane 4", {"D4", "NumPad4"}, KbCategoryPMS),
+                                       New Keybinding(24, "Move to P5", "Move note to PMS Lane 5", {"D5", "NumPad5"}, KbCategoryPMS),
+                                       New Keybinding(25, "Move to P6", "Move note to PMS Lane 6", {"D6", "NumPad6"}, KbCategoryPMS),
+                                       New Keybinding(26, "Move to P7", "Move note to PMS Lane 7", {"D7", "NumPad7"}, KbCategoryPMS),
+                                       New Keybinding(27, "Move to P8", "Move note to PMS Lane 8", {"D8", "NumPad8"}, KbCategoryPMS),
+                                       New Keybinding(28, "Move to P9", "Move note to PMS Lane 9", {"D9", "NumPad9"}, KbCategoryPMS),
+                                                                                                                                     _ ' Miscellaneous BMS
+                                       New Keybinding(100, "Move to BGM", "Move note to BGM Lane", {"D0", "NumPad0"}, KbCategoryBGM),
+                                       New Keybinding(101, "Move to Template Position", "Move note to Template Position if available", {"P"}),
+                                       New Keybinding(102, "Disable Vertical Moves", "Disable vertical moves", {"D"}),
+                                       New Keybinding(103, "Snap to Grid", "Snap to grid", {"G"}),
+                                                                                                  _
+                                       New Keybinding(104, "Convert to Long Note", "→ Long Note", {"L"}),
+                                       New Keybinding(105, "Convert to Short Note", "→ Short Note", {"S"}),
+                                       New Keybinding(106, "Convert between Long and Short Note", "Long Note ↔ Short Note", {""}),
+                                       New Keybinding(107, "Auto Long Note (By VPosition)", "Auto Long Note (By VPosition)", {""}),
+                                       New Keybinding(108, "Auto Long Note (By Column)", "Auto Long Note (By Column)", {""}),
+                                                                                                                             _
+                                       New Keybinding(109, "Check Technical Error", "Check for technical errors such as impossible scratches in DP or impossible chords in PMS", {"Ctrl+Alt+E"}),
+                                       New Keybinding(110, "Select Expansion Section", "Select #IF sections in the Expansion field", {"Ctrl+Alt+R"}),
+                                                                                                                                                     _ ' Miscellaneous Editor
+                                       New Keybinding(111, "Undo", "", {"Ctrl+Z"}),
+                                       New Keybinding(112, "Redo", "", {"Ctrl+Y"}),
+                                       New Keybinding(113, "Cut", "", {"Ctrl+X"}),
+                                       New Keybinding(114, "Copy", "", {"Ctrl+C"}),
+                                       New Keybinding(115, "Paste", "", {"Ctrl+V"}),
+                                       New Keybinding(116, "Paste Pattern", "Apply pattern of the notes on the clipboard to the highlighted notes.", {"Ctrl+Shift+V"}),
+                                       New Keybinding(117, "Select All", "Select all notes", {"Ctrl+A"}),
+                                       New Keybinding(118, "Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"}),
+                                                                                                                                                                   _ ' All Modifiers
+                                       New Keybinding(200, "Move Note Up", "*HIDDEN*", {"Up"}, KbCategoryAllMod),
+                                       New Keybinding(201, "Move Note Down", "*HIDDEN*", {"Down"}, KbCategoryAllMod),
+                                       New Keybinding(202, "Move Note Left", "*HIDDEN*", {"Left"}, KbCategoryAllMod),
+                                       New Keybinding(203, "Move Note Right", "*HIDDEN*", {"Right"}, KbCategoryAllMod),
+                                       New Keybinding(204, "Insert Space/Define Measure", "*HIDDEN*", {"Insert"}, KbCategoryAllMod),
+                                       New Keybinding(205, "Delete", "*HIDDEN*", {"Delete"}, KbCategoryAllMod),
+                                       New Keybinding(206, "Home", "*HIDDEN*", {"Home"}, KbCategoryAllMod),
+                                       New Keybinding(207, "End", "*HIDDEN*", {"End"}, KbCategoryAllMod),
+                                       New Keybinding(208, "PageUp", "*HIDDEN*", {"PageUp"}, KbCategoryAllMod),
+                                       New Keybinding(209, "PageDown", "*HIDDEN*", {"PageDown"}, KbCategoryAllMod),
+                                       New Keybinding(210, "Next", "*HIDDEN*", {"Next"}, KbCategoryAllMod), ' ???
+                                       New Keybinding(211, "TabBetweenFiles", "*HIDDEN*", {"Tab"}, KbCategoryAllMod),
+                                       New Keybinding(212, "TabBetweenNotes", "*HIDDEN*", {"Capital"}, KbCategoryAllMod),
+                                       New Keybinding(213, "Decrease Division", "*HIDDEN*", {"Oemcomma"}, KbCategoryAllMod),
+                                       New Keybinding(214, "Increase Division", "*HIDDEN*", {"OemPeriod"}, KbCategoryAllMod),
+                                                                                                                             _ ' Hidden / Experimental
+                                       New Keybinding(215, "Set CGDivision", "*HIDDEN*", {"OemQuestion"}, KbCategoryHidden),
+                                       New Keybinding(216, "Decrease CGHeight", "*HIDDEN*", {"OemMinus"}, KbCategoryHidden),
+                                       New Keybinding(217, "Increase CGHeight", "*HIDDEN*", {"Oemplus"}, KbCategoryHidden),
+                                       New Keybinding(218, "DecreaseCurrentWav", "*HIDDEN*", {"Subtract"}, KbCategoryHidden),
+                                       New Keybinding(219, "IncreaseCurrentWav", "*HIDDEN*", {"Add"}, KbCategoryHidden),
+                                       New Keybinding(220, "TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"}, KbCategoryHidden)
                                        }
     Dim Keybindings() As Keybinding = CType(KeybindingsInit.Clone(), Keybinding())
 
@@ -4261,48 +4263,56 @@ Public Class MainWindow
                             Exit For
                         End If
                     Next
-                    RenameShortcuts(keybind)
+                    RenameShortcut(keybind)
                 Next
             End With
         End If
     End Sub
 
-    Private Sub RenameShortcuts(ByVal keybind As Keybinding)
+    Private Sub RenameShortcut(ByVal keybind As Keybinding)
+        Dim Kb0 = keybind.Combo(0)
+        Dim KbAll = Join(keybind.Combo, ", ")
         Select Case keybind.OpName
             Case "Snap to Grid"
-                CGSnap.Text = "Snap to grid (" & keybind.Combo(0) & ")"
+                RenameShortcutKb0(CGSnap.Text, Kb0)
             Case "Disable Vertical Moves"
-                CGDisableVertical.Text = "Disable vertical moves (" & keybind.Combo(0) & ")"
+                RenameShortcutKb0(CGDisableVertical.Text, Kb0)
             Case "Convert to Long Note"
-                POBLong.ShortcutKeyDisplayString = keybind.Combo(0)
+                POBLong.ShortcutKeyDisplayString = Kb0
             Case "Convert to Short Note"
-                POBShort.ShortcutKeyDisplayString = keybind.Combo(0)
+                POBShort.ShortcutKeyDisplayString = Kb0
             Case "Convert between Long and Short Note"
-                POBLongShort.ShortcutKeyDisplayString = keybind.Combo(0)
+                POBLongShort.ShortcutKeyDisplayString = Kb0
             Case "Auto Long Note (By VPosition)"
-                POBAutoLongVPosition.ShortcutKeyDisplayString = keybind.Combo(0)
+                POBAutoLongVPosition.ShortcutKeyDisplayString = Kb0
             Case "Auto Long Note (By Column)"
-                POBAutoLongColumn.ShortcutKeyDisplayString = keybind.Combo(0)
+                POBAutoLongColumn.ShortcutKeyDisplayString = Kb0
             Case "Undo"
-                mnUndo.ShortcutKeyDisplayString = keybind.Combo(0)
-                TBUndo.Text = "Undo (" & Join(keybind.Combo, ", ") & ")"
+                mnUndo.ShortcutKeyDisplayString = Kb0
+                RenameShortcutKb0(TBUndo.Text, KbAll)
             Case "Redo"
-                mnRedo.ShortcutKeyDisplayString = keybind.Combo(0)
-                TBRedo.Text = "Redo (" & Join(keybind.Combo, ", ") & ")"
+                mnRedo.ShortcutKeyDisplayString = Kb0
+                RenameShortcutKb0(TBRedo.Text, KbAll)
             Case "Cut"
-                mnCut.ShortcutKeyDisplayString = keybind.Combo(0)
-                TBCut.Text = "Cut (" & Join(keybind.Combo, ", ") & ")"
+                mnCut.ShortcutKeyDisplayString = Kb0
+                RenameShortcutKb0(TBCut.Text, KbAll)
             Case "Copy"
-                mnCopy.ShortcutKeyDisplayString = keybind.Combo(0)
-                TBCopy.Text = "Copy (" & Join(keybind.Combo, ", ") & ")"
+                mnCopy.ShortcutKeyDisplayString = Kb0
+                RenameShortcutKb0(TBCopy.Text, KbAll)
             Case "Paste"
-                mnPaste.ShortcutKeyDisplayString = keybind.Combo(0)
-                TBPaste.Text = "Paste (" & Join(keybind.Combo, ", ") & ")"
+                mnPaste.ShortcutKeyDisplayString = Kb0
+                RenameShortcutKb0(TBPaste.Text, KbAll)
             Case "Select All"
-                mnSelectAll.ShortcutKeyDisplayString = keybind.Combo(0)
+                mnSelectAll.ShortcutKeyDisplayString = Kb0
             Case "Check Technical Error"
-                mnTechnicalErrorCheck.ShortcutKeyDisplayString = keybind.Combo(0)
+                mnTechnicalErrorCheck.ShortcutKeyDisplayString = Kb0
         End Select
+    End Sub
+
+    Private Sub RenameShortcutKb0(ByRef xStr As String, ByVal Kb As String)
+        Dim IParenthesis = xStr.LastIndexOf("(")
+        If IParenthesis = -1 Then Return
+        xStr = xStr.Substring(0, IParenthesis) & "(" & Kb & ")"
     End Sub
 
     Private Sub POBLongObjNT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles POBLongObjNT.Click

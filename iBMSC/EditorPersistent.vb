@@ -360,7 +360,7 @@ Partial Public Class MainWindow
                 Keybindings(xI).Combo = Split(n.GetAttribute("Combos"), ", ")
                 ' XMLLoadAttribute(n.GetAttribute("Category"), Keybindings(xI).Category)
 
-                RenameShortcuts(Keybindings(xI))
+                RenameShortcut(Keybindings(xI))
                 Exit Sub
             End If
         Next
@@ -1402,6 +1402,10 @@ Partial Public Class MainWindow
             POGridPart2.Visible = xPOGridPart2
             POWaveFormPart2.Visible = xPOWaveFormPart2
         End Try
+
+        For Each keybind In Keybindings
+            RenameShortcut(keybind)
+        Next
 
         'File.Delete(xTempFileName)
     End Sub

@@ -44,6 +44,9 @@
 			<WriteTool amp="7">쓰기 모드 (W)</WriteTool>
 			<MyO2>MyO2 툴박스 (중국어 전용)</MyO2>
 		</Edit>
+		<View>
+			<Title amp="0">View</Title>
+		</View>
 		<Options>
 			<Title amp="4">설정 (O)</Title>
 			<NT amp="1">롱노트 입력모드 - NT/BMSE</NT>
