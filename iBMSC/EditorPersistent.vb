@@ -884,11 +884,13 @@ Partial Public Class MainWindow
                     XMLLoadLocaleMenu(eFile.Item("Title"), mnFile.Text)
                     XMLLoadLocaleMenu(eFile.Item("New"), mnNew.Text)
                     XMLLoadLocaleMenu(eFile.Item("Open"), mnOpen.Text)
+                    XMLLoadLocaleMenu(eFile.Item("OpenTemplate"), mnOpenTemplate.Text)
                     XMLLoadLocaleMenu(eFile.Item("ImportSM"), mnImportSM.Text)
                     XMLLoadLocaleMenu(eFile.Item("ImportIBMSC"), mnImportIBMSC.Text)
                     XMLLoadLocaleMenu(eFile.Item("Save"), mnSave.Text)
                     XMLLoadLocaleMenu(eFile.Item("SaveAs"), mnSaveAs.Text)
                     XMLLoadLocaleMenu(eFile.Item("ExportIBMSC"), mnExport.Text)
+                    XMLLoadLocaleMenu(eFile.Item("Close"), mnClose.Text)
                     If Recent(0) = "" Then XMLLoadLocaleMenu(eFile.Item("Recent0"), mnOpenR0.Text)
                     If Recent(1) = "" Then XMLLoadLocaleMenu(eFile.Item("Recent1"), mnOpenR1.Text)
                     If Recent(2) = "" Then XMLLoadLocaleMenu(eFile.Item("Recent2"), mnOpenR2.Text)
@@ -905,10 +907,13 @@ Partial Public Class MainWindow
                     XMLLoadLocaleMenu(eEdit.Item("Cut"), mnCut.Text)
                     XMLLoadLocaleMenu(eEdit.Item("Copy"), mnCopy.Text)
                     XMLLoadLocaleMenu(eEdit.Item("Paste"), mnPaste.Text)
+                    XMLLoadLocaleMenu(eEdit.Item("PastePattern"), mnPastePattern.Text)
                     XMLLoadLocaleMenu(eEdit.Item("Delete"), mnDelete.Text)
                     XMLLoadLocaleMenu(eEdit.Item("SelectAll"), mnSelectAll.Text)
+                    XMLLoadLocaleMenu(eEdit.Item("GoToMeasure"), mnGotoMeasure.Text)
                     XMLLoadLocaleMenu(eEdit.Item("Find"), mnFind.Text)
                     XMLLoadLocaleMenu(eEdit.Item("Stat"), mnStatistics.Text)
+                    XMLLoadLocaleMenu(eEdit.Item("StatAdv"), mnStatisticsAdvanced.Text)
                     XMLLoadLocaleMenu(eEdit.Item("TimeSelectionTool"), mnTimeSelect.Text)
                     XMLLoadLocaleMenu(eEdit.Item("SelectTool"), mnSelect.Text)
                     XMLLoadLocaleMenu(eEdit.Item("WriteTool"), mnWrite.Text)
@@ -945,13 +950,21 @@ Partial Public Class MainWindow
                     XMLLoadLocaleMenu(ePreview.Item("PlayStop"), mnStop.Text)
                 End If
 
-                Dim eAbout As XmlElement = eMenu.Item("About")
-                If eAbout IsNot Nothing Then
-                    'XMLLoadLocaleMenu(eAbout.Item("Title"), mnAbout.Text)
-                    'XMLLoadLocaleMenu(eAbout.Item("About"), mnAbout1.Text)
-                    'XMLLoadLocaleMenu(eAbout.Item("CheckUpdates"), mnUpdate.Text)
-                    'XMLLoadLocaleMenu(eAbout.Item("CheckUpdatesC"), mnUpdateC.Text)
+                Dim eTools As XmlElement = eMenu.Item("Tools")
+                If eTools IsNot Nothing Then
+                    XMLLoadLocaleMenu(eTools.Item("Title"), mnTools.Text)
+                    XMLLoadLocaleMenu(eTools.Item("TechnicalErrorCheck"), mnTechnicalErrorCheck.Text)
+                    XMLLoadLocaleMenu(eTools.Item("TOTAL"), mnTOTAL.Text)
+                    XMLLoadLocaleMenu(eTools.Item("MyO2"), mnMyO2.Text)
                 End If
+
+                ' Dim eAbout As XmlElement = eMenu.Item("About")
+                ' If eAbout IsNot Nothing Then
+                '     XMLLoadLocaleMenu(eAbout.Item("Title"), mnAbout.Text)
+                '     XMLLoadLocaleMenu(eAbout.Item("About"), mnAbout1.Text)
+                '     XMLLoadLocaleMenu(eAbout.Item("CheckUpdates"), mnUpdate.Text)
+                '     XMLLoadLocaleMenu(eAbout.Item("CheckUpdatesC"), mnUpdateC.Text)
+                ' End If
             End If
 
             Dim eToolBar As XmlElement = Root.Item("ToolBar")

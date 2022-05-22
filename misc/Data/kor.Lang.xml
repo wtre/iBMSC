@@ -16,11 +16,13 @@
 			<Title amp="6">파일 (F)</Title>
 			<New amp="4">새로 만들기 (N)</New>
 			<Open amp="4">열기 (O)</Open>
+			<OpenTemplate>Open &amp;Template</OpenTemplate>
 			<ImportSM amp="2">.SM 에서 가져오기</ImportSM>
 			<ImportIBMSC amp="1">.IBMSC 에서 가져오기</ImportIBMSC>
 			<Save amp="4">저장 (S)</Save>
 			<SaveAs amp="10">다른 이름으로 저장 (A)</SaveAs>
 			<ExportIBMSC amp="18">.IBMSC 형식으로 내보내기 (E)</ExportIBMSC>
+			<Close>&amp;Close</Close>
 			<Recent0>최근 사용된 파일 #0</Recent0>
 			<Recent1>최근 사용된 파일 #1</Recent1>
 			<Recent2>최근 사용된 파일 #2</Recent2>
@@ -35,10 +37,13 @@
 			<Cut amp="6">잘라내기 (T)</Cut>
 			<Copy amp="5">복사 (C)</Copy>
 			<Paste amp="6">붙여넣기 (P)</Paste>
+			<PastePattern >Paste Patter&amp;n</PastePattern>
 			<Delete amp="4">삭제 (D)</Delete>
 			<SelectAll amp="7">모두 선택 (A)</SelectAll>
+			<GoToMeasure>&amp;Go To Measure</GoToMeasure>
 			<Find amp="14">찾기 / 삭제 / 교체 (F)</Find>
 			<Stat amp="4">통계 (T)</Stat>
+			<StatAdv amp="2">Advanced Statistics</StatAdv>
 			<TimeSelectionTool amp="11">시간 편집 모드 (I)</TimeSelectionTool>
 			<SelectTool amp="7">선택 모드 (S)</SelectTool>
 			<WriteTool amp="7">쓰기 모드 (W)</WriteTool>
@@ -66,6 +71,12 @@
 			<PlayHere amp="10">지금부터 재생 (P)</PlayHere>
 			<PlayStop amp="4">정지 (S)</PlayStop>
 		</Preview>
+		<Tools>
+			<Title amp="0">Tools</Title>
+			<TechnicalErrorCheck amp="16">Check Technical Error</TechnicalErrorCheck>
+			<TOTAL amp="1">#TOTAL Tool</TOTAL>
+			<MyO2 amp="2">MyO2 ToolBox (Chinese Only)</MyO2>
+		</Tools>
 		<About>
 			<Title amp="4">정보 (A)</Title>
 			<About amp="12">iBMSC 에 대해서... (A)</About>
@@ -267,6 +278,9 @@
 		<FileAssociationError>관련 변경 오류 : </FileAssociationError>
 		<RestoreDefaultSettings>설정을 초기화 하시겠습니까? : </RestoreDefaultSettings>
 		<RestoreAutosavedFile>{} 자동으로 저장된 파일이 있습니다. 이걸로 되돌리시겠습니까?</RestoreAutosavedFile>
+		<GhostNotesShowMain>The notes in the current section will be changed to ghost notes. Save current section and continue?</GhostNotesShowMain>
+		<GhostNotesModifyExpansion1>The current ghost notes will become uneditable. Continue?</GhostNotesModifyExpansion1>
+		<GhostNotesModifyExpansion2>There are unsaved changes in the ghost notes. Save current section and continue?</GhostNotesModifyExpansion2>
 	</Messages>
 	<FileType>
 		<_all>모든 파일 (*.*)</_all>
@@ -316,6 +330,7 @@
 		<DirectoryOfApp>프로그램 위치</DirectoryOfApp>
 		<CurrMeasure>지금 마디</CurrMeasure>
 		<FileName>파일명</FileName>
+		<FileNameTemplate>File Name of Template</FileNameTemplate>
 		<RestoreDefault>초기화</RestoreDefault>
 	</PlayerOptions>
 	<VisualOptions>

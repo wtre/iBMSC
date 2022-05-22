@@ -79,8 +79,6 @@ Partial Class MainWindow
         Me.mnTimeSelect = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnSelect = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnWrite = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator23 = New System.Windows.Forms.ToolStripSeparator()
-        Me.mnMyO2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnSys = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnSMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnSTB = New System.Windows.Forms.ToolStripMenuItem()
@@ -141,7 +139,7 @@ Partial Class MainWindow
         Me.mnPlayB = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnPlay = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnStop = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnTools = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnTechnicalErrorCheck = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnTOTAL = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator13 = New System.Windows.Forms.ToolStripSeparator()
@@ -411,6 +409,7 @@ Partial Class MainWindow
         Me.TimerLoadWaveform = New System.Windows.Forms.Timer(Me.components)
         Me.TimerLWAVRefresh = New System.Windows.Forms.Timer(Me.components)
         Me.TimerLBMPRefresh = New System.Windows.Forms.Timer(Me.components)
+        Me.mnMyO2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmnLanguage.SuspendLayout()
         Me.cmnTheme.SuspendLayout()
         Me.Menu1.SuspendLayout()
@@ -632,7 +631,7 @@ Partial Class MainWindow
         Me.mnMain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.mnMain.Dock = System.Windows.Forms.DockStyle.None
         Me.mnMain.GripMargin = New System.Windows.Forms.Padding(2)
-        Me.mnMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnFile, Me.mnEdit, Me.mnSys, Me.mnOptions, Me.mnConversion, Me.mnPreview, Me.ToolsToolStripMenuItem})
+        Me.mnMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnFile, Me.mnEdit, Me.mnSys, Me.mnOptions, Me.mnConversion, Me.mnPreview, Me.mnTools})
         Me.mnMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.mnMain.Location = New System.Drawing.Point(0, 0)
         Me.mnMain.Name = "mnMain"
@@ -787,7 +786,7 @@ Partial Class MainWindow
         '
         'mnEdit
         '
-        Me.mnEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnUndo, Me.mnRedo, Me.ToolStripSeparator17, Me.mnCut, Me.mnCopy, Me.mnPaste, Me.mnPastePattern, Me.mnDelete, Me.mnSelectAll, Me.mnGotoMeasure, Me.ToolStripSeparator18, Me.mnFind, Me.mnStatistics, Me.mnStatisticsAdvanced, Me.ToolStripSeparator19, Me.mnTimeSelect, Me.mnSelect, Me.mnWrite, Me.ToolStripSeparator23, Me.mnMyO2})
+        Me.mnEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnUndo, Me.mnRedo, Me.ToolStripSeparator17, Me.mnCut, Me.mnCopy, Me.mnPaste, Me.mnPastePattern, Me.mnDelete, Me.mnSelectAll, Me.mnGotoMeasure, Me.ToolStripSeparator18, Me.mnFind, Me.mnStatistics, Me.mnStatisticsAdvanced, Me.ToolStripSeparator19, Me.mnTimeSelect, Me.mnSelect, Me.mnWrite})
         Me.mnEdit.Name = "mnEdit"
         Me.mnEdit.Size = New System.Drawing.Size(39, 19)
         Me.mnEdit.Text = "&Edit"
@@ -867,7 +866,7 @@ Partial Class MainWindow
         Me.mnGotoMeasure.Name = "mnGotoMeasure"
         Me.mnGotoMeasure.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.G), System.Windows.Forms.Keys)
         Me.mnGotoMeasure.Size = New System.Drawing.Size(256, 22)
-        Me.mnGotoMeasure.Text = "Go To Measure..."
+        Me.mnGotoMeasure.Text = "&Go To Measure"
         '
         'ToolStripSeparator18
         '
@@ -932,18 +931,6 @@ Partial Class MainWindow
         Me.mnWrite.ShortcutKeys = System.Windows.Forms.Keys.F3
         Me.mnWrite.Size = New System.Drawing.Size(256, 22)
         Me.mnWrite.Text = "&Write Tool"
-        '
-        'ToolStripSeparator23
-        '
-        Me.ToolStripSeparator23.Name = "ToolStripSeparator23"
-        Me.ToolStripSeparator23.Size = New System.Drawing.Size(253, 6)
-        '
-        'mnMyO2
-        '
-        Me.mnMyO2.Image = Global.iBMSC.My.Resources.Resources.x16MyO2
-        Me.mnMyO2.Name = "mnMyO2"
-        Me.mnMyO2.Size = New System.Drawing.Size(256, 22)
-        Me.mnMyO2.Text = "MyO2 ToolBox (Chinese Only)"
         '
         'mnSys
         '
@@ -1416,12 +1403,12 @@ Partial Class MainWindow
         Me.mnStop.Size = New System.Drawing.Size(201, 22)
         Me.mnStop.Text = "&Stop"
         '
-        'ToolsToolStripMenuItem
+        'mnTools
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnTechnicalErrorCheck, Me.mnTOTAL, Me.ToolStripSeparator13})
-        Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(46, 19)
-        Me.ToolsToolStripMenuItem.Text = "Tools"
+        Me.mnTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnTechnicalErrorCheck, Me.mnTOTAL, Me.ToolStripSeparator13, Me.mnMyO2})
+        Me.mnTools.Name = "mnTools"
+        Me.mnTools.Size = New System.Drawing.Size(46, 19)
+        Me.mnTools.Text = "Tools"
         '
         'mnTechnicalErrorCheck
         '
@@ -4624,6 +4611,13 @@ Partial Class MainWindow
         '
         Me.TimerLBMPRefresh.Interval = 15
         '
+        'mnMyO2
+        '
+        Me.mnMyO2.Image = Global.iBMSC.My.Resources.Resources.x16MyO2
+        Me.mnMyO2.Name = "mnMyO2"
+        Me.mnMyO2.Size = New System.Drawing.Size(250, 22)
+        Me.mnMyO2.Text = "MyO2 ToolBox (Chinese Only)"
+        '
         'MainWindow
         '
         Me.AllowDrop = True
@@ -4800,7 +4794,6 @@ Partial Class MainWindow
     Friend WithEvents mnStatisticsAdvanced As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnDelete As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnSelectAll As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents mnMyO2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator19 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnOptions As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnPreview As System.Windows.Forms.ToolStripMenuItem
@@ -4810,7 +4803,6 @@ Partial Class MainWindow
     Friend WithEvents mnTimeSelect As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnSelect As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnWrite As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator23 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnConversion As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnErrorCheck As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnPreviewOnClick As System.Windows.Forms.ToolStripMenuItem
@@ -5119,7 +5111,7 @@ Partial Class MainWindow
     Friend WithEvents TBKOptions As ToolStripButton
     Friend WithEvents TimerInternalPlay As Timer
     Friend WithEvents TimerPreviewNote As Timer
-    Friend WithEvents ToolsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents mnTools As ToolStripMenuItem
     Friend WithEvents mnTechnicalErrorCheck As ToolStripMenuItem
     Friend WithEvents mnTOTAL As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator13 As ToolStripSeparator
@@ -5155,4 +5147,5 @@ Partial Class MainWindow
     Friend WithEvents CBMPChangeLabel As CheckBox
     Friend WithEvents POBMPSwitch As CheckBox
     Friend WithEvents TimerLBMPRefresh As Timer
+    Friend WithEvents mnMyO2 As ToolStripMenuItem
 End Class
