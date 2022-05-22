@@ -3406,14 +3406,23 @@ Public Class MainWindow
 
             If stop_notes Is Nothing Then Continue For
 
-            Dim stops = From stp In stop_notes
-                        Where stp.VPosition >= notevpos And
-                            stp.VPosition < VPos
+            ' Dim stops = From stp In stop_notes
+            '             Where stp.VPosition >= notevpos And
+            '                 stp.VPosition < VPos
+            Dim stops(stop_notes.Count - 1) As Note
+            Dim xIS = -1
+            For Each stp In stop_notes
+                If stp.VPosition >= notevpos AndAlso stp.VPosition < VPos Then
+                    xIS += 1
+                    stops(xIS) = stp
+                End If
+            Next
+            ReDim Preserve stops(xIS)
 
             Dim stop_contrib As Double = 0
 
             For j = 0 To stops.Count() - 1
-                ' Calculate time to subtract due to stop note
+                ' Get negative duration from stop notes
                 Dim current_stop_note = stops.ElementAt(j)
                 If current_stop_note.VPosition >= VPos Then Exit For
 
