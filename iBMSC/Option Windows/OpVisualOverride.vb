@@ -40,6 +40,44 @@
             End If
         End If
     End Sub
+    Private Sub OpVisualOverride_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Font = MainWindow.Font
+
+        OK_Button.Text = Strings.OK
+        Cancel_Button.Text = Strings.Cancel
+
+        Me.Name = Strings.fopVisualOverride.Title
+        BAdd.Text = Strings.fopVisualOverride.add
+        BUp.Text = Strings.fopVisualOverride.up
+        Bdown.Text = Strings.fopVisualOverride.Down
+        BDuplicate.Text = Strings.fopVisualOverride.Duplicate
+        BSplit.Text = Strings.fopVisualOverride.Split
+        BSemiAuto.Text = Strings.fopVisualOverride.SemiAutoAssign
+        BRemove.Text = Strings.fopVisualOverride.Remove
+
+        Label7.Text = Strings.fopVisualOverride.LoadSettingsFrom
+        CoBLoad.Items.Item(0) = Strings.fopVisualOverride.Editor
+        CoBLoad.Items.Item(1) = Strings.fopVisualOverride.Chart
+        CoBLoad.Items.Item(2) = Strings.fopVisualOverride.Song
+        Label9.Text = Strings.fopVisualOverride.SaveSettingsTo
+        CoBSave.Items.Item(0) = Strings.fopVisualOverride.Editor
+        CoBSave.Items.Item(1) = Strings.fopVisualOverride.Chart
+        CoBSave.Items.Item(2) = Strings.fopVisualOverride.Song
+
+        CBEnable.Text = Strings.fopVisualOverride.EnableItem
+        RColorSing.Text = Strings.fopVisualOverride.ColorS
+        RColorGrad.Text = Strings.fopVisualOverride.ColorG
+        RColorGradHSLU.Text = Strings.fopVisualOverride.ColorGHSLU
+        RColorGradHSLD.Text = Strings.fopVisualOverride.ColorGHSLD
+
+        Label3.Text = Strings.fopVisualOverride.OptionName
+        Label1.Text = Strings.fopVisualOverride.LabelRange
+        Label5.Text = Strings.fopVisualOverride.ToText
+        Label4.Text = Strings.fopVisualOverride.NoteColor
+        Label2.Text = Strings.fopVisualOverride.NoteColorRange
+        Label8.Text = Strings.fopVisualOverride.ToText
+        Label6.Text = Strings.fopVisualOverride.Preview
+    End Sub
 
     Private Sub LOverrides_Click(sender As Object, e As EventArgs) Handles LOverrides.Click
         If IsNothing(COverrides) Or LOverrides.SelectedIndex = -1 Then Exit Sub
@@ -126,12 +164,12 @@
     Private Sub BSplit_Click(sender As Object, e As EventArgs) Handles BSplit.Click
         Dim xI = LOverrides.SelectedIndex
         If xI = -1 Then Exit Sub
-        If C36to10(TRangeU.Text) - C36to10(TRangeL.Text) <= 0 Then MsgBox("Warning: Cannot split range.") : Exit Sub
+        If C36to10(TRangeU.Text) - C36to10(TRangeL.Text) <= 0 Then MsgBox(Strings.fopVisualOverride.SplitMsgCannot) : Exit Sub
 
-        Dim xRangeLU = C36to10(InputBox("Please input the upper bound for the first range."))
+        Dim xRangeLU = C36to10(InputBox(Strings.fopVisualOverride.SplitMsgUpper))
         Do While xRangeLU < C36to10(TRangeL.Text) Or C36to10(TRangeU.Text) < xRangeLU
             If xRangeLU = 0 Then Exit Sub
-            xRangeLU = C36to10(InputBox("Value not between the range. Please input the upper bound for the first range."))
+            xRangeLU = C36to10(InputBox(Strings.fopVisualOverride.SplitMsgNotBetweenRange))
         Loop
 
         BDuplicate_Click(sender, New EventArgs)
@@ -141,7 +179,7 @@
     End Sub
 
     Private Sub BSemiAuto_Click(sender As Object, e As EventArgs) Handles BSemiAuto.Click
-        Dim OptionName As String = InputBox("Assign notes with wav filenames beginning with the following:")
+        Dim OptionName As String = InputBox(Strings.fopVisualOverride.SemiAutoMsgAssign)
         Do While OptionName <> ""
             Dim RangeL As Integer = 0
             Dim RangeU As Integer = 0
@@ -163,9 +201,9 @@
                 COverrides(UBound(COverrides)) = New MainWindow.ColorOverride(OptionName, True, 0, RangeL, RangeU, Color.FromArgb(255, CInt(Math.Floor(256 * Rnd())), CInt(Math.Floor(256 * Rnd())), CInt(Math.Floor(256 * Rnd()))).ToArgb, 0)
                 LOverrides.Items.Add(OptionName)
             Else
-                MsgBox("No notes found.")
+                MsgBox(Strings.fopVisualOverride.SemiAutoMsgNone)
             End If
-            OptionName = InputBox("Assign more notes with wav filenames beginning with the following:")
+            OptionName = InputBox(Strings.fopVisualOverride.SemiAutoMsgAssignMore)
         Loop
     End Sub
 
@@ -183,7 +221,7 @@
     Private Sub CoBLoad_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CoBLoad.SelectedIndexChanged
         If CoBLoad.SelectedIndex = -1 Then Exit Sub
 
-        Dim SaveCurrentSettings = MsgBox("Save current settings?", MsgBoxStyle.YesNoCancel)
+        Dim SaveCurrentSettings = MsgBox(Strings.fopVisualOverride.SaveCurrentSettings, MsgBoxStyle.YesNoCancel)
         If SaveCurrentSettings = MsgBoxResult.Yes Then
             OK_Button_Click(sender, e)
         ElseIf SaveCurrentSettings = MsgBoxResult.No Then

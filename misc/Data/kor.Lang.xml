@@ -91,6 +91,7 @@
 		<Cut>잘라내기 (Ctrl+X)</Cut>
 		<Copy>복사 (Ctrl+C)</Copy>
 		<Paste>붙여넣기 (Ctrl+V)</Paste>
+		<PastePattern>Paste Pattern (Ctrl+Shift+V)</PastePattern>
 		<Find>검색/삭제/교체 (Ctrl+F)</Find>
 		<Stat>통계 (Ctrl+T)</Stat>
 		<Conversion>오브젝트 변환 </Conversion>
@@ -98,6 +99,7 @@
 		<ErrorCheck>오류 검색</ErrorCheck>
 		<PreviewOnClick>음원 미리듣기</PreviewOnClick>
 		<ShowFileName>파일명 표시</ShowFileName>
+		<ShowWaveform>Show Waveform on Notes</ShowWaveform>
 		<Undo>실행취소 (Ctrl+Z)</Undo>
 		<Redo>다시실행 (Ctrl+Y)</Redo>
 		<NT>롱노트 입력모드 - NoteTool/BMSE</NT>
@@ -112,6 +114,7 @@
 		<GeneralOptions>일반 옵션</GeneralOptions>
 		<Language>언어</Language>
 		<Theme>테마</Theme>
+		<RecommendedTOTAL>Recommended #TOTAL</RecommendedTOTAL>
 		<About>iBMSC에 대해서... </About>
 	</ToolBar>
 	<StatusBar>
@@ -389,6 +392,39 @@
 		<minutes>분</minutes>
 		<StopPreviewOnClick>편집 패널을 클릭하면 미리보기를 중지</StopPreviewOnClick>
 	</GeneralOptions>
+	<VisualOverrideOptions>
+		<Title>Visual Override Options</Title>
+		<Add>Add</Add>
+		<Up>Up</Up>
+		<Down>Down</Down>
+		<Duplicate>Duplicate</Duplicate>
+		<Split>Split</Split>
+		<SemiAutoAssign>Semi-auto assign</SemiAutoAssign>
+		<Remove>Remove</Remove>
+		<LoadSettingsFrom>Load Settings From</LoadSettingsFrom>
+		<SaveSettingsTo>Save Settings To</SaveSettingsTo>
+		<EnableItem>Enable Item</EnableItem>
+		<ColorS>Singular color</ColorS>
+		<ColorG>Color gradient</ColorG>
+		<ColorGHSLU>Color gradient (HSL↑)</ColorGHSLU>
+		<ColorGHSLD>Color gradient (HSL↓)</ColorGHSLD>
+		<OptionName>Option Name</OptionName>
+		<LabelRange>Label Range</LabelRange>
+		<ToText>To</ToText>
+		<NoteColor>Note Color</NoteColor>
+		<NoteColorRange>Note Color Range</NoteColorRange>
+		<Preview>Preview</Preview>
+		<Chart>Chart</Chart>
+		<Song>Song</Song>
+		<Editor>Editor</Editor>
+		<SplitMsgCannot>Warning: Cannot split range.</SplitMsgCannot>
+		<SplitMsgUpper>Please input the upper bound for the first range.</SplitMsgUpper>
+		<SplitMsgNotBetweenRange>Value not between the range. Please input the upper bound for the first range.</SplitMsgNotBetweenRange>
+		<SemiAutoMsgAssign>Assign notes with wav filenames beginning with the following:</SemiAutoMsgAssign>
+		<SemiAutoMsgNone>No notes found.</SemiAutoMsgNone>
+		<SemiAutoMsgAssignMore>Assign more notes with wav filenames beginning with the following:</SemiAutoMsgAssignMore>
+		<SaveCurrentSettings>Save current settings?</SaveCurrentSettings>
+	</VisualOverrideOptions>
 	<Find>
 		<NoteRange>대상 노트</NoteRange>
 		<MeasureRange>마디 범위</MeasureRange>

@@ -15,6 +15,7 @@ Public Class Strings
         Public Shared Approximate As String = "Approx."
         Public Shared Err As String = "Error"
         Public Shared ErrTechnical As String = "Technical Error"
+        Public Shared RecommendedTotal As String = "Recommended #TOTAL"
     End Class
 
     Public Class Messages
@@ -117,10 +118,6 @@ Public Class Strings
         Public Shared lHidden As String = "Hidden"
         Public Shared lLandmines As String = "Landmines"
         Public Shared lErrors As String = "Errors"
-        Public Shared recTotal As String = ""
-        ' Public Shared recTotal As String = "Recommended #Total:"
-        Public Shared recTotalValue As String = ""
-        ' Public Shared recTotalValue As String = "500"
     End Class
 
     Public Class fopPlayer
@@ -203,71 +200,109 @@ Public Class Strings
         Public Shared StopPreviewOnClick As String = "Stop preview if clicked on the editing panel"
     End Class
 
-    Public Class fopKeybinding
-        Public Shared MPre As String = "Move to "
-        Public Shared MPost As String = ""
-
-        Public Shared MDesc1PPre As String = "Move note to 1P Lane "
-        Public Shared MDesc1PPost As String = ""
-        Public Shared MDesc2PPre As String = "Move note to 2P Lane "
-        Public Shared MDesc2PPost As String = ""
-        Public Shared MDesc1PS As String = "Move note to 1P Scratch Lane"
-        Public Shared MDesc2PS As String = "Move note to 2P Scratch Lane"
-
-        Public Shared MDescPMSPre As String = "Move note to PMS Lane "
-        Public Shared MDescPMSPost As String = ""
-
-        Public Shared P1 As String = "P1"
-        Public Shared P2 As String = "P2"
-        Public Shared P3 As String = "P3"
-        Public Shared P4 As String = "P4"
-        Public Shared P5 As String = "P5"
-        Public Shared P6 As String = "P6"
-        Public Shared P7 As String = "P7"
-        Public Shared P8 As String = "P8"
-        Public Shared P9 As String = "P9"
-
-    End Class
-
-    Public Class fFind
-        Public Shared NoteRange As String = "Note Range"
-        Public Shared MeasureRange As String = "Measure Range"
+    Public Class fopVisualOverride
+        Public Shared Title As String = "Visual Override Options"
+        Public Shared Add As String = "Add"
+        Public Shared Up As String = "Up"
+        Public Shared Down As String = "Down"
+        Public Shared Duplicate As String = "Duplicate"
+        Public Shared Split As String = "Split"
+        Public Shared SemiAutoAssign As String = "Semi-auto assign"
+        Public Shared Remove As String = "Remove"
+        Public Shared LoadSettingsFrom As String = "Load Settings From"
+        Public Shared SaveSettingsTo As String = "Save Settings To"
+        Public Shared EnableItem As String = "Enable Item"
+        Public Shared ColorS As String = "Singular color"
+        Public Shared ColorG As String = "Color gradient"
+        Public Shared ColorGHSLU As String = "Color gradient (HSLÅ™)"
+        Public Shared ColorGHSLD As String = "Color gradient (HSLÅ´)"
+        Public Shared OptionName As String = "Option Name"
         Public Shared LabelRange As String = "Label Range"
-        Public Shared ValueRange As String = "Value Range"
-        Public Shared to_ As String = "to"
-        Public Shared Selected As String = "Selected"
-        Public Shared UnSelected As String = "Unselected"
-        Public Shared ShortNote As String = "Short"
-        Public Shared LongNote As String = "Long"
-        Public Shared Hidden As String = "Hidden"
-        Public Shared Visible As String = "Visible"
-        Public Shared Column As String = "Column"
-        Public Shared SelectAll As String = "Select All"
-        Public Shared SelectInverse As String = "Select Inverse"
-        Public Shared UnselectAll As String = "Unselect All"
-        Public Shared Operation As String = "Operation"
-        Public Shared ReplaceWithLabel As String = "Replace with Label:"
-        Public Shared ReplaceWithValue As String = "Replace with Value:"
-        Public Shared Select_ As String = "Select"
-        Public Shared Unselect_ As String = "Unselect"
-        Public Shared Delete_ As String = "Delete"
-        Public Shared Close_ As String = "Close"
-    End Class
-
-    Public Class fImportSM
-        Public Shared Title As String = "Import *.SM file"
-        Public Shared Difficulty As String = "Difficulty"
-        Public Shared Note As String = "Please note that bg musics and STOP values will not be imported."
-    End Class
-
-    Public Class FileAssociation
-        Public Shared BMS As String = "Be-Music Script"
-        Public Shared BME As String = "Be-Music Extended Format"
-        Public Shared BML As String = "Be-Music Longnote Format"
-        Public Shared PMS As String = "Po-Mu Script"
-        Public Shared IBMSC As String = "iBMSC Binary Format"
-        Public Shared Open As String = "Open"
+        Public Shared ToText As String = "To"
+        Public Shared NoteColor As String = "Note Color"
+        Public Shared NoteColorRange As String = "Note Color Range"
         Public Shared Preview As String = "Preview"
-        Public Shared ViewCode As String = "View Code"
+
+        Public Shared Chart As String = "Chart"
+        Public Shared Song As String = "Song"
+        Public Shared Editor As String = "Editor"
+
+        Public Shared SplitMsgCannot As String = "Warning: Cannot split range."
+        Public Shared SplitMsgUpper As String = "Please input the upper bound for the first range."
+        Public Shared SplitMsgNotBetweenRange As String = "Value not between the range. Please input the upper bound for the first range."
+
+        Public Shared SemiAutoMsgAssign As String = "Assign notes with wav filenames beginning with the following:"
+        Public Shared SemiAutoMsgNone As String = "No notes found."
+        Public Shared SemiAutoMsgAssignMore As String = "Assign more notes with wav filenames beginning with the following:"
+
+        Public Shared SaveCurrentSettings As String = "Save current settings?"
     End Class
-End Class
+
+    Public Class fopKeybinding
+            Public Shared MPre As String = "Move to "
+            Public Shared MPost As String = ""
+
+            Public Shared MDesc1PPre As String = "Move note to 1P Lane "
+            Public Shared MDesc1PPost As String = ""
+            Public Shared MDesc2PPre As String = "Move note to 2P Lane "
+            Public Shared MDesc2PPost As String = ""
+            Public Shared MDesc1PS As String = "Move note to 1P Scratch Lane"
+            Public Shared MDesc2PS As String = "Move note to 2P Scratch Lane"
+
+            Public Shared MDescPMSPre As String = "Move note to PMS Lane "
+            Public Shared MDescPMSPost As String = ""
+
+            Public Shared P1 As String = "P1"
+            Public Shared P2 As String = "P2"
+            Public Shared P3 As String = "P3"
+            Public Shared P4 As String = "P4"
+            Public Shared P5 As String = "P5"
+            Public Shared P6 As String = "P6"
+            Public Shared P7 As String = "P7"
+            Public Shared P8 As String = "P8"
+            Public Shared P9 As String = "P9"
+
+        End Class
+
+        Public Class fFind
+            Public Shared NoteRange As String = "Note Range"
+            Public Shared MeasureRange As String = "Measure Range"
+            Public Shared LabelRange As String = "Label Range"
+            Public Shared ValueRange As String = "Value Range"
+            Public Shared to_ As String = "to"
+            Public Shared Selected As String = "Selected"
+            Public Shared UnSelected As String = "Unselected"
+            Public Shared ShortNote As String = "Short"
+            Public Shared LongNote As String = "Long"
+            Public Shared Hidden As String = "Hidden"
+            Public Shared Visible As String = "Visible"
+            Public Shared Column As String = "Column"
+            Public Shared SelectAll As String = "Select All"
+            Public Shared SelectInverse As String = "Select Inverse"
+            Public Shared UnselectAll As String = "Unselect All"
+            Public Shared Operation As String = "Operation"
+            Public Shared ReplaceWithLabel As String = "Replace with Label:"
+            Public Shared ReplaceWithValue As String = "Replace with Value:"
+            Public Shared Select_ As String = "Select"
+            Public Shared Unselect_ As String = "Unselect"
+            Public Shared Delete_ As String = "Delete"
+            Public Shared Close_ As String = "Close"
+        End Class
+
+        Public Class fImportSM
+            Public Shared Title As String = "Import *.SM file"
+            Public Shared Difficulty As String = "Difficulty"
+            Public Shared Note As String = "Please note that bg musics and STOP values will not be imported."
+        End Class
+
+        Public Class FileAssociation
+            Public Shared BMS As String = "Be-Music Script"
+            Public Shared BME As String = "Be-Music Extended Format"
+            Public Shared BML As String = "Be-Music Longnote Format"
+            Public Shared PMS As String = "Po-Mu Script"
+            Public Shared IBMSC As String = "iBMSC Binary Format"
+            Public Shared Open As String = "Open"
+            Public Shared Preview As String = "Preview"
+            Public Shared ViewCode As String = "View Code"
+        End Class
+    End Class

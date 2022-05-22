@@ -975,6 +975,7 @@ Partial Public Class MainWindow
                 XMLLoadLocale(eToolBar.Item("Cut"), TBCut.Text)
                 XMLLoadLocale(eToolBar.Item("Copy"), TBCopy.Text)
                 XMLLoadLocale(eToolBar.Item("Paste"), TBPaste.Text)
+                XMLLoadLocale(eToolBar.Item("PastePattern"), TBPastePattern.Text)
                 XMLLoadLocale(eToolBar.Item("Find"), TBFind.Text)
                 XMLLoadLocale(eToolBar.Item("Stat"), TBStatistics.ToolTipText)
                 XMLLoadLocale(eToolBar.Item("Conversion"), POConvert.Text)
@@ -997,6 +998,7 @@ Partial Public Class MainWindow
                 XMLLoadLocale(eToolBar.Item("GeneralOptions"), TBGOptions.Text)
                 XMLLoadLocale(eToolBar.Item("Language"), TBLanguage.Text)
                 XMLLoadLocale(eToolBar.Item("Theme"), TBTheme.Text)
+                XMLLoadLocale(eToolBar.Item("RecommendedTOTAL"), Strings.StatusBar.RecommendedTotal)
                 ' XMLLoadLocale(eToolBar.Item("About"), TBAbout.Text)
             End If
 
@@ -1091,7 +1093,9 @@ Partial Public Class MainWindow
                 Dim eWAV As XmlElement = eSubMenu.Item("WAV")
                 If eWAV IsNot Nothing Then
                     XMLLoadLocaleMenu(eWAV.Item("MultiSelection"), CWAVMultiSelect.Text)
+                    XMLLoadLocaleMenu(eWAV.Item("MultiSelection"), CBMPMultiSelect.Text)
                     XMLLoadLocaleMenu(eWAV.Item("Synchronize"), CWAVChangeLabel.Text)
+                    XMLLoadLocaleMenu(eWAV.Item("Synchronize"), CBMPChangeLabel.Text)
                 End If
 
                 Dim eBeat As XmlElement = eSubMenu.Item("Beat")
@@ -1356,6 +1360,45 @@ Partial Public Class MainWindow
                 XMLLoadLocale(eGeneralOptions.Item("AutoSave"), Strings.fopGeneral.AutoSave)
                 XMLLoadLocale(eGeneralOptions.Item("minutes"), Strings.fopGeneral.minutes)
                 XMLLoadLocale(eGeneralOptions.Item("StopPreviewOnClick"), Strings.fopGeneral.StopPreviewOnClick)
+            End If
+
+            Dim eVisualOverrideOptions As XmlElement = Root.Item("VisualOverrideOptions")
+            If eVisualOverrideOptions IsNot Nothing Then
+                XMLLoadLocale(eVisualOverrideOptions.Item("Title"), Strings.fopVisualOverride.Title)
+                XMLLoadLocale(eVisualOverrideOptions.Item("Add"), Strings.fopVisualOverride.Add)
+                XMLLoadLocale(eVisualOverrideOptions.Item("Up"), Strings.fopVisualOverride.Up)
+                XMLLoadLocale(eVisualOverrideOptions.Item("Down"), Strings.fopVisualOverride.Down)
+                XMLLoadLocale(eVisualOverrideOptions.Item("Duplicate"), Strings.fopVisualOverride.Duplicate)
+                XMLLoadLocale(eVisualOverrideOptions.Item("Split"), Strings.fopVisualOverride.Split)
+                XMLLoadLocale(eVisualOverrideOptions.Item("SemiAutoAssign"), Strings.fopVisualOverride.SemiAutoAssign)
+                XMLLoadLocale(eVisualOverrideOptions.Item("Remove"), Strings.fopVisualOverride.Remove)
+                XMLLoadLocale(eVisualOverrideOptions.Item("LoadSettingsFrom"), Strings.fopVisualOverride.LoadSettingsFrom)
+                XMLLoadLocale(eVisualOverrideOptions.Item("SaveSettingsTo"), Strings.fopVisualOverride.SaveSettingsTo)
+                XMLLoadLocale(eVisualOverrideOptions.Item("EnableItem"), Strings.fopVisualOverride.EnableItem)
+                XMLLoadLocale(eVisualOverrideOptions.Item("ColorS"), Strings.fopVisualOverride.ColorS)
+                XMLLoadLocale(eVisualOverrideOptions.Item("ColorG"), Strings.fopVisualOverride.ColorG)
+                XMLLoadLocale(eVisualOverrideOptions.Item("ColorGHSLU"), Strings.fopVisualOverride.ColorGHSLU)
+                XMLLoadLocale(eVisualOverrideOptions.Item("ColorGHSLD"), Strings.fopVisualOverride.ColorGHSLD)
+                XMLLoadLocale(eVisualOverrideOptions.Item("OptionName"), Strings.fopVisualOverride.OptionName)
+                XMLLoadLocale(eVisualOverrideOptions.Item("LabelRange"), Strings.fopVisualOverride.LabelRange)
+                XMLLoadLocale(eVisualOverrideOptions.Item("ToText"), Strings.fopVisualOverride.ToText)
+                XMLLoadLocale(eVisualOverrideOptions.Item("NoteColor"), Strings.fopVisualOverride.NoteColor)
+                XMLLoadLocale(eVisualOverrideOptions.Item("NoteColorRange"), Strings.fopVisualOverride.NoteColorRange)
+                XMLLoadLocale(eVisualOverrideOptions.Item("Preview"), Strings.fopVisualOverride.Preview)
+
+                XMLLoadLocale(eVisualOverrideOptions.Item("Chart"), Strings.fopVisualOverride.Chart)
+                XMLLoadLocale(eVisualOverrideOptions.Item("Song"), Strings.fopVisualOverride.Song)
+                XMLLoadLocale(eVisualOverrideOptions.Item("Editor"), Strings.fopVisualOverride.Editor)
+
+                XMLLoadLocale(eVisualOverrideOptions.Item("SplitMsgCannot"), Strings.fopVisualOverride.SplitMsgCannot)
+                XMLLoadLocale(eVisualOverrideOptions.Item("SplitMsgUpper"), Strings.fopVisualOverride.SplitMsgUpper)
+                XMLLoadLocale(eVisualOverrideOptions.Item("SplitMsgNotBetweenRange"), Strings.fopVisualOverride.SplitMsgNotBetweenRange)
+
+                XMLLoadLocale(eVisualOverrideOptions.Item("SemiAutoMsgAssign"), Strings.fopVisualOverride.SemiAutoMsgAssign)
+                XMLLoadLocale(eVisualOverrideOptions.Item("SemiAutoMsgNone"), Strings.fopVisualOverride.SemiAutoMsgNone)
+                XMLLoadLocale(eVisualOverrideOptions.Item("SemiAutoMsgAssignMore"), Strings.fopVisualOverride.SemiAutoMsgAssignMore)
+
+                XMLLoadLocale(eVisualOverrideOptions.Item("SaveCurrentSettings"), Strings.fopVisualOverride.SaveCurrentSettings)
             End If
 
             Dim eFind As XmlElement = Root.Item("Find")

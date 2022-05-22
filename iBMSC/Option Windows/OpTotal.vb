@@ -23,6 +23,12 @@
 
         CalculateTotal()
     End Sub
+    Private Sub OpTotal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Font = MainWindow.Font
+
+        OK_Button.Text = Strings.OK
+        Cancel_Button.Text = Strings.Cancel
+    End Sub
 
     Private Sub OK_Button_Click(sender As Object, e As EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK

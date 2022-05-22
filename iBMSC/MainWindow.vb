@@ -3168,7 +3168,7 @@ Public Class MainWindow
                 TotalValue = xIAll * TotalMultiplier * TotalGlobalMultiplier
         End Select
         If TotalDisplayValue Then
-            TBTotalValue.Text = IIf(TotalDisplayText, "Recommended #TOTAL: ", "").ToString() & Math.Round(TotalValue, TotalDecimal).ToString()
+            TBTotalValue.Text = IIf(TotalDisplayText, Strings.StatusBar.RecommendedTotal & ": ", "").ToString() & Math.Round(TotalValue, TotalDecimal).ToString()
         Else
             TBTotalValue.Text = ""
         End If
