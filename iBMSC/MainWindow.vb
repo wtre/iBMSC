@@ -1851,6 +1851,7 @@ Public Class MainWindow
 
     Private Sub TBNew_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles TBNew.Click, mnNew.Click
         SaveBMSStruct()
+        If BMSFileList(UBound(BMSFileList)) <> FileNameInit Then AddBMSFileToListAndColorAndTBTabAndStruct(FileNameInit)
         SetBMSFileIndex(UBound(BMSFileList))
 
         'KMouseDown = -1
@@ -2036,11 +2037,13 @@ Public Class MainWindow
 
             If xDSave.ShowDialog = Windows.Forms.DialogResult.Cancel Then Exit Sub
             SetFileName(xDSave.FileName)
+            NewRecent(FileName)
+
+            BMSFileList(BMSFileIndex) = FileName
+            BMSFileTSBList(BMSFileIndex).Text = GetFileName(FileName)
         End If
         Dim xStrAll As String = SaveBMS()
         My.Computer.FileSystem.WriteAllText(FileName, xStrAll, False, TextEncoding)
-        NewRecent(FileName)
-        SetFileName(FileName)
         SetIsSaved(True)
         'pIsSaved.Visible = Not IsSaved
         If BeepWhileSaved Then Beep()
@@ -2070,6 +2073,10 @@ Public Class MainWindow
         SetFileName(FileName)
         SetIsSaved(True)
         'pIsSaved.Visible = Not IsSaved
+
+        BMSFileList(BMSFileIndex) = FileName
+        BMSFileTSBList(BMSFileIndex).Text = GetFileName(FileName)
+
         If BeepWhileSaved Then Beep()
     End Sub
 

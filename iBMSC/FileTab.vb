@@ -209,7 +209,7 @@ Partial Public Class MainWindow
             SetBMSFileIndex(Array.IndexOf(BMSFileList, xPath))
 
         Else
-            If BMSFileIndex = UBound(BMSFileList) Then BMSFileIndex -= 1
+            If BMSFileIndex = UBound(BMSFileList) AndAlso xPath <> FileNameInit Then BMSFileIndex -= 1
             ReDim Preserve BMSFileList(BMSFileList.Length)
             ReDim Preserve BMSFileTSBList(BMSFileTSBList.Length)
             ReDim Preserve BMSFileColor(BMSFileColor.Length)
