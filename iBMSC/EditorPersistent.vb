@@ -59,6 +59,22 @@ Partial Public Class MainWindow
         w.WriteEndElement()
     End Sub
 
+    Private Sub XMLWriteToolbarLocation(ByVal w As XmlTextWriter, ByVal TB As ToolStrip)
+        w.WriteStartElement(TB.Name)
+        If ToolStripContainer1.TopToolStripPanel.Controls.Contains(TB) Then
+            w.WriteAttributeString("Location", "Top")
+        ElseIf ToolStripContainer1.LeftToolStripPanel.Controls.Contains(TB) Then
+            w.WriteAttributeString("Location", "Left")
+        ElseIf ToolStripContainer1.BottomToolStripPanel.Controls.Contains(TB) Then
+            w.WriteAttributeString("Location", "Bottom")
+        Else
+            w.WriteAttributeString("Location", "Right")
+        End If
+        w.WriteAttributeString("X", TB.Location.X.ToString())
+        w.WriteAttributeString("Y", TB.Location.Y.ToString())
+        w.WriteEndElement()
+    End Sub
+
     Private Sub SaveSettings(ByVal Path As String, ByVal ThemeOnly As Boolean)
         Dim w As New XmlTextWriter(Path, System.Text.Encoding.Unicode)
         With w
@@ -79,6 +95,10 @@ Partial Public Class MainWindow
                 .WriteAttributeString("Height", IIf(isFullScreen, previousWindowPosition.Height, Me.Height).ToString())
                 .WriteAttributeString("Top", IIf(isFullScreen, previousWindowPosition.Top, Me.Top).ToString())
                 .WriteAttributeString("Left", IIf(isFullScreen, previousWindowPosition.Left, Me.Left).ToString())
+
+                For Each TB As ToolStrip In {TBMain, TBTab}
+                    XMLWriteToolbarLocation(w, TB)
+                Next
                 .WriteEndElement()
 
                 .WriteStartElement("Recent")
@@ -384,6 +404,23 @@ Partial Public Class MainWindow
         XMLLoadAttribute(n.GetAttribute("Stop"), pArgs(i).aStop)
     End Sub
 
+    Private Sub XMLLoadToolbarLocation(ByVal n As XmlElement, ByVal TB As ToolStrip)
+        If n Is Nothing Then Exit Sub
+
+        XMLLoadAttribute(n.GetAttribute("X"), TB.Location.X)
+        XMLLoadAttribute(n.GetAttribute("Y"), TB.Location.Y)
+        Select Case n.GetAttribute("Location")
+            Case "Top"
+                ToolStripContainer1.TopToolStripPanel.Controls.Add(TB)
+            Case "Left"
+                ToolStripContainer1.LeftToolStripPanel.Controls.Add(TB)
+            Case "Bottom"
+                ToolStripContainer1.BottomToolStripPanel.Controls.Add(TB)
+            Case "Right"
+                ToolStripContainer1.RightToolStripPanel.Controls.Add(TB)
+        End Select
+    End Sub
+
     Private Sub LoadSettings(ByVal Path As String)
         If Not My.Computer.FileSystem.FileExists(Path) Then Return
 
@@ -432,6 +469,10 @@ Partial Public Class MainWindow
                         Case FormWindowState.Maximized.ToString()
                             Me.WindowState = FormWindowState.Maximized
                     End Select
+
+                    For Each TB In {TBTab, TBMain}
+                        XMLLoadToolbarLocation(.Item(TB.Name), TB)
+                    Next
                 End With
             End If
 

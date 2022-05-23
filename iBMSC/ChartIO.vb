@@ -73,11 +73,21 @@ Partial Public Class MainWindow
                     Continue For
 
                 ElseIf SWIC(sLineTrim, "#WAV") Then
-                    hWAV(C36to10(Mid(sLineTrim, Len("#WAV") + 1, 2))) = Mid(sLineTrim, Len("#WAV") + 4)
+                    Dim i = C36to10(Mid(sLineTrim, Len("#WAV") + 1, 2))
+                    If i = 0 Then
+                        AddToExpansion(xExpansion, xStack, sLine)
+                    Else
+                        hWAV(i) = Mid(sLineTrim, Len("#WAV") + 4)
+                    End If
                     Continue For
 
                 ElseIf SWIC(sLineTrim, "#BMP") Then
-                    hBMP(C36to10(Mid(sLineTrim, Len("#BMP") + 1, 2))) = Mid(sLineTrim, Len("#BMP") + 4)
+                    Dim i = C36to10(Mid(sLineTrim, Len("#BMP") + 1, 2))
+                    If i = 0 Then
+                        AddToExpansion(xExpansion, xStack, sLine)
+                    Else
+                        hBMP(i) = Mid(sLineTrim, Len("#BMP") + 4)
+                    End If
                     Continue For
 
                 ElseIf SWIC(sLineTrim, "#BPM") And Not Mid(sLineTrim, Len("#BPM") + 1, 1).Trim = "" Then  'If BPM##
