@@ -58,8 +58,11 @@
 			<ErrorCheck amp="9">오류 검색 (E)</ErrorCheck>
 			<PreviewOnClick amp="9">음원 미리듣기 (C)</PreviewOnClick>
 			<ShowFileName amp="9">파일명 표시 (F)</ShowFileName>
+			<ShowWaveform amp="5">Show Waveform on Notes</ShowWaveform>
 			<GeneralOptions amp="9">일반 옵션 (G)</GeneralOptions>
+			<KeybindingOptions amp="0">Keybinding Options</KeybindingOptions>
 			<VisualOptions amp="9">표시 옵션 (V)</VisualOptions>
+			<VisualOverrideOptions amp="1">Color Override Options</VisualOverrideOptions>
 			<PlayerOptions amp="9">재생 프로그램 옵션 (P)</PlayerOptions>
 			<Language amp="4">언어 (L)</Language>
 			<Theme amp="5">테마 (T)</Theme>
@@ -75,7 +78,7 @@
 			<Title amp="0">Tools</Title>
 			<TechnicalErrorCheck amp="16">Check Technical Error</TechnicalErrorCheck>
 			<TOTAL amp="1">#TOTAL Tool</TOTAL>
-			<MyO2 amp="2">MyO2 ToolBox (Chinese Only)</MyO2>
+			<MyO2 amp="2">MyO2 툴박스 (중국어 전용)</MyO2>
 		</Tools>
 		<About>
 			<Title amp="4">정보 (A)</Title>
