@@ -2350,7 +2350,7 @@ Partial Class MainWindow
         '
         Me.TBTab.BackColor = System.Drawing.SystemColors.Control
         Me.TBTab.Dock = System.Windows.Forms.DockStyle.None
-        Me.TBTab.Location = New System.Drawing.Point(4, 48)
+        Me.TBTab.Location = New System.Drawing.Point(3, 48)
         Me.TBTab.Name = "TBTab"
         Me.TBTab.Size = New System.Drawing.Size(43, 25)
         Me.TBTab.TabIndex = 65
