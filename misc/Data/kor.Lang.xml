@@ -177,9 +177,9 @@
 			<Long amp="7">롱노트화 (L)</Long>
 			<Short amp="9">일반노트화 (S)</Short>
 			<LongShort>롱노트↔일반노트</LongShort>
-			<LNObjNTLong amp="1">LNObj → NT Long Note</LNObjNTLong>
-			<LongObjNT amp="0">NT Long Note → LNObj</LongObjNT>
-			<LongNTObj amp="0">Auto Long Note (By VPosition)</LongNTObj>
+			<LongObjNT amp="1">LNObj → NT Long Note</LongObjNT>
+			<LongNTObj amp="0">NT Long Note → LNObj</LongNTObj>
+			<AutoLongV amp="0">Auto Long Note (By VPosition)</AutoLongV>
 			<AutoLongC amp="0">Auto Long Note (By Column)</AutoLongC>
 			<Hidden amp="9">노트숨기기 (H)</Hidden>
 			<Visible amp="9">노트보이기 (V)</Visible>
@@ -192,7 +192,8 @@
 			<S-Random amp="0">S-Random</S-Random>
 			<H-Random amp="0">H-Random</H-Random>
 			<Sort amp="1">Sort</Sort>
-		</Convert>
+		
+	</Convert>
 		<WAV>
 			<MultiSelection>다중선택</MultiSelection>
 			<Synchronize>노트정보 유지</Synchronize>
