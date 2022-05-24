@@ -90,6 +90,9 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -382,6 +385,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent>Xcopy /E /I /Y "$(SolutionDir)\misc\Data\" "$(TargetDir)\Data\"</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release del "$(TargetDir)iBMSC.Settings.xml"
+del "$(TargetDir)..\$(TargetName).zip"
+
+powershell IF('$(ConfigurationName)' -eq 'Release') {Compress-Archive -Path '$(TargetDir)*' -DestinationPath '$(TargetDir)..\$(TargetName).zip'}</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
