@@ -127,8 +127,8 @@ Listed in the order added.
 * Moving file tabs. Not sure if this will be doable with the current arrangement.
 * Saving all files on exiting application. Unsaved changes will be gone upon closing.
 
-# To Do List
+# To-Do List
 * Add support for saving new functions to iBMSC.
-* Add support for other locales, including new features (and renaming shortcuts).
+* Add support for other locales, including new features.
 * Optimization?
 * Unavailable BMS File Tab features listed above.

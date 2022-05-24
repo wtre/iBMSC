@@ -347,7 +347,7 @@ Public Class MainWindow
                                        New Keybinding(110, "Select Expansion Section", "Select #IF sections in the Expansion field", {"Ctrl+Alt+R"}),
                                                                                                                                                      _ ' Miscellaneous Editor
                                        New Keybinding(111, "Undo", "", {"Ctrl+Z"}),
-                                       New Keybinding(112, "Redo", "", {"Ctrl+Y"}),
+                                       New Keybinding(112, "Redo", "", {"Ctrl+Y", "Ctrl+Alt+Z"}),
                                        New Keybinding(113, "Cut", "", {"Ctrl+X"}),
                                        New Keybinding(114, "Copy", "", {"Ctrl+C"}),
                                        New Keybinding(115, "Paste", "", {"Ctrl+V"}),
