@@ -656,6 +656,7 @@ Partial Class OpGeneral
         'cPreloadBMSStruct
         '
         Me.cPreloadBMSStruct.AutoSize = True
+        Me.TableLayoutPanel5.SetColumnSpan(Me.cPreloadBMSStruct, 3)
         Me.cPreloadBMSStruct.Location = New System.Drawing.Point(3, 53)
         Me.cPreloadBMSStruct.Name = "cPreloadBMSStruct"
         Me.cPreloadBMSStruct.Size = New System.Drawing.Size(182, 19)
