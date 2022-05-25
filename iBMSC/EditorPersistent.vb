@@ -95,6 +95,13 @@ Partial Public Class MainWindow
                 .WriteAttributeString("Height", IIf(isFullScreen, previousWindowPosition.Height, Me.Height).ToString())
                 .WriteAttributeString("Top", IIf(isFullScreen, previousWindowPosition.Top, Me.Top).ToString())
                 .WriteAttributeString("Left", IIf(isFullScreen, previousWindowPosition.Left, Me.Left).ToString())
+                .WriteAttributeString(POptionsScroll.Name, POptionsScroll.Width.ToString())
+                For Each CB In {POHeaderSwitch, POGridSwitch, POWaveFormSwitch, POWAVSwitch, POBMPSwitch, POBeatSwitch, POExpansionSwitch, POHeaderExpander, POGridExpander, POWaveFormExpander, POWAVExpander, POBMPExpander, POBeatExpander}
+                    .WriteAttributeString(CB.Name, CB.Checked.ToString())
+                Next
+                For Each P In {POHeaderInner, POGridInner, POWaveFormInner, POWAVInner, POBMPInner, POBeatInner, POExpansionInner}
+                    .WriteAttributeString(P.Name, P.Height.ToString())
+                Next
 
                 For Each TB As ToolStrip In {TBMain, TBTab}
                     XMLWriteToolbarLocation(w, TB)
@@ -469,6 +476,14 @@ Partial Public Class MainWindow
                         Case FormWindowState.Maximized.ToString()
                             Me.WindowState = FormWindowState.Maximized
                     End Select
+
+                    XMLLoadAttribute(.GetAttribute(POptionsScroll.Name), POptionsScroll.Width)
+                    For Each CB In {POHeaderSwitch, POGridSwitch, POWaveFormSwitch, POWAVSwitch, POBMPSwitch, POBeatSwitch, POExpansionSwitch, POHeaderExpander, POGridExpander, POWaveFormExpander, POWAVExpander, POBMPExpander, POBeatExpander}
+                        XMLLoadAttribute(.GetAttribute(CB.Name), CB.Checked)
+                    Next
+                    For Each P In {POHeaderInner, POGridInner, POWaveFormInner, POWAVInner, POBMPInner, POBeatInner, POExpansionInner}
+                        XMLLoadAttribute(.GetAttribute(P.Name), P.Height)
+                    Next
 
                     For Each TB In {TBTab, TBMain}
                         XMLLoadToolbarLocation(.Item(TB.Name), TB)

@@ -6402,7 +6402,7 @@ case2:              Dim xI0 As Integer
 
     End Sub
 
-    Private Sub VerticalResizer_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles POWAVResizer.MouseDown, POBeatResizer.MouseDown, POExpansionResizer.MouseDown
+    Private Sub VerticalResizer_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles POWAVResizer.MouseDown, POBMPResizer.MouseDown, POBeatResizer.MouseDown, POExpansionResizer.MouseDown
         tempResize = e.Y
     End Sub
 
@@ -6410,7 +6410,7 @@ case2:              Dim xI0 As Integer
         tempResize = e.X
     End Sub
 
-    Private Sub POResizer_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles POWAVResizer.MouseMove, POBeatResizer.MouseMove, POExpansionResizer.MouseMove
+    Private Sub POResizer_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles POWAVResizer.MouseMove, POBMPResizer.MouseMove, POBeatResizer.MouseMove, POExpansionResizer.MouseMove
         If e.Button <> Windows.Forms.MouseButtons.Left Then Exit Sub
         If e.Y = tempResize Then Exit Sub
 
