@@ -2352,7 +2352,7 @@ Partial Class MainWindow
         Me.TBTab.Dock = System.Windows.Forms.DockStyle.None
         Me.TBTab.Location = New System.Drawing.Point(3, 48)
         Me.TBTab.Name = "TBTab"
-        Me.TBTab.Size = New System.Drawing.Size(43, 25)
+        Me.TBTab.Size = New System.Drawing.Size(111, 25)
         Me.TBTab.TabIndex = 65
         '
         'POptionsResizer
@@ -2604,7 +2604,7 @@ Partial Class MainWindow
         Me.BExpansion.Name = "BExpansion"
         Me.BExpansion.Size = New System.Drawing.Size(183, 25)
         Me.BExpansion.TabIndex = 1003
-        Me.BExpansion.Text = "Select Section"
+        Me.BExpansion.Text = "#RANDOM Editor"
         Me.BExpansion.UseVisualStyleBackColor = True
         '
         'TExpansion

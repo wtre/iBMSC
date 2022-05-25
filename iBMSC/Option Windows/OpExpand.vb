@@ -10,7 +10,7 @@
 
         ' If no expansion text
         If MainWindow.TExpansion.Text = "" Then
-            MsgBox("Error: Expansion code is empty.")
+            MsgBox(Strings.fopExpand.ErrorEmpty)
             Me.Close()
             Exit Sub
         End If
@@ -20,6 +20,19 @@
         For Each xStrLine In TExpansionTextSplit
             LExpansionCode.Items.Add(xStrLine)
         Next
+    End Sub
+
+    Private Sub OpExpand_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Font = MainWindow.Font
+
+        Text = Strings.fopExpand.Title
+        Label5.Text = Strings.fopExpand.SelectExpansionCode
+        BDisplayGhost.Text = Strings.fopExpand.DisplayGhostNotes
+        BDisplayGhostAll.Text = Strings.fopExpand.DisplayGhostNotesAll
+        BModifyNotes.Text = Strings.fopExpand.ModifyNotes
+        BModifySection.Text = Strings.fopExpand.ModifySection
+        BRemoveGhostNotes.Text = Strings.fopExpand.RemoveGhostNotes
+        Cancel_Button.Text = Strings.Cancel
     End Sub
 
     Private Sub BDisplayGhost_Click(sender As Object, e As EventArgs) Handles BDisplayGhost.Click, LExpansionCode.DoubleClick
@@ -80,7 +93,7 @@
     Private Sub Select_Section() ' Select #if section
         ' If no line selected
         If CurrSelection = -1 Then
-            MsgBox("Error: No line selected.")
+            MsgBox(Strings.fopExpand.ErrorNoLineSelected)
             MainWindow.ExpansionSplit(1) = "-"
             Exit Sub
         End If
@@ -120,7 +133,7 @@
 
         ' If RangeL or RangeU's values have not been found
         If RangeL = -1 Or RangeU = -1 Then
-            MsgBox("Error: #IF Section not detected.")
+            MsgBox(Strings.fopExpand.ErrorNotDetected)
             MainWindow.ExpansionSplit(1) = "-"
             Exit Sub
         End If

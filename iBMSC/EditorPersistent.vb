@@ -1270,6 +1270,7 @@ Partial Public Class MainWindow
                 XMLLoadLocale(eOptionsPanel.Item("Beat.Apply"), BBeatApply.Text)
                 XMLLoadLocale(eOptionsPanel.Item("Beat.Apply"), BBeatApplyV.Text)
                 XMLLoadLocale(eOptionsPanel.Item("Expansion"), POExpansionSwitch.Text)
+                XMLLoadLocale(eOptionsPanel.Item("ExpansionRandom"), BExpansion.Text)
             End If
 
             Dim eMessages As XmlElement = Root.Item("Messages")
@@ -1466,6 +1467,21 @@ Partial Public Class MainWindow
                 XMLLoadLocale(eVisualOverrideOptions.Item("SemiAutoMsgAssignMore"), Strings.fopVisualOverride.SemiAutoMsgAssignMore)
 
                 XMLLoadLocale(eVisualOverrideOptions.Item("SaveCurrentSettings"), Strings.fopVisualOverride.SaveCurrentSettings)
+            End If
+
+            Dim eExpandOptions As XmlElement = Root.Item("ExpandOptions")
+            If eExpandOptions IsNot Nothing Then
+                XMLLoadLocale(eExpandOptions.Item("Title"), Strings.fopExpand.Title)
+                XMLLoadLocale(eExpandOptions.Item("SelectExpansionCode"), Strings.fopExpand.SelectExpansionCode)
+                XMLLoadLocale(eExpandOptions.Item("DisplayGhostNotes"), Strings.fopExpand.DisplayGhostNotes)
+                XMLLoadLocale(eExpandOptions.Item("DisplayGhostNotesAll"), Strings.fopExpand.DisplayGhostNotesAll)
+                XMLLoadLocale(eExpandOptions.Item("ModifyNotes"), Strings.fopExpand.ModifyNotes)
+                XMLLoadLocale(eExpandOptions.Item("ModifySection"), Strings.fopExpand.ModifySection)
+                XMLLoadLocale(eExpandOptions.Item("RemoveGhostNotes"), Strings.fopExpand.RemoveGhostNotes)
+                XMLLoadLocale(eExpandOptions.Item("RemoveGhostNotes"), Strings.fopExpand.RemoveGhostNotes)
+                XMLLoadLocale(eExpandOptions.Item("ErrorEmpty"), Strings.fopExpand.ErrorEmpty)
+                XMLLoadLocale(eExpandOptions.Item("ErrorNoLineSelected"), Strings.fopExpand.ErrorNoLineSelected)
+                XMLLoadLocale(eExpandOptions.Item("ErrorNotDetected"), Strings.fopExpand.ErrorNotDetected)
             End If
 
             Dim eFind As XmlElement = Root.Item("Find")

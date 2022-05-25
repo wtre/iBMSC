@@ -40,9 +40,9 @@ Partial Class OpExpand
         Me.Label5.Location = New System.Drawing.Point(14, 10)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(138, 15)
+        Me.Label5.Size = New System.Drawing.Size(129, 15)
         Me.Label5.TabIndex = 0
-        Me.Label5.Text = "Current Expansion Code:"
+        Me.Label5.Text = "Select Expansion Code:"
         '
         'Cancel_Button
         '
@@ -187,7 +187,7 @@ Partial Class OpExpand
         Me.Name = "OpExpand"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Select Expansion Code"
+        Me.Text = "#RANDOM Editor"
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout()
         Me.ResumeLayout(False)

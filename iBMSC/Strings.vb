@@ -239,32 +239,45 @@ Public Class Strings
     End Class
 
     Public Class fopKeybinding
-            Public Shared MPre As String = "Move to "
-            Public Shared MPost As String = ""
+        Public Shared MPre As String = "Move to "
+        Public Shared MPost As String = ""
 
-            Public Shared MDesc1PPre As String = "Move note to 1P Lane "
-            Public Shared MDesc1PPost As String = ""
-            Public Shared MDesc2PPre As String = "Move note to 2P Lane "
-            Public Shared MDesc2PPost As String = ""
-            Public Shared MDesc1PS As String = "Move note to 1P Scratch Lane"
-            Public Shared MDesc2PS As String = "Move note to 2P Scratch Lane"
+        Public Shared MDesc1PPre As String = "Move note to 1P Lane "
+        Public Shared MDesc1PPost As String = ""
+        Public Shared MDesc2PPre As String = "Move note to 2P Lane "
+        Public Shared MDesc2PPost As String = ""
+        Public Shared MDesc1PS As String = "Move note to 1P Scratch Lane"
+        Public Shared MDesc2PS As String = "Move note to 2P Scratch Lane"
 
-            Public Shared MDescPMSPre As String = "Move note to PMS Lane "
-            Public Shared MDescPMSPost As String = ""
+        Public Shared MDescPMSPre As String = "Move note to PMS Lane "
+        Public Shared MDescPMSPost As String = ""
 
-            Public Shared P1 As String = "P1"
-            Public Shared P2 As String = "P2"
-            Public Shared P3 As String = "P3"
-            Public Shared P4 As String = "P4"
-            Public Shared P5 As String = "P5"
-            Public Shared P6 As String = "P6"
-            Public Shared P7 As String = "P7"
-            Public Shared P8 As String = "P8"
-            Public Shared P9 As String = "P9"
+        Public Shared P1 As String = "P1"
+        Public Shared P2 As String = "P2"
+        Public Shared P3 As String = "P3"
+        Public Shared P4 As String = "P4"
+        Public Shared P5 As String = "P5"
+        Public Shared P6 As String = "P6"
+        Public Shared P7 As String = "P7"
+        Public Shared P8 As String = "P8"
+        Public Shared P9 As String = "P9"
 
-        End Class
+    End Class
 
-        Public Class fFind
+    Public Class fopExpand
+        Public Shared Title As String = "#RANDOM Editor"
+        Public Shared SelectExpansionCode As String = "Select Expansion Code"
+        Public Shared DisplayGhostNotes As String = "Display Ghost Notes"
+        Public Shared DisplayGhostNotesAll As String = "Display Ghost Notes (All)"
+        Public Shared ModifyNotes As String = "Modify Notes"
+        Public Shared ModifySection As String = "Modify Section"
+        Public Shared RemoveGhostNotes As String = "Remove Ghost Notes"
+        Public Shared ErrorEmpty As String = "Error: Expansion code is empty."
+        Public Shared ErrorNoLineSelected As String = "Error: No line selected."
+        Public Shared ErrorNotDetected As String = "Error: #IF Section not detected."
+    End Class
+
+    Public Class fFind
             Public Shared NoteRange As String = "Note Range"
             Public Shared MeasureRange As String = "Measure Range"
             Public Shared LabelRange As String = "Label Range"

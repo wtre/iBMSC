@@ -262,10 +262,20 @@
 			<MoveDown>아래로</MoveDown>
 			<Browse>가져오기</Browse>
 			<Remove>삭제</Remove>
+			<Duplicate>Duplicate</Duplicate>
+			<OverrideColor>Override Color</OverrideColor>
 		</WAV>
+		<BMP>
+			<Title>#BMP</Title>
+			<MoveUp>위로</MoveUp>
+			<MoveDown>아래로</MoveDown>
+			<Browse>가져오기</Browse>
+			<Remove>삭제</Remove>
+		</BMP>
 		<Beat>마디</Beat>
 		<Beat.Apply>적용</Beat.Apply>
 		<Expansion>확장명령</Expansion>
+		<ExpansionRandom>#RANDOM Editor</ExpansionRandom>
 	</OptionsPanel>
 	<Messages>
 		<Err>에러</Err>
@@ -439,6 +449,18 @@
 		<SemiAutoMsgAssignMore>Assign more notes with wav filenames beginning with the following:</SemiAutoMsgAssignMore>
 		<SaveCurrentSettings>Save current settings?</SaveCurrentSettings>
 	</VisualOverrideOptions>
+	<ExpandOptions>
+		<Title>#RANDOM Editor</Title>
+		<SelectExpansionCode>Select Expansion Code:</SelectExpansionCode>
+		<DisplayGhostNotes>Display Ghost Notes</DisplayGhostNotes>
+		<DisplayGhostNotesAll>Display Ghost Notes (All)</DisplayGhostNotesAll>
+		<ModifyNotes>Modify Notes</ModifyNotes>
+		<ModifySection>Modify Section</ModifySection>
+		<RemoveGhostNotes>Remove Ghost Notes</RemoveGhostNotes>
+		<ErrorEmpty>Error: Expansion code is empty.</ErrorEmpty>
+		<ErrorNoLineSelected>Error: No line selected.</ErrorNoLineSelected>
+		<ErrorNotDetected>Error: #IF Section not detected.</ErrorNotDetected>>
+	</ExpandOptions>
 	<Find>
 		<NoteRange>대상 노트</NoteRange>
 		<MeasureRange>마디 범위</MeasureRange>
