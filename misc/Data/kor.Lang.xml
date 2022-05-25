@@ -457,6 +457,17 @@
 		<SemiAutoMsgAssignMore>Assign more notes with wav filenames beginning with the following:</SemiAutoMsgAssignMore>
 		<SaveCurrentSettings>Save current settings?</SaveCurrentSettings>
 	</VisualOverrideOptions>
+	<KeybindingOptions>
+		<Title>Keybinding Options</Title>
+		<MoveTo>Move to {}</MoveTo>
+		<MoveToDescription>Move note to {1} Lane {2}</MoveToDescription>
+		<MoveToScratchDescription>Move note to {} Scratch Lane</MoveToScratchDescription>
+		<MoveToBGM>Move note to BGM Lane</MoveToBGM>
+		<MoveToTemplate>Move note to Template Position if available</MoveToTemplate>
+		<CheckTechnicalError>Check for technical errors such as impossible scratches in DP or impossible chords in PMS</CheckTechnicalError>
+		<SelectExpansionSection>Select #IF sections in the Expansion field</SelectExpansionSection>
+		<PastePattern>Apply pattern of the notes on the clipboard to the highlighted notes.</PastePattern>
+	</KeybindingOptions>
 	<ExpandOptions>
 		<Title>#RANDOM Editor</Title>
 		<SelectExpansionCode>Select Expansion Code:</SelectExpansionCode>
@@ -467,7 +478,7 @@
 		<RemoveGhostNotes>Remove Ghost Notes</RemoveGhostNotes>
 		<ErrorEmpty>Error: Expansion code is empty.</ErrorEmpty>
 		<ErrorNoLineSelected>Error: No line selected.</ErrorNoLineSelected>
-		<ErrorNotDetected>Error: #IF Section not detected.</ErrorNotDetected>>
+		<ErrorNotDetected>Error: #IF Section not detected.</ErrorNotDetected>
 	</ExpandOptions>
 	<Find>
 		<NoteRange>대상 노트</NoteRange>

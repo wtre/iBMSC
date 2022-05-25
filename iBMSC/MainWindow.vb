@@ -311,7 +311,7 @@ Public Class MainWindow
                                        New Keybinding(4, "Move to A6", "Move note to 1P Lane 5", {"D5", "NumPad5"}, KbCategorySP),
                                        New Keybinding(5, "Move to A7", "Move note to 1P Lane 6", {"D6", "NumPad6"}, KbCategorySP),
                                        New Keybinding(6, "Move to A8", "Move note to 1P Lane 7", {"D7", "NumPad7"}, KbCategorySP),
-                                       New Keybinding(7, "Move to A1", Strings.fopKeybinding.MDesc1PS, {"D8", "NumPad8"}, KbCategorySP),
+                                       New Keybinding(7, "Move to A1", "Move note to 1P Scratch Lane", {"D8", "NumPad8"}, KbCategorySP),
                                                                                                                                         _ ' DP Note Assignments
                                        New Keybinding(10, "Move to D1", "Move note to 2P Lane 1", {"Q", "Ctrl+D1", "NumPad1"}, KbCategoryDP),
                                        New Keybinding(11, "Move to D2", "Move note to 2P Lane 2", {"W", "Ctrl+D2", "NumPad2"}, KbCategoryDP),
@@ -320,7 +320,7 @@ Public Class MainWindow
                                        New Keybinding(14, "Move to D5", "Move note to 2P Lane 5", {"T", "Ctrl+D5", "NumPad5"}, KbCategoryDP),
                                        New Keybinding(15, "Move to D6", "Move note to 2P Lane 6", {"Y", "Ctrl+D6", "NumPad6"}, KbCategoryDP),
                                        New Keybinding(16, "Move to D7", "Move note to 2P Lane 7", {"U", "Ctrl+D7", "NumPad7"}, KbCategoryDP),
-                                       New Keybinding(17, "Move to D8", Strings.fopKeybinding.MDesc2PS, {"I", "Ctrl+D8", "NumPad8"}, KbCategoryDP),
+                                       New Keybinding(17, "Move to D8", "Move note to 2P Scratch Lane", {"I", "Ctrl+D8", "NumPad8"}, KbCategoryDP),
                                                                                                                                                    _ ' PMS Note Assignments
                                        New Keybinding(20, "Move to P1", "Move note to PMS Lane 1", {"D1", "NumPad1"}, KbCategoryPMS),
                                        New Keybinding(21, "Move to P2", "Move note to PMS Lane 2", {"D2", "NumPad2"}, KbCategoryPMS),
@@ -352,9 +352,9 @@ Public Class MainWindow
                                        New Keybinding(114, "Copy", "", {"Ctrl+C"}),
                                        New Keybinding(115, "Paste", "", {"Ctrl+V"}),
                                        New Keybinding(116, "Paste Pattern", "Apply pattern of the notes on the clipboard to the highlighted notes.", {"Ctrl+Shift+V"}),
-                                       New Keybinding(117, "Select All", "Select all notes", {"Ctrl+A"}),
-                                       New Keybinding(118, "Select All with Hovered Note Label", "Select all notes with highlighted note label", {"Ctrl+Shift+A"}),
-                                                                                                                                                                   _ ' All Modifiers
+                                       New Keybinding(117, "Select All", "", {"Ctrl+A"}),
+                                       New Keybinding(118, "Select All with Hovered Note Label", "", {"Ctrl+Shift+A"}),
+                                                                                                                       _ ' All Modifiers
                                        New Keybinding(200, "Move Note Up", "*HIDDEN*", {"Up"}, KbCategoryAllMod),
                                        New Keybinding(201, "Move Note Down", "*HIDDEN*", {"Down"}, KbCategoryAllMod),
                                        New Keybinding(202, "Move Note Left", "*HIDDEN*", {"Left"}, KbCategoryAllMod),
@@ -1512,6 +1512,7 @@ Public Class MainWindow
             AddBMSFiles(xStrFiles)
         End If
 
+        SetIsSaved(True)
         If PreloadBMSStruct Then SaveAllBMSStruct()
 
         IsApplicationInitializing = False
@@ -1519,7 +1520,6 @@ Public Class MainWindow
         If BMSFileIndex <> UBound(BMSFileList) Then ReadFile(BMSFileList(BMSFileIndex)) Else TBNew_Click(Nothing, Nothing)
 
         LoadColorOverride(FileName)
-        SetIsSaved(True)
 
         POStatusRefresh()
         Me.ResumeLayout()

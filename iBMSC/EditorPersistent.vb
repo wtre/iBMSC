@@ -33,7 +33,7 @@ Partial Public Class MainWindow
 
     Private Sub XMLWriteKeybindings(ByVal w As XmlTextWriter, ByVal I As Integer)
         w.WriteStartElement("Option")
-        w.WriteAttributeString("Index", I.ToString())
+        w.WriteAttributeString("OpVar", Keybindings(I).OpVar.ToString())
         w.WriteAttributeString("Name", Keybindings(I).OpName)
         ' w.WriteAttributeString("Description", Keybindings(I).Description)
         w.WriteAttributeString("Combos", Join(Keybindings(I).Combo, ", "))
@@ -1467,6 +1467,19 @@ Partial Public Class MainWindow
                 XMLLoadLocale(eVisualOverrideOptions.Item("SemiAutoMsgAssignMore"), Strings.fopVisualOverride.SemiAutoMsgAssignMore)
 
                 XMLLoadLocale(eVisualOverrideOptions.Item("SaveCurrentSettings"), Strings.fopVisualOverride.SaveCurrentSettings)
+            End If
+
+            Dim eKeybindingOptions As XmlElement = Root.Item("KeybindingOptions")
+            If eKeybindingOptions IsNot Nothing Then
+                XMLLoadLocale(eKeybindingOptions.Item("Title"), Strings.fopKeybinding.Title)
+                XMLLoadLocale(eKeybindingOptions.Item("MoveTo"), Strings.fopKeybinding.MoveTo)
+                XMLLoadLocale(eKeybindingOptions.Item("MoveToDescription"), Strings.fopKeybinding.MoveToDescription)
+                XMLLoadLocale(eKeybindingOptions.Item("MoveToScratchDescription"), Strings.fopKeybinding.MoveToScratchDescription)
+                XMLLoadLocale(eKeybindingOptions.Item("MoveToBGM"), Strings.fopKeybinding.MoveToBGM)
+                XMLLoadLocale(eKeybindingOptions.Item("MoveToTemplate"), Strings.fopKeybinding.MoveToTemplate)
+                XMLLoadLocale(eKeybindingOptions.Item("CheckTechnicalError"), Strings.fopKeybinding.CheckTechnicalError)
+                XMLLoadLocale(eKeybindingOptions.Item("SelectExpansionSection"), Strings.fopKeybinding.SelectExpansionSection)
+                XMLLoadLocale(eKeybindingOptions.Item("PastePattern"), Strings.fopKeybinding.PastePattern)
             End If
 
             Dim eExpandOptions As XmlElement = Root.Item("ExpandOptions")
