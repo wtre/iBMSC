@@ -378,7 +378,74 @@ Public Class MainWindow
                                        New Keybinding(219, "IncreaseCurrentWav", "*HIDDEN*", {"Add"}, KbCategoryHidden),
                                        New Keybinding(220, "TBPreviewHighlighted_Click", "*EXPERIMENTAL*", {"Shift+F4"}, KbCategoryHidden)
                                        }
-    Dim Keybindings() As Keybinding = CType(KeybindingsInit.Clone(), Keybinding())
+
+    Dim Keybindings() As Keybinding = CType(KeybindingsInit, Keybinding())
+
+    Private Function ExcludeShortcut(ByVal xStr As String) As String
+        Dim IParenthesis = xStr.LastIndexOf("(")
+        If IParenthesis = -1 Then Return xStr
+        Return xStr.Substring(0, IParenthesis - 1).Replace("&", "")
+    End Function
+
+    Public Sub ReloadKeybindingNames(ByRef K() As Keybinding)
+        For i = 0 To UBound(K)
+            With K(i)
+                Select Case .OpVar
+                    Case 0 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "A2") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "1P").Replace("{2}", "1")
+                    Case 1 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "A3") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "1P").Replace("{2}", "2")
+                    Case 2 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "A4") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "1P").Replace("{2}", "3")
+                    Case 3 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "A5") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "1P").Replace("{2}", "4")
+                    Case 4 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "A6") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "1P").Replace("{2}", "5")
+                    Case 5 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "A7") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "1P").Replace("{2}", "6")
+                    Case 6 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "A8") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "1P").Replace("{2}", "7")
+                    Case 7 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "A1") : .Description = Strings.fopKeybinding.MoveToScratchDescription.Replace("{}", "1P")
+
+                    Case 10 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "D1") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "2P").Replace("{2}", "1")
+                    Case 11 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "D2") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "2P").Replace("{2}", "2")
+                    Case 12 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "D3") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "2P").Replace("{2}", "3")
+                    Case 13 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "D4") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "2P").Replace("{2}", "4")
+                    Case 14 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "D5") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "2P").Replace("{2}", "5")
+                    Case 15 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "D6") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "2P").Replace("{2}", "6")
+                    Case 16 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "D7") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "2P").Replace("{2}", "7")
+                    Case 17 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "D8") : .Description = Strings.fopKeybinding.MoveToScratchDescription.Replace("{}", "2P")
+
+                    Case 20 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "P1") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "PMS").Replace("{2}", "1")
+                    Case 21 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "P2") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "PMS").Replace("{2}", "2")
+                    Case 22 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "P3") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "PMS").Replace("{2}", "3")
+                    Case 23 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "P4") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "PMS").Replace("{2}", "4")
+                    Case 24 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "P5") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "PMS").Replace("{2}", "5")
+                    Case 25 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "P6") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "PMS").Replace("{2}", "6")
+                    Case 26 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "P7") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "PMS").Replace("{2}", "7")
+                    Case 27 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "P8") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "PMS").Replace("{2}", "8")
+                    Case 28 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "P9") : .Description = Strings.fopKeybinding.MoveToDescription.Replace("{1}", "PMS").Replace("{2}", "9")
+
+                    Case 100 : .OpName = Strings.fopKeybinding.MoveTo.Replace("{}", "BGM") : .Description = Strings.fopKeybinding.MoveToBGMDescription
+                    Case 101 : .OpName = Strings.fopKeybinding.MoveToTemplate : .Description = Strings.fopKeybinding.MoveToTemplateDescription
+                    Case 102 : .OpName = ExcludeShortcut(CGDisableVertical.Text) : .Description = ""
+                    Case 103 : .OpName = ExcludeShortcut(CGSnap.Text) : .Description = ""
+
+                    Case 104 : .OpName = ExcludeShortcut(POBLong.Text) : .Description = ""
+                    Case 105 : .OpName = ExcludeShortcut(POBShort.Text) : .Description = ""
+                    Case 106 : .OpName = ExcludeShortcut(POBLongShort.Text) : .Description = ""
+                    Case 107 : .OpName = ExcludeShortcut(POBAutoLongVPosition.Text) : .Description = ""
+                    Case 108 : .OpName = ExcludeShortcut(POBAutoLongColumn.Text) : .Description = ""
+
+                    Case 109 : .OpName = ExcludeShortcut(mnTechnicalErrorCheck.Text) : .Description = Strings.fopKeybinding.CheckTechnicalError
+                    Case 110 : .OpName = ExcludeShortcut(BExpansion.Text) : .Description = Strings.fopKeybinding.SelectExpansionSection
+
+                    Case 111 : .OpName = ExcludeShortcut(mnUndo.Text) : .Description = ""
+                    Case 112 : .OpName = ExcludeShortcut(mnRedo.Text) : .Description = ""
+                    Case 113 : .OpName = ExcludeShortcut(mnCut.Text) : .Description = ""
+                    Case 114 : .OpName = ExcludeShortcut(mnCopy.Text) : .Description = ""
+                    Case 115 : .OpName = ExcludeShortcut(mnPaste.Text) : .Description = ""
+                    Case 116 : .OpName = ExcludeShortcut(mnPastePattern.Text) : .Description = Strings.fopKeybinding.PastePattern
+                    Case 117 : .OpName = ExcludeShortcut(mnSelectAll.Text) : .Description = ""
+                    Case 118 : .OpName = Strings.fopKeybinding.SelectHovered : .Description = ""
+
+                End Select
+            End With
+        Next
+    End Sub
 
     '----Preview Options
     Structure PlayerArguments
@@ -1216,7 +1283,7 @@ Public Class MainWindow
         For xI1 As Integer = 0 To 999
             MeasureLength(xI1) = 192.0R
             MeasureBottom(xI1) = xI1 * 192.0R
-            LBeat.Items.Add(Add3Zeros(xI1) & ": 1 ( " & CInt(nBeatD.Value) & " / " & CInt(nBeatD.Value) & " )")
+            LBeat.Items.Add(Add3Zeros(xI1) & ":  1 ( " & CInt(nBeatD.Value) & " / " & CInt(nBeatD.Value) & " )")
         Next
     End Sub
 

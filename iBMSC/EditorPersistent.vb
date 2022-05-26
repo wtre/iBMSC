@@ -1472,14 +1472,24 @@ Partial Public Class MainWindow
             Dim eKeybindingOptions As XmlElement = Root.Item("KeybindingOptions")
             If eKeybindingOptions IsNot Nothing Then
                 XMLLoadLocale(eKeybindingOptions.Item("Title"), Strings.fopKeybinding.Title)
+                XMLLoadLocale(eKeybindingOptions.Item("BindingName"), Strings.fopKeybinding.BindingName)
+                XMLLoadLocale(eKeybindingOptions.Item("Description"), Strings.fopKeybinding.Description)
+                XMLLoadLocale(eKeybindingOptions.Item("Keybindings"), Strings.fopKeybinding.Keybindings)
+
                 XMLLoadLocale(eKeybindingOptions.Item("MoveTo"), Strings.fopKeybinding.MoveTo)
                 XMLLoadLocale(eKeybindingOptions.Item("MoveToDescription"), Strings.fopKeybinding.MoveToDescription)
                 XMLLoadLocale(eKeybindingOptions.Item("MoveToScratchDescription"), Strings.fopKeybinding.MoveToScratchDescription)
-                XMLLoadLocale(eKeybindingOptions.Item("MoveToBGM"), Strings.fopKeybinding.MoveToBGM)
+                XMLLoadLocale(eKeybindingOptions.Item("MoveToBGMDescription"), Strings.fopKeybinding.MoveToBGMDescription)
                 XMLLoadLocale(eKeybindingOptions.Item("MoveToTemplate"), Strings.fopKeybinding.MoveToTemplate)
+                XMLLoadLocale(eKeybindingOptions.Item("MoveToTemplateDescription"), Strings.fopKeybinding.MoveToTemplateDescription)
                 XMLLoadLocale(eKeybindingOptions.Item("CheckTechnicalError"), Strings.fopKeybinding.CheckTechnicalError)
                 XMLLoadLocale(eKeybindingOptions.Item("SelectExpansionSection"), Strings.fopKeybinding.SelectExpansionSection)
                 XMLLoadLocale(eKeybindingOptions.Item("PastePattern"), Strings.fopKeybinding.PastePattern)
+
+                XMLLoadLocale(eKeybindingOptions.Item("ErrorUnavailable"), Strings.fopKeybinding.ErrorUnavailable)
+                XMLLoadLocale(eKeybindingOptions.Item("ErrorAssigned"), Strings.fopKeybinding.ErrorAssigned)
+                XMLLoadLocale(eKeybindingOptions.Item("ErrorNoteAssignment"), Strings.fopKeybinding.ErrorNoteAssignment)
+                ReloadKeybindingNames(Keybindings)
             End If
 
             Dim eExpandOptions As XmlElement = Root.Item("ExpandOptions")

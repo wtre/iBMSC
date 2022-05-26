@@ -426,13 +426,13 @@
 	</GeneralOptions>
 	<VisualOverrideOptions>
 		<Title>Visual Override Options</Title>
-		<Add>Add</Add>
-		<Up>Up</Up>
-		<Down>Down</Down>
+		<Add>추가</Add>
+		<Up>위로</Up>
+		<Down>아래로</Down>
 		<Duplicate>Duplicate</Duplicate>
 		<Split>Split</Split>
 		<SemiAutoAssign>Semi-auto assign</SemiAutoAssign>
-		<Remove>Remove</Remove>
+		<Remove>삭제</Remove>
 		<LoadSettingsFrom>Load Settings From</LoadSettingsFrom>
 		<SaveSettingsTo>Save Settings To</SaveSettingsTo>
 		<EnableItem>Enable Item</EnableItem>
@@ -442,7 +442,7 @@
 		<ColorGHSLD>Color gradient (HSL↓)</ColorGHSLD>
 		<OptionName>Option Name</OptionName>
 		<LabelRange>Label Range</LabelRange>
-		<ToText>To</ToText>
+		<ToText>~</ToText>
 		<NoteColor>Note Color</NoteColor>
 		<NoteColorRange>Note Color Range</NoteColorRange>
 		<Preview>Preview</Preview>
@@ -459,14 +459,24 @@
 	</VisualOverrideOptions>
 	<KeybindingOptions>
 		<Title>Keybinding Options</Title>
+		<BindingName>Binding Name</BindingName>
+		<Description>Description</Description>
+		<Keybindings>Keybindings</Keybindings>
+
 		<MoveTo>Move to {}</MoveTo>
 		<MoveToDescription>Move note to {1} Lane {2}</MoveToDescription>
 		<MoveToScratchDescription>Move note to {} Scratch Lane</MoveToScratchDescription>
-		<MoveToBGM>Move note to BGM Lane</MoveToBGM>
-		<MoveToTemplate>Move note to Template Position if available</MoveToTemplate>
+		<MoveToBGMDescription>Move note to BGM Lane</MoveToBGMDescription>
+		<MoveToTemplate>Move to Template Position</MoveToTemplate>
+		<MoveToTemplateDescription>Move note to template position if available</MoveToTemplateDescription>
 		<CheckTechnicalError>Check for technical errors such as impossible scratches in DP or impossible chords in PMS</CheckTechnicalError>
 		<SelectExpansionSection>Select #IF sections in the Expansion field</SelectExpansionSection>
 		<PastePattern>Apply pattern of the notes on the clipboard to the highlighted notes.</PastePattern>
+		<SelectHovered>Select all with hovered note label</SelectHovered>
+
+		<ErrorUnavailable>Error: {} is unavailable for custom keybinding.</ErrorUnavailable>
+		<ErrorAssigned>Error: {} has been assigned to other functions.</ErrorAssigned>
+		<ErrorNoteAssignment>{1} has been assigned to {2}. Remove keybinding for {2}?</ErrorNoteAssignment>
 	</KeybindingOptions>
 	<ExpandOptions>
 		<Title>#RANDOM Editor</Title>

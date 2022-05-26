@@ -9,14 +9,21 @@ Public Class OpKeybinding
     Public Sub New(ByVal xKeybindings() As MainWindow.Keybinding)
         Try
             InitializeComponent()
-            OK_Button.Text = Strings.OK
-            Cancel_Button.Text = Strings.Cancel
-            BDefault.Text = Strings.fopPlayer.RestoreDefault
             Keybinds = CType(xKeybindings.Clone(), MainWindow.Keybinding())
             InitializeKeybindings()
         Catch ex As Exception
             MsgBox("New OpKeybinding Error" & vbCrLf & ex.Message)
         End Try
+    End Sub
+    Private Sub OpKeybinding_Load(ByVal sender As Object, e As EventArgs) Handles MyBase.Load
+        Font = MainWindow.Font
+
+        Text = Strings.fopKeybinding.Title
+        BAdd.Text = Strings.fopPlayer.Add
+        BRemove.Text = Strings.fopPlayer.Remove
+        OK_Button.Text = Strings.OK
+        Cancel_Button.Text = Strings.Cancel
+        BDefault.Text = Strings.fopPlayer.RestoreDefault
     End Sub
 
     Private Sub OK_Button_Click(sender As Object, e As EventArgs) Handles OK_Button.Click
@@ -127,6 +134,7 @@ Public Class OpKeybinding
 
     Private Sub BDefault_Click(sender As Object, e As EventArgs) Handles BDefault.Click
         Keybinds = CType(MainWindow.KeybindingsInit.Clone(), MainWindow.Keybinding())
+        MainWindow.ReloadKeybindingNames(Keybinds)
         InitializeKeybindings()
     End Sub
 
@@ -135,7 +143,7 @@ Public Class OpKeybinding
         For Each keybindHidden In KeybindsHidden
             If keyComboEvent(UBound(keyComboEvent)) = keybindHidden.Combo(0) Then
                 keyComboOK = False
-                MsgBox("Error: " & keyComboEvent(UBound(keyComboEvent)) & " is unavailable for custom keybinding.")
+                MsgBox(Strings.fopKeybinding.ErrorUnavailable.Replace("{}", keyComboEvent(UBound(keyComboEvent))))
                 Exit Sub
             End If
         Next
@@ -144,7 +152,7 @@ Public Class OpKeybinding
         Dim OtherFunctionKeys() As String = {"F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"}
         If OtherFunctionKeys.Contains(keyComboEvent(UBound(keyComboEvent))) Then
             keyComboOK = False
-            MsgBox("Error: " & keyComboEvent(UBound(keyComboEvent)) & " is unavailable for custom keybinding.")
+            MsgBox(Strings.fopKeybinding.ErrorUnavailable.Replace("{}", keyComboEvent(UBound(keyComboEvent))))
             Exit Sub
         End If
 
@@ -154,7 +162,7 @@ Public Class OpKeybinding
                                                   "Alt+B", "Alt+S", "Alt+R", "Alt+G"}
         If OtherFunctionKeyCombos.Contains(TComboInput.Text) Then
             keyComboOK = False
-            MsgBox("Error: " & TComboInput.Text & " has been assigned to other functions.")
+            MsgBox(Strings.fopKeybinding.ErrorAssigned.Replace("{}", TComboInput.Text))
             Exit Sub
         End If
 
@@ -164,7 +172,7 @@ Public Class OpKeybinding
             Case MainWindow.KbCategorySP, MainWindow.KbCategoryDP, MainWindow.KbCategoryPMS, MainWindow.KbCategoryBGM
                 If keyComboEvent.Contains("Shift") Then
                     keyComboOK = False
-                    MsgBox("Error: Shift cannot be used for note assignment keybindings.")
+                    MsgBox(Strings.fopKeybinding.ErrorAssigned)
                     Exit Sub
                 End If
         End Select
@@ -189,7 +197,7 @@ Public Class OpKeybinding
             Dim keybind = Keybinds(i)
             For j = 0 To UBound(keybind.Combo)
                 If keybind.Combo(j) = TComboInput.Text Then
-                    If MsgBox(TComboInput.Text & " has been assigned to " & keybind.OpName & ". Remove keybinding for " & keybind.OpName & "?", MsgBoxStyle.YesNo) = DialogResult.Yes Then
+                    If MsgBox(Strings.fopKeybinding.ErrorNoteAssignment.Replace("{1}", TComboInput.Text).Replace("{2}", keybind.OpName), MsgBoxStyle.YesNo) = DialogResult.Yes Then
                         For k = j To UBound(Keybinds(i).Combo) - 1
                             Keybinds(i).Combo(k) = Keybinds(i).Combo(k + 1)
                         Next

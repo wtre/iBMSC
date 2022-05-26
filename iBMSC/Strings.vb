@@ -240,14 +240,24 @@ Public Class Strings
 
     Public Class fopKeybinding
         Public Shared Title As String = "Keybinding Options"
+        Public Shared BindingName As String = "Binding Name"
+        Public Shared Description As String = "Description"
+        Public Shared Keybindings As String = "Keybindings"
+
         Public Shared MoveTo As String = "Move to {}"
         Public Shared MoveToDescription As String = "Move note to {1} Lane {2}"
         Public Shared MoveToScratchDescription As String = "Move note to {} Scratch Lane"
-        Public Shared MoveToBGM As String = "Move note to BGM Lane"
-        Public Shared MoveToTemplate As String = "Move note to Template Position if available"
+        Public Shared MoveToBGMDescription As String = "Move note to BGM Lane"
+        Public Shared MoveToTemplate As String = "Move to Template Position"
+        Public Shared MoveToTemplateDescription As String = "Move note to template position if available"
         Public Shared CheckTechnicalError As String = "Check for technical errors such as impossible scratches in DP or impossible chords in PMS"
         Public Shared SelectExpansionSection As String = "Select #IF sections in the Expansion field"
         Public Shared PastePattern As String = "Apply pattern of the notes on the clipboard to the highlighted notes."
+        Public Shared SelectHovered As String = "Select all with hovered note label"
+
+        Public Shared ErrorUnavailable As String = "Error: {} is unavailable for custom keybinding."
+        Public Shared ErrorAssigned As String = "Error: {} has been assigned to other functions."
+        Public Shared ErrorNoteAssignment As String = "{1} has been assigned to {2}. Remove keybinding for {2}?"
     End Class
 
     Public Class fopExpand
