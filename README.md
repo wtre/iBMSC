@@ -6,7 +6,7 @@ See README.md.iBMSC for the original iBMSC README file and REAME.md.uBMSC for th
 ### Discretion
 * Themes from Bluvel's uBMSC fork may not be compatible, please use themes from Zadoru's uBMSC fork.
 * Having .NET Framework 4.8 installed is recommended.
-* A lot of the new features are available in English only.
+* Most of the new features are available in English only (with limited support for Chinese and Japanese).
 
 # Changes
 Listed in the order added.
@@ -116,12 +116,12 @@ Listed in the order added.
 * Allows you to set a recommended #TOTAL value based on either IIDX supposition 1, IIDX supposition 2, or a multiplier.
 * Allows you to auto-set the #TOTAL value for the chart.
 
-## BMS File Tabs
+### BMS File Tabs
 * Allows multiple files to be opened simultaneously.
 * Middle-clicking on the file tab will close it.
 * Saves a list of the opened files on exiting application and reopens them on relaunching application.
 
-### Unavailable features
+###### Unavailable features
 * Autosaving all files. Currently it behaves the same as previously, which is autosaving the active BMS file.
 * Integration with Modify Section in Select Expansion Code.
 * Moving file tabs. Not sure if this will be doable with the current arrangement.
@@ -129,6 +129,5 @@ Listed in the order added.
 
 # To-Do List
 * Add support for saving new functions to iBMSC.
-* Add support for other locales, including new features.
 * Optimization?
 * Unavailable BMS File Tab features listed above.
