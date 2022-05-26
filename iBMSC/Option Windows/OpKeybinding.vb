@@ -19,6 +19,9 @@ Public Class OpKeybinding
         Font = MainWindow.Font
 
         Text = Strings.fopKeybinding.Title
+        LVKeybinding.Columns(0).Text = Strings.fopKeybinding.BindingName
+        LVKeybinding.Columns(1).Text = Strings.fopKeybinding.Description
+        LVKeybinding.Columns(2).Text = Strings.fopKeybinding.Keybindings
         BAdd.Text = Strings.fopPlayer.Add
         BRemove.Text = Strings.fopPlayer.Remove
         OK_Button.Text = Strings.OK
