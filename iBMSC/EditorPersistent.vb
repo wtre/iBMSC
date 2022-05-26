@@ -381,8 +381,8 @@ Partial Public Class MainWindow
 
     Private Sub XMLLoadKeybinding(ByVal n As XmlElement)
         For xI = 0 To UBound(Keybindings)
-            If Keybindings(xI).OpName = n.GetAttribute("Name") Then
-                XMLLoadAttribute(n.GetAttribute("Name"), Keybindings(xI).OpName)
+            If Keybindings(xI).OpVar = CInt(n.GetAttribute("OpVar")) Then
+                ' XMLLoadAttribute(n.GetAttribute("Name"), Keybindings(xI).OpName)
                 ' XMLLoadAttribute(n.GetAttribute("Description"), Keybindings(xI).Description)
                 Keybindings(xI).Combo = Split(n.GetAttribute("Combos"), ", ")
                 ' XMLLoadAttribute(n.GetAttribute("Category"), Keybindings(xI).Category)
