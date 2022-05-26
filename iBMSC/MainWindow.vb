@@ -383,7 +383,7 @@ Public Class MainWindow
 
     Private Function ExcludeShortcut(ByVal xStr As String) As String
         Dim IParenthesis = xStr.LastIndexOf("(")
-        If IParenthesis = -1 Then Return xStr
+        If IParenthesis = -1 Then Return xStr.Replace("&", "")
         Return xStr.Substring(0, IParenthesis - 1).Replace("&", "")
     End Function
 
