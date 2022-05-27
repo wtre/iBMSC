@@ -1,208 +1,208 @@
 <?xml version="1.0" encoding="euc-kr"?>
-<iBMSC.Locale Name="ÇÑ±¹¾î by MusicGameLAB">
+<iBMSC.Locale Name="í•œêµ­ì–´ by MusicGameLAB">
 	<Font Size="9">
-		<Family>¸¼Àº °íµñ</Family>
+		<Family>ë§‘ì€ ê³ ë”•</Family>
 		<Family>Malgun Gothic</Family>
 	</Font>
 	<MonoFont Size="9">
-		<Family>±¼¸²</Family>
+		<Family>êµ´ë¦¼</Family>
 		<Family>Gulim</Family>
 	</MonoFont>
-	<OK>È®ÀÎ</OK>
-	<Cancel>Ãë¼Ò</Cancel>
+	<OK>í™•ì¸</OK>
+	<Cancel>ì·¨ì†Œ</Cancel>
 	<None>None</None>
 	<Menu>
 		<File>
-			<Title amp="6">ÆÄÀÏ (F)</Title>
-			<New amp="4">»õ·Î ¸¸µé±â (N)</New>
-			<Open amp="4">¿­±â (O)</Open>
-			<OpenTemplate>Open &amp;Template</OpenTemplate>
-			<ImportSM amp="2">.SM ¿¡¼­ °¡Á®¿À±â</ImportSM>
-			<ImportIBMSC amp="1">.IBMSC ¿¡¼­ °¡Á®¿À±â</ImportIBMSC>
-			<Save amp="4">ÀúÀå (S)</Save>
-			<SaveAs amp="10">´Ù¸¥ ÀÌ¸§À¸·Î ÀúÀå (A)</SaveAs>
-			<ExportIBMSC amp="18">.IBMSC Çü½ÄÀ¸·Î ³»º¸³»±â (E)</ExportIBMSC>
+			<Title amp="6">íŒŒì¼ (F)</Title>
+			<New amp="4">ìƒˆë¡œ ë§Œë“¤ê¸° (N)</New>
+			<Open amp="4">ì—´ê¸° (O)</Open>
+			<OpenTemplate>í…œí”Œë¦¿ ì—´ê¸° </OpenTemplate>
+			<ImportSM amp="2">.SM ì—ì„œ ê°€ì ¸ì˜¤ê¸°</ImportSM>
+			<ImportIBMSC amp="1">.IBMSC ì—ì„œ ê°€ì ¸ì˜¤ê¸°</ImportIBMSC>
+			<Save amp="4">ì €ìž¥ (S)</Save>
+			<SaveAs amp="10">ë‹¤ë¥¸ ì´ë¦„ìœ¼ë¡œ ì €ìž¥ (A)</SaveAs>
+			<ExportIBMSC amp="18">.IBMSC í˜•ì‹ìœ¼ë¡œ ë‚´ë³´ë‚´ê¸° (E)</ExportIBMSC>
 			<Close>&amp;Close</Close>
-			<Recent0>ÃÖ±Ù »ç¿ëµÈ ÆÄÀÏ #0</Recent0>
-			<Recent1>ÃÖ±Ù »ç¿ëµÈ ÆÄÀÏ #1</Recent1>
-			<Recent2>ÃÖ±Ù »ç¿ëµÈ ÆÄÀÏ #2</Recent2>
-			<Recent3>ÃÖ±Ù »ç¿ëµÈ ÆÄÀÏ #3</Recent3>
-			<Recent4>ÃÖ±Ù »ç¿ëµÈ ÆÄÀÏ #4</Recent4>
-			<Quit amp="4">Á¾·á (X)</Quit>
+			<Recent0>ìµœê·¼ ì‚¬ìš©ëœ íŒŒì¼ #0</Recent0>
+			<Recent1>ìµœê·¼ ì‚¬ìš©ëœ íŒŒì¼ #1</Recent1>
+			<Recent2>ìµœê·¼ ì‚¬ìš©ëœ íŒŒì¼ #2</Recent2>
+			<Recent3>ìµœê·¼ ì‚¬ìš©ëœ íŒŒì¼ #3</Recent3>
+			<Recent4>ìµœê·¼ ì‚¬ìš©ëœ íŒŒì¼ #4</Recent4>
+			<Quit amp="4">ì¢…ë£Œ (X)</Quit>
 		</File>
 		<Edit>
-			<Title amp="4">ÆíÁý (E)</Title>
-			<Undo amp="6">½ÇÇàÃë¼Ò (U)</Undo>
-			<Redo amp="6">´Ù½Ã½ÇÇà (R)</Redo>
-			<Cut amp="6">Àß¶ó³»±â (T)</Cut>
-			<Copy amp="5">º¹»ç (C)</Copy>
-			<Paste amp="6">ºÙ¿©³Ö±â (P)</Paste>
-			<PastePattern >Paste Patter&amp;n</PastePattern>
-			<Delete amp="4">»èÁ¦ (D)</Delete>
-			<SelectAll amp="7">¸ðµÎ ¼±ÅÃ (A)</SelectAll>
-			<GoToMeasure>&amp;Go To Measure</GoToMeasure>
-			<Find amp="14">Ã£±â / »èÁ¦ / ±³Ã¼ (F)</Find>
-			<Stat amp="4">Åë°è (T)</Stat>
-			<StatAdv amp="2">Advanced Statistics</StatAdv>
-			<TimeSelectionTool amp="11">½Ã°£ ÆíÁý ¸ðµå (I)</TimeSelectionTool>
-			<SelectTool amp="7">¼±ÅÃ ¸ðµå (S)</SelectTool>
-			<WriteTool amp="7">¾²±â ¸ðµå (W)</WriteTool>
-			<MyO2>MyO2 Åø¹Ú½º (Áß±¹¾î Àü¿ë)</MyO2>
+			<Title amp="4">íŽ¸ì§‘ (E)</Title>
+			<Undo amp="6">ì‹¤í–‰ì·¨ì†Œ (U)</Undo>
+			<Redo amp="6">ë‹¤ì‹œì‹¤í–‰ (R)</Redo>
+			<Cut amp="6">ìž˜ë¼ë‚´ê¸° (T)</Cut>
+			<Copy amp="5">ë³µì‚¬ (C)</Copy>
+			<Paste amp="6">ë¶™ì—¬ë„£ê¸° (P)</Paste>
+			<PastePattern >íŒ¨í„´ ë¶™ì—¬ë„£ê¸°</PastePattern>
+			<Delete amp="4">ì‚­ì œ (D)</Delete>
+			<SelectAll amp="7">ëª¨ë‘ ì„ íƒ (A)</SelectAll>
+			<GoToMeasure>ë§ˆë””ë¡œ ì´ë™</GoToMeasure>
+			<Find amp="14">ì°¾ê¸° / ì‚­ì œ / êµì²´ (F)</Find>
+			<Stat amp="4">í†µê³„ (T)</Stat>
+			<StatAdv amp="2">ê³ ê¸‰ í†µê³„</StatAdv>
+			<TimeSelectionTool amp="11">ì‹œê°„ íŽ¸ì§‘ ëª¨ë“œ (I)</TimeSelectionTool>
+			<SelectTool amp="7">ì„ íƒ ëª¨ë“œ (S)</SelectTool>
+			<WriteTool amp="7">ì“°ê¸° ëª¨ë“œ (W)</WriteTool>
+			<MyO2>MyO2 íˆ´ë°•ìŠ¤ (ì¤‘êµ­ì–´ ì „ìš©)</MyO2>
 		</Edit>
 		<View>
 			<Title amp="0">View</Title>
 		</View>
 		<Options>
-			<Title amp="4">¼³Á¤ (O)</Title>
-			<NT amp="1">·Õ³ëÆ® ÀÔ·Â¸ðµå - NT/BMSE</NT>
-			<ErrorCheck amp="9">¿À·ù °Ë»ö (E)</ErrorCheck>
-			<PreviewOnClick amp="9">À½¿ø ¹Ì¸®µè±â (C)</PreviewOnClick>
-			<ShowFileName amp="9">ÆÄÀÏ¸í Ç¥½Ã (F)</ShowFileName>
-			<ShowWaveform amp="5">Show Waveform on Notes</ShowWaveform>
-			<GeneralOptions amp="9">ÀÏ¹Ý ¿É¼Ç (G)</GeneralOptions>
-			<KeybindingOptions amp="0">Keybinding Options</KeybindingOptions>
-			<VisualOptions amp="9">Ç¥½Ã ¿É¼Ç (V)</VisualOptions>
-			<VisualOverrideOptions amp="1">Color Override Options</VisualOverrideOptions>
-			<PlayerOptions amp="9">Àç»ý ÇÁ·Î±×·¥ ¿É¼Ç (P)</PlayerOptions>
-			<Language amp="4">¾ð¾î (L)</Language>
-			<Theme amp="5">Å×¸¶ (T)</Theme>
+			<Title amp="4">ì„¤ì • (O)</Title>
+			<NT amp="1">ë¡±ë…¸íŠ¸ ìž…ë ¥ëª¨ë“œ - NT/BMSE</NT>
+			<ErrorCheck amp="9">ì˜¤ë¥˜ ê²€ìƒ‰ (E)</ErrorCheck>
+			<PreviewOnClick amp="9">ìŒì› ë¯¸ë¦¬ë“£ê¸° (C)</PreviewOnClick>
+			<ShowFileName amp="9">íŒŒì¼ëª… í‘œì‹œ (F)</ShowFileName>
+			<ShowWaveform amp="5">ë…¸íŠ¸ì— íŒŒí˜• í‘œì‹œ</ShowWaveform>
+			<GeneralOptions amp="9">ì¼ë°˜ ì˜µì…˜ (G)</GeneralOptions>
+			<KeybindingOptions amp="0">í‚¤ ì„¤ì •</KeybindingOptions>
+			<VisualOptions amp="9">í‘œì‹œ ì˜µì…˜ (V)</VisualOptions>
+			<VisualOverrideOptions amp="1">ì¤‘ë³µ ì§€ì •ëœ ì˜µì…˜ í‘œì‹œ</VisualOverrideOptions>
+			<PlayerOptions amp="9">ìž¬ìƒ í”„ë¡œê·¸ëž¨ ì˜µì…˜ (P)</PlayerOptions>
+			<Language amp="4">ì–¸ì–´ (L)</Language>
+			<Theme amp="5">í…Œë§ˆ (T)</Theme>
 		</Options>
-		<Conversion amp="4">º¸±â (C)</Conversion>
+		<Conversion amp="4">ë³´ê¸° (C)</Conversion>
 		<Preview>
-			<Title amp="7">ÇÁ¸®ºä (P)</Title>
-			<PlayBegin amp="8">Ã³À½ºÎÅÍ Àç»ý (B)</PlayBegin>
-			<PlayHere amp="10">Áö±ÝºÎÅÍ Àç»ý (P)</PlayHere>
-			<PlayStop amp="4">Á¤Áö (S)</PlayStop>
+			<Title amp="7">í”„ë¦¬ë·° (P)</Title>
+			<PlayBegin amp="8">ì²˜ìŒë¶€í„° ìž¬ìƒ (B)</PlayBegin>
+			<PlayHere amp="10">ì§€ê¸ˆë¶€í„° ìž¬ìƒ (P)</PlayHere>
+			<PlayStop amp="4">ì •ì§€ (S)</PlayStop>
 		</Preview>
 		<Tools>
-			<Title amp="0">Tools</Title>
-			<TechnicalErrorCheck amp="16">Check Technical Error</TechnicalErrorCheck>
-			<TOTAL amp="1">#TOTAL Tool</TOTAL>
-			<MyO2 amp="2">MyO2 Åø¹Ú½º (Áß±¹¾î Àü¿ë)</MyO2>
+			<Title amp="0">ë„êµ¬</Title>
+			<TechnicalErrorCheck amp="16">ì˜¤ë¥˜ ì ê²€</TechnicalErrorCheck>
+			<TOTAL amp="1">#TOTAL ë„êµ¬</TOTAL>
+			<MyO2 amp="2">MyO2 íˆ´ë°•ìŠ¤ (ì¤‘êµ­ì–´ ì „ìš©)</MyO2>
 		</Tools>
 		<About>
-			<Title amp="4">Á¤º¸ (A)</Title>
-			<About amp="12">iBMSC ¿¡ ´ëÇØ¼­... (A)</About>
-			<CheckUpdates amp="9">¾÷µ¥ÀÌÆ® È®ÀÎ (C)</CheckUpdates>
-			<CheckUpdatesC>¾÷µ¥ÀÌÆ® È®ÀÎ (Áß±¹¾î)</CheckUpdatesC>
+			<Title amp="4">ì •ë³´ (A)</Title>
+			<About amp="12">iBMSC ì— ëŒ€í•´ì„œ... (A)</About>
+			<CheckUpdates amp="9">ì—…ë°ì´íŠ¸ í™•ì¸ (C)</CheckUpdates>
+			<CheckUpdatesC>ì—…ë°ì´íŠ¸ í™•ì¸ (ì¤‘êµ­ì–´)</CheckUpdatesC>
 		</About>
 	</Menu>
 	<ToolBar>
-		<New>»õ·Î ¸¸µé±â (Ctrl+N)</New>
-		<Open>¿­±â (Ctrl+O)</Open>
-		<Save>ÀúÀå (Ctrl+S)</Save>
-		<Cut>Àß¶ó³»±â (Ctrl+X)</Cut>
-		<Copy>º¹»ç (Ctrl+C)</Copy>
-		<Paste>ºÙ¿©³Ö±â (Ctrl+V)</Paste>
-		<PastePattern>Paste Pattern (Ctrl+Shift+V)</PastePattern>
-		<Find>°Ë»ö/»èÁ¦/±³Ã¼ (Ctrl+F)</Find>
-		<Stat>Åë°è (Ctrl+T)</Stat>
-		<Conversion>¿ÀºêÁ§Æ® º¯È¯ </Conversion>
-		<MyO2>MyO2 Åø¹Ú½º (Áß±¹¾îÀü¿ë)</MyO2>
-		<ErrorCheck>¿À·ù °Ë»ö</ErrorCheck>
-		<PreviewOnClick>À½¿ø ¹Ì¸®µè±â</PreviewOnClick>
-		<ShowFileName>ÆÄÀÏ¸í Ç¥½Ã</ShowFileName>
-		<ShowWaveform>Show Waveform on Notes</ShowWaveform>
-		<Undo>½ÇÇàÃë¼Ò (Ctrl+Z)</Undo>
-		<Redo>´Ù½Ã½ÇÇà (Ctrl+Y)</Redo>
-		<NT>·Õ³ëÆ® ÀÔ·Â¸ðµå - NoteTool/BMSE</NT>
-		<TimeSelectionTool>½Ã°£ÆíÁý¸ðµå (F1)</TimeSelectionTool>
-		<SelectTool>ÆíÁý¸ðµå (F2)</SelectTool>
-		<WriteTool>¾²±â¸ðµå (F3)</WriteTool>
-		<PlayBegin>Ã³À½ºÎÅÍ Àç»ý (F5)</PlayBegin>
-		<PlayHere>Áö±ÝºÎÅÍ Àç»ý (F6)</PlayHere>
-		<PlayStop>Á¤Áö (F7)</PlayStop>
-		<PlayerOptions>Àç»ý ÇÁ·Î±×·¥ </PlayerOptions>
-		<VisualOptions>Ç¥½Ã ¿É¼Ç</VisualOptions>
-		<GeneralOptions>ÀÏ¹Ý ¿É¼Ç</GeneralOptions>
-		<Language>¾ð¾î</Language>
-		<Theme>Å×¸¶</Theme>
-		<RecommendedTOTAL>Recommended #TOTAL</RecommendedTOTAL>
-		<About>iBMSC¿¡ ´ëÇØ¼­... </About>
+		<New>ìƒˆë¡œ ë§Œë“¤ê¸° (Ctrl+N)</New>
+		<Open>ì—´ê¸° (Ctrl+O)</Open>
+		<Save>ì €ìž¥ (Ctrl+S)</Save>
+		<Cut>ìž˜ë¼ë‚´ê¸° (Ctrl+X)</Cut>
+		<Copy>ë³µì‚¬ (Ctrl+C)</Copy>
+		<Paste>ë¶™ì—¬ë„£ê¸° (Ctrl+V)</Paste>
+		<PastePattern>íŒ¨í„´ ë¶™ì—¬ë„£ê¸° (Ctrl+Shift+V)</PastePattern>
+		<Find>ê²€ìƒ‰/ì‚­ì œ/êµì²´ (Ctrl+F)</Find>
+		<Stat>í†µê³„ (Ctrl+T)</Stat>
+		<Conversion>ì˜¤ë¸Œì íŠ¸ ë³€í™˜ </Conversion>
+		<MyO2>MyO2 íˆ´ë°•ìŠ¤ (ì¤‘êµ­ì–´ì „ìš©)</MyO2>
+		<ErrorCheck>ì˜¤ë¥˜ ê²€ìƒ‰</ErrorCheck>
+		<PreviewOnClick>ìŒì› ë¯¸ë¦¬ë“£ê¸°</PreviewOnClick>
+		<ShowFileName>íŒŒì¼ëª… í‘œì‹œ</ShowFileName>
+		<ShowWaveform>Së…¸íŠ¸ì— íŒŒí˜• í‘œì‹œ</ShowWaveform>
+		<Undo>ì‹¤í–‰ ì·¨ì†Œ (Ctrl+Z)</Undo>
+		<Redo>ë‹¤ì‹œ ì‹¤í–‰ (Ctrl+Y)</Redo>
+		<NT>ë¡±ë…¸íŠ¸ ìž…ë ¥ ëª¨ë“œ - NoteTool/BMSE</NT>
+		<TimeSelectionTool>ì‹œê°„ íŽ¸ì§‘ëª¨ ë“œ (F1)</TimeSelectionTool>
+		<SelectTool>íŽ¸ì§‘ëª¨ë“œ (F2)</SelectTool>
+		<WriteTool>ì“°ê¸°ëª¨ë“œ (F3)</WriteTool>
+		<PlayBegin>ì²˜ìŒë¶€í„° ìž¬ìƒ (F5)</PlayBegin>
+		<PlayHere>ì§€ê¸ˆë¶€í„° ìž¬ìƒ (F6)</PlayHere>
+		<PlayStop>ì •ì§€ (F7)</PlayStop>
+		<PlayerOptions>ìž¬ìƒ í”„ë¡œê·¸ëž¨ </PlayerOptions>
+		<VisualOptions>í‘œì‹œ ì˜µì…˜</VisualOptions>
+		<GeneralOptions>ì¼ë°˜ ì˜µì…˜</GeneralOptions>
+		<Language>ì–¸ì–´</Language>
+		<Theme>í…Œë§ˆ</Theme>
+		<RecommendedTOTAL>ì¶”ì²œ #TOTAL</RecommendedTOTAL>
+		<About>iBMSCì— ëŒ€í•´ì„œ... </About>
 	</ToolBar>
 	<StatusBar>
-		<ColumnCaption>¿­ ¸Ó¸®</ColumnCaption>
-		<NoteIndex>³ëÆ® ¶óº§</NoteIndex>
-		<MeasureIndex>¼½¼Ç ÁöÁ¤</MeasureIndex>
-		<GridResolution>°ÝÀÚÇØ»óµµ</GridResolution>
-		<ReducedResolution>°ÝÀÚÇØ»óµµ2</ReducedResolution>
-		<MeasureResolution>¸¶µð ÇØ»óµµ</MeasureResolution>
-		<AbsolutePosition>Àý´ëÀ§Ä¡</AbsolutePosition>
-		<Length>±æÀÌ</Length>
-		<LongNote>·Õ³ëÆ®</LongNote>
-		<Hidden>Åõ¸í ³ëÆ®</Hidden>
-		<Error>¿¡·¯</Error>
-		<SelStart>½ÃÀÛÁ¡</SelStart>
-		<SelLength>¹üÀ§ ±æÀÌ</SelLength>
-		<SelSplit>¿µ¿ª À§Ä¡</SelSplit>
-		<Reverse>¼±ÅÃ ¹ÝÀü</Reverse>
-		<ByMultiple>¹è</ByMultiple>
+		<ColumnCaption>ì—´ ë¨¸ë¦¬</ColumnCaption>
+		<NoteIndex>ë…¸íŠ¸ ë¼ë²¨</NoteIndex>
+		<MeasureIndex>ì„¹ì…˜ ì§€ì •</MeasureIndex>
+		<GridResolution>ê²©ìž í•´ìƒë„</GridResolution>
+		<ReducedResolution>ê²©ìž ì„¸ë¶€ í•´ìƒë„</ReducedResolution>
+		<MeasureResolution>ë§ˆë”” í•´ìƒë„</MeasureResolution>
+		<AbsolutePosition>ì ˆëŒ€ ìœ„ì¹˜</AbsolutePosition>
+		<Length>ê¸¸ì´</Length>
+		<LongNote>ë¡±ë…¸íŠ¸</LongNote>
+		<Hidden>íˆ¬ëª… ë…¸íŠ¸</Hidden>
+		<Error>ì—ëŸ¬</Error>
+		<SelStart>ì‹œìž‘ì </SelStart>
+		<SelLength>ë²”ìœ„ ê¸¸ì´</SelLength>
+		<SelSplit>ì˜ì—­ ìœ„ì¹˜</SelSplit>
+		<Reverse>ì„ íƒ ë°˜ì „</Reverse>
+		<ByMultiple>ë°°</ByMultiple>
 		<ByValue>BPM</ByValue>
 	</StatusBar>
 	<SubMenu>
 		<ShowHide>
-			<ToolTip>Ç¥½Ã/¼û±â±â</ToolTip>
-			<Menu>¸ÞÀÎ¸Þ´º</Menu>
-			<ToolBar>Åø¹Ù</ToolBar>
-			<OptionsPanel>¿É¼Ç ¿µ¿ª</OptionsPanel>
-			<StatusBar>»óÈ² Ç¥½ÃÁÙ</StatusBar>
-			<LSplit>ÁÂÃø ¿µ¿ª</LSplit>
-			<RSplit>¿ìÃø ¿µ¿ª </RSplit>
-			<Grid>°ÝÀÚ</Grid>
-			<Sub>º¸Á¶°ÝÀÚ</Sub>
-			<BG>¹è°æ</BG>
-			<MeasureIndex>¸¶µð¹øÈ£</MeasureIndex>
-			<MeasureLine>¸¶µð¼±</MeasureLine>
-			<Vertical>¼öÁ÷¼±</Vertical>
-			<ColumnCaption>¿­ ¸Ó¸®</ColumnCaption>
+			<ToolTip>í‘œì‹œ/ìˆ¨ê¸°ê¸°</ToolTip>
+			<Menu>ë©”ì¸ ë©”ë‰´</Menu>
+			<ToolBar>íˆ´ë°”</ToolBar>
+			<OptionsPanel>ì˜µì…˜ ì˜ì—­</OptionsPanel>
+			<StatusBar>ìƒí™© í‘œì‹œì¤„</StatusBar>
+			<LSplit>ì¢Œì¸¡ ì˜ì—­</LSplit>
+			<RSplit>ìš°ì¸¡ ì˜ì—­ </RSplit>
+			<Grid>ê²©ìž</Grid>
+			<Sub>ë³´ì¡°ê²©ìž</Sub>
+			<BG>ë°°ê²½</BG>
+			<MeasureIndex>ë§ˆë”” ë²ˆí˜¸</MeasureIndex>
+			<MeasureLine>ë§ˆë””ì„ </MeasureLine>
+			<Vertical>ìˆ˜ì§ì„ </Vertical>
+			<ColumnCaption>ì—´ ë¨¸ë¦¬</ColumnCaption>
 			<BPM>BPM</BPM>
 			<STOP>STOP</STOP>
 			<BLP>BGA / Layer / Poor</BLP>
 		</ShowHide>
 		<InsertMeasure>
-			<Insert>1¼ÒÀý »ðÀÔ</Insert>
-			<Remove>¼ÒÀý »èÁ¦</Remove>
+			<Insert>ì†Œì ˆ ì‚½ìž…</Insert>
+			<Remove>ì†Œì ˆ ì‚­ì œ</Remove>
 		</InsertMeasure>
 		<Language>
-			<Default>ÃÊ±âÈ­</Default>
-			<Refresh>¸ñ·Ï »õ·Î°íÄ§</Refresh>
+			<Default>ì´ˆê¸°í™”</Default>
+			<Refresh>ëª©ë¡ ìƒˆë¡œê³ ì¹¨</Refresh>
 		</Language>
 		<Theme>
-			<Default>ÃÊ±âÈ­</Default>
-			<Save>Å×¸¶ ÀúÀå</Save>
-			<Refresh>¸ñ·Ï »õ·Î°íÄ§</Refresh>
-			<LoadComptability>iBMSC 2.x ÀÇ Å×¸¶¸¦ »õ·Î°íÄ§</LoadComptability>
+			<Default>ì´ˆê¸°í™”</Default>
+			<Save>í…Œë§ˆ ì €ìž¥</Save>
+			<Refresh>ëª©ë¡ ìƒˆë¡œê³ ì¹¨</Refresh>
+			<LoadComptability>iBMSC 2.x í…Œë§ˆ ë¶ˆëŸ¬ì˜¤ê¸°</LoadComptability>
 		</Theme>
 		<Convert>
-			<Long amp="7">·Õ³ëÆ®È­ (L)</Long>
-			<Short amp="9">ÀÏ¹Ý³ëÆ®È­ (S)</Short>
-			<LongShort>·Õ³ëÆ®¡êÀÏ¹Ý³ëÆ®</LongShort>
-			<LongObjNT amp="1">LNObj ¡æ NT Long Note</LongObjNT>
-			<LongNTObj amp="0">NT Long Note ¡æ LNObj</LongNTObj>
-			<AutoLongV amp="0">Auto Long Note (By VPosition)</AutoLongV>
-			<AutoLongC amp="0">Auto Long Note (By Column)</AutoLongC>
-			<Hidden amp="9">³ëÆ®¼û±â±â (H)</Hidden>
-			<Visible amp="9">³ëÆ®º¸ÀÌ±â (V)</Visible>
-			<HiddenVisible>³ëÆ® º¸ÀÌ±â ¹ÝÀü</HiddenVisible>
-			<Relabel amp="10">³ëÆ®¹øÈ£ º¯°æ (M)</Relabel>
-			<Mirror amp="5">ÁÂ¿ì¹ÝÀü (R)</Mirror>
-			<Flip amp="0">Flip</Flip>
-			<Random amp="0">Random</Random>
-			<R-Random amp="0">R-Random</R-Random>
-			<S-Random amp="0">S-Random</S-Random>
-			<H-Random amp="0">H-Random</H-Random>
-			<Sort amp="1">Sort</Sort>
+			<Long amp="2">â†’ ë¡± ë…¸íŠ¸</Long>
+			<Short amp="2">â†’ ì¼ë°˜ ë…¸íŠ¸</Short>
+			<LongShort>ë¡± ë…¸íŠ¸ â†” ì¼ë°˜ ë…¸íŠ¸</LongShort>
+			<LongObjNT amp="1">LNObj â†’ NTë¡±ë…¸íŠ¸</LongObjNT>
+			<LongNTObj amp="0">NTë¡±ë…¸íŠ¸ â†’ LNObj</LongNTObj>
+			<AutoLongV amp="0">ìžë™ ë¡±ë…¸íŠ¸ (íƒ€ì´ë° ê¸°ì¤€)</AutoLongV>
+			<AutoLongC amp="0">ìžë™ ë¡±ë…¸íŠ¸ (ë ˆì¸ ê¸°ì¤€)</AutoLongC>
+			<Hidden amp="2">â†’ íˆ¬ëª… ë…¸íŠ¸</Hidden>
+			<Visible amp="2">â†’ í”Œë ˆì´ ê°€ëŠ¥ ë…¸íŠ¸</Visible>
+			<HiddenVisible>íˆ¬ëª… ë…¸íŠ¸ â†” í”Œë ˆì´ ê°€ëŠ¥ ë…¸íŠ¸</HiddenVisible>
+			<Relabel amp="0">Modify Labels</Relabel>
+			<Mirror amp="2">ì¢Œìš° ë°˜ì „(Mirror)</Mirror>
+			<Flip amp="0">ì–‘ì† êµì²´(Flip)</Flip>
+			<Random amp="0">ë ˆì¸ ì„žê¸°(Random)</Random>
+			<R-Random amp="0">ë ˆì¸ ë°€ê¸°(R-Random)</R-Random>
+			<S-Random amp="0">ë¬´ìž‘ìœ„ ë…¸íŠ¸(S-Random)</S-Random>
+			<H-Random amp="0">ì—°íƒ€ ì—†ëŠ” ë¬´ìž‘ìœ„(H-Random)</H-Random>
+			<Sort amp="1">ì •ë ¬</Sort>
 		
 	</Convert>
 		<WAV>
-			<MultiSelection>´ÙÁß¼±ÅÃ</MultiSelection>
-			<Synchronize>³ëÆ®Á¤º¸ À¯Áö</Synchronize>
+			<MultiSelection>ë‹¤ì¤‘ì„ íƒ</MultiSelection>
+			<Synchronize>ë…¸íŠ¸ì •ë³´ ìœ ì§€</Synchronize>
 		</WAV>
 		<Beat>
-			<Absolute>³ëÆ® À§Ä¡ À¯Áö</Absolute>
-			<Measure>´ÙÀ½ ¸¶µð À¯Áö</Measure>
-			<Cut>´ÙÀ½ ¸¶µð Àß¶ó³»±â</Cut>
-			<Scale>±æÀÌ¿¡ ºñ·ÊÇÏ¿© ¹è¿­</Scale>
+			<Absolute>ë…¸íŠ¸ ìœ„ì¹˜ ìœ ì§€</Absolute>
+			<Measure>ë‹¤ìŒ ë§ˆë”” ìœ ì§€</Measure>
+			<Cut>ë‹¤ìŒ ë§ˆë”” ìž˜ë¼ë‚´ê¸°</Cut>
+			<Scale>ê¸¸ì´ì— ë¹„ë¡€í•˜ì—¬ ë°°ì—´</Scale>
 		</Beat>
 	</SubMenu>
 	<OptionsPanel>
@@ -241,205 +241,205 @@
 			<Difficulty5>5 - Insane / SC</Difficulty5>
 		</Header>
 		<Grid>
-			<Title>°ÝÀÚ</Title>
-			<Snap>°ÝÀÚ¿¡ ¸ÂÃß±â(G)</Snap>
-			<BCols>BGM ¼ö</BCols>
-			<DisableVertical>¼öÁ÷À§Ä¡ °íÁ¤ (D)</DisableVertical>
-			<Scroll>¼¼·Î ½ºÅ©·Ñ Àá±Ý</Scroll>
-			<LockLeft>ÁÂÃø ¿µ¿ª Àá±Ý</LockLeft>
-			<LockMiddle>Áß°£ ¿µ¿ª Àá±Ý</LockMiddle>
-			<LockRight>¿ìÃø ¿µ¿ª Àá±Ý</LockRight>
+			<Title>ê²©ìž</Title>
+			<Snap>ê²©ìžì— ë§žì¶”ê¸°(G)</Snap>
+			<BCols>BGM ìˆ˜</BCols>
+			<DisableVertical>ìˆ˜ì§ìœ„ì¹˜ ê³ ì • (D)</DisableVertical>
+			<Scroll>ì„¸ë¡œ ìŠ¤í¬ë¡¤ ìž ê¸ˆ</Scroll>
+			<LockLeft>ì¢Œì¸¡ ì˜ì—­ ìž ê¸ˆ</LockLeft>
+			<LockMiddle>ì¤‘ê°„ ì˜ì—­ ìž ê¸ˆ</LockMiddle>
+			<LockRight>ìš°ì¸¡ ì˜ì—­ ìž ê¸ˆ</LockRight>
 		</Grid>
 		<WaveForm>
 			<Title>BGM</Title>
-			<Load>ºÒ·¯¿À±â</Load>
-			<Clear>»èÁ¦</Clear>
-			<Lock>BGM À§Ä¡ °íÁ¤</Lock>
+			<Load>ë¶ˆëŸ¬ì˜¤ê¸°</Load>
+			<Clear>ì‚­ì œ</Clear>
+			<Lock>BGM ìœ„ì¹˜ ê³ ì •</Lock>
 		</WaveForm>
 		<WAV>
-			<Title>À½¿øÆÄÀÏ</Title>
-			<MoveUp>À§·Î</MoveUp>
-			<MoveDown>¾Æ·¡·Î</MoveDown>
-			<Browse>°¡Á®¿À±â</Browse>
-			<Remove>»èÁ¦</Remove>
-			<Duplicate>Duplicate</Duplicate>
-			<OverrideColor>Override Color</OverrideColor>
+			<Title>ìŒì›íŒŒì¼</Title>
+			<MoveUp>ìœ„ë¡œ</MoveUp>
+			<MoveDown>ì•„ëž˜ë¡œ</MoveDown>
+			<Browse>ê°€ì ¸ì˜¤ê¸°</Browse>
+			<Remove>ì‚­ì œ</Remove>
+			<Duplicate>ë³µì œ</Duplicate>
+			<OverrideColor>ìƒ‰ ë®ì–´ì“°ê¸°</OverrideColor>
 		</WAV>
 		<BMP>
 			<Title>#BMP</Title>
-			<MoveUp>À§·Î</MoveUp>
-			<MoveDown>¾Æ·¡·Î</MoveDown>
-			<Browse>°¡Á®¿À±â</Browse>
-			<Remove>»èÁ¦</Remove>
+			<MoveUp>ìœ„ë¡œ</MoveUp>
+			<MoveDown>ì•„ëž˜ë¡œ</MoveDown>
+			<Browse>ê°€ì ¸ì˜¤ê¸°</Browse>
+			<Remove>ì‚­ì œ</Remove>
 		</BMP>
-		<Beat>¸¶µð</Beat>
-		<Beat.Apply>Àû¿ë</Beat.Apply>
-		<Expansion>È®Àå¸í·É</Expansion>
-		<ExpansionRandom>#RANDOM Editor</ExpansionRandom>
+		<Beat>ë§ˆë””</Beat>
+		<Beat.Apply>ì ìš©</Beat.Apply>
+		<Expansion>í™•ìž¥ëª…ë ¹</Expansion>
+		<ExpansionRandom>#RANDOM íŽ¸ì§‘ê¸°</ExpansionRandom>
 	</OptionsPanel>
 	<Messages>
-		<Err>¿¡·¯</Err>
-		<SaveOnExit>µ¥ÀÌÅÍ°¡ º¯°æµË´Ï´Ù. ÀúÀåÇÏ½Ã°Ú½À´Ï±î?</SaveOnExit>
-		<SaveOnExit1>Á¾·áÇÒ ¶§ ÀúÀåÇÒ °ÍÀÎÁö ¹¯±â</SaveOnExit1>
-		<SaveOnExit2>ÀÛ¾÷°ü¸®ÀÚ¿¡¼­ Á¾·áÇØµµ ÀúÀåÇÒ °ÍÀÎÁö ¹¯±â</SaveOnExit2>
-		<PromptEnter>¼³Á¤ÇÒ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.</PromptEnter>
-		<PromptEnterNumeric>°ªÀ» ÀÔ·ÂÇÏ¼¼¿ä.</PromptEnterNumeric>
-		<PromptEnterBPM>BPMÀ» ÀÔ·ÂÇÏ¼¼¿ä.</PromptEnterBPM>
-		<PromptEnterSTOP>STOP ½Ã°£À» ÀÔ·ÂÇÏ¼¼¿ä.</PromptEnterSTOP>
-		<PromptSlashValue>½½·¡½ÃÅ°("/")¸¦ ´©¸£¸é °ÝÀÚ¸¦ ÀÌ·¸°Ô ¼³Á¤ÇÕ´Ï´Ù.£º</PromptSlashValue>
-		<InvalidLabel>Àß¸øµÈ ¹øÈ£ÀÔ´Ï´Ù.</InvalidLabel>
-		<CannotFind>{}¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.</CannotFind>
-		<PleaseRespecifyPath>ÇÁ·Î±×·¥ÀÇ À§Ä¡¸¦ È®ÀÎÇØ ÁÖ¼¼¿ä.</PleaseRespecifyPath>
-		<PlayerNotFound>»ç¿ëÇÒ ¼ÒÇÁÆ®¿þ¾î¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.</PlayerNotFound>
-		<PreviewDelError>»ç¿ëÇÒ ¼ÒÇÁÆ®¿þ¾î°¡ 1°³ ÀÌ»ó ÀÖ¾î¾ß ÇÕ´Ï´Ù.</PreviewDelError>
-		<NegativeFactorError>0º¸´Ù Ä¿¾ßÇÕ´Ï´Ù.</NegativeFactorError>
-		<NegativeDivisorError>0À¸·Î ³ª´­ ¼ö ¾ø½À´Ï´Ù.</NegativeDivisorError>
-		<PreferencePostpone>ÀÌ ¼³Á¤Àº ´Ù½Ã ½ÃÀÛÇÒ ¶§ Àû¿ëµË´Ï´Ù.</PreferencePostpone>
-		<EraserObsolete>»èÁ¦µµ±¸´Â ³ëÆ®¸¦ ¸¶¿ì½º¸¦ ¿À¸¥ÂÊ Å¬¸¯ÇÏ´Â ¹æ¹ýÀ¸·Î º¯°æÇß½À´Ï´Ù.</EraserObsolete>
-		<SaveWarning>°æ°í: </SaveWarning>
-		<NoteOverlapError>³ëÆ®°¡ °ãÃÄÁ® ÀÖ½À´Ï´Ù. °ÝÀÚ¸¦ Å©°Ô ÇÏ¸é ÇØ°áÇÒ ¼ö ÀÖ½À´Ï´Ù.</NoteOverlapError>
-		<BPMOverflowError>È®Àå BPM °ªÀÌ ³Ê¹« Å®´Ï´Ù. : </BPMOverflowError>
-		<STOPOverflowError>STOP ³ëÆ®°¡ ³Ê¹« ¸¹½À´Ï´Ù. : </STOPOverflowError>
-		<SavedFileWillContainErrors>ÀúÀåÇÒ ÆÄÀÏ¿¡ ¿À·ù°¡ ÀÖ½À´Ï´Ù.</SavedFileWillContainErrors>
-		<FileAssociationPrompt>iBMSC¸¦ {} ÆÄÀÏÀÇ ±âº» ÇÁ·Î±×·¥À¸·Î ÇÏ½Ã°Ú½À´Ï±î?</FileAssociationPrompt>
-		<FileAssociationError>°ü·Ã º¯°æ ¿À·ù : </FileAssociationError>
-		<RestoreDefaultSettings>¼³Á¤À» ÃÊ±âÈ­ ÇÏ½Ã°Ú½À´Ï±î? : </RestoreDefaultSettings>
-		<RestoreAutosavedFile>{} ÀÚµ¿À¸·Î ÀúÀåµÈ ÆÄÀÏÀÌ ÀÖ½À´Ï´Ù. ÀÌ°É·Î µÇµ¹¸®½Ã°Ú½À´Ï±î?</RestoreAutosavedFile>
-		<GhostNotesShowMain>The notes in the current section will be changed to ghost notes. Save current section and continue?</GhostNotesShowMain>
-		<GhostNotesModifyExpansion1>The current ghost notes will become uneditable. Continue?</GhostNotesModifyExpansion1>
-		<GhostNotesModifyExpansion2>There are unsaved changes in the ghost notes. Save current section and continue?</GhostNotesModifyExpansion2>
+		<Err>ì—ëŸ¬</Err>
+		<SaveOnExit>ë°ì´í„°ê°€ ë³€ê²½ë©ë‹ˆë‹¤. ì €ìž¥í•˜ì‹œê² ìŠµë‹ˆê¹Œ?</SaveOnExit>
+		<SaveOnExit1>ì¢…ë£Œí•  ë•Œ ì €ìž¥í•  ê²ƒì¸ì§€ ë¬»ê¸°</SaveOnExit1>
+		<SaveOnExit2>ìž‘ì—…ê´€ë¦¬ìžì—ì„œ ì¢…ë£Œí•´ë„ ì €ìž¥í•  ê²ƒì¸ì§€ ë¬»ê¸°</SaveOnExit2>
+		<PromptEnter>ë…¸íŠ¸ ë¼ë²¨ì„ ìž…ë ¥í•˜ì„¸ìš”.</PromptEnter>
+		<PromptEnterNumeric>ê°’ì„ ìž…ë ¥í•˜ì„¸ìš”.</PromptEnterNumeric>
+		<PromptEnterBPM>BPMì„ ìž…ë ¥í•˜ì„¸ìš”.</PromptEnterBPM>
+		<PromptEnterSTOP>STOP ì‹œê°„ì„ ìž…ë ¥í•˜ì„¸ìš”.</PromptEnterSTOP>
+		<PromptSlashValue>ìŠ¬ëž˜ì‹œí‚¤("/")ë¥¼ ëˆ„ë¥´ë©´ ê²©ìžë¥¼ ì´ë ‡ê²Œ ì„¤ì •í•©ë‹ˆë‹¤.ï¼š</PromptSlashValue>
+		<InvalidLabel>ìž˜ëª»ëœ ë²ˆí˜¸ìž…ë‹ˆë‹¤.</InvalidLabel>
+		<CannotFind>{}ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.</CannotFind>
+		<PleaseRespecifyPath>í”„ë¡œê·¸ëž¨ì˜ ìœ„ì¹˜ë¥¼ í™•ì¸í•´ ì£¼ì„¸ìš”.</PleaseRespecifyPath>
+		<PlayerNotFound>ì‚¬ìš©í•  ì†Œí”„íŠ¸ì›¨ì–´ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.</PlayerNotFound>
+		<PreviewDelError>ì‚¬ìš©í•  ì†Œí”„íŠ¸ì›¨ì–´ê°€ 1ê°œ ì´ìƒ ìžˆì–´ì•¼ í•©ë‹ˆë‹¤.</PreviewDelError>
+		<NegativeFactorError>0ë³´ë‹¤ ì»¤ì•¼ í•©ë‹ˆë‹¤.</NegativeFactorError>
+		<NegativeDivisorError>0ìœ¼ë¡œ ë‚˜ëˆŒ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.</NegativeDivisorError>
+		<PreferencePostpone>ì´ ì„¤ì •ì€ ë‹¤ì‹œ ì‹œìž‘í•  ë•Œ ì ìš©ë©ë‹ˆë‹¤.</PreferencePostpone>
+		<EraserObsolete>ì‚­ì œ ë„êµ¬ëŠ” ë…¸íŠ¸ë¥¼ ë§ˆìš°ìŠ¤ë¥¼ ì˜¤ë¥¸ìª½ í´ë¦­í•˜ëŠ” ë°©ë²•ìœ¼ë¡œ ë³€ê²½í–ˆìŠµë‹ˆë‹¤.</EraserObsolete>
+		<SaveWarning>ê²½ê³ : </SaveWarning>
+		<NoteOverlapError>ë…¸íŠ¸ê°€ ê²¹ì³ì ¸ ìžˆìŠµë‹ˆë‹¤. ê²©ìžë¥¼ í¬ê²Œ í•˜ë©´ í•´ê²°í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.</NoteOverlapError>
+		<BPMOverflowError>í™•ìž¥ BPM ê°’ì´ ë„ˆë¬´ í½ë‹ˆë‹¤. : </BPMOverflowError>
+		<STOPOverflowError>STOP ë…¸íŠ¸ê°€ ë„ˆë¬´ ë§ŽìŠµë‹ˆë‹¤. : </STOPOverflowError>
+		<SavedFileWillContainErrors>ì €ìž¥í•  íŒŒì¼ì— ì˜¤ë¥˜ê°€ ìžˆìŠµë‹ˆë‹¤.</SavedFileWillContainErrors>
+		<FileAssociationPrompt>iBMSCë¥¼ {} íŒŒì¼ì˜ ê¸°ë³¸ í”„ë¡œê·¸ëž¨ìœ¼ë¡œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?</FileAssociationPrompt>
+		<FileAssociationError>ê´€ë ¨ ë³€ê²½ ì˜¤ë¥˜ : </FileAssociationError>
+		<RestoreDefaultSettings>ì„¤ì •ì„ ì´ˆê¸°í™” í•˜ì‹œê² ìŠµë‹ˆê¹Œ? : </RestoreDefaultSettings>
+		<RestoreAutosavedFile>{} ìžë™ìœ¼ë¡œ ì €ìž¥ëœ íŒŒì¼ì´ ìžˆìŠµë‹ˆë‹¤. ì´ê±¸ë¡œ ë˜ëŒë¦¬ì‹œê² ìŠµë‹ˆê¹Œ?</RestoreAutosavedFile>
+		<GhostNotesShowMain>í•´ë‹¹ ì˜ì—­ì˜ ë…¸íŠ¸ë“¤ì´ íˆ¬ëª… ë…¸íŠ¸ë¡œ ë°”ë€ë‹ˆë‹¤. í˜„ìž¬ ì˜ì—­ì„ ì €ìž¥í•˜ê³  ê³„ì†í• ê¹Œìš”?</GhostNotesShowMain>
+		<GhostNotesModifyExpansion1>íˆ¬ëª… ë…¸íŠ¸ë¥¼ íŽ¸ì§‘í•  ìˆ˜ ì—†ê²Œ ë©ë‹ˆë‹¤. ê³„ì†í• ê¹Œìš”?</GhostNotesModifyExpansion1>
+		<GhostNotesModifyExpansion2>íˆ¬ëª… ë…¸íŠ¸ì— ì €ìž¥ë˜ì§€ ì•Šì€ íŽ¸ì§‘ì‚¬í•­ì´ ìžˆìŠµë‹ˆë‹¤. í˜„ìž¬ ì˜ì—­ì„ ì €ìž¥í•˜ê³  ê³„ì†í• ê¹Œìš”?</GhostNotesModifyExpansion2>
 	</Messages>
 	<FileType>
-		<_all>¸ðµç ÆÄÀÏ (*.*)</_all>
-		<_bms>BMS ÆÄÀÏ(*.bms, *.bme, *.bml, *.pms, *.txt)</_bms>
+		<_all>ëª¨ë“  íŒŒì¼ (*.*)</_all>
+		<_bms>BMS íŒŒì¼(*.bms, *.bme, *.bml, *.pms, *.txt)</_bms>
 		<BMS>Be-Music Source (*.bms)</BMS>
 		<BME>Be-Music Extended Format (*.bme)</BME>
 		<BML>Be-Music Longnote Format (*.bml)</BML>
 		<PMS>Po-Mu Script (*.pms)</PMS>
-		<TXT>ÅØ½ºÆ® ÆÄÀÏ (*.txt)</TXT>
-		<SM>Step Mania files (*.sm)</SM>
-		<IBMSC>iBMSC files (*.ibmsc)</IBMSC>
-		<XML>XML files (*.xml)</XML>
-		<THEME_XML>iBMSC Å×¸¶ (*.Theme.xml)</THEME_XML>
-		<TH>iBMSC 2.x Å×¸¶ ÆÄÀÏ (*.Theme.xml)</TH>
-		<_audio>»ç¿ë °¡´ÉÇÑ ¿Àµð¿ÀÆÄÀÏ(*.wav, *.ogg, *.mp3, *.mid)</_audio>
-		<_wave>»ç¿ë °¡´ÉÇÑ À½¿ø ÆÄÀÏ(*.wav, *.ogg, *.mp3)</_wave>
+		<TXT>í…ìŠ¤íŠ¸ íŒŒì¼ (*.txt)</TXT>
+		<SM>Step Mania íŒŒì¼ (*.sm)</SM>
+		<IBMSC>iBMSC íŒŒì¼ (*.ibmsc)</IBMSC>
+		<XML>XML íŒŒì¼ (*.xml)</XML>
+		<THEME_XML>iBMSC í…Œë§ˆ (*.Theme.xml)</THEME_XML>
+		<TH>iBMSC 2.x í…Œë§ˆ íŒŒì¼ (*.Theme.xml)</TH>
+		<_audio>ì‚¬ìš© ê°€ëŠ¥í•œ ì˜¤ë””ì˜¤ íŒŒì¼(*.wav, *.ogg, *.mp3, *.mid)</_audio>
+		<_wave>ì‚¬ìš© ê°€ëŠ¥í•œ ìŒì› íŒŒì¼(*.wav, *.ogg, *.mp3)</_wave>
 		<WAV>Wave (*.wav)</WAV>
 		<OGG>Ogg (*.ogg)</OGG>
 		<MP3>MP3 (*.mp3)</MP3>
 		<MID>MIDI files (*.mid)</MID>
-		<_image>»ç¿ë °¡´ÉÇÑ ±×¸²ÆÄÀÏ (*.png, *.bmp, *.jpg, *.gif)</_image>
-		<EXE>½ÇÇà ÆÄÀÏ (*.exe)</EXE>
+		<_image>ì‚¬ìš© ê°€ëŠ¥í•œ ê·¸ë¦¼íŒŒì¼ (*.png, *.bmp, *.jpg, *.gif)</_image>
+		<EXE>ì‹¤í–‰ íŒŒì¼ (*.exe)</EXE>
 	</FileType>
 	<Statistics>
-		<Title>Åë°è</Title>
+		<Title>í†µê³„</Title>
 		<lBPM>BPM</lBPM>
 		<lSTOP>STOP</lSTOP>
 		<lA>1P</lA>
 		<lD>2P</lD>
 		<lBGM>BGM</lBGM>
 		<lTotal>Total</lTotal>
-		<lShort>³ëÆ®</lShort>
-		<lLong>·Õ³ëÆ®</lLong>
-		<lLnObj>·Õ³ëÆ®³¡</lLnObj>
-		<lHidden>¼û±è³ëÆ®</lHidden>
-		<lErrors>¿À·ù</lErrors>
+		<lShort>ë…¸íŠ¸</lShort>
+		<lLong>ë¡±ë…¸íŠ¸</lLong>
+		<lLnObj>ë¡±ë…¸íŠ¸ë</lLnObj>
+		<lHidden>ìˆ¨ê¹€ë…¸íŠ¸</lHidden>
+		<lErrors>ì˜¤ë¥˜</lErrors>
 	</Statistics>
 	<PlayerOptions>
-		<Title>Àç»ý ¼ÒÇÁÆ®¿þ¾î ¼³Á¤</Title>
-		<Add>Ãß°¡</Add>
-		<Remove>»èÁ¦</Remove>
-		<Path>ÆÐ½º</Path>
-		<PlayFromBeginning>Ã³À½ºÎÅÍ Àç»ý</PlayFromBeginning>
-		<PlayFromHere>Áö±ÝºÎÅÍ Àç»ý</PlayFromHere>
-		<StopPlaying>Á¤Áö</StopPlaying>
-		<References>¹ü·Ê(´ë¼Ò¹®ÀÚ±¸ºÐ) : </References>
-		<DirectoryOfApp>ÇÁ·Î±×·¥ À§Ä¡</DirectoryOfApp>
-		<CurrMeasure>Áö±Ý ¸¶µð</CurrMeasure>
-		<FileName>ÆÄÀÏ¸í</FileName>
-		<FileNameTemplate>File Name of Template</FileNameTemplate>
-		<RestoreDefault>ÃÊ±âÈ­</RestoreDefault>
+		<Title>ìž¬ìƒ ì†Œí”„íŠ¸ì›¨ì–´ ì„¤ì •</Title>
+		<Add>ì¶”ê°€</Add>
+		<Remove>ì‚­ì œ</Remove>
+		<Path>íŒ¨ìŠ¤</Path>
+		<PlayFromBeginning>ì²˜ìŒë¶€í„° ìž¬ìƒ</PlayFromBeginning>
+		<PlayFromHere>ì§€ê¸ˆë¶€í„° ìž¬ìƒ</PlayFromHere>
+		<StopPlaying>ì •ì§€</StopPlaying>
+		<References>ë²”ë¡€(ëŒ€ì†Œë¬¸ìž êµ¬ë¶„) : </References>
+		<DirectoryOfApp>í”„ë¡œê·¸ëž¨ ìœ„ì¹˜</DirectoryOfApp>
+		<CurrMeasure>ì§€ê¸ˆ ë§ˆë””</CurrMeasure>
+		<FileName>íŒŒì¼ëª…</FileName>
+		<FileNameTemplate>í…œí”Œë¦¿ íŒŒì¼ëª…</FileNameTemplate>
+		<RestoreDefault>ì´ˆê¸°í™”</RestoreDefault>
 	</PlayerOptions>
 	<VisualOptions>
-		<Title>Ç¥½Ã ¿É¼Ç</Title>
-		<Width>Æø</Width>
-		<Caption>Ä¸¼Ç</Caption>
-		<Note>³ëÆ®</Note>
-		<Label>Ã¤³Î</Label>
-		<LongNote>·Õ³ëÆ®</LongNote>
-		<LongNoteLabel>·Õ³ëÆ®Ã¤³Î</LongNoteLabel>
-		<Bg>¹è°æ</Bg>
-		<ColumnCaption>¿­ ¸Ó¸®</ColumnCaption>
-		<ColumnCaptionFont>º¸±â ÆùÆ®</ColumnCaptionFont>
-		<Background>¹è°æ</Background>
-		<Grid>°ÝÀÚ</Grid>
-		<SubGrid>º¸Á¶°ÝÀÚ</SubGrid>
-		<VerticalLine>¼öÁ÷¼±</VerticalLine>
-		<MeasureBarLine>¸¶µð¼±</MeasureBarLine>
-		<BGMWaveform>BGM ÆÄÇü</BGMWaveform>
-		<NoteHeight>ÀÏ¹Ý³ëÆ® ³ôÀÌ</NoteHeight>
-		<NoteLabel>ÀÏ¹Ý³ëÆ® ±Û²Ã</NoteLabel>
-		<MeasureLabel>¸¶µð¹øÈ£ ±Û²Ã</MeasureLabel>
-		<LabelVerticalShift>¶óº§ ¼öÁ÷À§Ä¡</LabelVerticalShift>
-		<LabelHorizontalShift>¶óº§ ¼öÆòÀ§Ä¡</LabelHorizontalShift>
-		<LongNoteLabelHorizontalShift>·Õ³ëÆ® ¶óº§ ¼öÆòÀ§Ä¡</LongNoteLabelHorizontalShift>
-		<HiddenNoteOpacity>Åõ¸í³ëÆ® Åõ¸íµµ</HiddenNoteOpacity>
-		<NoteBorderOnMouseOver>³ëÆ® Å×µÎ¸® - ¸¶¿ì½º À§ </NoteBorderOnMouseOver>
-		<NoteBorderOnSelection>¼±ÅÃ</NoteBorderOnSelection>
-		<NoteBorderOnAdjustingLength>Á¶Á¤Áß</NoteBorderOnAdjustingLength>
-		<SelectionBoxBorder>¼±ÅÃ ÆíÁý Ã¢</SelectionBoxBorder>
-		<TSCursor>½Ã°£ÆíÁý Ä¿¼­</TSCursor>
-		<TSSplitter>½Ã°£ÆíÁý ¿µ¿ª</TSSplitter>
-		<TSCursorSensitivity>½Ã°£ÆíÁý Ä¿¼­ °¨µµ</TSCursorSensitivity>
-		<TSMouseOverBorder>½Ã°£³ëÆ® Å×µÎ¸® (¸¶¿ì½º À§)</TSMouseOverBorder>
-		<TSFill>½Ã°£ ÆíÁý Ã¢</TSFill>
-		<TSBPM>½Ã°£ ÆíÁý BPM</TSBPM>
-		<TSBPMFont>½Ã°£ ÆíÁý BPM ±Û²Ã</TSBPMFont>
-		<MiddleSensitivity>ÈÙ¹öÆ° (KeyUp) ¼öÁØ</MiddleSensitivity>
+		<Title>í‘œì‹œ ì˜µì…˜</Title>
+		<Width>í­</Width>
+		<Caption>ìº¡ì…˜</Caption>
+		<Note>ë…¸íŠ¸</Note>
+		<Label>ì±„ë„</Label>
+		<LongNote>ë¡±ë…¸íŠ¸</LongNote>
+		<LongNoteLabel>ë¡±ë…¸íŠ¸ì±„ë„</LongNoteLabel>
+		<Bg>ë°°ê²½</Bg>
+		<ColumnCaption>ì—´ ë¨¸ë¦¬</ColumnCaption>
+		<ColumnCaptionFont>ë³´ê¸° í°íŠ¸</ColumnCaptionFont>
+		<Background>ë°°ê²½</Background>
+		<Grid>ê²©ìž</Grid>
+		<SubGrid>ë³´ì¡°ê²©ìž</SubGrid>
+		<VerticalLine>ìˆ˜ì§ì„ </VerticalLine>
+		<MeasureBarLine>ë§ˆë””ì„ </MeasureBarLine>
+		<BGMWaveform>BGM íŒŒí˜•</BGMWaveform>
+		<NoteHeight>ì¼ë°˜ë…¸íŠ¸ ë†’ì´</NoteHeight>
+		<NoteLabel>ì¼ë°˜ë…¸íŠ¸ ê¸€ê¼´</NoteLabel>
+		<MeasureLabel>ë§ˆë””ë²ˆí˜¸ ê¸€ê¼´</MeasureLabel>
+		<LabelVerticalShift>ë¼ë²¨ ìˆ˜ì§ìœ„ì¹˜</LabelVerticalShift>
+		<LabelHorizontalShift>ë¼ë²¨ ìˆ˜í‰ìœ„ì¹˜</LabelHorizontalShift>
+		<LongNoteLabelHorizontalShift>ë¡±ë…¸íŠ¸ ë¼ë²¨ ìˆ˜í‰ìœ„ì¹˜</LongNoteLabelHorizontalShift>
+		<HiddenNoteOpacity>íˆ¬ëª…ë…¸íŠ¸ íˆ¬ëª…ë„</HiddenNoteOpacity>
+		<NoteBorderOnMouseOver>ë…¸íŠ¸ í…Œë‘ë¦¬ - ë§ˆìš°ìŠ¤ ìœ„ </NoteBorderOnMouseOver>
+		<NoteBorderOnSelection>ì„ íƒ</NoteBorderOnSelection>
+		<NoteBorderOnAdjustingLength>ì¡°ì •ì¤‘</NoteBorderOnAdjustingLength>
+		<SelectionBoxBorder>ì„ íƒ íŽ¸ì§‘ ì°½</SelectionBoxBorder>
+		<TSCursor>ì‹œê°„íŽ¸ì§‘ ì»¤ì„œ</TSCursor>
+		<TSSplitter>ì‹œê°„íŽ¸ì§‘ ì˜ì—­</TSSplitter>
+		<TSCursorSensitivity>ì‹œê°„íŽ¸ì§‘ ì»¤ì„œ ê°ë„</TSCursorSensitivity>
+		<TSMouseOverBorder>ì‹œê°„ë…¸íŠ¸ í…Œë‘ë¦¬ (ë§ˆìš°ìŠ¤ ìœ„)</TSMouseOverBorder>
+		<TSFill>ì‹œê°„ íŽ¸ì§‘ ì°½</TSFill>
+		<TSBPM>ì‹œê°„ íŽ¸ì§‘ BPM</TSBPM>
+		<TSBPMFont>ì‹œê°„ íŽ¸ì§‘ BPM ê¸€ê¼´</TSBPMFont>
+		<MiddleSensitivity>íœ ë²„íŠ¼ (KeyUp) ìˆ˜ì¤€</MiddleSensitivity>
 	</VisualOptions>
 	<GeneralOptions>
-		<Title>ÀÏ¹Ý ¿É¼Ç</Title>
-		<AssociateFileType>ÆÄÀÏ È®ÀåÀÚ</AssociateFileType>
-		<MaxGridPartition>BMSÀÇ °ÝÀÚ ÃÖ´ë ÇØ»óµµ</MaxGridPartition>
-		<MinimumJackThreshold>Minimum Jack Threshold</MinimumJackThreshold>
-		<AutoLongNoteGap>Auto Long Note Gap</AutoLongNoteGap>
-		<TemporaryBMSFilename>Temporary BMS Filename</TemporaryBMSFilename>
+		<Title>ì¼ë°˜ ì˜µì…˜</Title>
+		<AssociateFileType>íŒŒì¼ í™•ìž¥ìž</AssociateFileType>
+		<MaxGridPartition>BMSì˜ ê²©ìž ìµœëŒ€ í•´ìƒë„</MaxGridPartition>
+		<MinimumJackThreshold>ì—°íƒ€ ìµœì†Œ ê°„ê²©</MinimumJackThreshold>
+		<AutoLongNoteGap>ìžë™ ë¡±ë…¸íŠ¸ ê°„ê²©</AutoLongNoteGap>
+		<TemporaryBMSFilename>ìž„ì‹œ bms íŒŒì¼ëª…</TemporaryBMSFilename>
 		
-		<AutoSave>ÀÚµ¿ÀúÀå</AutoSave>
-		<minutes>ºÐ</minutes>
-		<BeepWhileSaved>ÀúÀåÇÒ ¶§ È¿°úÀ½ Ãâ·Â</BeepWhileSaved>
-		<ExtendBPM>BPMÀ» ÃÖ´ë 1295°³±îÁö ÁöÁ¤ÇÒ ¼ö ÀÖµµ·Ï ÇÕ´Ï´Ù.(01¢¦ZZ)</ExtendBPM>
-		<ExtendSTOP>STOP ³ëÆ®¸¦ ÃÖ´ë 1295°³±îÁö ÁöÁ¤ÇÒ ¼ö ÀÖµµ·Ï ÇÕ´Ï´Ù.(01¢¦ZZ)</ExtendSTOP>
+		<AutoSave>ìžë™ì €ìž¥</AutoSave>
+		<minutes>ë¶„</minutes>
+		<BeepWhileSaved>ì €ìž¥í•  ë•Œ íš¨ê³¼ìŒ ì¶œë ¥</BeepWhileSaved>
+		<ExtendBPM>BPMì„ ìµœëŒ€ 1295ê°œê¹Œì§€ ì§€ì •í•  ìˆ˜ ìžˆë„ë¡ í•©ë‹ˆë‹¤.(01ï½žZZ)</ExtendBPM>
+		<ExtendSTOP>STOP ë…¸íŠ¸ë¥¼ ìµœëŒ€ 1295ê°œê¹Œì§€ ì§€ì •í•  ìˆ˜ ìžˆë„ë¡ í•©ë‹ˆë‹¤.(01ï½žZZ)</ExtendSTOP>
 		<DisplayAudioLines>Display audio lines during note preview</DisplayAudioLines>
 		<SnapToVerticalPositionTemplate>Snap to vertical position for moving to template position</SnapToVerticalPositionTemplate>
 		<SnapToVerticalPositionPattern>Snap to vertical position for pasting patterns</SnapToVerticalPositionPattern>
 		
-		<MouseWheel>¸¶¿ì½º ÈÙ ½ºÅ©·Ñ</MouseWheel>
-		<TextEncoding>¹®ÀÚÄÚµå</TextEncoding>
-		<PageUpDown>PageUp / Down ½ºÅ©·Ñ</PageUpDown>
-		<MiddleButton>ÈÙ ¹öÆ° µ¿ÀÛ</MiddleButton>
-		<MiddleButtonAuto>ÀÚµ¿ ½ºÅ©·Ñ</MiddleButtonAuto>
-		<MiddleButtonDrag>µå·¡±×</MiddleButtonDrag>
-		<AutoFocusOnMouseEnter>¸¶¿ì½º°¡ ÆíÁý¿µ¿ª¿¡ µé¾î°¡¸é ÀÚµ¿À¸·Î Æ÷Ä¿½º</AutoFocusOnMouseEnter>
-		<DisableFirstClick>Æ÷Ä¿½º°¡ ¾øÀ¸¸é Å¬¸¯À» ºñÈ°¼ºÈ­ ÇÕ´Ï´Ù.</DisableFirstClick>
-		<StopPreviewOnClick>ÆíÁý ÆÐ³ÎÀ» Å¬¸¯ÇÏ¸é ¹Ì¸®º¸±â¸¦ ÁßÁö</StopPreviewOnClick>
+		<MouseWheel>ë§ˆìš°ìŠ¤ íœ  ìŠ¤í¬ë¡¤</MouseWheel>
+		<TextEncoding>ë¬¸ìžì½”ë“œ</TextEncoding>
+		<PageUpDown>PageUp / Down ìŠ¤í¬ë¡¤</PageUpDown>
+		<MiddleButton>íœ  ë²„íŠ¼ ë™ìž‘</MiddleButton>
+		<MiddleButtonAuto>ìžë™ ìŠ¤í¬ë¡¤</MiddleButtonAuto>
+		<MiddleButtonDrag>ë“œëž˜ê·¸</MiddleButtonDrag>
+		<AutoFocusOnMouseEnter>ë§ˆìš°ìŠ¤ê°€ íŽ¸ì§‘ì˜ì—­ì— ë“¤ì–´ê°€ë©´ ìžë™ìœ¼ë¡œ í¬ì»¤ìŠ¤</AutoFocusOnMouseEnter>
+		<DisableFirstClick>í¬ì»¤ìŠ¤ê°€ ì—†ìœ¼ë©´ í´ë¦­ì„ ë¹„í™œì„±í™” í•©ë‹ˆë‹¤.</DisableFirstClick>
+		<StopPreviewOnClick>íŽ¸ì§‘ íŒ¨ë„ì„ í´ë¦­í•˜ë©´ ë¯¸ë¦¬ë³´ê¸°ë¥¼ ì¤‘ì§€</StopPreviewOnClick>
 	</GeneralOptions>
 	<VisualOverrideOptions>
 		<Title>Visual Override Options</Title>
-		<Add>Ãß°¡</Add>
-		<Up>À§·Î</Up>
-		<Down>¾Æ·¡·Î</Down>
+		<Add>ì¶”ê°€</Add>
+		<Up>ìœ„ë¡œ</Up>
+		<Down>ì•„ëž˜ë¡œ</Down>
 		<Duplicate>Duplicate</Duplicate>
 		<Split>Split</Split>
 		<SemiAutoAssign>Semi-auto assign</SemiAutoAssign>
-		<Remove>»èÁ¦</Remove>
+		<Remove>ì‚­ì œ</Remove>
 		<LoadSettingsFrom>Load Settings From</LoadSettingsFrom>
 		<SaveSettingsTo>Save Settings To</SaveSettingsTo>
 		<EnableItem>Enable Item</EnableItem>
 		<ColorS>Singular color</ColorS>
 		<ColorG>Color gradient</ColorG>
-		<ColorGHSLU>Color gradient (HSL¡è)</ColorGHSLU>
-		<ColorGHSLD>Color gradient (HSL¡é)</ColorGHSLD>
+		<ColorGHSLU>Color gradient (HSLâ†‘)</ColorGHSLU>
+		<ColorGHSLD>Color gradient (HSLâ†“)</ColorGHSLD>
 		<OptionName>Option Name</OptionName>
 		<LabelRange>Label Range</LabelRange>
 		<ToText>~</ToText>
@@ -491,33 +491,33 @@
 		<ErrorNotDetected>Error: #IF Section not detected.</ErrorNotDetected>
 	</ExpandOptions>
 	<Find>
-		<NoteRange>´ë»ó ³ëÆ®</NoteRange>
-		<MeasureRange>¸¶µð ¹üÀ§</MeasureRange>
-		<LabelRange>¹øÈ£ ¹üÀ§</LabelRange>
-		<ValueRange>°ª ¹üÀ§</ValueRange>
+		<NoteRange>ëŒ€ìƒ ë…¸íŠ¸</NoteRange>
+		<MeasureRange>ë§ˆë”” ë²”ìœ„</MeasureRange>
+		<LabelRange>ë²ˆí˜¸ ë²”ìœ„</LabelRange>
+		<ValueRange>ê°’ ë²”ìœ„</ValueRange>
 		<to>~</to>
-		<Selected>¼±ÅÃ</Selected>
-		<UnSelected>¹Ì¼±ÅÃ</UnSelected>
-		<ShortNote>ÀÏ¹Ý</ShortNote>
-		<LongNote>·Õ</LongNote>
-		<Hidden>¼û±â±â</Hidden>
-		<Visible>º¸ÀÌ±â</Visible>
-		<Column>¿­</Column>
-		<SelectAll>¸ðµÎ ¼±ÅÃ</SelectAll>
-		<SelectInverse>¼±ÅÃ ÀüÈ¯</SelectInverse>
-		<UnselectAll>¸ðµÎ ¼±ÅÃ Ãë¼Ò</UnselectAll>
-		<Operation>ÀÛ¾÷</Operation>
-		<ReplaceWithLabel>¹øÈ£ ¹Ù²Ù±â : </ReplaceWithLabel>
-		<ReplaceWithValue>Ã£¾Æ ¹Ù²Ù±â : </ReplaceWithValue>
-		<Select>¼±ÅÃ</Select>
-		<Unselect>¼±ÅÃ Ãë¼Ò</Unselect>
-		<Delete>»èÁ¦</Delete>
-		<Close>´Ý±â</Close>
+		<Selected>ì„ íƒ</Selected>
+		<UnSelected>ë¯¸ì„ íƒ</UnSelected>
+		<ShortNote>ì¼ë°˜</ShortNote>
+		<LongNote>ë¡±</LongNote>
+		<Hidden>ìˆ¨ê¸°ê¸°</Hidden>
+		<Visible>ë³´ì´ê¸°</Visible>
+		<Column>ì—´</Column>
+		<SelectAll>ëª¨ë‘ ì„ íƒ</SelectAll>
+		<SelectInverse>ì„ íƒ ì „í™˜</SelectInverse>
+		<UnselectAll>ëª¨ë‘ ì„ íƒ ì·¨ì†Œ</UnselectAll>
+		<Operation>ìž‘ì—…</Operation>
+		<ReplaceWithLabel>ë²ˆí˜¸ ë°”ê¾¸ê¸° : </ReplaceWithLabel>
+		<ReplaceWithValue>ì°¾ì•„ ë°”ê¾¸ê¸° : </ReplaceWithValue>
+		<Select>ì„ íƒ</Select>
+		<Unselect>ì„ íƒ ì·¨ì†Œ</Unselect>
+		<Delete>ì‚­ì œ</Delete>
+		<Close>ë‹«ê¸°</Close>
 	</Find>
 	<ImportSM>
-		<Title>*.SM ÆÄÀÏ¿¡¼­ °¡Á®¿À±â</Title>
-		<Difficulty>³­ÀÌµµ</Difficulty>
-		<Note>ÁÖÀÇ! À½¾Ç°ú STOP°ªÀº °¡Á®¿ÀÁö ¾Ê½À´Ï´Ù.</Note>
+		<Title>*.SM íŒŒì¼ì—ì„œ ê°€ì ¸ì˜¤ê¸°</Title>
+		<Difficulty>ë‚œì´ë„</Difficulty>
+		<Note>ì£¼ì˜! ìŒì•…ê³¼ STOPê°’ì€ ê°€ì ¸ì˜¤ì§€ ì•ŠìŠµë‹ˆë‹¤.</Note>
 	</ImportSM>
 	<FileAssociation>
 		<BMS>Be-Music Source</BMS>
@@ -525,8 +525,8 @@
 		<BML>Be-Music Longnote Format</BML>
 		<PMS>Po-Mu Script</PMS>
 		<IBMSC>iBMSC Format</IBMSC>
-		<Open>¿­±â</Open>
-		<Preview>Àç»ý</Preview>
-		<ViewCode>½ºÅ©¸³Æ® º¸±â</ViewCode>
+		<Open>ì—´ê¸°</Open>
+		<Preview>ìž¬ìƒ</Preview>
+		<ViewCode>ìŠ¤í¬ë¦½íŠ¸ ë³´ê¸°</ViewCode>
 	</FileAssociation>
 </iBMSC.Locale>
